@@ -1,0 +1,570 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */; };
+		03CB8C631FB3EB220048D9FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C621FB3EB220048D9FC /* ViewController.m */; };
+		03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C641FB3EB220048D9FC /* Main.storyboard */; };
+		03CB8C681FB3EB220048D9FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C671FB3EB220048D9FC /* Assets.xcassets */; };
+		03CB8C6E1FB3EB220048D9FC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C6D1FB3EB220048D9FC /* main.m */; };
+		03CB8C781FB3EB220048D9FC /* PolyvVodSDKDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C771FB3EB220048D9FC /* PolyvVodSDKDemoTests.m */; };
+		03CB8C831FB3EB220048D9FC /* PolyvVodSDKDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C821FB3EB220048D9FC /* PolyvVodSDKDemoUITests.m */; };
+		03CB8C941FB3EE360048D9FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C931FB3EE360048D9FC /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		03CB8C741FB3EB220048D9FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 03CB8C531FB3EB220048D9FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 03CB8C5A1FB3EB220048D9FC;
+			remoteInfo = PolyvVodSDKDemo;
+		};
+		03CB8C7F1FB3EB220048D9FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 03CB8C531FB3EB220048D9FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 03CB8C5A1FB3EB220048D9FC;
+			remoteInfo = PolyvVodSDKDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		03CB8C5B1FB3EB220048D9FC /* PolyvVodSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyvVodSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		03CB8C5E1FB3EB220048D9FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		03CB8C611FB3EB220048D9FC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		03CB8C621FB3EB220048D9FC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		03CB8C651FB3EB220048D9FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		03CB8C671FB3EB220048D9FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		03CB8C6C1FB3EB220048D9FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03CB8C6D1FB3EB220048D9FC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		03CB8C731FB3EB220048D9FC /* PolyvVodSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PolyvVodSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		03CB8C771FB3EB220048D9FC /* PolyvVodSDKDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PolyvVodSDKDemoTests.m; sourceTree = "<group>"; };
+		03CB8C791FB3EB220048D9FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03CB8C7E1FB3EB220048D9FC /* PolyvVodSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PolyvVodSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		03CB8C821FB3EB220048D9FC /* PolyvVodSDKDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PolyvVodSDKDemoUITests.m; sourceTree = "<group>"; };
+		03CB8C841FB3EB220048D9FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03CB8C921FB3EDC80048D9FC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		03CB8C931FB3EE360048D9FC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		03CB8C581FB3EB220048D9FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03CB8C701FB3EB220048D9FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03CB8C7B1FB3EB220048D9FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03CB8C521FB3EB220048D9FC = {
+			isa = PBXGroup;
+			children = (
+				03CB8C921FB3EDC80048D9FC /* README.md */,
+				03CB8C5D1FB3EB220048D9FC /* PolyvVodSDKDemo */,
+				03CB8C761FB3EB220048D9FC /* PolyvVodSDKDemoTests */,
+				03CB8C811FB3EB220048D9FC /* PolyvVodSDKDemoUITests */,
+				03CB8C5C1FB3EB220048D9FC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		03CB8C5C1FB3EB220048D9FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				03CB8C5B1FB3EB220048D9FC /* PolyvVodSDKDemo.app */,
+				03CB8C731FB3EB220048D9FC /* PolyvVodSDKDemoTests.xctest */,
+				03CB8C7E1FB3EB220048D9FC /* PolyvVodSDKDemoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		03CB8C5D1FB3EB220048D9FC /* PolyvVodSDKDemo */ = {
+			isa = PBXGroup;
+			children = (
+				03CB8C901FB3EBD10048D9FC /* Classes */,
+				03CB8C5E1FB3EB220048D9FC /* AppDelegate.h */,
+				03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */,
+				03CB8C611FB3EB220048D9FC /* ViewController.h */,
+				03CB8C621FB3EB220048D9FC /* ViewController.m */,
+				03CB8C641FB3EB220048D9FC /* Main.storyboard */,
+				03CB8C931FB3EE360048D9FC /* LaunchScreen.storyboard */,
+				03CB8C671FB3EB220048D9FC /* Assets.xcassets */,
+				03CB8C6C1FB3EB220048D9FC /* Info.plist */,
+				03CB8C6D1FB3EB220048D9FC /* main.m */,
+			);
+			path = PolyvVodSDKDemo;
+			sourceTree = "<group>";
+		};
+		03CB8C761FB3EB220048D9FC /* PolyvVodSDKDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				03CB8C771FB3EB220048D9FC /* PolyvVodSDKDemoTests.m */,
+				03CB8C791FB3EB220048D9FC /* Info.plist */,
+			);
+			path = PolyvVodSDKDemoTests;
+			sourceTree = "<group>";
+		};
+		03CB8C811FB3EB220048D9FC /* PolyvVodSDKDemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				03CB8C821FB3EB220048D9FC /* PolyvVodSDKDemoUITests.m */,
+				03CB8C841FB3EB220048D9FC /* Info.plist */,
+			);
+			path = PolyvVodSDKDemoUITests;
+			sourceTree = "<group>";
+		};
+		03CB8C901FB3EBD10048D9FC /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				03CB8C911FB3EC730048D9FC /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		03CB8C911FB3EC730048D9FC /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		03CB8C5A1FB3EB220048D9FC /* PolyvVodSDKDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03CB8C871FB3EB220048D9FC /* Build configuration list for PBXNativeTarget "PolyvVodSDKDemo" */;
+			buildPhases = (
+				03CB8C571FB3EB220048D9FC /* Sources */,
+				03CB8C581FB3EB220048D9FC /* Frameworks */,
+				03CB8C591FB3EB220048D9FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PolyvVodSDKDemo;
+			productName = PolyvVodSDKDemo;
+			productReference = 03CB8C5B1FB3EB220048D9FC /* PolyvVodSDKDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		03CB8C721FB3EB220048D9FC /* PolyvVodSDKDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03CB8C8A1FB3EB220048D9FC /* Build configuration list for PBXNativeTarget "PolyvVodSDKDemoTests" */;
+			buildPhases = (
+				03CB8C6F1FB3EB220048D9FC /* Sources */,
+				03CB8C701FB3EB220048D9FC /* Frameworks */,
+				03CB8C711FB3EB220048D9FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				03CB8C751FB3EB220048D9FC /* PBXTargetDependency */,
+			);
+			name = PolyvVodSDKDemoTests;
+			productName = PolyvVodSDKDemoTests;
+			productReference = 03CB8C731FB3EB220048D9FC /* PolyvVodSDKDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		03CB8C7D1FB3EB220048D9FC /* PolyvVodSDKDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03CB8C8D1FB3EB220048D9FC /* Build configuration list for PBXNativeTarget "PolyvVodSDKDemoUITests" */;
+			buildPhases = (
+				03CB8C7A1FB3EB220048D9FC /* Sources */,
+				03CB8C7B1FB3EB220048D9FC /* Frameworks */,
+				03CB8C7C1FB3EB220048D9FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				03CB8C801FB3EB220048D9FC /* PBXTargetDependency */,
+			);
+			name = PolyvVodSDKDemoUITests;
+			productName = PolyvVodSDKDemoUITests;
+			productReference = 03CB8C7E1FB3EB220048D9FC /* PolyvVodSDKDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		03CB8C531FB3EB220048D9FC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = PLV;
+				LastUpgradeCheck = 0910;
+				ORGANIZATIONNAME = POLYV;
+				TargetAttributes = {
+					03CB8C5A1FB3EB220048D9FC = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+					03CB8C721FB3EB220048D9FC = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 03CB8C5A1FB3EB220048D9FC;
+					};
+					03CB8C7D1FB3EB220048D9FC = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 03CB8C5A1FB3EB220048D9FC;
+					};
+				};
+			};
+			buildConfigurationList = 03CB8C561FB3EB220048D9FC /* Build configuration list for PBXProject "PolyvVodSDKDemo" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 03CB8C521FB3EB220048D9FC;
+			productRefGroup = 03CB8C5C1FB3EB220048D9FC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				03CB8C5A1FB3EB220048D9FC /* PolyvVodSDKDemo */,
+				03CB8C721FB3EB220048D9FC /* PolyvVodSDKDemoTests */,
+				03CB8C7D1FB3EB220048D9FC /* PolyvVodSDKDemoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		03CB8C591FB3EB220048D9FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03CB8C941FB3EE360048D9FC /* LaunchScreen.storyboard in Resources */,
+				03CB8C681FB3EB220048D9FC /* Assets.xcassets in Resources */,
+				03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03CB8C711FB3EB220048D9FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03CB8C7C1FB3EB220048D9FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		03CB8C571FB3EB220048D9FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03CB8C631FB3EB220048D9FC /* ViewController.m in Sources */,
+				03CB8C6E1FB3EB220048D9FC /* main.m in Sources */,
+				03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03CB8C6F1FB3EB220048D9FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03CB8C781FB3EB220048D9FC /* PolyvVodSDKDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		03CB8C7A1FB3EB220048D9FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03CB8C831FB3EB220048D9FC /* PolyvVodSDKDemoUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		03CB8C751FB3EB220048D9FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 03CB8C5A1FB3EB220048D9FC /* PolyvVodSDKDemo */;
+			targetProxy = 03CB8C741FB3EB220048D9FC /* PBXContainerItemProxy */;
+		};
+		03CB8C801FB3EB220048D9FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 03CB8C5A1FB3EB220048D9FC /* PolyvVodSDKDemo */;
+			targetProxy = 03CB8C7F1FB3EB220048D9FC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		03CB8C641FB3EB220048D9FC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				03CB8C651FB3EB220048D9FC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		03CB8C851FB3EB220048D9FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		03CB8C861FB3EB220048D9FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		03CB8C881FB3EB220048D9FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ETRBR9HA5V;
+				INFOPLIST_FILE = PolyvVodSDKDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = POLYV.PolyvVodSDKDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		03CB8C891FB3EB220048D9FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ETRBR9HA5V;
+				INFOPLIST_FILE = PolyvVodSDKDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = POLYV.PolyvVodSDKDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		03CB8C8B1FB3EB220048D9FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ETRBR9HA5V;
+				INFOPLIST_FILE = PolyvVodSDKDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = POLYV.PolyvVodSDKDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PolyvVodSDKDemo.app/PolyvVodSDKDemo";
+			};
+			name = Debug;
+		};
+		03CB8C8C1FB3EB220048D9FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ETRBR9HA5V;
+				INFOPLIST_FILE = PolyvVodSDKDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = POLYV.PolyvVodSDKDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PolyvVodSDKDemo.app/PolyvVodSDKDemo";
+			};
+			name = Release;
+		};
+		03CB8C8E1FB3EB220048D9FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ETRBR9HA5V;
+				INFOPLIST_FILE = PolyvVodSDKDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = POLYV.PolyvVodSDKDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PolyvVodSDKDemo;
+			};
+			name = Debug;
+		};
+		03CB8C8F1FB3EB220048D9FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ETRBR9HA5V;
+				INFOPLIST_FILE = PolyvVodSDKDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = POLYV.PolyvVodSDKDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PolyvVodSDKDemo;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		03CB8C561FB3EB220048D9FC /* Build configuration list for PBXProject "PolyvVodSDKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03CB8C851FB3EB220048D9FC /* Debug */,
+				03CB8C861FB3EB220048D9FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		03CB8C871FB3EB220048D9FC /* Build configuration list for PBXNativeTarget "PolyvVodSDKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03CB8C881FB3EB220048D9FC /* Debug */,
+				03CB8C891FB3EB220048D9FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		03CB8C8A1FB3EB220048D9FC /* Build configuration list for PBXNativeTarget "PolyvVodSDKDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03CB8C8B1FB3EB220048D9FC /* Debug */,
+				03CB8C8C1FB3EB220048D9FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		03CB8C8D1FB3EB220048D9FC /* Build configuration list for PBXNativeTarget "PolyvVodSDKDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03CB8C8E1FB3EB220048D9FC /* Debug */,
+				03CB8C8F1FB3EB220048D9FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 03CB8C531FB3EB220048D9FC /* Project object */;
+}
