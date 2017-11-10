@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		030DF02C1FB590560035D0B0 /* PLVCourseListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 030DF02B1FB590560035D0B0 /* PLVCourseListController.m */; };
+		030DF02F1FB590910035D0B0 /* PLVCourseDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 030DF02E1FB590910035D0B0 /* PLVCourseDetailController.m */; };
+		030DF0321FB590F20035D0B0 /* PLVDownloadListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 030DF0311FB590F20035D0B0 /* PLVDownloadListController.m */; };
 		03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */; };
-		03CB8C631FB3EB220048D9FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C621FB3EB220048D9FC /* ViewController.m */; };
 		03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C641FB3EB220048D9FC /* Main.storyboard */; };
 		03CB8C681FB3EB220048D9FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C671FB3EB220048D9FC /* Assets.xcassets */; };
 		03CB8C6E1FB3EB220048D9FC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C6D1FB3EB220048D9FC /* main.m */; };
@@ -35,11 +37,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		030DF02A1FB590560035D0B0 /* PLVCourseListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseListController.h; sourceTree = "<group>"; };
+		030DF02B1FB590560035D0B0 /* PLVCourseListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseListController.m; sourceTree = "<group>"; };
+		030DF02D1FB590910035D0B0 /* PLVCourseDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseDetailController.h; sourceTree = "<group>"; };
+		030DF02E1FB590910035D0B0 /* PLVCourseDetailController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseDetailController.m; sourceTree = "<group>"; };
+		030DF0301FB590F20035D0B0 /* PLVDownloadListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadListController.h; sourceTree = "<group>"; };
+		030DF0311FB590F20035D0B0 /* PLVDownloadListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVDownloadListController.m; sourceTree = "<group>"; };
 		03CB8C5B1FB3EB220048D9FC /* PolyvVodSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyvVodSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03CB8C5E1FB3EB220048D9FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		03CB8C611FB3EB220048D9FC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		03CB8C621FB3EB220048D9FC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		03CB8C651FB3EB220048D9FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		03CB8C671FB3EB220048D9FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03CB8C6C1FB3EB220048D9FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -106,8 +112,6 @@
 				03CB8C901FB3EBD10048D9FC /* Classes */,
 				03CB8C5E1FB3EB220048D9FC /* AppDelegate.h */,
 				03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */,
-				03CB8C611FB3EB220048D9FC /* ViewController.h */,
-				03CB8C621FB3EB220048D9FC /* ViewController.m */,
 				03CB8C641FB3EB220048D9FC /* Main.storyboard */,
 				03CB8C931FB3EE360048D9FC /* LaunchScreen.storyboard */,
 				03CB8C671FB3EB220048D9FC /* Assets.xcassets */,
@@ -139,6 +143,12 @@
 			isa = PBXGroup;
 			children = (
 				03CB8C911FB3EC730048D9FC /* View */,
+				030DF02A1FB590560035D0B0 /* PLVCourseListController.h */,
+				030DF02B1FB590560035D0B0 /* PLVCourseListController.m */,
+				030DF02D1FB590910035D0B0 /* PLVCourseDetailController.h */,
+				030DF02E1FB590910035D0B0 /* PLVCourseDetailController.m */,
+				030DF0301FB590F20035D0B0 /* PLVDownloadListController.h */,
+				030DF0311FB590F20035D0B0 /* PLVDownloadListController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -284,9 +294,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03CB8C631FB3EB220048D9FC /* ViewController.m in Sources */,
+				030DF0321FB590F20035D0B0 /* PLVDownloadListController.m in Sources */,
 				03CB8C6E1FB3EB220048D9FC /* main.m in Sources */,
+				030DF02F1FB590910035D0B0 /* PLVCourseDetailController.m in Sources */,
 				03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */,
+				030DF02C1FB590560035D0B0 /* PLVCourseListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
