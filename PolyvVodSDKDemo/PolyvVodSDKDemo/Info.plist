@@ -4,11 +4,13 @@
 <dict>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-<!--		<key>NSAllowsArbitraryLoads</key>-->
-<!--		<true/>-->
+		<!--允许http-->
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>vlms.cn</key>
+			<key>dewx.net</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>

@@ -7,8 +7,11 @@
 //
 
 #import "PLVCourseNetworking.h"
-#import "PLVSchool.h"
 #import <CommonCrypto/CommonDigest.h>
+
+#import "PLVSchool.h"
+#import "PLVCourse.h"
+#import "PLVTeacher.h"
 
 #define PLV_HM_POST @"POST"
 #define PLV_HM_GET @"GET"
@@ -109,7 +112,8 @@ static NSString *paramStr(NSDictionary *paramDict) {
 		NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
 		if (error){
 			NSLog(@"JSONReading error = %@", error.localizedDescription);
-			if (PLVNetworkingLogEnable) NSLog(@"%@ - 请求结果 = \n%@", request.URL, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+			//if (PLVNetworkingLogEnable)
+				NSLog(@"%@ - 请求结果 = \n%@", request.URL, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
 			if (completion) completion(nil, error);
 			return;
 		}
@@ -119,69 +123,57 @@ static NSString *paramStr(NSDictionary *paramDict) {
 	}];
 }
 
+/// 生成签名
++ (NSString *)signWithParams:(NSDictionary *)params secretKey:(NSString *)secretKey {
+	NSArray *keys = params.allKeys;
+	keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+		return [obj1 compare:obj2 options:NSCaseInsensitiveSearch];
+	}];
+	NSMutableString *plainSign = [NSMutableString string];
+	for (int i = 0; i < keys.count; i ++) {
+		NSString *key = keys[i];
+		[plainSign appendFormat:@"%@%@", key, params[key]];
+	}
+	plainSign = [NSMutableString stringWithFormat:@"%@%@%@", secretKey, plainSign, secretKey];
+	return [self md5String:plainSign].uppercaseString;
+}
+
 #pragma mark - API
 
-/// 请求课程列表
-+ (void)requestCoursesWithCompletion:(void (^)(NSArray *courses))completion {
-	[self requestCoursesWithPage:1 pageCount:100 optionalParams:nil completion:completion];
+/// 请求点播公开课课程列表
++ (void)requestCoursesWithCompletion:(void (^)(NSArray<PLVCourse *> *courses))completion {
+	NSMutableDictionary *optionalParams = [NSMutableDictionary dictionary];
+	optionalParams[@"page"] = @1;
+	optionalParams[@"pageSize"] = @100;
+	//PLVNetworkingLogEnable = YES;
+	[self requestCoursesWithOptionalParams:optionalParams completion:completion];
 }
-+ (void)requestCoursesWithPage:(NSInteger)page pageCount:(NSInteger)pageCount optionalParams:(NSDictionary *)optionalParams completion:(void (^)(NSArray *courses))completion {
++ (void)requestCoursesWithOptionalParams:(NSDictionary *)optionalParams completion:(void (^)(NSArray<PLVCourse *> *courses))completion {
 	PLVSchool *school = [PLVSchool sharedInstance];
-	NSString *url = [NSString stringWithFormat:@"http://%@/api/courses", school.host];
+	NSString *secretKey = school.schoolKey;
+	NSString *url = [NSString stringWithFormat:@"http://%@/api/course/vod-open-courses", school.host];
 	__block NSMutableDictionary *params = [NSMutableDictionary dictionary];
 	[params addEntriesFromDictionary:optionalParams];
-	params[@"school_id"] = school.schoolId;
-	params[@"page"] = @(page);
-	params[@"page_size"] = @(pageCount);
-	__weak typeof(self) weakSelf = self;
-	[self requestSchoolTokenWithCompletion:^(NSString *token) {
-		params[@"access_token"] = token;
-		NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:params];
-		[weakSelf requestDictionary:request completion:^(NSDictionary *dic, NSError *error) {
-			if (error) {
-				NSLog(@"request courses error: %@", error.localizedDescription);
-				return;
-			}
-			NSInteger code = [dic[@"code"] integerValue];
-			if (code != 200) {
-				NSString *message = dic[@"message"];
-				NSLog(@"request courses error: %@", message);
-				return;
-			}
-			NSArray *courses = dic[@"data"][@"courses"];
-			if (completion) {
-				completion(courses);
-			}
-		}];
-	}];
-}
-
-+ (void)requestSchoolTokenWithCompletion:(void (^)(NSString *token))completion {
-	PLVSchool *school = [PLVSchool sharedInstance];
-	NSString *url = [NSString stringWithFormat:@"http://%@/oauth2/authorize", school.host];
-	NSMutableDictionary *params = [NSMutableDictionary dictionary];
-	params[@"api_id"] = school.apiId;
-	params[@"school_id"] = school.schoolId;
 	params[@"timestamp"] = [self timestamp];
-	NSString *sign = [NSString stringWithFormat:@"%@&key=%@", paramStr(params), school.appSecretKey];
-	sign = [self md5String:sign].uppercaseString;
-	params[@"sign"] = sign;
+	params[@"sign"] = [self signWithParams:params secretKey:secretKey];
+	//__weak typeof(self) weakSelf = self;
 	NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:params];
 	[self requestDictionary:request completion:^(NSDictionary *dic, NSError *error) {
-		if (error) {
-			NSLog(@"request token error: %@", error.localizedDescription);
-			return;
-		}
 		NSInteger code = [dic[@"code"] integerValue];
 		if (code != 200) {
+			NSString *status = dic[@"status"];
 			NSString *message = dic[@"message"];
-			NSLog(@"request token error: %@", message);
+			NSLog(@"%@, %@", status, message);
 			return;
 		}
-		NSString *token = dic[@"data"][@"access_token"];
-		if (completion) completion(token);
+		NSArray *data = dic[@"data"][@"contents"];
+		NSMutableArray *courses = [NSMutableArray array];
+		for (NSDictionary *courseDic in data) {
+			PLVCourse *course = [[PLVCourse alloc] initWithDic:courseDic];
+			[courses addObject:course];
+		}
+		if (completion) completion(courses);
 	}];
 }
-
 
 @end

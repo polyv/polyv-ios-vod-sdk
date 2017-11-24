@@ -1,0 +1,26 @@
+PODS:
+  - JMRoundedCorner (1.2.1)
+  - XRCarouselView (2.6.1)
+  - YYCache (1.0.4)
+  - YYImage (1.0.4):
+    - YYImage/Core (= 1.0.4)
+  - YYImage/Core (1.0.4)
+  - YYWebImage (1.0.5):
+    - YYCache
+    - YYImage
+
+DEPENDENCIES:
+  - JMRoundedCorner
+  - XRCarouselView
+  - YYWebImage
+
+SPEC CHECKSUMS:
+  JMRoundedCorner: 214e56c2a7e3a0916e8d6040c66d85519cc1be87
+  XRCarouselView: d3f949d1601e7de51604cdabd6e2f35a770e0f99
+  YYCache: 8105b6638f5e849296c71f331ff83891a4942952
+  YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
+  YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
+
+PODFILE CHECKSUM: 39e593514b3c1fad0c612aa261945194bd6dafab
+
+COCOAPODS: 1.2.0

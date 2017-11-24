@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "PLVCourseNetworking.h"
+#import "PLVCourse.h"
 
 @interface AppDelegate ()
 
@@ -18,7 +19,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
-	
+//	[PLVCourseNetworking requestCoursesWithCompletion:^(NSArray<PLVCourse *> *courses) {
+//		for (PLVCourse *course in courses) {
+//			NSLog(@"desc: %@", course.courseDescription);
+//		}
+//
+//	}];
+//	UIImage *image = [UIImage imageNamed:@"XRPlaceholder"];
+//	NSLog(@"image: %@", image);
 	return YES;
 }
 
