@@ -15,6 +15,10 @@
 		0314085A1FB94DAF00D1424A /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 031408591FB94DAF00D1424A /* Foundation+Log.m */; };
 		0314085D1FB9507A00D1424A /* PLVCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0314085C1FB9507A00D1424A /* PLVCourse.m */; };
 		031408601FB9806100D1424A /* PLVTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 0314085F1FB9806100D1424A /* PLVTeacher.m */; };
+		0323727C1FCBC58D0001E904 /* PLVAccountVideoListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0323727B1FCBC58D0001E904 /* PLVAccountVideoListController.m */; };
+		0323727F1FCBE4690001E904 /* PLVVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0323727E1FCBE4690001E904 /* PLVVideoCell.m */; };
+		032372821FCC1C570001E904 /* PLVDownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 032372811FCC1C570001E904 /* PLVDownloadCell.m */; };
+		034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 034B55451FC926520031A875 /* PLVTitleHeaderReusableView.m */; };
 		03540B871FBC408400CCC7E6 /* PLVCourseBannerReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03540B861FBC408400CCC7E6 /* PLVCourseBannerReusableView.m */; };
 		03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */; };
 		03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C641FB3EB220048D9FC /* Main.storyboard */; };
@@ -24,9 +28,9 @@
 		03CB8C831FB3EB220048D9FC /* PolyvVodSDKDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C821FB3EB220048D9FC /* PolyvVodSDKDemoUITests.m */; };
 		03CB8C941FB3EE360048D9FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C931FB3EE360048D9FC /* LaunchScreen.storyboard */; };
 		03EA41C91FBD36F500BA68AD /* PLVCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EA41C71FBD36F500BA68AD /* PLVCourseCell.m */; };
-		6A831A1682F70EBCE9A13611 /* Pods_PolyvVodSDKDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2EDA24F0EA2E7284F888E16 /* Pods_PolyvVodSDKDemoTests.framework */; };
-		94B5C53481F9BC7726FB57FF /* Pods_PolyvVodSDKDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B88F83E300092BC1F69D49 /* Pods_PolyvVodSDKDemo.framework */; };
-		F04006E03BF761EF027A2862 /* Pods_PolyvVodSDKDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE56A3A664605CF164B78D29 /* Pods_PolyvVodSDKDemoUITests.framework */; };
+		65B1567CCBB05F3CA6F0F627 /* libPods-PolyvVodSDKDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D48385445BEBBF31B3A68C /* libPods-PolyvVodSDKDemo.a */; };
+		6C7EC5DBE11F18F657BD5452 /* libPods-PolyvVodSDKDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41262FFFDEA4B0CB3E0822DB /* libPods-PolyvVodSDKDemoTests.a */; };
+		8E87729DA552820ADF611046 /* libPods-PolyvVodSDKDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5434CCC23BB97B5A0432CB20 /* libPods-PolyvVodSDKDemoUITests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +66,14 @@
 		0314085C1FB9507A00D1424A /* PLVCourse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourse.m; sourceTree = "<group>"; };
 		0314085E1FB9806100D1424A /* PLVTeacher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVTeacher.h; sourceTree = "<group>"; };
 		0314085F1FB9806100D1424A /* PLVTeacher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVTeacher.m; sourceTree = "<group>"; };
+		0323727A1FCBC58C0001E904 /* PLVAccountVideoListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVAccountVideoListController.h; sourceTree = "<group>"; };
+		0323727B1FCBC58D0001E904 /* PLVAccountVideoListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVAccountVideoListController.m; sourceTree = "<group>"; };
+		0323727D1FCBE4690001E904 /* PLVVideoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVideoCell.h; sourceTree = "<group>"; };
+		0323727E1FCBE4690001E904 /* PLVVideoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVideoCell.m; sourceTree = "<group>"; };
+		032372801FCC1C570001E904 /* PLVDownloadCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadCell.h; sourceTree = "<group>"; };
+		032372811FCC1C570001E904 /* PLVDownloadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVDownloadCell.m; sourceTree = "<group>"; };
+		034B55441FC926520031A875 /* PLVTitleHeaderReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVTitleHeaderReusableView.h; sourceTree = "<group>"; };
+		034B55451FC926520031A875 /* PLVTitleHeaderReusableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVTitleHeaderReusableView.m; sourceTree = "<group>"; };
 		03540B851FBC408400CCC7E6 /* PLVCourseBannerReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseBannerReusableView.h; sourceTree = "<group>"; };
 		03540B861FBC408400CCC7E6 /* PLVCourseBannerReusableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseBannerReusableView.m; sourceTree = "<group>"; };
 		03CB8C5B1FB3EB220048D9FC /* PolyvVodSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyvVodSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,11 +96,11 @@
 		0932076C8F6010F254BC97E3 /* Pods-PolyvVodSDKDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2182CC599081C49E8D7ED425 /* Pods-PolyvVodSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		3E0B0D539AE690AC14CD3160 /* Pods-PolyvVodSDKDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoUITests/Pods-PolyvVodSDKDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
-		49B88F83E300092BC1F69D49 /* Pods_PolyvVodSDKDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyvVodSDKDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		41262FFFDEA4B0CB3E0822DB /* libPods-PolyvVodSDKDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PolyvVodSDKDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C3340FD5880364C4A3C430C /* Pods-PolyvVodSDKDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		53D48385445BEBBF31B3A68C /* libPods-PolyvVodSDKDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PolyvVodSDKDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5434CCC23BB97B5A0432CB20 /* libPods-PolyvVodSDKDemoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PolyvVodSDKDemoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		681DE69540D7EFFCC8552D74 /* Pods-PolyvVodSDKDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoUITests/Pods-PolyvVodSDKDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		AE56A3A664605CF164B78D29 /* Pods_PolyvVodSDKDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyvVodSDKDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2EDA24F0EA2E7284F888E16 /* Pods_PolyvVodSDKDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyvVodSDKDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FED1B720363A099F969C0F37 /* Pods-PolyvVodSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,7 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94B5C53481F9BC7726FB57FF /* Pods_PolyvVodSDKDemo.framework in Frameworks */,
+				65B1567CCBB05F3CA6F0F627 /* libPods-PolyvVodSDKDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A831A1682F70EBCE9A13611 /* Pods_PolyvVodSDKDemoTests.framework in Frameworks */,
+				6C7EC5DBE11F18F657BD5452 /* libPods-PolyvVodSDKDemoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F04006E03BF761EF027A2862 /* Pods_PolyvVodSDKDemoUITests.framework in Frameworks */,
+				8E87729DA552820ADF611046 /* libPods-PolyvVodSDKDemoUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +221,8 @@
 				030DF02B1FB590560035D0B0 /* PLVCourseListController.m */,
 				030DF02D1FB590910035D0B0 /* PLVCourseDetailController.h */,
 				030DF02E1FB590910035D0B0 /* PLVCourseDetailController.m */,
+				0323727A1FCBC58C0001E904 /* PLVAccountVideoListController.h */,
+				0323727B1FCBC58D0001E904 /* PLVAccountVideoListController.m */,
 				030DF0301FB590F20035D0B0 /* PLVDownloadListController.h */,
 				030DF0311FB590F20035D0B0 /* PLVDownloadListController.m */,
 			);
@@ -220,8 +234,14 @@
 			children = (
 				03540B851FBC408400CCC7E6 /* PLVCourseBannerReusableView.h */,
 				03540B861FBC408400CCC7E6 /* PLVCourseBannerReusableView.m */,
+				034B55441FC926520031A875 /* PLVTitleHeaderReusableView.h */,
+				034B55451FC926520031A875 /* PLVTitleHeaderReusableView.m */,
 				03EA41C61FBD36F500BA68AD /* PLVCourseCell.h */,
 				03EA41C71FBD36F500BA68AD /* PLVCourseCell.m */,
+				0323727D1FCBE4690001E904 /* PLVVideoCell.h */,
+				0323727E1FCBE4690001E904 /* PLVVideoCell.m */,
+				032372801FCC1C570001E904 /* PLVDownloadCell.h */,
+				032372811FCC1C570001E904 /* PLVDownloadCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -229,9 +249,9 @@
 		94204A1D4CA80F6165C1D2E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				49B88F83E300092BC1F69D49 /* Pods_PolyvVodSDKDemo.framework */,
-				B2EDA24F0EA2E7284F888E16 /* Pods_PolyvVodSDKDemoTests.framework */,
-				AE56A3A664605CF164B78D29 /* Pods_PolyvVodSDKDemoUITests.framework */,
+				53D48385445BEBBF31B3A68C /* libPods-PolyvVodSDKDemo.a */,
+				41262FFFDEA4B0CB3E0822DB /* libPods-PolyvVodSDKDemoTests.a */,
+				5434CCC23BB97B5A0432CB20 /* libPods-PolyvVodSDKDemoUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -529,15 +549,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */,
 				030DF0321FB590F20035D0B0 /* PLVDownloadListController.m in Sources */,
 				030DF0361FB5960E0035D0B0 /* PLVCourseNetworking.m in Sources */,
 				0314085D1FB9507A00D1424A /* PLVCourse.m in Sources */,
 				031408601FB9806100D1424A /* PLVTeacher.m in Sources */,
 				03CB8C6E1FB3EB220048D9FC /* main.m in Sources */,
+				032372821FCC1C570001E904 /* PLVDownloadCell.m in Sources */,
 				030DF02F1FB590910035D0B0 /* PLVCourseDetailController.m in Sources */,
 				03540B871FBC408400CCC7E6 /* PLVCourseBannerReusableView.m in Sources */,
+				0323727F1FCBE4690001E904 /* PLVVideoCell.m in Sources */,
 				03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */,
 				030DF02C1FB590560035D0B0 /* PLVCourseListController.m in Sources */,
+				0323727C1FCBC58D0001E904 /* PLVAccountVideoListController.m in Sources */,
 				030DF03A1FB5BA9D0035D0B0 /* PLVSchool.m in Sources */,
 				0314085A1FB94DAF00D1424A /* Foundation+Log.m in Sources */,
 				03EA41C91FBD36F500BA68AD /* PLVCourseCell.m in Sources */,

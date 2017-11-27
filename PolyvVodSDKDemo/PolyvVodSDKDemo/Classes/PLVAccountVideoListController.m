@@ -1,21 +1,22 @@
 //
-//  PLVDownloadListController.m
+//  PLVAccountVideoListController.m
 //  PolyvVodSDKDemo
 //
-//  Created by BqLin on 2017/11/10.
+//  Created by Bq Lin on 2017/11/27.
 //  Copyright © 2017年 POLYV. All rights reserved.
 //
 
-#import "PLVDownloadListController.h"
+#import "PLVAccountVideoListController.h"
 
-@interface PLVDownloadListController ()
+@interface PLVAccountVideoListController ()
 
 @end
 
-@implementation PLVDownloadListController
+@implementation PLVAccountVideoListController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -37,7 +38,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PLVDownloadCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PLVVideoCell" forIndexPath:indexPath];
     
     // Configure the cell...
     

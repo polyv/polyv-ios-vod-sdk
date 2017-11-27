@@ -140,6 +140,16 @@ static NSString *paramStr(NSDictionary *paramDict) {
 
 #pragma mark - API
 
+/// 获取账户视频
++ (void)requestVideosWithCompletion:(void (^)(id videos))completion {
+	NSString *url = @"https://v.polyv.net/uc/services/rest";
+	NSMutableDictionary *params = [NSMutableDictionary dictionary];
+	params[@"method"] = @"getNewList";
+	params[@"readtoken"] = nil;
+	params[@"pageNum"] = @1;
+	params[@"numPerPage"] = @100;
+}
+
 /// 请求点播公开课课程列表
 + (void)requestCoursesWithCompletion:(void (^)(NSArray<PLVCourse *> *courses))completion {
 	NSMutableDictionary *optionalParams = [NSMutableDictionary dictionary];

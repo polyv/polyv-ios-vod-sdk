@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PLVCourse.h"
 
 @interface PLVCourseDetailController : UIViewController
+
+@property (nonatomic, strong) PLVCourse *course;
 
 @end

@@ -28,14 +28,34 @@
 	self.carouseView = [[XRCarouselView alloc] initWithFrame:self.bounds];
 	self.carouseView.delegate = self;
 	[self addSubview:self.carouseView];
-	
-	NSArray *arr = @[
-					 @"http://pic39.nipic.com/20140226/18071023_162553457000_2.jpg",//网络图片
-					 @"http://pic39.nipic.com/20140226/18071023_162553457000_2.jpg",//网络图片
-					 @"http://photo.l99.com/source/11/1330351552722_cxn26e.gif",//网络gif图片
-					 @"http://pic39.nipic.com/20140226/18071023_162553457000_2.jpg",//网络图片
-					 ];
-	self.carouseView.imageArray = arr;
+}
+
+#pragma mark - property
+
+- (void)setBannerCourses:(NSArray *)bannerCourses {
+	_bannerCourses = bannerCourses;
+	if (!bannerCourses.count) {
+		return;
+	}
+	NSMutableArray *imageArray = [NSMutableArray array];
+	for (PLVCourse *course in self.bannerCourses) {
+		NSString *imageUrl = course.coverUrl;
+		if (imageUrl.length) {
+			[imageArray addObject:imageUrl];
+		}
+	}
+	self.carouseView.placeholderImage = [UIImage imageNamed:@"plv_ph_courseCover"];
+	self.carouseView.imageArray = imageArray;
+}
+
+#pragma mark - XRCarouselViewDelegate
+
+- (void)carouselView:(XRCarouselView *)carouselView clickImageAtIndex:(NSInteger)index {
+	if (!(index >= 0 && index < self.bannerCourses.count)) {
+		return;
+	}
+	PLVCourse *course = self.bannerCourses[index];
+	if (self.courseDidClick) self.courseDidClick(course);
 }
 
 @end

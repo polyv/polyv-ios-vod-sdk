@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PLVCourse.h"
 
 @interface PLVCourseBannerReusableView : UICollectionReusableView
+
+@property (nonatomic, strong) NSArray *bannerCourses;
+@property (nonatomic, copy) void (^courseDidClick)(PLVCourse *course);
 
 @end
