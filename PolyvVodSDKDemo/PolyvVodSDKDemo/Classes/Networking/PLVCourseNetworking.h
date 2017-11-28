@@ -11,11 +11,15 @@
 @class PLVSchool;
 @class PLVCourse;
 @class PLVTeacher;
+@class PLVCourseSection;
 
 @interface PLVCourseNetworking : NSObject
 
 /// 请求课程列表
 + (void)requestCoursesWithCompletion:(void (^)(NSArray<PLVCourse *> *courses))completion;
+
+/// 获取课程课时
++ (void)requestCourseVideosWithCourseId:(NSString *)courseId completion:(void (^)(NSArray *videoSections))completion;
 
 /// 获取教师列表
 + (void)requestTeachersWithCourseId:(NSString *)courseId completion:(void (^)(NSArray<PLVTeacher *> *teachers))completion;

@@ -18,8 +18,12 @@
 		0323727C1FCBC58D0001E904 /* PLVAccountVideoListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0323727B1FCBC58D0001E904 /* PLVAccountVideoListController.m */; };
 		0323727F1FCBE4690001E904 /* PLVVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0323727E1FCBE4690001E904 /* PLVVideoCell.m */; };
 		032372821FCC1C570001E904 /* PLVDownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 032372811FCC1C570001E904 /* PLVDownloadCell.m */; };
+		033153041FCD103F00CAE849 /* PLVCourseSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 033153031FCD103F00CAE849 /* PLVCourseSection.m */; };
+		033153071FCD105400CAE849 /* PLVCourseVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 033153061FCD105400CAE849 /* PLVCourseVideo.m */; };
 		034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 034B55451FC926520031A875 /* PLVTitleHeaderReusableView.m */; };
 		03540B871FBC408400CCC7E6 /* PLVCourseBannerReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03540B861FBC408400CCC7E6 /* PLVCourseBannerReusableView.m */; };
+		0356CD051FCC383700B522A1 /* PLVCourseVideoListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356CD041FCC383700B522A1 /* PLVCourseVideoListController.m */; };
+		0356CD081FCC387400B522A1 /* PLVCourseIntroductionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356CD071FCC387400B522A1 /* PLVCourseIntroductionController.m */; };
 		03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */; };
 		03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C641FB3EB220048D9FC /* Main.storyboard */; };
 		03CB8C681FB3EB220048D9FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C671FB3EB220048D9FC /* Assets.xcassets */; };
@@ -72,10 +76,18 @@
 		0323727E1FCBE4690001E904 /* PLVVideoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVideoCell.m; sourceTree = "<group>"; };
 		032372801FCC1C570001E904 /* PLVDownloadCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadCell.h; sourceTree = "<group>"; };
 		032372811FCC1C570001E904 /* PLVDownloadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVDownloadCell.m; sourceTree = "<group>"; };
+		033153021FCD103F00CAE849 /* PLVCourseSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseSection.h; sourceTree = "<group>"; };
+		033153031FCD103F00CAE849 /* PLVCourseSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseSection.m; sourceTree = "<group>"; };
+		033153051FCD105400CAE849 /* PLVCourseVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseVideo.h; sourceTree = "<group>"; };
+		033153061FCD105400CAE849 /* PLVCourseVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseVideo.m; sourceTree = "<group>"; };
 		034B55441FC926520031A875 /* PLVTitleHeaderReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVTitleHeaderReusableView.h; sourceTree = "<group>"; };
 		034B55451FC926520031A875 /* PLVTitleHeaderReusableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVTitleHeaderReusableView.m; sourceTree = "<group>"; };
 		03540B851FBC408400CCC7E6 /* PLVCourseBannerReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseBannerReusableView.h; sourceTree = "<group>"; };
 		03540B861FBC408400CCC7E6 /* PLVCourseBannerReusableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseBannerReusableView.m; sourceTree = "<group>"; };
+		0356CD031FCC383700B522A1 /* PLVCourseVideoListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseVideoListController.h; sourceTree = "<group>"; };
+		0356CD041FCC383700B522A1 /* PLVCourseVideoListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseVideoListController.m; sourceTree = "<group>"; };
+		0356CD061FCC387400B522A1 /* PLVCourseIntroductionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseIntroductionController.h; sourceTree = "<group>"; };
+		0356CD071FCC387400B522A1 /* PLVCourseIntroductionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseIntroductionController.m; sourceTree = "<group>"; };
 		03CB8C5B1FB3EB220048D9FC /* PolyvVodSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyvVodSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03CB8C5E1FB3EB220048D9FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -150,8 +162,27 @@
 				030DF0391FB5BA9D0035D0B0 /* PLVSchool.m */,
 				0314085B1FB9507A00D1424A /* PLVCourse.h */,
 				0314085C1FB9507A00D1424A /* PLVCourse.m */,
+				033153021FCD103F00CAE849 /* PLVCourseSection.h */,
+				033153031FCD103F00CAE849 /* PLVCourseSection.m */,
+				033153051FCD105400CAE849 /* PLVCourseVideo.h */,
+				033153061FCD105400CAE849 /* PLVCourseVideo.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0356CD021FCC369100B522A1 /* Course */ = {
+			isa = PBXGroup;
+			children = (
+				030DF02A1FB590560035D0B0 /* PLVCourseListController.h */,
+				030DF02B1FB590560035D0B0 /* PLVCourseListController.m */,
+				030DF02D1FB590910035D0B0 /* PLVCourseDetailController.h */,
+				030DF02E1FB590910035D0B0 /* PLVCourseDetailController.m */,
+				0356CD031FCC383700B522A1 /* PLVCourseVideoListController.h */,
+				0356CD041FCC383700B522A1 /* PLVCourseVideoListController.m */,
+				0356CD061FCC387400B522A1 /* PLVCourseIntroductionController.h */,
+				0356CD071FCC387400B522A1 /* PLVCourseIntroductionController.m */,
+			);
+			path = Course;
 			sourceTree = "<group>";
 		};
 		03CB8C521FB3EB220048D9FC = {
@@ -217,10 +248,7 @@
 				030DF0371FB5AB730035D0B0 /* Model */,
 				030DF0331FB595CE0035D0B0 /* Networking */,
 				03CB8C911FB3EC730048D9FC /* View */,
-				030DF02A1FB590560035D0B0 /* PLVCourseListController.h */,
-				030DF02B1FB590560035D0B0 /* PLVCourseListController.m */,
-				030DF02D1FB590910035D0B0 /* PLVCourseDetailController.h */,
-				030DF02E1FB590910035D0B0 /* PLVCourseDetailController.m */,
+				0356CD021FCC369100B522A1 /* Course */,
 				0323727A1FCBC58C0001E904 /* PLVAccountVideoListController.h */,
 				0323727B1FCBC58D0001E904 /* PLVAccountVideoListController.m */,
 				030DF0301FB590F20035D0B0 /* PLVDownloadListController.h */,
@@ -551,9 +579,13 @@
 			files = (
 				034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */,
 				030DF0321FB590F20035D0B0 /* PLVDownloadListController.m in Sources */,
+				033153071FCD105400CAE849 /* PLVCourseVideo.m in Sources */,
 				030DF0361FB5960E0035D0B0 /* PLVCourseNetworking.m in Sources */,
+				0356CD081FCC387400B522A1 /* PLVCourseIntroductionController.m in Sources */,
+				0356CD051FCC383700B522A1 /* PLVCourseVideoListController.m in Sources */,
 				0314085D1FB9507A00D1424A /* PLVCourse.m in Sources */,
 				031408601FB9806100D1424A /* PLVTeacher.m in Sources */,
+				033153041FCD103F00CAE849 /* PLVCourseSection.m in Sources */,
 				03CB8C6E1FB3EB220048D9FC /* main.m in Sources */,
 				032372821FCC1C570001E904 /* PLVDownloadCell.m in Sources */,
 				030DF02F1FB590910035D0B0 /* PLVCourseDetailController.m in Sources */,

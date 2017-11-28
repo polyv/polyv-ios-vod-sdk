@@ -1,22 +1,24 @@
 //
-//  PLVCourseDetailController.m
+//  PLVCourseIntroductionController.m
 //  PolyvVodSDKDemo
 //
-//  Created by BqLin on 2017/11/10.
+//  Created by Bq Lin on 2017/11/27.
 //  Copyright © 2017年 POLYV. All rights reserved.
 //
 
-#import "PLVCourseDetailController.h"
+#import "PLVCourseIntroductionController.h"
 
-@interface PLVCourseDetailController ()
+@interface PLVCourseIntroductionController ()
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
 
 @end
 
-@implementation PLVCourseDetailController
+@implementation PLVCourseIntroductionController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+	[self.webView loadHTMLString:self.htmlContent baseURL:nil];
 }
 
 - (void)didReceiveMemoryWarning {

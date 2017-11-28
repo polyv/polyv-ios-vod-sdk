@@ -13,6 +13,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+	self.backgroundColor = [UIColor colorWithHue:0.636 saturation:0.045 brightness:0.957 alpha:1.000];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

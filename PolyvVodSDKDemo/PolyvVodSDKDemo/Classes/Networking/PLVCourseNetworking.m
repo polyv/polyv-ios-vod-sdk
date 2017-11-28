@@ -12,6 +12,7 @@
 #import "PLVSchool.h"
 #import "PLVCourse.h"
 #import "PLVTeacher.h"
+#import "PLVCourseSection.h"
 
 #define PLV_HM_POST @"POST"
 #define PLV_HM_GET @"GET"
@@ -141,13 +142,40 @@ static NSString *paramStr(NSDictionary *paramDict) {
 #pragma mark - API
 
 /// 获取账户视频
-+ (void)requestVideosWithCompletion:(void (^)(id videos))completion {
++ (void)requestAccountVideosWithCompletion:(void (^)(id videos))completion {
 	NSString *url = @"https://v.polyv.net/uc/services/rest";
 	NSMutableDictionary *params = [NSMutableDictionary dictionary];
 	params[@"method"] = @"getNewList";
 	params[@"readtoken"] = nil;
 	params[@"pageNum"] = @1;
 	params[@"numPerPage"] = @100;
+}
+
+/// 获取课程课时
++ (void)requestCourseVideosWithCourseId:(NSString *)courseId completion:(void (^)(NSArray *videoSections))completion {
+	PLVSchool *school = [PLVSchool sharedInstance];
+	NSString *secretKey = school.schoolKey;
+	NSString *url = [NSString stringWithFormat:@"http://%@/api/curriculum/vod-open-curriculum", school.host];
+	NSMutableDictionary *params = [NSMutableDictionary dictionary];
+	params[@"courseId"] = courseId;
+	params[@"timestamp"] = [self timestamp];
+	params[@"sign"] = [self signWithParams:params secretKey:secretKey];
+	NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:params];
+	[self requestDictionary:request completion:^(NSDictionary *dic, NSError *error) {
+		//NSLog(@"%@, %@", courseId, dic);
+		NSInteger code = [dic[@"code"] integerValue];
+		if (code != 200) {
+			NSString *status = dic[@"status"];
+			NSString *message = dic[@"message"];
+			NSLog(@"%@, %@", status, message);
+			return;
+		}
+		NSArray *data = dic[@"data"];
+		NSArray *videoSections = [PLVCourseSection sectionsWithArray:data];
+		if (completion) {
+			completion(videoSections);
+		}
+	}];
 }
 
 /// 请求点播公开课课程列表
@@ -166,7 +194,6 @@ static NSString *paramStr(NSDictionary *paramDict) {
 	[params addEntriesFromDictionary:optionalParams];
 	params[@"timestamp"] = [self timestamp];
 	params[@"sign"] = [self signWithParams:params secretKey:secretKey];
-	//__weak typeof(self) weakSelf = self;
 	NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:params];
 	[self requestDictionary:request completion:^(NSDictionary *dic, NSError *error) {
 		NSInteger code = [dic[@"code"] integerValue];

@@ -1,5 +1,5 @@
 //
-//  PLVVideoCell.h
+//  PLVCourseIntroductionController.h
 //  PolyvVodSDKDemo
 //
 //  Created by Bq Lin on 2017/11/27.
@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PLVCourseVideo.h"
 
-@interface PLVVideoCell : UITableViewCell
+@interface PLVCourseIntroductionController : UIViewController
 
-@property (nonatomic, strong) PLVCourseVideo *video;
+@property (nonatomic, copy) NSString *htmlContent;
 
 @end
