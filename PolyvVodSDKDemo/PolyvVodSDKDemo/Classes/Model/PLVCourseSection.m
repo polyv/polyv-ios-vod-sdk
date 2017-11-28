@@ -41,6 +41,9 @@
 			[videos addObject:video];
 		}
 	}
+	if (!section) {
+		section = [[PLVCourseSection alloc] init];
+	}
 	section.videos = videos;
 	[sections addObject:section];
 	return sections;

@@ -11,14 +11,12 @@
 #import "PLVCourseIntroductionController.h"
 #import "PLVCourseNetworking.h"
 #import "PLVCourseSection.h"
-#import <NinaPagerView/NinaPagerView.h>
 
 @interface PLVCourseDetailController ()
 
 //@property (weak, nonatomic) IBOutlet DLCustomSlideView *pageView;
 @property (nonatomic, strong) NSArray *subViewControllers;
 
-@property (nonatomic, strong) NinaPagerView *ninaPagerView;
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 
 @end
@@ -32,24 +30,23 @@
 		PLVCourseVideoListController *courseVideoList = [self.storyboard instantiateViewControllerWithIdentifier:@"PLVCourseVideoListController"];
 		PLVCourseIntroductionController *courseIntro = [self.storyboard instantiateViewControllerWithIdentifier:@"PLVCourseIntroductionController"];
 		_subViewControllers = @[courseVideoList, courseIntro];
-		NSLog(@"subview: %@", _subViewControllers);
 	}
 	return _subViewControllers;
 }
 
-- (NinaPagerView *)ninaPagerView {
-	if (!_ninaPagerView) {
-		NSArray *titleArray = @[@"课时目录", @"课程介绍"];
-		NSArray *vcsArray = self.subViewControllers;
-		CGFloat width = self.view.bounds.size.width;
-		CGFloat y = CGRectGetMaxY(self.playerView.frame);
-		CGRect pagerRect = CGRectMake(0, y, width, 44);
-		_ninaPagerView = [[NinaPagerView alloc] initWithFrame:pagerRect WithTitles:titleArray WithVCs:vcsArray];
-		
-		_ninaPagerView.ninaPagerStyles = NinaPagerStyleStateNormal;
-	}
-	return _ninaPagerView;
-}
+//- (NinaPagerView *)ninaPagerView {
+//	if (!_ninaPagerView) {
+//		NSArray *titleArray = @[@"课时目录", @"课程介绍"];
+//		NSArray *vcsArray = self.subViewControllers;
+//		CGFloat width = self.view.bounds.size.width;
+//		CGFloat y = CGRectGetMaxY(self.playerView.frame);
+//		CGRect pagerRect = CGRectMake(0, y, width, 44);
+//		_ninaPagerView = [[NinaPagerView alloc] initWithFrame:pagerRect WithTitles:titleArray WithVCs:vcsArray];
+//
+//		_ninaPagerView.ninaPagerStyles = NinaPagerStyleStateNormal;
+//	}
+//	return _ninaPagerView;
+//}
 
 //- (void)setCourse:(PLVCourse *)course {
 //	_course = course;
@@ -59,6 +56,9 @@
 - (IBAction)test:(UIBarButtonItem *)sender {
 	[self.navigationController pushViewController:self.subViewControllers[0] animated:YES];
 	
+}
+- (IBAction)test2:(id)sender {
+	[self.navigationController pushViewController:self.subViewControllers[1] animated:YES];
 }
 
 #pragma mark - view controller
@@ -72,16 +72,15 @@
 //	self.ninaPagerView.ninaPagerStyles = NinaPagerStyleBottomLine;
 	
 	
-	
+	PLVCourseIntroductionController *intro = self.subViewControllers[1];
+	intro.htmlContent = self.course.courseDescription;
+	//NSLog(@"desc: %@", intro.htmlContent);
 	__weak typeof(self) weakSelf = self;
 	[PLVCourseNetworking requestCourseVideosWithCourseId:self.course.courseId completion:^(NSArray *videoSections) {
 		PLVCourseVideoListController *courseVideoList = weakSelf.subViewControllers[0];
 		courseVideoList.videoSections = videoSections;
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[courseVideoList.tableView reloadData];
-//			[weakSelf presentViewController:weakSelf.subViewControllers[0] animated:YES completion:^{
-//
-//			}];
 		});
 	}];
 	

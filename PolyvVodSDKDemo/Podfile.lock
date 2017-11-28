@@ -1,6 +1,4 @@
 PODS:
-  - JMRoundedCorner (1.2.1)
-  - NinaPagerView (1.6.2)
   - XRCarouselView (2.6.1)
   - YYCache (1.0.4)
   - YYImage (1.0.4):
@@ -11,19 +9,15 @@ PODS:
     - YYImage
 
 DEPENDENCIES:
-  - JMRoundedCorner
-  - NinaPagerView (~> 1.6.2)
   - XRCarouselView
   - YYWebImage
 
 SPEC CHECKSUMS:
-  JMRoundedCorner: 214e56c2a7e3a0916e8d6040c66d85519cc1be87
-  NinaPagerView: d197b579cb5a9beb5c3cb45c027a7463de52e64f
   XRCarouselView: d3f949d1601e7de51604cdabd6e2f35a770e0f99
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: f857c669015bea4582cc33989f5f9fc32827f92a
+PODFILE CHECKSUM: e6ecafc2e6b8755dcf5ef234e7c5fe4e803b3b06
 
 COCOAPODS: 1.2.0

@@ -15,10 +15,19 @@
 
 @implementation PLVCourseIntroductionController
 
+- (void)setHtmlContent:(NSString *)htmlContent {
+	_htmlContent = htmlContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-	[self.webView loadHTMLString:self.htmlContent baseURL:nil];
+	self.automaticallyAdjustsScrollViewInsets = NO;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self.webView loadHTMLString:_htmlContent baseURL:nil];
 }
 
 - (void)didReceiveMemoryWarning {

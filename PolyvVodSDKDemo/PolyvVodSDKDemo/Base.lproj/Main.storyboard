@@ -341,6 +341,11 @@
                                             <action selector="test:" destination="qAb-Tx-rFj" id="i3a-K8-RNz"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Y" id="VY3-fN-h9l">
+                                        <connections>
+                                            <action selector="test2:" destination="qAb-Tx-rFj" id="Ooy-h7-7Tn"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>

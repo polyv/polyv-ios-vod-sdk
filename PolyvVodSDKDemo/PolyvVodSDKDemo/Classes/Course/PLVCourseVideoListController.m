@@ -19,13 +19,11 @@
 
 - (void)setVideoSections:(NSArray<PLVCourseSection *> *)videoSections {
 	_videoSections = videoSections;
-	NSLog(@"section: %@", self.videoSections);
+	//NSLog(@"section: %@", self.videoSections);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
-//	self.automaticallyAdjustsScrollViewInsets = NO;
 	
 	self.tableView.tableFooterView = [UIView new];
 	
@@ -50,14 +48,14 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	//return self.number;
 	NSInteger number = self.videoSections.count;
-	NSLog(@"section: %zd", number);
+	//NSLog(@"section: %zd", number);
 	return number;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	//return self.number;
 	NSInteger number = self.videoSections[section].videos.count;
-	NSLog(@"section row: %zd", number);
+	//NSLog(@"section row: %zd", number);
     return self.videoSections[section].videos.count;
 }
 

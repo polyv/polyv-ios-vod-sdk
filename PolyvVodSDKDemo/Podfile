@@ -9,9 +9,7 @@ target 'PolyvVodSDKDemo' do
 
   # Pods for PolyvVodSDKDemo
   pod 'XRCarouselView'
-  pod 'JMRoundedCorner'
   pod 'YYWebImage'
-  pod 'NinaPagerView', '~> 1.6.2'
 
   target 'PolyvVodSDKDemoTests' do
     inherit! :search_paths
