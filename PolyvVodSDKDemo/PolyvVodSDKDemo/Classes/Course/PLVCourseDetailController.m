@@ -67,11 +67,6 @@
     [super viewDidLoad];
 	self.automaticallyAdjustsScrollViewInsets = NO;
 	
-//	NSArray *titles = @[@"课时目录", @"课程介绍"];
-//	[self.ninaPagerView reloadTopTabByTitles:titles WithObjects:self.subViewControllers];
-//	self.ninaPagerView.ninaPagerStyles = NinaPagerStyleBottomLine;
-	
-	
 	PLVCourseIntroductionController *intro = self.subViewControllers[1];
 	intro.htmlContent = self.course.courseDescription;
 	//NSLog(@"desc: %@", intro.htmlContent);
@@ -83,8 +78,9 @@
 			[courseVideoList.tableView reloadData];
 		});
 	}];
+	[self setupUI];
 	
-	UIColor *themeColor = [UIColor colorWithHue:0.574 saturation:0.864 brightness:0.953 alpha:1.000];
+	
 //	[self.view addSubview:self.ninaPagerView];
 	
 //	DLScrollTabbarView *tabbar = [[DLScrollTabbarView alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
@@ -106,6 +102,10 @@
 //	self.pageView.selectedIndex = 0;
 }
 
+- (void)setupUI {
+	self.title = self.course.title;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -120,5 +120,61 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - sppage
+
+- (UIColor *)titleHighlightColorForIndex:(NSInteger)index {
+	UIColor *themeColor = [UIColor colorWithHue:0.574 saturation:0.864 brightness:0.953 alpha:1.000];
+	return themeColor;
+}
+
+- (UIColor *)markViewColorForIndex:(NSInteger)index {
+	UIColor *themeColor = [UIColor colorWithHue:0.574 saturation:0.864 brightness:0.953 alpha:1.000];
+	return themeColor;
+}
+
+- (CoverScrollStyle)preferCoverStyle {
+	return CoverScrollStyleTop;
+}
+
+- (BOOL)needMarkView {
+	return YES;
+}
+
+- (UIView *)preferCoverView {
+	return self.playerView;
+}
+
+- (CGRect)preferCoverFrame {
+	return self.playerView.frame;
+}
+
+- (CGFloat)preferTabY {
+	return CGRectGetMaxY(self.playerView.frame);
+}
+
+- (CGRect)preferPageFrame {
+	CGFloat y = CGRectGetMaxY(self.playerView.frame) + 40;
+	CGFloat height = self.view.bounds.size.height - y;
+	CGFloat width = self.view.bounds.size.width;
+	return CGRectMake(0, y, width, height);
+}
+
+- (BOOL)isPreLoad {
+	return YES;
+}
+
+- (NSInteger)numberOfControllers {
+	return self.subViewControllers.count;
+}
+
+- (NSString *)titleForIndex:(NSInteger)index {
+	UIViewController *vc = self.subViewControllers[index];
+	return vc.title;
+}
+
+- (UIViewController *)controllerAtIndex:(NSInteger)index {
+	return self.subViewControllers[index];
+}
 
 @end

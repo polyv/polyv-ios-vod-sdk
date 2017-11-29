@@ -24,6 +24,12 @@
 		03540B871FBC408400CCC7E6 /* PLVCourseBannerReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03540B861FBC408400CCC7E6 /* PLVCourseBannerReusableView.m */; };
 		0356CD051FCC383700B522A1 /* PLVCourseVideoListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356CD041FCC383700B522A1 /* PLVCourseVideoListController.m */; };
 		0356CD081FCC387400B522A1 /* PLVCourseIntroductionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356CD071FCC387400B522A1 /* PLVCourseIntroductionController.m */; };
+		03BB59141FCE481900DE42DC /* SPPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB59071FCE481900DE42DC /* SPPageController.m */; };
+		03BB59151FCE481900DE42DC /* SPTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB59091FCE481900DE42DC /* SPTabController.m */; };
+		03BB59161FCE481900DE42DC /* SPCoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB590B1FCE481900DE42DC /* SPCoverController.m */; };
+		03BB59171FCE481900DE42DC /* SPPageTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB590E1FCE481900DE42DC /* SPPageTagView.m */; };
+		03BB59181FCE481900DE42DC /* SPTagBarScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB59111FCE481900DE42DC /* SPTagBarScrollView.m */; };
+		03BB59191FCE481900DE42DC /* SPPageContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB59121FCE481900DE42DC /* SPPageContentView.m */; };
 		03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */; };
 		03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C641FB3EB220048D9FC /* Main.storyboard */; };
 		03CB8C681FB3EB220048D9FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C671FB3EB220048D9FC /* Assets.xcassets */; };
@@ -88,6 +94,21 @@
 		0356CD041FCC383700B522A1 /* PLVCourseVideoListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseVideoListController.m; sourceTree = "<group>"; };
 		0356CD061FCC387400B522A1 /* PLVCourseIntroductionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseIntroductionController.h; sourceTree = "<group>"; };
 		0356CD071FCC387400B522A1 /* PLVCourseIntroductionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseIntroductionController.m; sourceTree = "<group>"; };
+		03BB59031FCE481900DE42DC /* SPPageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPPageProtocol.h; sourceTree = "<group>"; };
+		03BB59041FCE481900DE42DC /* SPTabProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPTabProtocol.h; sourceTree = "<group>"; };
+		03BB59051FCE481900DE42DC /* SPCoverProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPCoverProtocol.h; sourceTree = "<group>"; };
+		03BB59071FCE481900DE42DC /* SPPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPPageController.m; sourceTree = "<group>"; };
+		03BB59081FCE481900DE42DC /* SPCoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPCoverController.h; sourceTree = "<group>"; };
+		03BB59091FCE481900DE42DC /* SPTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPTabController.m; sourceTree = "<group>"; };
+		03BB590A1FCE481900DE42DC /* SPPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPPageController.h; sourceTree = "<group>"; };
+		03BB590B1FCE481900DE42DC /* SPCoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPCoverController.m; sourceTree = "<group>"; };
+		03BB590C1FCE481900DE42DC /* SPTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPTabController.h; sourceTree = "<group>"; };
+		03BB590E1FCE481900DE42DC /* SPPageTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPPageTagView.m; sourceTree = "<group>"; };
+		03BB590F1FCE481900DE42DC /* SPPageContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPPageContentView.h; sourceTree = "<group>"; };
+		03BB59101FCE481900DE42DC /* SPTagBarScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPTagBarScrollView.h; sourceTree = "<group>"; };
+		03BB59111FCE481900DE42DC /* SPTagBarScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPTagBarScrollView.m; sourceTree = "<group>"; };
+		03BB59121FCE481900DE42DC /* SPPageContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPPageContentView.m; sourceTree = "<group>"; };
+		03BB59131FCE481900DE42DC /* SPPageTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPPageTagView.h; sourceTree = "<group>"; };
 		03CB8C5B1FB3EB220048D9FC /* PolyvVodSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyvVodSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03CB8C5E1FB3EB220048D9FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -185,6 +206,60 @@
 			path = Course;
 			sourceTree = "<group>";
 		};
+		03BB59001FCE465200DE42DC /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				03BB59011FCE481900DE42DC /* SPPage */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		03BB59011FCE481900DE42DC /* SPPage */ = {
+			isa = PBXGroup;
+			children = (
+				03BB59021FCE481900DE42DC /* Protocol */,
+				03BB59061FCE481900DE42DC /* Controller */,
+				03BB590D1FCE481900DE42DC /* View */,
+			);
+			path = SPPage;
+			sourceTree = "<group>";
+		};
+		03BB59021FCE481900DE42DC /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				03BB59031FCE481900DE42DC /* SPPageProtocol.h */,
+				03BB59041FCE481900DE42DC /* SPTabProtocol.h */,
+				03BB59051FCE481900DE42DC /* SPCoverProtocol.h */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		03BB59061FCE481900DE42DC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				03BB59071FCE481900DE42DC /* SPPageController.m */,
+				03BB59081FCE481900DE42DC /* SPCoverController.h */,
+				03BB59091FCE481900DE42DC /* SPTabController.m */,
+				03BB590A1FCE481900DE42DC /* SPPageController.h */,
+				03BB590B1FCE481900DE42DC /* SPCoverController.m */,
+				03BB590C1FCE481900DE42DC /* SPTabController.h */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		03BB590D1FCE481900DE42DC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				03BB590E1FCE481900DE42DC /* SPPageTagView.m */,
+				03BB590F1FCE481900DE42DC /* SPPageContentView.h */,
+				03BB59101FCE481900DE42DC /* SPTagBarScrollView.h */,
+				03BB59111FCE481900DE42DC /* SPTagBarScrollView.m */,
+				03BB59121FCE481900DE42DC /* SPPageContentView.m */,
+				03BB59131FCE481900DE42DC /* SPPageTagView.h */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		03CB8C521FB3EB220048D9FC = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +286,7 @@
 		03CB8C5D1FB3EB220048D9FC /* PolyvVodSDKDemo */ = {
 			isa = PBXGroup;
 			children = (
+				03BB59001FCE465200DE42DC /* Vendor */,
 				03CB8C901FB3EBD10048D9FC /* Classes */,
 				03CB8C5E1FB3EB220048D9FC /* AppDelegate.h */,
 				03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */,
@@ -577,6 +653,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03BB59151FCE481900DE42DC /* SPTabController.m in Sources */,
+				03BB59171FCE481900DE42DC /* SPPageTagView.m in Sources */,
 				034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */,
 				030DF0321FB590F20035D0B0 /* PLVDownloadListController.m in Sources */,
 				033153071FCD105400CAE849 /* PLVCourseVideo.m in Sources */,
@@ -586,16 +664,20 @@
 				0314085D1FB9507A00D1424A /* PLVCourse.m in Sources */,
 				031408601FB9806100D1424A /* PLVTeacher.m in Sources */,
 				033153041FCD103F00CAE849 /* PLVCourseSection.m in Sources */,
+				03BB59181FCE481900DE42DC /* SPTagBarScrollView.m in Sources */,
 				03CB8C6E1FB3EB220048D9FC /* main.m in Sources */,
 				032372821FCC1C570001E904 /* PLVDownloadCell.m in Sources */,
 				030DF02F1FB590910035D0B0 /* PLVCourseDetailController.m in Sources */,
 				03540B871FBC408400CCC7E6 /* PLVCourseBannerReusableView.m in Sources */,
 				0323727F1FCBE4690001E904 /* PLVVideoCell.m in Sources */,
+				03BB59141FCE481900DE42DC /* SPPageController.m in Sources */,
 				03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */,
 				030DF02C1FB590560035D0B0 /* PLVCourseListController.m in Sources */,
 				0323727C1FCBC58D0001E904 /* PLVAccountVideoListController.m in Sources */,
+				03BB59161FCE481900DE42DC /* SPCoverController.m in Sources */,
 				030DF03A1FB5BA9D0035D0B0 /* PLVSchool.m in Sources */,
 				0314085A1FB94DAF00D1424A /* Foundation+Log.m in Sources */,
+				03BB59191FCE481900DE42DC /* SPPageContentView.m in Sources */,
 				03EA41C91FBD36F500BA68AD /* PLVCourseCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

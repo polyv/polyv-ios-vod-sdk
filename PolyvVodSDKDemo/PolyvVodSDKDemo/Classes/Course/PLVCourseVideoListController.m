@@ -24,8 +24,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+	self.automaticallyAdjustsScrollViewInsets = NO;
 	self.tableView.tableFooterView = [UIView new];
+	self.tableView.tableHeaderView = [UIView new];
 	
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -113,5 +114,4 @@
     // Pass the selected object to the new view controller.
 }
 */
-
 @end

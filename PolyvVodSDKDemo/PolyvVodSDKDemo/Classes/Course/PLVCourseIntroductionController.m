@@ -8,8 +8,9 @@
 
 #import "PLVCourseIntroductionController.h"
 
-@interface PLVCourseIntroductionController ()
+@interface PLVCourseIntroductionController ()<UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (nonatomic, assign) BOOL contentDidLoad;
 
 @end
 
@@ -23,6 +24,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	self.automaticallyAdjustsScrollViewInsets = NO;
+	self.webView.delegate = self;
+	self.webView.scalesPageToFit = NO;
+	self.webView.scrollView.bounces = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -44,5 +48,14 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - UIWebViewDelegate
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+	return !self.contentDidLoad;
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+	self.contentDidLoad = YES;
+}
 
 @end

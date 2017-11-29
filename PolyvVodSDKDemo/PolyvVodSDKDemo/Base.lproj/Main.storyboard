@@ -324,7 +324,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g2T-Lb-o5k">
+                            <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g2T-Lb-o5k">
                                 <rect key="frame" x="0.0" y="64" width="320" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="g2T-Lb-o5k" secondAttribute="height" multiplier="16:9" id="bFN-NG-wgM"/>
@@ -593,24 +593,35 @@
                     <view key="view" contentMode="scaleToFill" id="x2g-eN-aTd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plv_ph_courseCover" translatesAutoresizingMaskIntoConstraints="NO" id="W3Y-hs-sGD">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="0.12941176469999999" green="0.58823529409999997" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="W3Y-hs-sGD" secondAttribute="trailing" id="5Lm-DI-dfB"/>
+                            <constraint firstItem="W3Y-hs-sGD" firstAttribute="top" secondItem="dm9-r7-2Q3" secondAttribute="bottom" id="CJ7-8v-xno"/>
+                            <constraint firstItem="jKj-F5-kdF" firstAttribute="top" secondItem="W3Y-hs-sGD" secondAttribute="bottom" id="csX-On-O55"/>
+                            <constraint firstItem="W3Y-hs-sGD" firstAttribute="leading" secondItem="x2g-eN-aTd" secondAttribute="leading" id="qN2-u9-DIw"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ddn-39-Uhq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-561" y="1243"/>
+            <point key="canvasLocation" x="-562.5" y="1242.5"/>
         </scene>
-        <!--Course Video List Controller-->
+        <!--课时目录-->
         <scene sceneID="qLu-vs-ZmN">
             <objects>
-                <tableViewController storyboardIdentifier="PLVCourseVideoListController" id="aYv-6V-yNp" customClass="PLVCourseVideoListController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="130" sectionHeaderHeight="28" sectionFooterHeight="28" id="Oh3-CB-VMM">
+                <tableViewController storyboardIdentifier="PLVCourseVideoListController" title="课时目录" id="aYv-6V-yNp" customClass="PLVCourseVideoListController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="130" sectionHeaderHeight="-1" sectionFooterHeight="-1" id="Oh3-CB-VMM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PLVVideoCell" rowHeight="130" id="JTD-5o-P0h" customClass="PLVVideoCell">
-                                <rect key="frame" x="0.0" y="28" width="320" height="130"/>
+                                <rect key="frame" x="0.0" y="55.5" width="320" height="130"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JTD-5o-P0h" id="Ie9-Z9-iaE">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="129.5"/>
@@ -671,10 +682,10 @@
             </objects>
             <point key="canvasLocation" x="-1389" y="2179"/>
         </scene>
-        <!--Course Introduction Controller-->
+        <!--课程介绍-->
         <scene sceneID="hNT-4H-b3a">
             <objects>
-                <viewController storyboardIdentifier="PLVCourseIntroductionController" id="QBE-b5-5OC" customClass="PLVCourseIntroductionController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PLVCourseIntroductionController" title="课程介绍" id="QBE-b5-5OC" customClass="PLVCourseIntroductionController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0ki-X0-2pq"/>
                         <viewControllerLayoutGuide type="bottom" id="RfW-Vu-xU6"/>
