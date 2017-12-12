@@ -1,24 +1,28 @@
 project 'PolyvVodSDKDemo.xcodeproj'
 
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '8.0'
+inhibit_all_warnings!
 
 target 'PolyvVodSDKDemo' do
-  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  # use_frameworks!
+	# Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+	# use_frameworks!
 
-  # Pods for PolyvVodSDKDemo
-  pod 'XRCarouselView'
-  pod 'YYWebImage'
+	# Pods for PolyvVodSDKDemo
+	pod 'XRCarouselView'
+	pod 'YYWebImage'
 
-  target 'PolyvVodSDKDemoTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+	# PLVVodSDK
+	pod 'PolyvVodSDK', :path => "../../PolyvVodSDK"
+	pod 'FDStackView'
 
-  target 'PolyvVodSDKDemoUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+	target 'PolyvVodSDKDemoTests' do
+		inherit! :search_paths
+		# Pods for testing
+	end
+
+	target 'PolyvVodSDKDemoUITests' do
+		inherit! :search_paths
+		# Pods for testing
+	end
 
 end

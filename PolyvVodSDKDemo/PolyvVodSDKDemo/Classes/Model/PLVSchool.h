@@ -14,7 +14,9 @@
 @property (nonatomic, copy) NSString *schoolId;
 @property (nonatomic, copy) NSString *schoolKey;
 @property (nonatomic, copy) NSString *appSecretKey;
-@property (nonatomic, copy) NSString *sdkKey;
+@property (nonatomic, copy) NSString *vodKey;
+@property (nonatomic, copy) NSString *vodKeyDecodeKey;
+@property (nonatomic, copy) NSString *vodKeyDecodeIv;
 
 /// 静态对象
 + (instancetype)sharedInstance;

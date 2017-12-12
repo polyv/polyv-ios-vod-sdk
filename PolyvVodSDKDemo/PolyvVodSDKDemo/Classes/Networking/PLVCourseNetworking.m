@@ -18,7 +18,7 @@
 #define PLV_HM_GET @"GET"
 
 static BOOL PLVNetworkingLogEnable;
-NSString * const PLVVodNetworkingErrorDomain = @"net.polyv.vod.error.networking";
+static NSString * const PLVVodNetworkingErrorDomain = @"net.polyv.vod.error.networking";
 
 /// 请求参数字典 -> 文本
 static NSString *paramStr(NSDictionary *paramDict) {

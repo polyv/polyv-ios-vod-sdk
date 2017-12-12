@@ -41,9 +41,9 @@ static id _sharedInstance = nil;
 - (void)commonInit {
 	_host = @"demo.dewx.net";
 	_schoolKey = @"301EADDD97E456709A5A8645C23F3727";
-//	_schoolId = @"demo";
-//	_appSecretKey = @"F3E427FD5C30EAE3BFA57A7C8D4F06E9";
-	_sdkKey = @"CMWht3MlpVkgpFzrLNAebYi4RdQDY/Nhvk3Kc+qWcck6chwHYKfl9o2aOVBvXVTRZD/14XFzVP7U5un43caq1FXwl0cYmTfimjTmNUYa1sZC1pkHE8gEsRpwpweQtEIiTGVEWrYVNo4/o5jI2/efzA==";
+	_vodKey = @"CMWht3MlpVkgpFzrLNAebYi4RdQDY/Nhvk3Kc+qWcck6chwHYKfl9o2aOVBvXVTRZD/14XFzVP7U5un43caq1FXwl0cYmTfimjTmNUYa1sZC1pkHE8gEsRpwpweQtEIiTGVEWrYVNo4/o5jI2/efzA==";
+	_vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
+	_vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
 }
 
 @end

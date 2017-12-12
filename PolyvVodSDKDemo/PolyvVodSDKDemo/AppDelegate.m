@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "PLVCourseNetworking.h"
 #import "PLVCourse.h"
+#import <PLVVodSDK/PLVVodSDK.h>
+#import "PLVSchool.h"
 
 @interface AppDelegate ()
 
@@ -27,6 +29,13 @@
 //	}];
 //	UIImage *image = [UIImage imageNamed:@"XRPlaceholder"];
 //	NSLog(@"image: %@", image);
+	PLVSchool *school = [PLVSchool sharedInstance];
+	NSString *vodKey = school.vodKey;
+	NSString *decodeKey = school.vodKeyDecodeKey;
+	NSString *decodeIv = school.vodKeyDecodeIv;
+	PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv];
+	NSLog(@"settings: %@", settings);
+	
 	return YES;
 }
 
