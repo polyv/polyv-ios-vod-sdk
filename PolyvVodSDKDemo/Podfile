@@ -13,7 +13,9 @@ target 'PolyvVodSDKDemo' do
 
 	# PLVVodSDK
 	pod 'PolyvVodSDK', :path => "../../PolyvVodSDK"
+	pod 'PLVVodDanmu'
 	pod 'FDStackView'
+
 
 	target 'PolyvVodSDKDemoTests' do
 		inherit! :search_paths
