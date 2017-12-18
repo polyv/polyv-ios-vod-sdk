@@ -7,8 +7,14 @@
 //
 
 #import "PLVAccountVideoListController.h"
+#import "PLVCourseNetworking.h"
+#import "PLVVodAccountVideo.h"
+#import "PLVVideoCell.h"
+#import "PLVVodSkinPlayerController.h"
 
 @interface PLVAccountVideoListController ()
+
+@property (nonatomic, strong) NSArray<PLVVodAccountVideo *> *accountVideos;
 
 @end
 
@@ -23,6 +29,18 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	[self requestAccountVideos];
+}
+
+- (void)requestAccountVideos {
+	__weak typeof(self) weakSelf = self;
+	[PLVCourseNetworking requestAccountVideoWithPageCount:99 page:1 completion:^(NSArray<PLVVodAccountVideo *> *accountVideos) {
+		weakSelf.accountVideos = accountVideos;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[weakSelf.tableView reloadData];
+		});
+	}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,16 +51,43 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.accountVideos.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PLVVideoCell" forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    PLVVideoCell *cell = (PLVVideoCell *)[tableView dequeueReusableCellWithIdentifier:[PLVVideoCell identifier] forIndexPath:indexPath];
+	cell.video = self.accountVideos[indexPath.row];
+	__weak typeof(self) weakSelf = self;
+	cell.playButtonAction = ^(PLVVideoCell *cell, UIButton *sender) {
+		PLVVodAccountVideo *accountVideo = cell.video;
+		NSString *vid = accountVideo.vid;
+		if (!vid.length) return;
+		[PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
+			[weakSelf playVideo:video];
+		}];
+	};
+	cell.downloadButtonAction = ^(PLVVideoCell *cell, UIButton *sender) {
+		PLVVodAccountVideo *accountVideo = cell.video;
+		NSString *vid = accountVideo.vid;
+		if (!vid.length) return;
+		[PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
+			[weakSelf downloadVideo:video];
+		}];
+	};
+	
     return cell;
+}
+
+- (void)playVideo:(PLVVodVideo *)video {
+	PLVVodSkinPlayerController *player = [[PLVVodSkinPlayerController alloc] init];
+	player.video = video;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.navigationController pushViewController:player animated:YES];
+	});
+}
+- (void)downloadVideo:(PLVVodVideo *)video {
+	
 }
 
 

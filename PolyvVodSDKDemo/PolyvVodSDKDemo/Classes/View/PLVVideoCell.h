@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PLVCourseVideo.h"
 
 @interface PLVVideoCell : UITableViewCell
 
-@property (nonatomic, strong) PLVCourseVideo *video;
+@property (nonatomic, strong) id video;
+@property (nonatomic, copy) void (^playButtonAction)(PLVVideoCell *cell, UIButton *sender);
+@property (nonatomic, copy) void (^downloadButtonAction)(PLVVideoCell *cell, UIButton *sender);
+
++ (NSString *)identifier;
 
 @end

@@ -11,6 +11,7 @@
 #import "PLVCourse.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "PLVSchool.h"
+#import "PLVVodAccountVideo.h"
 
 @interface AppDelegate ()
 

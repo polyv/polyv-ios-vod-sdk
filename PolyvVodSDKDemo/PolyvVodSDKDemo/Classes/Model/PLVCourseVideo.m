@@ -15,7 +15,7 @@
 		_title = dic[@"title"];
 		_duration = [dic[@"videoDuration"] doubleValue];
 		_vid = dic[@"videoId"];
-		_cover = dic[@"videoCoverImage"];
+		_snapshot = dic[@"videoCoverImage"];
 	}
 	return self;
 }

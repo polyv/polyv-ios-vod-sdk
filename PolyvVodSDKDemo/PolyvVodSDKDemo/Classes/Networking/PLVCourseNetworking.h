@@ -12,6 +12,7 @@
 @class PLVCourse;
 @class PLVTeacher;
 @class PLVCourseSection;
+@class PLVVodAccountVideo;
 
 @interface PLVCourseNetworking : NSObject
 
@@ -21,7 +22,7 @@
 /// 获取课程课时
 + (void)requestCourseVideosWithCourseId:(NSString *)courseId completion:(void (^)(NSArray *videoSections))completion;
 
-/// 获取教师列表
-+ (void)requestTeachersWithCourseId:(NSString *)courseId completion:(void (^)(NSArray<PLVTeacher *> *teachers))completion;
+/// 请求账户下的视频列表
++ (void)requestAccountVideoWithPageCount:(NSInteger)pageCount page:(NSInteger)page completion:(void (^)(NSArray<PLVVodAccountVideo *> *accountVideos))completion;
 
 @end

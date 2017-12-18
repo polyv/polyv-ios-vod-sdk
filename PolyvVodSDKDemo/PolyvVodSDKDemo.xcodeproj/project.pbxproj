@@ -38,6 +38,8 @@
 		03856C731FE21C990038DEB2 /* UIViewController+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C661FE21C990038DEB2 /* UIViewController+PLVVod.m */; };
 		03856C741FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C671FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m */; };
 		03856C751FE21C990038DEB2 /* UIView+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C681FE21C990038DEB2 /* UIView+PLVVod.m */; };
+		03856CA31FE22A4D0038DEB2 /* PLVVodAccountVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856CA21FE22A4D0038DEB2 /* PLVVodAccountVideo.m */; };
+		03856CA61FE22D090038DEB2 /* NSString+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856CA51FE22D090038DEB2 /* NSString+PLVVod.m */; };
 		03BB59141FCE481900DE42DC /* SPPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB59071FCE481900DE42DC /* SPPageController.m */; };
 		03BB59151FCE481900DE42DC /* SPTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB59091FCE481900DE42DC /* SPTabController.m */; };
 		03BB59161FCE481900DE42DC /* SPCoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB590B1FCE481900DE42DC /* SPCoverController.m */; };
@@ -134,6 +136,10 @@
 		03856C661FE21C990038DEB2 /* UIViewController+PLVVod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PLVVod.m"; sourceTree = "<group>"; };
 		03856C671FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PLVVodDanmu+PLVVod.m"; sourceTree = "<group>"; };
 		03856C681FE21C990038DEB2 /* UIView+PLVVod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PLVVod.m"; sourceTree = "<group>"; };
+		03856CA11FE22A4D0038DEB2 /* PLVVodAccountVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodAccountVideo.h; sourceTree = "<group>"; };
+		03856CA21FE22A4D0038DEB2 /* PLVVodAccountVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodAccountVideo.m; sourceTree = "<group>"; };
+		03856CA41FE22D090038DEB2 /* NSString+PLVVod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+PLVVod.h"; sourceTree = "<group>"; };
+		03856CA51FE22D090038DEB2 /* NSString+PLVVod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+PLVVod.m"; sourceTree = "<group>"; };
 		03BB59031FCE481900DE42DC /* SPPageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPPageProtocol.h; sourceTree = "<group>"; };
 		03BB59041FCE481900DE42DC /* SPTabProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPTabProtocol.h; sourceTree = "<group>"; };
 		03BB59051FCE481900DE42DC /* SPCoverProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPCoverProtocol.h; sourceTree = "<group>"; };
@@ -227,6 +233,8 @@
 				033153031FCD103F00CAE849 /* PLVCourseSection.m */,
 				033153051FCD105400CAE849 /* PLVCourseVideo.h */,
 				033153061FCD105400CAE849 /* PLVCourseVideo.m */,
+				03856CA11FE22A4D0038DEB2 /* PLVVodAccountVideo.h */,
+				03856CA21FE22A4D0038DEB2 /* PLVVodAccountVideo.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -250,11 +258,11 @@
 			isa = PBXGroup;
 			children = (
 				03856C4E1FE21C990038DEB2 /* PLVVodPlayerSkinController.h */,
-				03856C4F1FE21C990038DEB2 /* PLVVodSkinPlayerController.h */,
-				03856C501FE21C990038DEB2 /* PLVVodPlayerSkinController.xib */,
 				03856C511FE21C990038DEB2 /* PLVVodPlayerSkinController.m */,
-				03856C521FE21C990038DEB2 /* View */,
+				03856C501FE21C990038DEB2 /* PLVVodPlayerSkinController.xib */,
+				03856C4F1FE21C990038DEB2 /* PLVVodSkinPlayerController.h */,
 				03856C5B1FE21C990038DEB2 /* PLVVodSkinPlayerController.m */,
+				03856C521FE21C990038DEB2 /* View */,
 			);
 			path = Skin;
 			sourceTree = "<group>";
@@ -277,18 +285,20 @@
 		03856C5C1FE21C990038DEB2 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				03856C5D1FE21C990038DEB2 /* UIColor+PLVVod.h */,
-				03856C5E1FE21C990038DEB2 /* UINavigationController+PLVVod.h */,
-				03856C5F1FE21C990038DEB2 /* PLVVodDanmu+PLVVod.h */,
-				03856C601FE21C990038DEB2 /* UIViewController+PLVVod.h */,
 				03856C611FE21C990038DEB2 /* NSObject+PLVVod.h */,
-				03856C621FE21C990038DEB2 /* UIView+PLVVod.h */,
-				03856C631FE21C990038DEB2 /* UIColor+PLVVod.m */,
-				03856C641FE21C990038DEB2 /* UINavigationController+PLVVod.m */,
 				03856C651FE21C990038DEB2 /* NSObject+PLVVod.m */,
-				03856C661FE21C990038DEB2 /* UIViewController+PLVVod.m */,
+				03856C5F1FE21C990038DEB2 /* PLVVodDanmu+PLVVod.h */,
 				03856C671FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m */,
+				03856C5D1FE21C990038DEB2 /* UIColor+PLVVod.h */,
+				03856C631FE21C990038DEB2 /* UIColor+PLVVod.m */,
+				03856C5E1FE21C990038DEB2 /* UINavigationController+PLVVod.h */,
+				03856C641FE21C990038DEB2 /* UINavigationController+PLVVod.m */,
+				03856C621FE21C990038DEB2 /* UIView+PLVVod.h */,
 				03856C681FE21C990038DEB2 /* UIView+PLVVod.m */,
+				03856C601FE21C990038DEB2 /* UIViewController+PLVVod.h */,
+				03856C661FE21C990038DEB2 /* UIViewController+PLVVod.m */,
+				03856CA41FE22D090038DEB2 /* NSString+PLVVod.h */,
+				03856CA51FE22D090038DEB2 /* NSString+PLVVod.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -767,6 +777,7 @@
 				0356CD081FCC387400B522A1 /* PLVCourseIntroductionController.m in Sources */,
 				03856C711FE21C990038DEB2 /* UINavigationController+PLVVod.m in Sources */,
 				03856C751FE21C990038DEB2 /* UIView+PLVVod.m in Sources */,
+				03856CA61FE22D090038DEB2 /* NSString+PLVVod.m in Sources */,
 				0356CD051FCC383700B522A1 /* PLVCourseVideoListController.m in Sources */,
 				0314085D1FB9507A00D1424A /* PLVCourse.m in Sources */,
 				031408601FB9806100D1424A /* PLVTeacher.m in Sources */,
@@ -780,6 +791,7 @@
 				03540B871FBC408400CCC7E6 /* PLVCourseBannerReusableView.m in Sources */,
 				0323727F1FCBE4690001E904 /* PLVVideoCell.m in Sources */,
 				03856C6B1FE21C990038DEB2 /* PLVVodDanmuSendView.m in Sources */,
+				03856CA31FE22A4D0038DEB2 /* PLVVodAccountVideo.m in Sources */,
 				03BB59141FCE481900DE42DC /* SPPageController.m in Sources */,
 				03856C731FE21C990038DEB2 /* UIViewController+PLVVod.m in Sources */,
 				03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */,

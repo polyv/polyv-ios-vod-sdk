@@ -13,7 +13,7 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) double duration;
 @property (nonatomic, copy) NSString *vid;
-@property (nonatomic, copy) NSString *cover;
+@property (nonatomic, copy) NSString *snapshot;
 
 - (instancetype)initWithDic:(NSDictionary *)dic;
 

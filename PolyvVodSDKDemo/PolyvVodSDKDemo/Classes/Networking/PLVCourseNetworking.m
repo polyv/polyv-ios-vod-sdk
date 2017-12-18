@@ -7,12 +7,14 @@
 //
 
 #import "PLVCourseNetworking.h"
-#import <CommonCrypto/CommonDigest.h>
+#import "NSString+PLVVod.h"
 
 #import "PLVSchool.h"
 #import "PLVCourse.h"
 #import "PLVTeacher.h"
 #import "PLVCourseSection.h"
+#import "PLVVodAccountVideo.h"
+#import <PLVVodSDK/PLVVodSettings.h>
 
 #define PLV_HM_POST @"POST"
 #define PLV_HM_GET @"GET"
@@ -39,19 +41,6 @@ static NSString *paramStr(NSDictionary *paramDict) {
 @implementation PLVCourseNetworking
 
 #pragma mark - tool
-
-/// MD5 加密
-+ (NSString *)md5String:(NSString *)inputString {
-	const char* str = [inputString UTF8String];
-	unsigned char result[CC_MD5_DIGEST_LENGTH];
-	CC_MD5(str, (CC_LONG)strlen(str), result);
-	
-	NSMutableString *md5String = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-	for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
-		[md5String appendFormat:@"%02x", result[i]];
-	}
-	return md5String;
-}
 
 /// 时间戳
 + (NSString *)timestamp {
@@ -136,20 +125,10 @@ static NSString *paramStr(NSDictionary *paramDict) {
 		[plainSign appendFormat:@"%@%@", key, params[key]];
 	}
 	plainSign = [NSMutableString stringWithFormat:@"%@%@%@", secretKey, plainSign, secretKey];
-	return [self md5String:plainSign].uppercaseString;
+	return plainSign.md5.uppercaseString;
 }
 
 #pragma mark - API
-
-/// 获取账户视频
-+ (void)requestAccountVideosWithCompletion:(void (^)(id videos))completion {
-	NSString *url = @"https://v.polyv.net/uc/services/rest";
-	NSMutableDictionary *params = [NSMutableDictionary dictionary];
-	params[@"method"] = @"getNewList";
-	params[@"readtoken"] = nil;
-	params[@"pageNum"] = @1;
-	params[@"numPerPage"] = @100;
-}
 
 /// 获取课程课时
 + (void)requestCourseVideosWithCourseId:(NSString *)courseId completion:(void (^)(NSArray *videoSections))completion {
@@ -210,6 +189,52 @@ static NSString *paramStr(NSDictionary *paramDict) {
 			[courses addObject:course];
 		}
 		if (completion) completion(courses);
+	}];
+}
+
+/// 请求账户下的视频列表
++ (void)requestAccountVideoWithPageCount:(NSInteger)pageCount page:(NSInteger)page completion:(void (^)(NSArray<PLVVodAccountVideo *> *accountVideos))completion; {
+	PLVVodSettings *settings = [PLVVodSettings sharedSettings];
+	NSString *url = [NSString stringWithFormat:@"http://api.polyv.net/v2/video/%@/list", settings.userid];
+	NSMutableDictionary *params = [NSMutableDictionary dictionary];
+	params[@"userid"] = settings.userid;
+	params[@"ptime"] = [self timestamp];
+	params[@"numPerPage"] = @(pageCount);
+	params[@"pageNum"] = @(page);
+	
+	NSArray *keys = params.allKeys;
+	keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+		return [obj1 compare:obj2 options:NSCaseInsensitiveSearch];
+	}];
+	NSMutableString *plainSign = [NSMutableString string];
+	for (int i = 0; i < keys.count; i ++) {
+		NSString *key = keys[i];
+		[plainSign appendFormat:@"%@=%@", key, params[key]];
+		if (i < keys.count-1) {
+			[plainSign appendFormat:@"&"];
+		}
+	}
+	plainSign = [NSMutableString stringWithFormat:@"%@%@", plainSign, settings.secretkey];
+	params[@"sign"] = plainSign.sha1.uppercaseString;
+	NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:params];
+	[self requestDictionary:request completion:^(NSDictionary *dic, NSError *error) {
+		NSInteger code = [dic[@"code"] integerValue];
+		if (code != 200) {
+			NSString *status = dic[@"status"];
+			NSString *message = dic[@"message"];
+			NSLog(@"%@, %@", status, message);
+			return;
+		}
+		NSArray *videos = dic[@"data"];
+		NSMutableArray *accountVideos = [NSMutableArray array];
+		for (NSDictionary *videoDic in videos) {
+			PLVVodAccountVideo *video = [[PLVVodAccountVideo alloc] initWithDic:videoDic];
+			if (video.status < 60 || video.duration < 1) {
+				continue;
+			}
+			[accountVideos addObject:video];
+		}
+		if (completion) completion(accountVideos);
 	}];
 }
 

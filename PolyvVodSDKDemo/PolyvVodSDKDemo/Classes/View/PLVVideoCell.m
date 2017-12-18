@@ -7,6 +7,8 @@
 //
 
 #import "PLVVideoCell.h"
+#import "PLVCourseVideo.h"
+#import "PLVVodAccountVideo.h"
 #import <YYWebImage/YYWebImage.h>
 
 @interface PLVVideoCell ()
@@ -26,28 +28,49 @@
 	NSInteger _hours = time / 60 / 60;
 	NSInteger _minutes = (time / 60) % 60;
 	NSInteger _seconds = time % 60;
-	NSString *timeString = _hours > 0 ? [NSString stringWithFormat:@"%02zd", _hours] : @"";
+	NSString *timeString = _hours > 0 ? [NSString stringWithFormat:@"%02zd:", _hours] : @"";
 	timeString = [timeString stringByAppendingString:[NSString stringWithFormat:@"%02zd:%02zd", _minutes, _seconds]];
 	return timeString;
 }
 
-- (void)setVideo:(PLVCourseVideo *)video {
+- (void)setVideo:(id)video {
 	_video = video;
-	[self.coverImageView yy_setImageWithURL:[NSURL URLWithString:video.cover] placeholder:[UIImage imageNamed:@"plv_ph_courseCover"]];
-	self.titleLabel.text = video.title;
-	self.durationLabel.text = [self.class timeStringWithSeconds:video.duration];
+	if ([video isKindOfClass:[PLVCourseVideo class]]) {
+		PLVCourseVideo *courseVideo = video;
+		[self.coverImageView yy_setImageWithURL:[NSURL URLWithString:courseVideo.snapshot] placeholder:[UIImage imageNamed:@"plv_ph_courseCover"]];
+		self.titleLabel.text = courseVideo.title;
+		self.durationLabel.text = [self.class timeStringWithSeconds:courseVideo.duration];
+	} else if ([video isKindOfClass:[PLVVodAccountVideo class]]) {
+		PLVVodAccountVideo *accountVideo = video;
+		[self.coverImageView yy_setImageWithURL:[NSURL URLWithString:accountVideo.snapshot] placeholder:[UIImage imageNamed:@"plv_ph_courseCover"]];
+		self.titleLabel.text = accountVideo.title;
+		self.durationLabel.text = [self.class timeStringWithSeconds:accountVideo.duration];
+	}
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
 	self.backgroundColor = [UIColor colorWithHue:0.636 saturation:0.045 brightness:0.957 alpha:1.000];
+	[self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	[self.downloadButton addTarget:self action:@selector(downloadButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)playButtonAction:(UIButton *)sender {
+	if (self.playButtonAction) self.playButtonAction(self, sender);
+}
+- (void)downloadButtonAction:(UIButton *)sender {
+	if (self.downloadButtonAction) self.downloadButtonAction(self, sender);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
++ (NSString *)identifier {
+	return NSStringFromClass([self class]);
 }
 
 @end

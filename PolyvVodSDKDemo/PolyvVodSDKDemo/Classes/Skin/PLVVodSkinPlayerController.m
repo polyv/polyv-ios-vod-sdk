@@ -35,6 +35,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 	
+	PLVVodPlayerSkinController *skin = [[PLVVodPlayerSkinController alloc] initWithNibName:nil bundle:nil];
+	[self addChildViewController:skin];
+	self.skinView = skin.view;
+	[self.view addSubview:self.skinView];
+	self.playerControl = skin;
+	
 	[self addObserver];
 	[self teaserStateDidChange];
 	[self adStateDidChange];
@@ -72,6 +78,7 @@
 - (void)viewDidLayoutSubviews {
 	//NSLog(@"layout guide: %f - %f", self.topLayoutGuide.length, self.bottomLayoutGuide.length);
 	self.danmuManager.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+	self.skinView.frame = self.view.bounds;
 }
 
 - (void)didReceiveMemoryWarning {
