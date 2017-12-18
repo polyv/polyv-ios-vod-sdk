@@ -57,7 +57,7 @@
 	//return self.number;
 	NSInteger number = self.videoSections[section].videos.count;
 	//NSLog(@"section row: %zd", number);
-    return self.videoSections[section].videos.count;
+    return number;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

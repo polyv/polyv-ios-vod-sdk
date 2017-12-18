@@ -8,9 +8,8 @@
 
 #import "PLVCourseIntroductionController.h"
 
-@interface PLVCourseIntroductionController ()<UIWebViewDelegate>
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
-@property (nonatomic, assign) BOOL contentDidLoad;
+@interface PLVCourseIntroductionController ()
+@property (weak, nonatomic) IBOutlet UILabel *introLabel;
 
 @end
 
@@ -22,16 +21,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-	self.automaticallyAdjustsScrollViewInsets = NO;
-	self.webView.delegate = self;
-	self.webView.scalesPageToFit = NO;
-	self.webView.scrollView.bounces = NO;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	[self.webView loadHTMLString:_htmlContent baseURL:nil];
+	
+	if (self.htmlContent.length && ![self.htmlContent isKindOfClass:[NSNull class]]) {
+		NSAttributedString *attributedText = [[NSAttributedString alloc] initWithData:[_htmlContent dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+		
+		self.introLabel.attributedText = attributedText;
+	} else {
+		self.introLabel.text = @"";
+	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,14 +45,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
-#pragma mark - UIWebViewDelegate
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-	return !self.contentDidLoad;
-}
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-	self.contentDidLoad = YES;
-}
 
 @end

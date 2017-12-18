@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <PLVVodSDK/PLVVodSDK.h>
 
 @interface PLVCourseVideo : NSObject
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) double duration;
 @property (nonatomic, copy) NSString *vid;
-@property (nonatomic, copy) NSString *snapshot;
+@property (nonatomic, strong) PLVVodVideo *vodVideo;
 
 - (instancetype)initWithDic:(NSDictionary *)dic;
+- (void)requestVodVideoWithCompletion:(void (^)(PLVVodVideo *vodVideo))completion;
 
 @end

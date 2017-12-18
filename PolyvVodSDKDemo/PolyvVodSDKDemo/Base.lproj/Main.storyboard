@@ -702,8 +702,24 @@
                     <view key="view" contentMode="scaleToFill" id="w7k-ZP-UqA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="课程介绍" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UM0-e9-0xs">
+                                <rect key="frame" x="16" y="36" width="288" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="UM0-e9-0xs" secondAttribute="trailing" id="c04-g7-1cM"/>
+                            <constraint firstItem="UM0-e9-0xs" firstAttribute="top" secondItem="0ki-X0-2pq" secondAttribute="bottom" constant="16" id="hNu-Ru-oMF"/>
+                            <constraint firstItem="UM0-e9-0xs" firstAttribute="leading" secondItem="w7k-ZP-UqA" secondAttribute="leadingMargin" id="mst-zL-VPl"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="introLabel" destination="UM0-e9-0xs" id="s3O-Ry-KfJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vYx-WC-Yki" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

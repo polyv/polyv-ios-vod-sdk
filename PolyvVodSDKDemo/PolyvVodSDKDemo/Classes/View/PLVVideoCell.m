@@ -37,9 +37,12 @@
 	_video = video;
 	if ([video isKindOfClass:[PLVCourseVideo class]]) {
 		PLVCourseVideo *courseVideo = video;
-		[self.coverImageView yy_setImageWithURL:[NSURL URLWithString:courseVideo.snapshot] placeholder:[UIImage imageNamed:@"plv_ph_courseCover"]];
 		self.titleLabel.text = courseVideo.title;
 		self.durationLabel.text = [self.class timeStringWithSeconds:courseVideo.duration];
+		__weak typeof(self) weakSelf = self;
+		[courseVideo requestVodVideoWithCompletion:^(PLVVodVideo *vodVideo) {
+			[weakSelf.coverImageView yy_setImageWithURL:[NSURL URLWithString:vodVideo.snapshot] placeholder:[UIImage imageNamed:@"plv_ph_courseCover"]];
+		}];
 	} else if ([video isKindOfClass:[PLVVodAccountVideo class]]) {
 		PLVVodAccountVideo *accountVideo = video;
 		[self.coverImageView yy_setImageWithURL:[NSURL URLWithString:accountVideo.snapshot] placeholder:[UIImage imageNamed:@"plv_ph_courseCover"]];
