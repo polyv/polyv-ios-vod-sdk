@@ -47,6 +47,7 @@
 		03CB8C781FB3EB220048D9FC /* PolyvVodSDKDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C771FB3EB220048D9FC /* PolyvVodSDKDemoTests.m */; };
 		03CB8C831FB3EB220048D9FC /* PolyvVodSDKDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C821FB3EB220048D9FC /* PolyvVodSDKDemoUITests.m */; };
 		03CB8C941FB3EE360048D9FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C931FB3EE360048D9FC /* LaunchScreen.storyboard */; };
+		03D230DD1FE7B8730058BA45 /* PLVVodSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D230DE1FE7B8730058BA45 /* PLVVodSDK.framework */; };
 		03DDF4C81FE763BB00F63630 /* DLLRUCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DDF4B81FE763BB00F63630 /* DLLRUCache.m */; };
 		03DDF4C91FE763BB00F63630 /* DLTabedSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DDF4BE1FE763BB00F63630 /* DLTabedSlideView.m */; };
 		03DDF4CA1FE763BB00F63630 /* DLScrollTabbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DDF4C31FE763BB00F63630 /* DLScrollTabbarView.m */; };
@@ -156,6 +157,7 @@
 		03CB8C841FB3EB220048D9FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03CB8C921FB3EDC80048D9FC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		03CB8C931FB3EE360048D9FC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		03D230DE1FE7B8730058BA45 /* PLVVodSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PLVVodSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03DDF4B61FE763BB00F63630 /* DLTabedSlideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLTabedSlideView.h; sourceTree = "<group>"; };
 		03DDF4B81FE763BB00F63630 /* DLLRUCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLLRUCache.m; sourceTree = "<group>"; };
 		03DDF4B91FE763BB00F63630 /* DLCacheProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLCacheProtocol.h; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03D230DD1FE7B8730058BA45 /* PLVVodSDK.framework in Frameworks */,
 				65B1567CCBB05F3CA6F0F627 /* libPods-PolyvVodSDKDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,6 +451,7 @@
 		94204A1D4CA80F6165C1D2E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				03D230DE1FE7B8730058BA45 /* PLVVodSDK.framework */,
 				53D48385445BEBBF31B3A68C /* libPods-PolyvVodSDKDemo.a */,
 				41262FFFDEA4B0CB3E0822DB /* libPods-PolyvVodSDKDemoTests.a */,
 				5434CCC23BB97B5A0432CB20 /* libPods-PolyvVodSDKDemoUITests.a */,
@@ -958,6 +962,7 @@
 			baseConfigurationReference = 2182CC599081C49E8D7ED425 /* Pods-PolyvVodSDKDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ETRBR9HA5V;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -978,6 +983,7 @@
 			baseConfigurationReference = FED1B720363A099F969C0F37 /* Pods-PolyvVodSDKDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ETRBR9HA5V;
 				FRAMEWORK_SEARCH_PATHS = (

@@ -12,10 +12,16 @@ target 'PolyvVodSDKDemo' do
 	pod 'YYWebImage'
 
 	# PLVVodSDK
-	pod 'PolyvVodSDK', :path => "../../PolyvVodSDK"
+	# pod 'PolyvVodSDK', :path => "../../PolyvVodSDK"
+	# ⤵ development
+	pod 'PolyvIJKPlayer'
+	pod 'PolyvAliHttpDNS'
+	pod 'PLVMarquee'
+	pod 'PLVTimer'
+	pod 'SSZipArchive'
+
 	pod 'PLVVodDanmu'
 	pod 'FDStackView'
-
 
 	target 'PolyvVodSDKDemoTests' do
 		inherit! :search_paths
