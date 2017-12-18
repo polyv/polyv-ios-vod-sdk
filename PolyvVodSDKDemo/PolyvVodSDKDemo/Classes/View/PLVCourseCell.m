@@ -24,7 +24,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+	
+	self.teacherButton.userInteractionEnabled = NO;
 }
 
 - (void)setCourse:(PLVCourse *)course {

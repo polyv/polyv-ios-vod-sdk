@@ -12,12 +12,14 @@
 #import "PLVCourseNetworking.h"
 #import "PLVCourseSection.h"
 #import "DLTabedSlideView.h"
+#import "PLVVodSkinPlayerController.h"
 
 @interface PLVCourseDetailController ()<DLTabedSlideViewDelegate>
 
 @property (nonatomic, strong) NSArray *subViewControllers;
 
 @property (weak, nonatomic) IBOutlet UIView *playerView;
+@property (nonatomic, strong) PLVVodSkinPlayerController *player;
 
 @property (weak, nonatomic) IBOutlet DLTabedSlideView *tabedSlideView;
 
@@ -74,13 +76,17 @@
 	self.tabedSlideView.tabItemNormalColor = [UIColor blackColor];
 	self.tabedSlideView.tabItemSelectedColor = themeColor;
 	self.tabedSlideView.tabbarTrackColor = themeColor;
-	
 	DLTabedbarItem *item0 = [DLTabedbarItem itemWithTitle:@"课程目录" image:nil selectedImage:nil];
 	DLTabedbarItem *item1 = [DLTabedbarItem itemWithTitle:@"课程介绍" image:nil selectedImage:nil];
 	self.tabedSlideView.tabbarItems = @[item0, item1];
 	[self.tabedSlideView buildTabbar];
-	
 	self.tabedSlideView.selectedIndex = 0;
+	
+	PLVCourseVideoListController *courseVideoList = self.subViewControllers.firstObject;
+	courseVideoList.videoDidSelect = ^(PLVVodVideo *video) {
+		//NSLog(@"video: %@", video.title);
+		weakSelf.player.video = video;
+	};
 }
 
 - (void)setupUI {
@@ -92,15 +98,17 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+	id vc = segue.destinationViewController;
+	if ([vc isKindOfClass:[PLVVodSkinPlayerController class]]) {
+		self.player = vc;
+	}
 }
-*/
+
 
 #pragma mark - DLTabedSlideViewDelegate
 

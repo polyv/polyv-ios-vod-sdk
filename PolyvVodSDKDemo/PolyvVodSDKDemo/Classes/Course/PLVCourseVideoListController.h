@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) NSArray<PLVCourseSection *> *videoSections;
 
+@property (nonatomic, copy) void (^videoDidSelect)(PLVVodVideo *video);
+
 @end

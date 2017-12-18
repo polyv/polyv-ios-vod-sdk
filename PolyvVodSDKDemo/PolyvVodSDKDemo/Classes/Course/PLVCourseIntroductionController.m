@@ -27,7 +27,7 @@
 		
 		self.introLabel.attributedText = attributedText;
 	} else {
-		self.introLabel.text = @"";
+		self.introLabel.text = @"暂无课程介绍";
 	}
 }
 
