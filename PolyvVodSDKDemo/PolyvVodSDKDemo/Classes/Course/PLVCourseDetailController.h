@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "PLVCourse.h"
-#import "SPCoverController.h"
 
-@interface PLVCourseDetailController : SPCoverController
+@interface PLVCourseDetailController : UIViewController
 
 @property (nonatomic, strong) PLVCourse *course;
 

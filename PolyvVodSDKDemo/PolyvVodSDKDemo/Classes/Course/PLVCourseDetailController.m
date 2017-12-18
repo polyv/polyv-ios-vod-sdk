@@ -11,17 +11,23 @@
 #import "PLVCourseIntroductionController.h"
 #import "PLVCourseNetworking.h"
 #import "PLVCourseSection.h"
+#import "DLTabedSlideView.h"
 
-@interface PLVCourseDetailController ()
+@interface PLVCourseDetailController ()<DLTabedSlideViewDelegate>
 
-//@property (weak, nonatomic) IBOutlet DLCustomSlideView *pageView;
 @property (nonatomic, strong) NSArray *subViewControllers;
 
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 
+@property (weak, nonatomic) IBOutlet DLTabedSlideView *tabedSlideView;
+
 @end
 
 @implementation PLVCourseDetailController
+
+- (void)dealloc {
+	NSLog(@"%s - %@", __FUNCTION__, [NSThread currentThread]);
+}
 
 #pragma mark - property
 
@@ -34,25 +40,6 @@
 	return _subViewControllers;
 }
 
-//- (NinaPagerView *)ninaPagerView {
-//	if (!_ninaPagerView) {
-//		NSArray *titleArray = @[@"课时目录", @"课程介绍"];
-//		NSArray *vcsArray = self.subViewControllers;
-//		CGFloat width = self.view.bounds.size.width;
-//		CGFloat y = CGRectGetMaxY(self.playerView.frame);
-//		CGRect pagerRect = CGRectMake(0, y, width, 44);
-//		_ninaPagerView = [[NinaPagerView alloc] initWithFrame:pagerRect WithTitles:titleArray WithVCs:vcsArray];
-//
-//		_ninaPagerView.ninaPagerStyles = NinaPagerStyleStateNormal;
-//	}
-//	return _ninaPagerView;
-//}
-
-//- (void)setCourse:(PLVCourse *)course {
-//	_course = course;
-//
-//
-//}
 - (IBAction)test:(UIBarButtonItem *)sender {
 	[self.navigationController pushViewController:self.subViewControllers[0] animated:YES];
 	
@@ -80,26 +67,20 @@
 	}];
 	[self setupUI];
 	
+	// setup slide view
+	self.tabedSlideView.delegate = self;
+	self.tabedSlideView.baseViewController = self;
+	UIColor *themeColor = [UIColor colorWithHue:0.574 saturation:0.864 brightness:0.953 alpha:1.000];
+	self.tabedSlideView.tabItemNormalColor = [UIColor blackColor];
+	self.tabedSlideView.tabItemSelectedColor = themeColor;
+	self.tabedSlideView.tabbarTrackColor = themeColor;
 	
-//	[self.view addSubview:self.ninaPagerView];
+	DLTabedbarItem *item0 = [DLTabedbarItem itemWithTitle:@"课程目录" image:nil selectedImage:nil];
+	DLTabedbarItem *item1 = [DLTabedbarItem itemWithTitle:@"课程介绍" image:nil selectedImage:nil];
+	self.tabedSlideView.tabbarItems = @[item0, item1];
+	[self.tabedSlideView buildTabbar];
 	
-//	DLScrollTabbarView *tabbar = [[DLScrollTabbarView alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
-//	tabbar.tabItemNormalColor = [UIColor blackColor];
-//	tabbar.tabItemSelectedColor = themeColor;
-//	tabbar.tabItemNormalFontSize = 14.0f;
-//	tabbar.trackColor = themeColor;
-//
-//	CGFloat itemWidth = width/2;
-//	DLScrollTabbarItem *item0 = [DLScrollTabbarItem itemWithTitle:@"课时目录" width:itemWidth];
-//	DLScrollTabbarItem *item1 = [DLScrollTabbarItem itemWithTitle:@"课程介绍" width:itemWidth];
-//	tabbar.tabbarItems = @[item0, item1];
-	
-//	self.pageView.cache = [[DLLRUCache alloc] initWithCount:6];
-//	self.pageView.tabbar = tabbar;
-//	self.pageView.baseViewController = self;
-//	self.pageView.delegate = self;
-//	[self.pageView setup];
-//	self.pageView.selectedIndex = 0;
+	self.tabedSlideView.selectedIndex = 0;
 }
 
 - (void)setupUI {
@@ -121,60 +102,12 @@
 }
 */
 
-#pragma mark - sppage
+#pragma mark - DLTabedSlideViewDelegate
 
-- (UIColor *)titleHighlightColorForIndex:(NSInteger)index {
-	UIColor *themeColor = [UIColor colorWithHue:0.574 saturation:0.864 brightness:0.953 alpha:1.000];
-	return themeColor;
-}
-
-- (UIColor *)markViewColorForIndex:(NSInteger)index {
-	UIColor *themeColor = [UIColor colorWithHue:0.574 saturation:0.864 brightness:0.953 alpha:1.000];
-	return themeColor;
-}
-
-- (CoverScrollStyle)preferCoverStyle {
-	return CoverScrollStyleTop;
-}
-
-- (BOOL)needMarkView {
-	return YES;
-}
-
-- (UIView *)preferCoverView {
-	return self.playerView;
-}
-
-- (CGRect)preferCoverFrame {
-	return self.playerView.frame;
-}
-
-- (CGFloat)preferTabY {
-	return CGRectGetMaxY(self.playerView.frame);
-}
-
-- (CGRect)preferPageFrame {
-	CGFloat y = CGRectGetMaxY(self.playerView.frame) + 40;
-	CGFloat height = self.view.bounds.size.height - y;
-	CGFloat width = self.view.bounds.size.width;
-	return CGRectMake(0, y, width, height);
-}
-
-- (BOOL)isPreLoad {
-	return YES;
-}
-
-- (NSInteger)numberOfControllers {
+- (NSInteger)numberOfTabsInDLTabedSlideView:(DLTabedSlideView *)sender{
 	return self.subViewControllers.count;
 }
-
-- (NSString *)titleForIndex:(NSInteger)index {
-	UIViewController *vc = self.subViewControllers[index];
-	return vc.title;
-}
-
-- (UIViewController *)controllerAtIndex:(NSInteger)index {
+- (UIViewController *)DLTabedSlideView:(DLTabedSlideView *)sender controllerAt:(NSInteger)index{
 	return self.subViewControllers[index];
 }
-
 @end

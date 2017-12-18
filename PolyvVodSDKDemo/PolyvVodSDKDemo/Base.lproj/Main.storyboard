@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vau-sc-JAe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vau-sc-JAe">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -333,6 +333,10 @@
                                     <segue destination="6Vp-n5-wst" kind="embed" id="BHM-U3-NDW"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qID-Zu-w79" customClass="DLTabedSlideView">
+                                <rect key="frame" x="0.0" y="244" width="320" height="236"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tzN-9o-qIW">
                                 <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                                 <items>
@@ -351,8 +355,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="qID-Zu-w79" secondAttribute="trailing" id="2My-2R-cHa"/>
                             <constraint firstAttribute="trailing" secondItem="g2T-Lb-o5k" secondAttribute="trailing" id="6M9-9C-VUi"/>
+                            <constraint firstItem="Z5d-BT-he5" firstAttribute="top" secondItem="qID-Zu-w79" secondAttribute="bottom" id="9ZF-SY-aBO"/>
+                            <constraint firstItem="qID-Zu-w79" firstAttribute="top" secondItem="g2T-Lb-o5k" secondAttribute="bottom" id="Fvg-fQ-PMY"/>
                             <constraint firstItem="g2T-Lb-o5k" firstAttribute="top" secondItem="gEo-UI-ljb" secondAttribute="bottom" id="Hqr-2G-vvr"/>
+                            <constraint firstItem="qID-Zu-w79" firstAttribute="leading" secondItem="s2h-85-Do1" secondAttribute="leading" id="f9p-WS-XS1"/>
                             <constraint firstItem="tzN-9o-qIW" firstAttribute="leading" secondItem="s2h-85-Do1" secondAttribute="leading" id="hNp-b2-4jJ"/>
                             <constraint firstItem="Z5d-BT-he5" firstAttribute="top" secondItem="tzN-9o-qIW" secondAttribute="bottom" id="lJG-fg-YQP"/>
                             <constraint firstItem="g2T-Lb-o5k" firstAttribute="leading" secondItem="s2h-85-Do1" secondAttribute="leading" id="psc-Ft-KS4"/>
@@ -361,6 +369,7 @@
                     </view>
                     <connections>
                         <outlet property="playerView" destination="g2T-Lb-o5k" id="R3h-xq-7mh"/>
+                        <outlet property="tabedSlideView" destination="qID-Zu-w79" id="ROk-LG-1if"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RkR-Ra-EdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -615,13 +624,13 @@
         <scene sceneID="qLu-vs-ZmN">
             <objects>
                 <tableViewController storyboardIdentifier="PLVCourseVideoListController" title="课时目录" id="aYv-6V-yNp" customClass="PLVCourseVideoListController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="130" sectionHeaderHeight="-1" sectionFooterHeight="-1" id="Oh3-CB-VMM">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="130" sectionHeaderHeight="28" sectionFooterHeight="28" id="Oh3-CB-VMM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PLVVideoCell" rowHeight="130" id="JTD-5o-P0h" customClass="PLVVideoCell">
-                                <rect key="frame" x="0.0" y="55.5" width="320" height="130"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="130"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JTD-5o-P0h" id="Ie9-Z9-iaE">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="129.5"/>
@@ -693,23 +702,8 @@
                     <view key="view" contentMode="scaleToFill" id="w7k-ZP-UqA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d9T-9l-JQy">
-                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </webView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="d9T-9l-JQy" secondAttribute="trailing" id="3Jc-Lf-lCU"/>
-                            <constraint firstItem="RfW-Vu-xU6" firstAttribute="top" secondItem="d9T-9l-JQy" secondAttribute="bottom" id="doX-6V-Egt"/>
-                            <constraint firstItem="d9T-9l-JQy" firstAttribute="top" secondItem="0ki-X0-2pq" secondAttribute="bottom" id="wxo-tV-aP3"/>
-                            <constraint firstItem="d9T-9l-JQy" firstAttribute="leading" secondItem="w7k-ZP-UqA" secondAttribute="leading" id="ynF-9I-4Yq"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="webView" destination="d9T-9l-JQy" id="tM6-LU-uHW"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vYx-WC-Yki" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
