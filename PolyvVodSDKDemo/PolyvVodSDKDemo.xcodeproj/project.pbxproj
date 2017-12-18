@@ -25,8 +25,8 @@
 		0356CD051FCC383700B522A1 /* PLVCourseVideoListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356CD041FCC383700B522A1 /* PLVCourseVideoListController.m */; };
 		0356CD081FCC387400B522A1 /* PLVCourseIntroductionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356CD071FCC387400B522A1 /* PLVCourseIntroductionController.m */; };
 		03856C4C1FE21C8B0038DEB2 /* PLVVodResources.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03856C4B1FE21C8A0038DEB2 /* PLVVodResources.xcassets */; };
-		03856C691FE21C990038DEB2 /* PLVVodPlayerSkinController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03856C501FE21C990038DEB2 /* PLVVodPlayerSkinController.xib */; };
-		03856C6A1FE21C990038DEB2 /* PLVVodPlayerSkinController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C511FE21C990038DEB2 /* PLVVodPlayerSkinController.m */; };
+		03856C691FE21C990038DEB2 /* PLVVodPlayerSkin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03856C501FE21C990038DEB2 /* PLVVodPlayerSkin.xib */; };
+		03856C6A1FE21C990038DEB2 /* PLVVodPlayerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C511FE21C990038DEB2 /* PLVVodPlayerSkin.m */; };
 		03856C6B1FE21C990038DEB2 /* PLVVodDanmuSendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C531FE21C990038DEB2 /* PLVVodDanmuSendView.m */; };
 		03856C6C1FE21C990038DEB2 /* PLVVodFullscreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C561FE21C990038DEB2 /* PLVVodFullscreenView.m */; };
 		03856C6D1FE21C990038DEB2 /* PLVVodSettingPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C581FE21C990038DEB2 /* PLVVodSettingPanelView.m */; };
@@ -112,10 +112,10 @@
 		0356CD061FCC387400B522A1 /* PLVCourseIntroductionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseIntroductionController.h; sourceTree = "<group>"; };
 		0356CD071FCC387400B522A1 /* PLVCourseIntroductionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseIntroductionController.m; sourceTree = "<group>"; };
 		03856C4B1FE21C8A0038DEB2 /* PLVVodResources.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PLVVodResources.xcassets; sourceTree = "<group>"; };
-		03856C4E1FE21C990038DEB2 /* PLVVodPlayerSkinController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodPlayerSkinController.h; sourceTree = "<group>"; };
+		03856C4E1FE21C990038DEB2 /* PLVVodPlayerSkin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodPlayerSkin.h; sourceTree = "<group>"; };
 		03856C4F1FE21C990038DEB2 /* PLVVodSkinPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodSkinPlayerController.h; sourceTree = "<group>"; };
-		03856C501FE21C990038DEB2 /* PLVVodPlayerSkinController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PLVVodPlayerSkinController.xib; sourceTree = "<group>"; };
-		03856C511FE21C990038DEB2 /* PLVVodPlayerSkinController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVVodPlayerSkinController.m; sourceTree = "<group>"; };
+		03856C501FE21C990038DEB2 /* PLVVodPlayerSkin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PLVVodPlayerSkin.xib; sourceTree = "<group>"; };
+		03856C511FE21C990038DEB2 /* PLVVodPlayerSkin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVVodPlayerSkin.m; sourceTree = "<group>"; };
 		03856C531FE21C990038DEB2 /* PLVVodDanmuSendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVVodDanmuSendView.m; sourceTree = "<group>"; };
 		03856C541FE21C990038DEB2 /* PLVVodShrinkscreenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodShrinkscreenView.h; sourceTree = "<group>"; };
 		03856C551FE21C990038DEB2 /* PLVVodSettingPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodSettingPanelView.h; sourceTree = "<group>"; };
@@ -259,9 +259,9 @@
 		03856C4D1FE21C990038DEB2 /* Skin */ = {
 			isa = PBXGroup;
 			children = (
-				03856C4E1FE21C990038DEB2 /* PLVVodPlayerSkinController.h */,
-				03856C511FE21C990038DEB2 /* PLVVodPlayerSkinController.m */,
-				03856C501FE21C990038DEB2 /* PLVVodPlayerSkinController.xib */,
+				03856C4E1FE21C990038DEB2 /* PLVVodPlayerSkin.h */,
+				03856C511FE21C990038DEB2 /* PLVVodPlayerSkin.m */,
+				03856C501FE21C990038DEB2 /* PLVVodPlayerSkin.xib */,
 				03856C4F1FE21C990038DEB2 /* PLVVodSkinPlayerController.h */,
 				03856C5B1FE21C990038DEB2 /* PLVVodSkinPlayerController.m */,
 				03856C521FE21C990038DEB2 /* View */,
@@ -588,7 +588,7 @@
 				03CB8C681FB3EB220048D9FC /* Assets.xcassets in Resources */,
 				03856C4C1FE21C8B0038DEB2 /* PLVVodResources.xcassets in Resources */,
 				03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */,
-				03856C691FE21C990038DEB2 /* PLVVodPlayerSkinController.xib in Resources */,
+				03856C691FE21C990038DEB2 /* PLVVodPlayerSkin.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -802,7 +802,7 @@
 				03856C741FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m in Sources */,
 				03DDF4CE1FE763BB00F63630 /* DLSlideView.m in Sources */,
 				03EA41C91FBD36F500BA68AD /* PLVCourseCell.m in Sources */,
-				03856C6A1FE21C990038DEB2 /* PLVVodPlayerSkinController.m in Sources */,
+				03856C6A1FE21C990038DEB2 /* PLVVodPlayerSkin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

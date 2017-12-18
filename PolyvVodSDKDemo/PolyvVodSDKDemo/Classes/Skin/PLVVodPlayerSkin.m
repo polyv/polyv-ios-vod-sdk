@@ -1,12 +1,12 @@
 //
-//  PLVVodPlayerSkinController.m
+//  PLVVodPlayerSkin.m
 //  PolyvVodSDK
 //
 //  Created by BqLin on 2017/10/26.
 //  Copyright © 2017年 POLYV. All rights reserved.
 //
 
-#import "PLVVodPlayerSkinController.h"
+#import "PLVVodPlayerSkin.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "PLVVodFullscreenView.h"
 #import "PLVVodShrinkscreenView.h"
@@ -15,7 +15,7 @@
 #import "PLVVodDanmuSendView.h"
 #import "PLVVodDanmu+PLVVod.h"
 
-@interface PLVVodPlayerSkinController ()<UITextFieldDelegate>
+@interface PLVVodPlayerSkin ()<UITextFieldDelegate>
 
 /// 半屏皮肤
 @property (strong, nonatomic) IBOutlet PLVVodShrinkscreenView *shrinkscreenView;
@@ -55,7 +55,7 @@
 
 @end
 
-@implementation PLVVodPlayerSkinController
+@implementation PLVVodPlayerSkin
 
 #pragma mark - property
 

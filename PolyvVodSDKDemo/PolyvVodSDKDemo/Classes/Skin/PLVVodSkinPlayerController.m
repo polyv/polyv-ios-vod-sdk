@@ -7,10 +7,13 @@
 //
 
 #import "PLVVodSkinPlayerController.h"
-#import "PLVVodPlayerSkinController.h"
+#import "PLVVodPlayerSkin.h"
 #import "PLVVodDanmuManager.h"
 #import "PLVTimer.h"
 #import "PLVVodDanmu+PLVVod.h"
+
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 @interface PLVVodSkinPlayerController ()
 
@@ -35,7 +38,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 	
-	PLVVodPlayerSkinController *skin = [[PLVVodPlayerSkinController alloc] initWithNibName:nil bundle:nil];
+	PLVVodPlayerSkin *skin = [[PLVVodPlayerSkin alloc] initWithNibName:nil bundle:nil];
 	[self addChildViewController:skin];
 	self.skinView = skin.view;
 	[self.view addSubview:self.skinView];
@@ -91,7 +94,7 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-	if ([segue.destinationViewController isKindOfClass:[PLVVodPlayerSkinController class]]) {
+	if ([segue.destinationViewController isKindOfClass:[PLVVodPlayerSkin class]]) {
 		self.playerControl = segue.destinationViewController;
 	}
 }

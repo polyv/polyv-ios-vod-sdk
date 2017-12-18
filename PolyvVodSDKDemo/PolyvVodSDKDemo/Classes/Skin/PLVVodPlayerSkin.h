@@ -1,5 +1,5 @@
 //
-//  PLVVodPlayerSkinController.h
+//  PLVVodPlayerSkin.h
 //  PolyvVodSDK
 //
 //  Created by BqLin on 2017/10/26.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <PLVVodSDK/PLVVodPlayerSkinProtocol.h>
 
-@interface PLVVodPlayerSkinController : UIViewController<PLVVodPlayerSkinProtocol>
+@interface PLVVodPlayerSkin : UIViewController<PLVVodPlayerSkinProtocol>
 
 /// 弱引用的播放器
 @property (nonatomic, weak) IBOutlet PLVVodPlayerViewController *delegatePlayer;

@@ -93,6 +93,13 @@
 	self.title = self.course.title;
 }
 
+//- (BOOL)prefersStatusBarHidden {
+//	return self.player.prefersStatusBarHidden;
+//}
+//- (UIStatusBarStyle)preferredStatusBarStyle {
+//	return self.player.preferredStatusBarStyle;
+//}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
