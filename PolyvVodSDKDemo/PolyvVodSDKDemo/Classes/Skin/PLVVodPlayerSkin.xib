@@ -150,7 +150,7 @@
                             <state key="normal" image="plv_vod_btn_play"/>
                             <state key="selected" image="plv_vod_btn_pause"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PhT-m4-gZI" userLabel="全屏/半屏">
+                        <button opaque="NO" contentMode="scaleAspectFit" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PhT-m4-gZI" userLabel="全屏/半屏">
                             <rect key="frame" x="444" y="16" width="19" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="19" id="pXt-4d-FHM"/>

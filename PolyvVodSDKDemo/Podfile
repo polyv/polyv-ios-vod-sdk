@@ -13,7 +13,7 @@ target 'PolyvVodSDKDemo' do
 
 	# PLVVodSDK
 	# pod 'PolyvVodSDK', :path => "../../PolyvVodSDK"
-	# ⤵ development
+	# ⤵ development "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES" => "YES"
 	pod 'PolyvIJKPlayer'
 	pod 'PolyvAliHttpDNS'
 	pod 'PLVMarquee'

@@ -221,17 +221,8 @@
 	subview.translatesAutoresizingMaskIntoConstraints = NO;
 	NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
 	
-	NSArray *constraints = [NSLayoutConstraint
-							constraintsWithVisualFormat:@"H:|[subview]|"
-							options:0
-							metrics:nil
-							views:viewsDictionary];
-	constraints = [constraints arrayByAddingObjectsFromArray:
-				   [NSLayoutConstraint
-					constraintsWithVisualFormat:@"V:|[subview]|"
-					options:0
-					metrics:nil
-					views:viewsDictionary]];
+	NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|" options:0 metrics:nil views:viewsDictionary];
+	constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|" options:0 metrics:nil views:viewsDictionary]];
 	[superview addConstraints:constraints];
 	
 	return constraints;
@@ -285,7 +276,7 @@
 
 - (IBAction)switchScreenAction:(UIButton *)sender {
 	[self switchScreen];
-	NSLog(@"切换到：%s", sender.selected?"全屏":"半屏");
+	NSLog(@"切换：%@", sender.selected?@"全屏":@"半屏");
 }
 
 - (IBAction)switchDmAction:(UIButton *)sender {

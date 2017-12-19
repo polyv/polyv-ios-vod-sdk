@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) NSArray *subViewControllers;
 
-@property (weak, nonatomic) IBOutlet UIView *playerView;
+@property (weak, nonatomic) IBOutlet UIView *playerPlaceholder;
 @property (nonatomic, strong) PLVVodSkinPlayerController *player;
 
 @property (weak, nonatomic) IBOutlet DLTabedSlideView *tabedSlideView;
@@ -91,14 +91,19 @@
 
 - (void)setupUI {
 	self.title = self.course.title;
+	
+	self.player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
+	[self.player addPlayerOnView:self.view parentViewController:self];
+	self.player.view.frame = self.playerPlaceholder.frame;
+	[self.player updateUI];
 }
 
-//- (BOOL)prefersStatusBarHidden {
-//	return self.player.prefersStatusBarHidden;
-//}
-//- (UIStatusBarStyle)preferredStatusBarStyle {
-//	return self.player.preferredStatusBarStyle;
-//}
+- (BOOL)prefersStatusBarHidden {
+	return self.player.prefersStatusBarHidden;
+}
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return self.player.preferredStatusBarStyle;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
