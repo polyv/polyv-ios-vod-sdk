@@ -10,6 +10,11 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="PingFang.ttc">
+            <string>PingFangTC-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--POLYV云点播-->
         <scene sceneID="2OQ-Kd-UXE">
@@ -442,19 +447,33 @@
                                                 </button>
                                             </subviews>
                                         </stackView>
+                                        <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BxO-vL-Qlg">
+                                            <rect key="frame" x="21" y="25" width="37.5" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="VAm-Zh-FjR"/>
+                                                <constraint firstAttribute="width" secondItem="BxO-vL-Qlg" secondAttribute="height" multiplier="16:9" id="oWY-zv-Rf5"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="10"/>
+                                            <state key="normal" title="备注" backgroundImage="plv_bg_round4">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Mdb-CE-z3D" firstAttribute="bottom" secondItem="8HW-80-zw2" secondAttribute="bottom" id="1ea-SJ-IBS"/>
                                         <constraint firstItem="8HW-80-zw2" firstAttribute="centerY" secondItem="5xA-f9-6wQ" secondAttribute="centerY" id="4BF-XQ-05H"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="xYV-wP-fEc" secondAttribute="trailing" id="4Yb-uL-bah"/>
                                         <constraint firstItem="xYV-wP-fEc" firstAttribute="leading" secondItem="8HW-80-zw2" secondAttribute="trailing" constant="8" id="75Y-Ye-D3u"/>
+                                        <constraint firstItem="BxO-vL-Qlg" firstAttribute="top" secondItem="8HW-80-zw2" secondAttribute="top" constant="5" id="Bzo-fb-Wy9"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Mdb-CE-z3D" secondAttribute="trailing" id="DNe-gm-xSE"/>
+                                        <constraint firstItem="BxO-vL-Qlg" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="8HW-80-zw2" secondAttribute="trailing" id="E6Y-GT-WdG"/>
                                         <constraint firstItem="Mdb-CE-z3D" firstAttribute="leading" secondItem="xYV-wP-fEc" secondAttribute="leading" id="Kno-Hn-Lun"/>
                                         <constraint firstItem="wdL-TJ-v6E" firstAttribute="leading" secondItem="xYV-wP-fEc" secondAttribute="leading" id="QhP-ru-mUH"/>
                                         <constraint firstItem="xYV-wP-fEc" firstAttribute="top" secondItem="8HW-80-zw2" secondAttribute="top" id="WyA-E7-H5t"/>
                                         <constraint firstItem="Mdb-CE-z3D" firstAttribute="top" relation="greaterThanOrEqual" secondItem="wdL-TJ-v6E" secondAttribute="bottom" constant="8" id="X25-aK-u2X"/>
                                         <constraint firstItem="wdL-TJ-v6E" firstAttribute="top" secondItem="xYV-wP-fEc" secondAttribute="bottom" constant="8" id="bAO-y2-ZGZ"/>
                                         <constraint firstItem="8HW-80-zw2" firstAttribute="leading" secondItem="5xA-f9-6wQ" secondAttribute="leadingMargin" id="jjz-9W-MRy"/>
+                                        <constraint firstItem="BxO-vL-Qlg" firstAttribute="leading" secondItem="8HW-80-zw2" secondAttribute="leading" constant="5" id="yeH-Hb-OAJ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -463,6 +482,7 @@
                                     <outlet property="durationLabel" destination="dUE-r3-jd3" id="cNH-VJ-j3c"/>
                                     <outlet property="playButton" destination="gZ9-7B-NpY" id="U5p-dI-bij"/>
                                     <outlet property="titleLabel" destination="xYV-wP-fEc" id="yTX-De-j5G"/>
+                                    <outlet property="typeButton" destination="BxO-vL-Qlg" id="zTr-A4-vvh"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
