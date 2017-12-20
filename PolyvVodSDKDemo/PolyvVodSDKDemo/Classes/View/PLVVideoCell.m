@@ -54,7 +54,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-	self.backgroundColor = [UIColor colorWithHue:0.636 saturation:0.045 brightness:0.957 alpha:1.000];
 	[self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.downloadButton addTarget:self action:@selector(downloadButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }

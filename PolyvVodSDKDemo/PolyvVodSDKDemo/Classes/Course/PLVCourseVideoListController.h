@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "PLVCourseSection.h"
 
-@interface PLVCourseVideoListController : UITableViewController
+@interface PLVCourseVideoListController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) NSArray<PLVCourseSection *> *videoSections;
 

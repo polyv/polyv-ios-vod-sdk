@@ -4,10 +4,8 @@
 <dict>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<!--允许http-->
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-		
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>dewx.net</key>
@@ -22,7 +20,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>zh_CN</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

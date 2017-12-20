@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PLVDownloadListController : UITableViewController
+@interface PLVDownloadListController : UIViewController
 
 @end

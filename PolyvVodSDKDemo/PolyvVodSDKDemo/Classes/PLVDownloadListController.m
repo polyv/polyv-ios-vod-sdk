@@ -7,12 +7,39 @@
 //
 
 #import "PLVDownloadListController.h"
+#import "PLVLoadCell.h"
+#import <PLVVodSDK/PLVVodSDK.h>
+#import "UIColor+PLVVod.h"
+#import <PLVTimer/PLVTimer.h>
+#import "PLVToolbar.h"
 
-@interface PLVDownloadListController ()
+@interface PLVDownloadListController ()<UITableViewDataSource, UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet PLVToolbar *toolbar;
+@property (nonatomic, strong) NSArray<PLVVodDownloadInfo *> *downloadInfos;
+@property (nonatomic, strong) PLVTimer *timer;
+
+@property (nonatomic, strong) UIButton *queueDownloadButton;
+
+@property (nonatomic, strong) UIView *emptyView;
 
 @end
 
 @implementation PLVDownloadListController
+
+- (UIButton *)queueDownloadButton {
+	if (!_queueDownloadButton) {
+		_queueDownloadButton = [PLVToolbar buttonWithTitle:@"队列下载" image:[UIImage imageNamed:@"plv_btn_cache"]];
+		[_queueDownloadButton setTitle:@"停止下载" forState:UIControlStateSelected];
+		[_queueDownloadButton addTarget:self action:@selector(queueDownloadButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	}
+	return _queueDownloadButton;
+}
+
+- (void)dealloc {
+	[self.timer cancel];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,6 +49,37 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	self.downloadInfos = [PLVVodDownloadManager sharedManager].downloadInfos;
+	
+	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
+	self.tableView.tableFooterView = [UIView new];
+	
+	__weak typeof(self) weakSelf = self;
+	self.timer = [PLVTimer repeatWithInterval:2 repeatBlock:^{
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[weakSelf.tableView reloadData];
+		});
+		if (!weakSelf.downloadInfos.count) {
+			[weakSelf.timer cancel];
+		}
+	}];
+	
+	self.toolbar.buttons = @[self.queueDownloadButton];
+	self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
+	UILabel *emptyLabel = [[UILabel alloc] init];
+	emptyLabel.text = @"暂无缓存视频";
+	emptyLabel.textAlignment = NSTextAlignmentCenter;
+	self.emptyView = emptyLabel;
+}
+
+- (void)queueDownloadButtonAction:(UIButton *)sender {
+	sender.selected = !sender.selected;
+	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
+	if (sender.selected) {
+		[downloadManager startDownload];
+	} else {
+		[downloadManager stopDownload];
+	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,18 +87,41 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - property
+
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+	NSInteger number = self.downloadInfos.count;
+	self.tableView.backgroundView = number ? nil : self.emptyView;
+    return number;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PLVDownloadCell" forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    PLVLoadCell *cell = (PLVLoadCell *)[tableView dequeueReusableCellWithIdentifier:[PLVLoadCell identifier] forIndexPath:indexPath];
+	
+	PLVVodDownloadInfo *downloadInfo = self.downloadInfos[indexPath.row];
+	PLVVodVideo *video = downloadInfo.video;
+	cell.thumbnailUrl = video.snapshot;
+	cell.titleLabel.text = video.title;
+	cell.videoSizeLabel.text = [NSByteCountFormatter stringFromByteCount:[video.filesizes[downloadInfo.quality-1] longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
+	cell.downloadStateLabel.text = NSStringFromPLVVodDownloadState(downloadInfo.state);
+	cell.downloadProgressView.progress = downloadInfo.progress;
+	NSString *speedString = [NSByteCountFormatter stringFromByteCount:downloadInfo.bytesPerSeconds countStyle:NSByteCountFormatterCountStyleFile];
+	speedString = [speedString stringByAppendingFormat:@"/s"];
+	cell.downloadSpeedLabel.text = speedString;
+	__weak typeof(downloadInfo) _downloadInfo = downloadInfo;
+	cell.downloadButtonAction = ^(PLVLoadCell *cell, UIButton *sender) {
+		sender.selected = _downloadInfo.state == PLVVodDownloadStateRunning;
+		//PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
+		if (_downloadInfo.state == PLVVodDownloadStateRunning) {
+			//[downloadManager stopDownload];
+		} else {
+			//[downloadManager startDownload];
+		}
+	};
+	cell.backgroundColor = self.tableView.backgroundColor;
+	
     return cell;
 }
 

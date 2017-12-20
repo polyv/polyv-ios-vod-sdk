@@ -36,4 +36,11 @@
 	return ((uint)alpha << 24) | ((uint)red << 16) | ((uint)green << 8) | ((uint)blue);
 }
 
++ (UIColor *)themeColor {
+	return [UIColor colorWithHex:0x2196F3];
+}
++ (UIColor *)themeBackgroundColor {
+	return [UIColor colorWithHex:0xE9EBF5];
+}
+
 @end

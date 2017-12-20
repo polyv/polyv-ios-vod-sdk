@@ -11,6 +11,8 @@
 #import "PLVVodAccountVideo.h"
 #import "PLVVideoCell.h"
 #import "PLVVodSkinPlayerController.h"
+#import <PLVVodSDK/PLVVodSDK.h>
+#import "UIColor+PLVVod.h"
 
 @interface PLVAccountVideoListController ()
 
@@ -31,6 +33,9 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
 	[self requestAccountVideos];
+	
+	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
+	self.tableView.tableFooterView = [UIView new];
 }
 
 - (void)requestAccountVideos {
@@ -75,6 +80,7 @@
 			[weakSelf downloadVideo:video];
 		}];
 	};
+	cell.backgroundColor = self.tableView.backgroundColor;
 	
     return cell;
 }
@@ -87,7 +93,8 @@
 	});
 }
 - (void)downloadVideo:(PLVVodVideo *)video {
-	
+	PLVVodDownloadInfo *info = [[PLVVodDownloadManager sharedManager] downloadVideo:video];
+	NSLog(@"%@ - %zd 已加入下载队列", info.video.vid, info.quality);
 }
 
 

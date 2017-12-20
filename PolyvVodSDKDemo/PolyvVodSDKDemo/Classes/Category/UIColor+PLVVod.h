@@ -14,4 +14,7 @@
 
 + (UIColor *)colorWithHex:(NSUInteger)hexValue;
 
++ (UIColor *)themeColor;
++ (UIColor *)themeBackgroundColor;
+
 @end
