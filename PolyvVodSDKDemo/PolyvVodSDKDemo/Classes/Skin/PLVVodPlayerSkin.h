@@ -31,12 +31,13 @@
 
 /// 视频拉伸方式
 @property (nonatomic, assign) NSInteger scalingMode;
+@property (nonatomic, copy) void (^scalingModeDidChangeBlock)(NSInteger scalingMode);
 
-/// srtKeys
-@property (nonatomic, strong) NSArray<NSString *> *srtKeys;
+/// subtitleKeys
+@property (nonatomic, strong) NSArray<NSString *> *subtitleKeys;
 
 /// 选中的字幕key
-@property (nonatomic, copy) NSString *srtKey;
+@property (nonatomic, copy) NSString *currentSubtitleKey;
 
 #pragma mark 控件
 

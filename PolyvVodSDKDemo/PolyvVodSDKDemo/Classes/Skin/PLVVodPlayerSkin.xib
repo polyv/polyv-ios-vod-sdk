@@ -365,24 +365,33 @@
                                     <state key="selected">
                                         <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7r-bD-Nj4">
-                                    <rect key="frame" x="83" y="0.0" width="33" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <state key="normal" title="填充"/>
-                                    <state key="selected">
-                                        <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    </state>
+                                    <connections>
+                                        <action selector="scaleModeButtonAction:" destination="WML-5j-ft2" eventType="touchUpInside" id="KyB-dz-mEW"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="85l-BV-nNQ">
-                                    <rect key="frame" x="166" y="0.0" width="33" height="21"/>
+                                    <rect key="frame" x="83" y="0.0" width="33" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="适应"/>
                                     <state key="selected">
                                         <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="scaleModeButtonAction:" destination="WML-5j-ft2" eventType="touchUpInside" id="Nf6-14-JGo"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7r-bD-Nj4">
+                                    <rect key="frame" x="166" y="0.0" width="33" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" title="填充"/>
+                                    <state key="selected">
+                                        <color key="titleColor" red="0.0" green="0.70090252161026001" blue="0.96674615144729614" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="scaleModeButtonAction:" destination="WML-5j-ft2" eventType="touchUpInside" id="6Eq-mI-Pmw"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kEB-lT-H0C">
                                     <rect key="frame" x="249" y="0.0" width="33" height="21"/>
@@ -392,6 +401,9 @@
                                     <state key="selected">
                                         <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="scaleModeButtonAction:" destination="WML-5j-ft2" eventType="touchUpInside" id="r3N-ku-Nfd"/>
+                                    </connections>
                                 </button>
                             </subviews>
                         </stackView>
@@ -406,6 +418,9 @@
                                     <state key="selected">
                                         <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="subtitleButtonAction:" destination="WML-5j-ft2" eventType="touchUpInside" id="FIf-wi-xzG"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHX-GC-5cy">
                                     <rect key="frame" x="94" y="0.0" width="94" height="21"/>
@@ -415,6 +430,9 @@
                                     <state key="selected">
                                         <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="subtitleButtonAction:" destination="WML-5j-ft2" eventType="touchUpInside" id="tSF-3P-iP4"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VBB-Ir-xLr">
                                     <rect key="frame" x="188" y="0.0" width="94" height="21"/>
@@ -424,6 +442,9 @@
                                     <state key="selected">
                                         <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="subtitleButtonAction:" destination="WML-5j-ft2" eventType="touchUpInside" id="qFX-Ib-KMd"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
@@ -482,6 +503,9 @@
                         <constraint firstItem="K0j-5l-bjM" firstAttribute="top" secondItem="F9r-qq-une" secondAttribute="bottom" constant="44" id="nJf-Z3-Lih"/>
                         <constraint firstAttribute="trailing" secondItem="OVG-eh-nAB" secondAttribute="trailing" id="uWb-2H-8DZ"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="1bO-LR-CK4" appends="YES" id="ADg-5Y-fYp"/>
+                    </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
@@ -492,6 +516,8 @@
             </constraints>
             <connections>
                 <outlet property="brightnessSlider" destination="OVG-eh-nAB" id="fba-jl-3pA"/>
+                <outlet property="scalingModeStackView" destination="F9r-qq-une" id="aR5-l8-lQX"/>
+                <outlet property="subtitleStackView" destination="UCW-u5-Hg9" id="2Le-rv-Rhy"/>
                 <outlet property="volumeSlider" destination="Ffk-ye-6WX" id="1PQ-Xk-ZaC"/>
             </connections>
             <point key="canvasLocation" x="26" y="1305"/>

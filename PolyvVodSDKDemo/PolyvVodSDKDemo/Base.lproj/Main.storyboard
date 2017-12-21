@@ -340,21 +340,6 @@
                                 <rect key="frame" x="0.0" y="244" width="320" height="236"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tzN-9o-qIW">
-                                <rect key="frame" x="0.0" y="436" width="320" height="44"/>
-                                <items>
-                                    <barButtonItem title="T" id="kWq-dQ-84j">
-                                        <connections>
-                                            <action selector="test:" destination="qAb-Tx-rFj" id="i3a-K8-RNz"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem title="Y" id="VY3-fN-h9l">
-                                        <connections>
-                                            <action selector="test2:" destination="qAb-Tx-rFj" id="Ooy-h7-7Tn"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -364,10 +349,7 @@
                             <constraint firstItem="qID-Zu-w79" firstAttribute="top" secondItem="g2T-Lb-o5k" secondAttribute="bottom" id="Fvg-fQ-PMY"/>
                             <constraint firstItem="g2T-Lb-o5k" firstAttribute="top" secondItem="gEo-UI-ljb" secondAttribute="bottom" id="Hqr-2G-vvr"/>
                             <constraint firstItem="qID-Zu-w79" firstAttribute="leading" secondItem="s2h-85-Do1" secondAttribute="leading" id="f9p-WS-XS1"/>
-                            <constraint firstItem="tzN-9o-qIW" firstAttribute="leading" secondItem="s2h-85-Do1" secondAttribute="leading" id="hNp-b2-4jJ"/>
-                            <constraint firstItem="Z5d-BT-he5" firstAttribute="top" secondItem="tzN-9o-qIW" secondAttribute="bottom" id="lJG-fg-YQP"/>
                             <constraint firstItem="g2T-Lb-o5k" firstAttribute="leading" secondItem="s2h-85-Do1" secondAttribute="leading" id="psc-Ft-KS4"/>
-                            <constraint firstAttribute="trailing" secondItem="tzN-9o-qIW" secondAttribute="trailing" id="rCL-t8-1DH"/>
                         </constraints>
                     </view>
                     <connections>
@@ -634,7 +616,13 @@
                             <constraint firstItem="1hq-s6-2vn" firstAttribute="top" secondItem="fWV-Lj-zqk" secondAttribute="top" id="pbf-rw-Wy2"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="缓存" id="koo-7y-9T6"/>
+                    <navigationItem key="navigationItem" title="缓存" id="koo-7y-9T6">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="pzv-3U-npk">
+                            <connections>
+                                <action selector="refreshDownloadState:" destination="Caa-Cu-5fy" id="UtI-kd-eQh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="1hq-s6-2vn" id="gM0-bc-FLD"/>
                         <outlet property="toolbar" destination="kHJ-07-94n" id="HBl-RB-xml"/>
@@ -669,11 +657,11 @@
                         <viewControllerLayoutGuide type="bottom" id="aNi-HX-ZUl"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dij-n3-1qA">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="130" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qP0-T7-4Mu">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="50"/>
                                 <prototypes>
@@ -735,7 +723,7 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i8o-ka-GaD" customClass="PLVToolbar">
-                                <rect key="frame" x="0.0" y="430" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="190" width="320" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="ByD-7a-4c0"/>
                                 </constraints>
@@ -753,6 +741,7 @@
                             <constraint firstAttribute="trailing" secondItem="qP0-T7-4Mu" secondAttribute="trailing" id="znd-XH-MmS"/>
                         </constraints>
                     </view>
+                    <size key="freeformSize" width="320" height="240"/>
                     <connections>
                         <outlet property="tableView" destination="qP0-T7-4Mu" id="f9O-zG-MB3"/>
                         <outlet property="toolbar" destination="i8o-ka-GaD" id="bSk-ot-BSa"/>
@@ -760,7 +749,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T75-AC-sjG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1389" y="2179"/>
+            <point key="canvasLocation" x="-564" y="1280"/>
         </scene>
         <!--课程介绍-->
         <scene sceneID="hNT-4H-b3a">
@@ -771,11 +760,11 @@
                         <viewControllerLayoutGuide type="bottom" id="RfW-Vu-xU6"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="w7k-ZP-UqA">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="课程介绍" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UM0-e9-0xs">
-                                <rect key="frame" x="16" y="36" width="288" height="21"/>
+                                <rect key="frame" x="16" y="16" width="288" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -788,13 +777,14 @@
                             <constraint firstItem="UM0-e9-0xs" firstAttribute="leading" secondItem="w7k-ZP-UqA" secondAttribute="leadingMargin" id="mst-zL-VPl"/>
                         </constraints>
                     </view>
+                    <size key="freeformSize" width="320" height="180"/>
                     <connections>
                         <outlet property="introLabel" destination="UM0-e9-0xs" id="s3O-Ry-KfJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vYx-WC-Yki" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-563" y="2179"/>
+            <point key="canvasLocation" x="-564" y="1618"/>
         </scene>
     </scenes>
     <resources>

@@ -42,14 +42,6 @@
 	return _subViewControllers;
 }
 
-- (IBAction)test:(UIBarButtonItem *)sender {
-	[self.navigationController pushViewController:self.subViewControllers[0] animated:YES];
-	
-}
-- (IBAction)test2:(id)sender {
-	[self.navigationController pushViewController:self.subViewControllers[1] animated:YES];
-}
-
 #pragma mark - view controller
 
 - (void)viewDidLoad {
@@ -73,6 +65,7 @@
 	self.tabedSlideView.delegate = self;
 	self.tabedSlideView.baseViewController = self;
 	UIColor *themeColor = [UIColor colorWithHue:0.574 saturation:0.864 brightness:0.953 alpha:1.000];
+	self.tabedSlideView.tabbarHeight = 44;
 	self.tabedSlideView.tabItemNormalColor = [UIColor blackColor];
 	self.tabedSlideView.tabItemSelectedColor = themeColor;
 	self.tabedSlideView.tabbarTrackColor = themeColor;
@@ -91,10 +84,15 @@
 
 - (void)setupUI {
 	self.title = self.course.title;
-	
+	[self setupPlayer];
+}
+
+- (void)setupPlayer {
 	self.player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
 	[self.player addPlayerOnView:self.view parentViewController:self];
-	self.player.view.frame = self.playerPlaceholder.frame;
+	CGFloat width = CGRectGetWidth(self.view.bounds);
+	CGFloat height = width / 16 * 9;
+	self.player.view.frame = CGRectMake(0, 64, width, height);
 	[self.player updateUI];
 }
 

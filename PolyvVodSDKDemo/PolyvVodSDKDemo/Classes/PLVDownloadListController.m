@@ -54,15 +54,15 @@
 	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
 	self.tableView.tableFooterView = [UIView new];
 	
-	__weak typeof(self) weakSelf = self;
-	self.timer = [PLVTimer repeatWithInterval:2 repeatBlock:^{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[weakSelf.tableView reloadData];
-		});
-		if (!weakSelf.downloadInfos.count) {
-			[weakSelf.timer cancel];
-		}
-	}];
+//	__weak typeof(self) weakSelf = self;
+//	self.timer = [PLVTimer repeatWithInterval:2 repeatBlock:^{
+//		dispatch_async(dispatch_get_main_queue(), ^{
+//			[weakSelf.tableView reloadData];
+//		});
+//		if (!weakSelf.downloadInfos.count) {
+//			[weakSelf.timer cancel];
+//		}
+//	}];
 	
 	self.toolbar.buttons = @[self.queueDownloadButton];
 	self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
@@ -72,6 +72,8 @@
 	self.emptyView = emptyLabel;
 }
 
+#pragma mark - action
+
 - (void)queueDownloadButtonAction:(UIButton *)sender {
 	sender.selected = !sender.selected;
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
@@ -80,6 +82,10 @@
 	} else {
 		[downloadManager stopDownload];
 	}
+}
+
+- (IBAction)refreshDownloadState:(UIBarButtonItem *)sender {
+	[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -125,6 +131,19 @@
     return cell;
 }
 
+/// 删除
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return UITableViewCellEditingStyleDelete;
+}
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+	return YES;
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+	PLVVodDownloadManager *manager = [PLVVodDownloadManager sharedManager];
+	PLVVodDownloadInfo *downloadInfo = self.downloadInfos[indexPath.row];
+	[manager removeDownloadWithVid:downloadInfo.video.vid error:nil];
+	[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
 
 /*
 // Override to support conditional editing of the table view.

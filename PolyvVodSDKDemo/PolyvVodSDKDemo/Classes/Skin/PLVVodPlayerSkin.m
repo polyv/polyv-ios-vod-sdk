@@ -337,13 +337,24 @@
 }
 
 - (void)setScalingMode:(NSInteger)scalingMode {
-	_scalingMode = scalingMode;
-	// 设置界面
+	self.settingsPanelView.scalingMode = scalingMode;
+}
+- (NSInteger)scalingMode {
+	return self.settingsPanelView.scalingMode;
+}
+- (void)setScalingModeDidChangeBlock:(void (^)(NSInteger))scalingModeDidChangeBlock {
+	self.settingsPanelView.scalingModeDidChangeBlock = scalingModeDidChangeBlock;
+}
+- (void (^)(NSInteger))scalingModeDidChangeBlock {
+	return self.settingsPanelView.scalingModeDidChangeBlock;
 }
 
-- (void)setSrtKeys:(NSArray<NSString *> *)srtKeys {
-	_srtKeys = srtKeys;
+- (void)setSubtitleKeys:(NSArray<NSString *> *)subtitleKeys {
 	// 设置界面
+	self.settingsPanelView.subtitleKeys = subtitleKeys;
+}
+- (NSArray<NSString *> *)subtitleKeys {
+	return self.settingsPanelView.subtitleKeys;
 }
 
 - (void)sendDanmu {

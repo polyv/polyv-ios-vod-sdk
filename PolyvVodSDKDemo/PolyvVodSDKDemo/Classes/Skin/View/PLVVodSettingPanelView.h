@@ -12,4 +12,10 @@
 @property (weak, nonatomic) IBOutlet UISlider *brightnessSlider;
 @property (weak, nonatomic) IBOutlet UISlider *volumeSlider;
 
+@property (nonatomic, strong) NSArray<NSString *> *subtitleKeys;
+@property (nonatomic, copy) NSString *currentSubtitleKey;
+
+@property (nonatomic, assign) NSInteger scalingMode;
+@property (nonatomic, copy) void (^scalingModeDidChangeBlock)(NSInteger scalingMode);
+
 @end

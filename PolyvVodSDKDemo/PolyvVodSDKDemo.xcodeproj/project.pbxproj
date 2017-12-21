@@ -278,14 +278,14 @@
 		03856C521FE21C990038DEB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				03856C531FE21C990038DEB2 /* PLVVodDanmuSendView.m */,
 				03856C541FE21C990038DEB2 /* PLVVodShrinkscreenView.h */,
-				03856C551FE21C990038DEB2 /* PLVVodSettingPanelView.h */,
-				03856C561FE21C990038DEB2 /* PLVVodFullscreenView.m */,
-				03856C571FE21C990038DEB2 /* PLVVodDanmuSendView.h */,
-				03856C581FE21C990038DEB2 /* PLVVodSettingPanelView.m */,
 				03856C591FE21C990038DEB2 /* PLVVodShrinkscreenView.m */,
 				03856C5A1FE21C990038DEB2 /* PLVVodFullscreenView.h */,
+				03856C561FE21C990038DEB2 /* PLVVodFullscreenView.m */,
+				03856C551FE21C990038DEB2 /* PLVVodSettingPanelView.h */,
+				03856C581FE21C990038DEB2 /* PLVVodSettingPanelView.m */,
+				03856C571FE21C990038DEB2 /* PLVVodDanmuSendView.h */,
+				03856C531FE21C990038DEB2 /* PLVVodDanmuSendView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -380,9 +380,9 @@
 		03CB8C901FB3EBD10048D9FC /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				031408591FB94DAF00D1424A /* Foundation+Log.m */,
 				03856C5C1FE21C990038DEB2 /* Category */,
 				03856C4D1FE21C990038DEB2 /* Skin */,
-				031408591FB94DAF00D1424A /* Foundation+Log.m */,
 				030DF0371FB5AB730035D0B0 /* Model */,
 				030DF0331FB595CE0035D0B0 /* Networking */,
 				03CB8C911FB3EC730048D9FC /* View */,
