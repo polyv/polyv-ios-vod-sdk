@@ -15,9 +15,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *danmuTextField;
 @property (weak, nonatomic) IBOutlet UIButton *settingButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputHeightLayout;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
 @property (weak, nonatomic) IBOutlet UIStackView *colorButtonStackView;
 @property (weak, nonatomic) IBOutlet UIStackView *typeButtonStackView;
 @property (weak, nonatomic) IBOutlet UIStackView *fontSizeButtonStackView;
+#pragma clang diagnostic pop
 
 @property (nonatomic, assign) CGFloat inputHeight;
 

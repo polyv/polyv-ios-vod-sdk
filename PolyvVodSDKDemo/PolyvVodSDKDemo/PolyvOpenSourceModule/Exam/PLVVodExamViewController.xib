@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PLVVodExamViewController">
+            <connections>
+                <outlet property="explanationView" destination="Se4-MJ-ONL" id="B2d-1b-zhA"/>
+                <outlet property="questionView" destination="vaD-2r-P0g" id="Q1h-S4-3oB"/>
+                <outlet property="view" destination="iN0-l3-epB" id="pec-y5-Tp0"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <point key="canvasLocation" x="25" y="49"/>
+        </view>
+        <view contentMode="scaleToFill" id="vaD-2r-P0g" userLabel="题目视图" customClass="PLVVodQuestionView">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="cZY-Bx-3f4">
+                    <rect key="frame" x="15" y="20" width="450" height="300"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pwy-fK-pfD">
+                        <size key="itemSize" width="160" height="30"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="vaD-2r-P0g" id="W0l-Nr-RgL"/>
+                        <outlet property="delegate" destination="vaD-2r-P0g" id="7eC-8B-J8n"/>
+                    </connections>
+                </collectionView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7uS-y5-UUo">
+                    <rect key="frame" x="0.0" y="276" width="480" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="4JV-ro-Ca6"/>
+                    </constraints>
+                    <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="6dh-Kf-cm5"/>
+                        <barButtonItem title="跳过" style="plain" id="u6I-Fl-Ch5">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="skipButtonAction:" destination="vaD-2r-P0g" id="nJg-lN-dvJ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="jEn-52-VeE"/>
+                        <barButtonItem style="plain" id="ckM-3x-3pl">
+                            <view key="customView" contentMode="scaleToFill" id="vU2-2S-7j2">
+                                <rect key="frame" x="241" y="10" width="1" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="i8A-Bz-qbC"/>
+                        <barButtonItem title="提交" id="FDe-w5-p9l">
+                            <connections>
+                                <action selector="submitButtonAction:" destination="vaD-2r-P0g" id="fdm-uC-f6F"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="jWd-qO-Seb"/>
+                    </items>
+                </toolbar>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="7uS-y5-UUo" firstAttribute="leading" secondItem="vaD-2r-P0g" secondAttribute="leading" id="Ghw-yZ-ma5"/>
+                <constraint firstItem="7uS-y5-UUo" firstAttribute="bottom" secondItem="cZY-Bx-3f4" secondAttribute="bottom" id="RWh-Xx-6DM"/>
+                <constraint firstAttribute="trailing" secondItem="7uS-y5-UUo" secondAttribute="trailing" id="Y0p-fh-bq0"/>
+                <constraint firstItem="cZY-Bx-3f4" firstAttribute="leading" secondItem="vaD-2r-P0g" secondAttribute="leading" constant="15" id="YmV-sO-dhx"/>
+                <constraint firstAttribute="trailing" secondItem="cZY-Bx-3f4" secondAttribute="trailing" constant="15" id="dH1-bR-duF"/>
+                <constraint firstAttribute="bottom" secondItem="7uS-y5-UUo" secondAttribute="bottom" id="n4u-JZ-TzY"/>
+                <constraint firstItem="cZY-Bx-3f4" firstAttribute="top" secondItem="vaD-2r-P0g" secondAttribute="top" constant="20" id="sJK-jm-VFg"/>
+            </constraints>
+            <connections>
+                <outlet property="collectionLayout" destination="pwy-fK-pfD" id="6Wh-1E-vpm"/>
+                <outlet property="optionCollectionView" destination="cZY-Bx-3f4" id="HSg-n9-YJm"/>
+                <outlet property="skipButton" destination="u6I-Fl-Ch5" id="iNm-1F-J1T"/>
+                <outlet property="submitButton" destination="FDe-w5-p9l" id="haq-dt-8If"/>
+            </connections>
+            <point key="canvasLocation" x="25" y="455"/>
+        </view>
+        <view contentMode="scaleToFill" id="Se4-MJ-ONL" userLabel="解释视图" customClass="PLVVodExplanationView">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffe-xd-e3h">
+                    <rect key="frame" x="16" y="20" width="448" height="300"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
+                    <attributedString key="attributedText">
+                        <fragment content="回答错误 ">
+                            <attributes>
+                                <color key="NSColor" red="0.97646999999999995" green="0.33724999999999999" blue="0.32157000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <font key="NSFont" size="17" name="PingFangSC-Medium"/>
+                                <real key="NSKern" value="0.0"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                            </attributes>
+                        </fragment>
+                        <fragment content=" 解释。">
+                            <attributes>
+                                <color key="NSColor" red="0.27059" green="0.35293999999999998" blue="0.39216000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <font key="NSFont" size="14" name="PingFangSC-Medium"/>
+                                <real key="NSKern" value="0.0"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                            </attributes>
+                        </fragment>
+                    </attributedString>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLS-gQ-8jc">
+                    <rect key="frame" x="0.0" y="276" width="480" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="y9t-FO-fcU"/>
+                    </constraints>
+                    <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Nbh-RX-NkA"/>
+                        <barButtonItem title="我知道了" id="N0V-jQ-bQf">
+                            <connections>
+                                <action selector="confirmButtonAction:" destination="Se4-MJ-ONL" id="59J-GS-bSU"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="U2j-Qc-YbF"/>
+                    </items>
+                </toolbar>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ffe-xd-e3h" secondAttribute="trailing" constant="16" id="8aa-Be-dgv"/>
+                <constraint firstAttribute="bottom" secondItem="TLS-gQ-8jc" secondAttribute="bottom" id="BeS-Q4-wuc"/>
+                <constraint firstItem="ffe-xd-e3h" firstAttribute="leading" secondItem="Se4-MJ-ONL" secondAttribute="leading" constant="16" id="CIk-WI-Bez"/>
+                <constraint firstItem="TLS-gQ-8jc" firstAttribute="bottom" secondItem="ffe-xd-e3h" secondAttribute="bottom" id="IC1-6U-52g"/>
+                <constraint firstItem="ffe-xd-e3h" firstAttribute="top" secondItem="Se4-MJ-ONL" secondAttribute="top" constant="20" id="KcR-qD-cSj"/>
+                <constraint firstAttribute="trailing" secondItem="TLS-gQ-8jc" secondAttribute="trailing" id="aIu-Yg-dI1"/>
+                <constraint firstItem="TLS-gQ-8jc" firstAttribute="leading" secondItem="Se4-MJ-ONL" secondAttribute="leading" id="rdF-g6-qVM"/>
+            </constraints>
+            <connections>
+                <outlet property="explanationTextView" destination="ffe-xd-e3h" id="1oh-Pn-0lQ"/>
+            </connections>
+            <point key="canvasLocation" x="22" y="869"/>
+        </view>
+    </objects>
+</document>

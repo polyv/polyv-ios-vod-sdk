@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="PLVVodOptionCell">
+            <rect key="frame" x="0.0" y="0.0" width="86" height="22"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="86" height="22"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cek-7m-HSy">
+                        <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="3sv-HX-tjz"/>
+                            <constraint firstAttribute="width" secondItem="Cek-7m-HSy" secondAttribute="height" multiplier="1:1" id="XRu-2b-aMP"/>
+                        </constraints>
+                        <state key="normal" image="plv_vod_btn_checkbox"/>
+                        <state key="selected" image="plv_vod_btn_checkbox_sel"/>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选项" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ft-GS-9p7">
+                        <rect key="frame" x="32" y="3" width="54" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.27058823529411763" green="0.3529411764705882" blue="0.39215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="7ft-GS-9p7" firstAttribute="leading" secondItem="Cek-7m-HSy" secondAttribute="trailing" constant="10" id="Ecz-0H-vgv"/>
+                <constraint firstItem="Cek-7m-HSy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="NaH-Hz-SxY"/>
+                <constraint firstItem="7ft-GS-9p7" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="P8G-MQ-EZ8"/>
+                <constraint firstItem="Cek-7m-HSy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="g0i-lM-cCA"/>
+                <constraint firstAttribute="trailing" secondItem="7ft-GS-9p7" secondAttribute="trailing" id="obd-CV-yxr"/>
+            </constraints>
+            <size key="customSize" width="86" height="22"/>
+            <connections>
+                <outlet property="checkboxButton" destination="Cek-7m-HSy" id="c6y-11-nFe"/>
+                <outlet property="optionLabel" destination="7ft-GS-9p7" id="cOg-1a-4yl"/>
+            </connections>
+            <point key="canvasLocation" x="44" y="38"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="plv_vod_btn_checkbox" width="20" height="20"/>
+        <image name="plv_vod_btn_checkbox_sel" width="20" height="20"/>
+    </resources>
+</document>

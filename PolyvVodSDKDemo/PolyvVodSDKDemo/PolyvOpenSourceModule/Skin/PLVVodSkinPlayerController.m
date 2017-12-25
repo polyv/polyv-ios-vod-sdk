@@ -11,6 +11,8 @@
 #import "PLVVodDanmuManager.h"
 #import "PLVTimer.h"
 #import "PLVVodDanmu+PLVVod.h"
+#import "PLVVodExamViewController.h"
+#import <PLVVodSDK/PLVVodExam.h>
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -25,6 +27,9 @@
 /// 播放刷新定时器
 @property (nonatomic, strong) PLVTimer *playbackTimer;
 
+/// 问答控制器
+@property (nonatomic, strong) PLVVodExamViewController *examViewController;
+
 @end
 
 @implementation PLVVodSkinPlayerController
@@ -38,6 +43,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 	
+	self.automaticallyAdjustsScrollViewInsets = NO;
+	
 	PLVVodPlayerSkin *skin = [[PLVVodPlayerSkin alloc] initWithNibName:nil bundle:nil];
 	[self addChildViewController:skin];
 	self.skinView = skin.view;
@@ -47,31 +54,84 @@
 	[self addObserver];
 	[self teaserStateDidChange];
 	[self adStateDidChange];
+	
+	// for test
+	//[self setupExam];
+	
+	__weak typeof(self) weakSelf = self;
+	self.playbackTimer = [PLVTimer repeatWithInterval:0.2 repeatBlock:^{
+		dispatch_async(dispatch_get_main_queue(), ^{
+			// 同步显示弹幕
+			weakSelf.danmuManager.currentTime = weakSelf.currentPlaybackTime;
+			//NSLog(@"danmu time: %f", weakSelf.danmuManager.currentTime);
+			[weakSelf.danmuManager synchronouslyShowDanmu];
+			
+			/// 同步显示问答
+			weakSelf.examViewController.currentTime = weakSelf.currentPlaybackTime;
+			[weakSelf.examViewController synchronouslyShowExam];
+		});
+	}];
+}
+
+- (void)setupAd {
 	self.adPlayer.adDidTapBlock = ^(PLVVodAd *ad) {
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:ad.address]];
 	};
 	self.adPlayer.canSkip = YES;
+	
+	// ad player UI
 	[self.adPlayer.muteButton setImage:[UIImage imageNamed:@"plv_ad_btn_volume_on"] forState:UIControlStateNormal];
 	[self.adPlayer.muteButton setImage:[UIImage imageNamed:@"plv_ad_btn_volume_off"] forState:UIControlStateSelected];
 	[self.adPlayer.muteButton sizeToFit];
 	[self.adPlayer.playButton setImage:[UIImage imageNamed:@"plv_ad_btn_play"] forState:UIControlStateNormal];
 	[self.adPlayer.playButton sizeToFit];
+}
+
+- (void)setupDanmu {
+	// 清除监听
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:PLVVodDanmuDidSendNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:PLVVodDanmuWillSendNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:PLVVodDanmuEndSendNotification object:nil];
 	
 	// 配置弹幕
 	__weak typeof(self) weakSelf = self;
 	[PLVVodDanmu requestDanmusWithVid:self.video.vid completion:^(NSArray<PLVVodDanmu *> *danmus, NSError *error) {
 		weakSelf.danmuManager = [[PLVVodDanmuManager alloc] initWithDanmus:danmus inView:weakSelf.maskView];
-		weakSelf.playbackTimer = [PLVTimer repeatWithInterval:0.2 repeatBlock:^{
-			dispatch_async(dispatch_get_main_queue(), ^{
-				weakSelf.danmuManager.currentTime = weakSelf.currentPlaybackTime;
-				//NSLog(@"danmu time: %f", weakSelf.danmuManager.currentTime);
-				[weakSelf.danmuManager synchronouslyShowDanmu];
-			});
-		}];
 	}];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(danmuDidSend:) name:PLVVodDanmuDidSendNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(danmuWillSend:) name:PLVVodDanmuWillSendNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(danmuDidEnd:) name:PLVVodDanmuEndSendNotification object:nil];
+}
+
+- (void)setupExam {
+	PLVVodExamViewController *examViewController = [[PLVVodExamViewController alloc] initWithNibName:@"PLVVodExamViewController" bundle:nil];
+	[self.view addSubview:examViewController.view];
+	examViewController.view.frame = self.view.bounds;
+	[self addChildViewController:examViewController];
+	self.examViewController = examViewController;
+	__weak typeof(self) weakSelf = self;
+	self.examViewController.examWillShowHandler = ^(PLVVodExam *exam) {
+		[weakSelf pause];
+	};
+	self.examViewController.examDidCompleteHandler = ^(PLVVodExam *exam, NSTimeInterval backTime) {
+		if (backTime > 0) {
+			weakSelf.currentPlaybackTime = backTime;
+		}
+		[weakSelf play];
+	};
+	// self.video.vid
+	[PLVVodExam requestVideoWithVid:@"f46ead66dec30461646947dea668c1c1_f" completion:^(NSArray<PLVVodExam *> *exams, NSError *error) {
+		weakSelf.examViewController.exams = exams;
+	}];
+}
+
+- (void)setVideo:(PLVVodVideo *)video quality:(PLVVodQuality)quality {
+	[super setVideo:video quality:quality];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self setupAd];
+		[self setupDanmu];
+		[self setupExam];
+	});
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -82,6 +142,7 @@
 	//NSLog(@"layout guide: %f - %f", self.topLayoutGuide.length, self.bottomLayoutGuide.length);
 	self.danmuManager.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
 	self.skinView.frame = self.view.bounds;
+	
 }
 
 - (void)didReceiveMemoryWarning {

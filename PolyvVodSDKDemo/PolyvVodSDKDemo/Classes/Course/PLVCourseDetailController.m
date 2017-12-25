@@ -119,7 +119,6 @@
 	}
 }
 
-
 #pragma mark - DLTabedSlideViewDelegate
 
 - (NSInteger)numberOfTabsInDLTabedSlideView:(DLTabedSlideView *)sender{

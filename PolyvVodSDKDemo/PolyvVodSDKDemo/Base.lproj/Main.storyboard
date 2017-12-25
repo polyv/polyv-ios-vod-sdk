@@ -336,7 +336,7 @@
                                     <constraint firstAttribute="width" secondItem="g2T-Lb-o5k" secondAttribute="height" multiplier="16:9" priority="750" id="bFN-NG-wgM"/>
                                 </constraints>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qID-Zu-w79" customClass="DLTabedSlideView">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qID-Zu-w79" customClass="DLTabedSlideView">
                                 <rect key="frame" x="0.0" y="244" width="320" height="236"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>

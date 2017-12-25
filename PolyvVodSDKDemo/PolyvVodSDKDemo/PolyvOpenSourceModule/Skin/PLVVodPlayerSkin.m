@@ -216,7 +216,6 @@
 #pragma mark - tool
 
 // makes "subview" match the width and height of "superview" by adding the proper auto layout constraints
-//
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {
 	subview.translatesAutoresizingMaskIntoConstraints = NO;
 	NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
