@@ -20,6 +20,7 @@
                 <outlet property="settingsPanelView" destination="WML-5j-ft2" id="x46-bt-2Xh"/>
                 <outlet property="sharePanelView" destination="BZZ-yq-7JA" id="09G-4B-nEF"/>
                 <outlet property="shrinkscreenView" destination="xdj-6z-3JE" id="mgQ-OP-YLd"/>
+                <outlet property="subtitleLabel" destination="37T-Vn-sBr" id="QUx-jr-7n8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -27,7 +28,20 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="字幕" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37T-Vn-sBr">
+                    <rect key="frame" x="8" y="291" width="464" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="37T-Vn-sBr" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="CBw-mo-mjC"/>
+                <constraint firstAttribute="bottom" secondItem="37T-Vn-sBr" secondAttribute="bottom" constant="8" id="RIn-O4-cqe"/>
+                <constraint firstAttribute="trailing" secondItem="37T-Vn-sBr" secondAttribute="trailing" constant="8" id="nC1-3R-oy1"/>
+            </constraints>
             <point key="canvasLocation" x="26" y="59"/>
         </view>
         <view contentMode="scaleToFill" id="xdj-6z-3JE" userLabel="半屏皮肤" customClass="PLVVodShrinkscreenView">

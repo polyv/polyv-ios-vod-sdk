@@ -28,14 +28,21 @@
 
 - (void)setSubtitleKeys:(NSArray<NSString *> *)subtitleKeys {
 	_subtitleKeys = subtitleKeys;
+	
+	// 无字幕按钮
+	UIButton *noSubtitleButton = [self.class buttonWithTitle:@"无"];
+	noSubtitleButton.selected = YES;
+	[noSubtitleButton addTarget:self action:@selector(subtitleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+	
+	// 清除控件
 	for (UIView *subview in self.subtitleStackView.arrangedSubviews) {
 		[self.subtitleStackView removeArrangedSubview:subview];
 		[subview removeFromSuperview];
 	}
+	
 	if (!subtitleKeys.count) {
-		UIButton *button = [self.class buttonWithTitle:@"无字幕"];
-		button.enabled = NO;
-		[self.subtitleStackView addArrangedSubview:button];
+		noSubtitleButton.userInteractionEnabled = NO;
+		[self.subtitleStackView addArrangedSubview:noSubtitleButton];
 		return;
 	}
 	for (NSString *subtitleKey in subtitleKeys) {
@@ -43,6 +50,7 @@
 		[self.subtitleStackView addArrangedSubview:subtitleButton];
 		[subtitleButton addTarget:self action:@selector(subtitleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	}
+	[self.subtitleStackView addArrangedSubview:noSubtitleButton];
 }
 
 - (void)setScalingMode:(NSInteger)scalingMode {
@@ -59,7 +67,8 @@
 	}
 	sender.selected = YES;
 	NSInteger index = [self.subtitleStackView.arrangedSubviews indexOfObject:sender];
-	self.currentSubtitleKey = self.subtitleKeys[index];
+	self.selectedSubtitleKey = index >= self.subtitleKeys.count ? nil : self.subtitleKeys[index];
+	if (self.selectedSubtitleKeyDidChangeBlock) self.selectedSubtitleKeyDidChangeBlock(self.selectedSubtitleKey);
 }
 
 - (IBAction)scaleModeButtonAction:(UIButton *)sender {

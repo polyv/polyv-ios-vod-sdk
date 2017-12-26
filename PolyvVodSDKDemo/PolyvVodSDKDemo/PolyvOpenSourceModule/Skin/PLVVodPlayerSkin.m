@@ -56,6 +56,21 @@
 @end
 
 @implementation PLVVodPlayerSkin
+{
+	UIStatusBarStyle _statusBarStyle;
+	PLVVodQuality _quality;
+	NSString *_selectedSubtitleKey;
+	BOOL _shouldHideStatusBar;
+	double _playbackRate;
+	int _qualityCount;
+}
+
+@synthesize statusBarStyle = _statusBarStyle;
+@synthesize quality = _quality;
+@synthesize selectedSubtitleKey = _selectedSubtitleKey;
+@synthesize shouldHideStatusBar = _shouldHideStatusBar;
+@synthesize playbackRate = _playbackRate;
+@synthesize qualityCount = _qualityCount;
 
 #pragma mark - property
 
@@ -103,6 +118,20 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		weakSelf.fullscreenView.titleLabel.text = delegatePlayer.video.title;
 	});
+}
+
+- (void)setSelectedSubtitleKeyDidChangeBlock:(void (^)(NSString *))selectedSubtitleKeyDidChangeBlock {
+	self.settingsPanelView.selectedSubtitleKeyDidChangeBlock = selectedSubtitleKeyDidChangeBlock;
+}
+- (void (^)(NSString *))selectedSubtitleKeyDidChangeBlock {
+	return self.settingsPanelView.selectedSubtitleKeyDidChangeBlock;
+}
+
+- (void)setSelectedSubtitleKey:(NSString *)selectedSubtitleKey {
+	self.settingsPanelView.selectedSubtitleKey = selectedSubtitleKey;
+}
+- (NSString *)selectedSubtitleKey {
+	return self.settingsPanelView.selectedSubtitleKey;
 }
 
 #pragma mark - view controller

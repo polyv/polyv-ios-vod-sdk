@@ -10,6 +10,7 @@ target 'PolyvVodSDKDemo' do
 	# Pods for PolyvVodSDKDemo
 	pod 'XRCarouselView'
 	pod 'YYWebImage'
+	pod 'FDStackView'
 
 	# PLVVodSDK
 	# pod 'PolyvVodSDK', :path => "../../PolyvVodSDK"
@@ -20,8 +21,9 @@ target 'PolyvVodSDKDemo' do
 	pod 'PLVTimer'
 	pod 'SSZipArchive'
 
+	# POLYV Open Source
 	pod 'PLVVodDanmu'
-	pod 'FDStackView'
+	pod 'PLVSubtitle'
 
 	target 'PolyvVodSDKDemoTests' do
 		inherit! :search_paths

@@ -13,6 +13,7 @@
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodExamViewController.h"
 #import <PLVVodSDK/PLVVodExam.h>
+#import <PLVSubtitle/PLVSubtitleManager.h>
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -29,6 +30,9 @@
 
 /// 问答控制器
 @property (nonatomic, strong) PLVVodExamViewController *examViewController;
+
+/// 字幕管理器
+@property (nonatomic, strong) PLVSubtitleManager *subtitleManager;
 
 @end
 
@@ -69,8 +73,16 @@
 			/// 同步显示问答
 			weakSelf.examViewController.currentTime = weakSelf.currentPlaybackTime;
 			[weakSelf.examViewController synchronouslyShowExam];
+			
+			/// 同步显示字幕
+			[weakSelf.subtitleManager showSubtitleWithTime:weakSelf.currentPlaybackTime];
 		});
 	}];
+	
+	// 配置皮肤控件事件
+	skin.selectedSubtitleKeyDidChangeBlock = ^(NSString *selectedSubtitleKey) {
+		[weakSelf setupSubtitle];
+	};
 }
 
 - (void)setupAd {
@@ -119,9 +131,22 @@
 		}
 		[weakSelf play];
 	};
-	// self.video.vid
-	[PLVVodExam requestVideoWithVid:@"f46ead66dec30461646947dea668c1c1_f" completion:^(NSArray<PLVVodExam *> *exams, NSError *error) {
+	[PLVVodExam requestVideoWithVid:self.video.vid completion:^(NSArray<PLVVodExam *> *exams, NSError *error) {
 		weakSelf.examViewController.exams = exams;
+	}];
+}
+
+- (void)setupSubtitle {
+	PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+	NSString *srtUrl = self.video.srts[skin.selectedSubtitleKey];
+	//srtUrl = @"https://static.polyv.net/usrt/f/f46ead66de/srt/b3ecc235-a47c-4c22-af29-0aab234b1b69.srt";
+	if (!srtUrl.length) {
+		self.subtitleManager = [PLVSubtitleManager managerWithSubtitle:nil label:skin.subtitleLabel error:nil];
+	}
+	__weak typeof(self) weakSelf = self;
+	[self.class requestStringWithUrl:srtUrl completion:^(NSString *string) {
+		NSString *srtContent = string;
+		weakSelf.subtitleManager = [PLVSubtitleManager managerWithSubtitle:srtContent label:skin.subtitleLabel error:nil];
 	}];
 }
 
@@ -131,6 +156,7 @@
 		[self setupAd];
 		[self setupDanmu];
 		[self setupExam];
+		[self setupSubtitle];
 	});
 }
 
@@ -148,6 +174,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - tool
++ (void)requestStringWithUrl:(NSString *)url completion:(void (^)(NSString *string))completion {
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+	[[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+		NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+		if (string.length) {
+			if (completion) completion(string);
+		}
+	}] resume];
 }
 
 
