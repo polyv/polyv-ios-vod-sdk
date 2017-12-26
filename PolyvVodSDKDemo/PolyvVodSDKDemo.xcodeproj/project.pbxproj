@@ -50,6 +50,8 @@
 		03856C751FE21C990038DEB2 /* UIView+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C681FE21C990038DEB2 /* UIView+PLVVod.m */; };
 		03856CA31FE22A4D0038DEB2 /* PLVVodAccountVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856CA21FE22A4D0038DEB2 /* PLVVodAccountVideo.m */; };
 		03856CA61FE22D090038DEB2 /* NSString+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856CA51FE22D090038DEB2 /* NSString+PLVVod.m */; };
+		03C9D44F1FF23D4B006F460C /* PLVVodDefinitionPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C9D44E1FF23D4B006F460C /* PLVVodDefinitionPanelView.m */; };
+		03C9D4551FF255B0006F460C /* PLVVodPlaybackRatePanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C9D4541FF255B0006F460C /* PLVVodPlaybackRatePanelView.m */; };
 		03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */; };
 		03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C641FB3EB220048D9FC /* Main.storyboard */; };
 		03CB8C681FB3EB220048D9FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03CB8C671FB3EB220048D9FC /* Assets.xcassets */; };
@@ -169,6 +171,10 @@
 		03856CA21FE22A4D0038DEB2 /* PLVVodAccountVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodAccountVideo.m; sourceTree = "<group>"; };
 		03856CA41FE22D090038DEB2 /* NSString+PLVVod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+PLVVod.h"; sourceTree = "<group>"; };
 		03856CA51FE22D090038DEB2 /* NSString+PLVVod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+PLVVod.m"; sourceTree = "<group>"; };
+		03C9D44D1FF23D4B006F460C /* PLVVodDefinitionPanelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodDefinitionPanelView.h; sourceTree = "<group>"; };
+		03C9D44E1FF23D4B006F460C /* PLVVodDefinitionPanelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodDefinitionPanelView.m; sourceTree = "<group>"; };
+		03C9D4531FF255B0006F460C /* PLVVodPlaybackRatePanelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodPlaybackRatePanelView.h; sourceTree = "<group>"; };
+		03C9D4541FF255B0006F460C /* PLVVodPlaybackRatePanelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodPlaybackRatePanelView.m; sourceTree = "<group>"; };
 		03CB8C5B1FB3EB220048D9FC /* PolyvVodSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyvVodSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03CB8C5E1FB3EB220048D9FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		03CB8C5F1FB3EB220048D9FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -301,6 +307,7 @@
 		03722E321FEB66CC00031180 /* PolyvOpenSourceModule */ = {
 			isa = PBXGroup;
 			children = (
+				03856C5C1FE21C990038DEB2 /* Category */,
 				03856C4D1FE21C990038DEB2 /* Skin */,
 				03722E2C1FEB65DC00031180 /* Exam */,
 			);
@@ -349,6 +356,10 @@
 		03856C521FE21C990038DEB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				03C9D4531FF255B0006F460C /* PLVVodPlaybackRatePanelView.h */,
+				03C9D4541FF255B0006F460C /* PLVVodPlaybackRatePanelView.m */,
+				03C9D44D1FF23D4B006F460C /* PLVVodDefinitionPanelView.h */,
+				03C9D44E1FF23D4B006F460C /* PLVVodDefinitionPanelView.m */,
 				03856C541FE21C990038DEB2 /* PLVVodShrinkscreenView.h */,
 				03856C591FE21C990038DEB2 /* PLVVodShrinkscreenView.m */,
 				03856C5A1FE21C990038DEB2 /* PLVVodFullscreenView.h */,
@@ -453,7 +464,6 @@
 			isa = PBXGroup;
 			children = (
 				031408591FB94DAF00D1424A /* Foundation+Log.m */,
-				03856C5C1FE21C990038DEB2 /* Category */,
 				030DF0371FB5AB730035D0B0 /* Model */,
 				030DF0331FB595CE0035D0B0 /* Networking */,
 				03CB8C911FB3EC730048D9FC /* View */,
@@ -848,10 +858,12 @@
 				03856C6E1FE21C990038DEB2 /* PLVVodShrinkscreenView.m in Sources */,
 				03DDF4CA1FE763BB00F63630 /* DLScrollTabbarView.m in Sources */,
 				03DDF4C91FE763BB00F63630 /* DLTabedSlideView.m in Sources */,
+				03C9D4551FF255B0006F460C /* PLVVodPlaybackRatePanelView.m in Sources */,
 				034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */,
 				030DF0321FB590F20035D0B0 /* PLVDownloadListController.m in Sources */,
 				03DDF4C81FE763BB00F63630 /* DLLRUCache.m in Sources */,
 				03722E3B1FEB90DB00031180 /* PLVVodQuestionView.m in Sources */,
+				03C9D44F1FF23D4B006F460C /* PLVVodDefinitionPanelView.m in Sources */,
 				033153071FCD105400CAE849 /* PLVCourseVideo.m in Sources */,
 				030DF0361FB5960E0035D0B0 /* PLVCourseNetworking.m in Sources */,
 				03722E2F1FEB65DC00031180 /* PLVVodExamViewController.m in Sources */,

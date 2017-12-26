@@ -140,7 +140,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F67-0j-oen" userLabel="速率">
+                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F67-0j-oen" userLabel="速率">
                             <rect key="frame" x="375" y="13.5" width="32" height="27"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="32" id="pSE-Mn-V3W"/>
@@ -185,7 +185,7 @@
                                 <action selector="switchDmAction:" destination="-1" eventType="touchUpInside" id="RU0-jf-rdL"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vun-eN-a4o" userLabel="清晰度">
+                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vun-eN-a4o" userLabel="清晰度">
                             <rect key="frame" x="306" y="13" width="32" height="27"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="32" id="Nfb-Gd-QHt"/>
@@ -536,36 +536,18 @@
             </connections>
             <point key="canvasLocation" x="26" y="1305"/>
         </view>
-        <view contentMode="scaleToFill" id="inz-cI-pDt" userLabel="清晰度选择">
+        <view contentMode="scaleToFill" id="inz-cI-pDt" userLabel="清晰度选择" customClass="PLVVodDefinitionPanelView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="kjX-nj-aOb">
-                    <rect key="frame" x="66.5" y="139.5" width="347" height="41"/>
+                    <rect key="frame" x="203.5" y="139.5" width="73" height="41"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cyq-Af-i8S">
-                            <rect key="frame" x="0.0" y="0.0" width="49" height="41"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="超清"/>
-                            <state key="selected">
-                                <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tfz-lU-wEm">
-                            <rect key="frame" x="149" y="0.0" width="49" height="41"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="高清"/>
-                            <state key="selected">
-                                <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p1i-MR-j8y">
-                            <rect key="frame" x="298" y="0.0" width="49" height="41"/>
+                            <rect key="frame" x="0.0" y="0.0" width="73" height="41"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="流畅"/>
+                            <state key="normal" title="不可用"/>
                             <state key="selected">
                                 <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
@@ -578,56 +560,23 @@
                 <constraint firstItem="kjX-nj-aOb" firstAttribute="centerX" secondItem="inz-cI-pDt" secondAttribute="centerX" id="Ddx-64-QuU"/>
                 <constraint firstItem="kjX-nj-aOb" firstAttribute="centerY" secondItem="inz-cI-pDt" secondAttribute="centerY" id="SAk-du-6nu"/>
             </constraints>
+            <connections>
+                <outlet property="qualityStackView" destination="kjX-nj-aOb" id="Skm-up-Ncx"/>
+            </connections>
             <point key="canvasLocation" x="26" y="1733"/>
         </view>
-        <view contentMode="scaleToFill" id="MZT-mj-7ks" userLabel="速率选择">
+        <view contentMode="scaleToFill" id="MZT-mj-7ks" userLabel="速率选择" customClass="PLVVodPlaybackRatePanelView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="CrX-Ob-dsy">
-                    <rect key="frame" x="22.5" y="139.5" width="435" height="41"/>
+                    <rect key="frame" x="203.5" y="139.5" width="73" height="41"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m7X-YV-H58">
-                            <rect key="frame" x="0.0" y="0.0" width="48" height="41"/>
+                            <rect key="frame" x="0.0" y="0.0" width="73" height="41"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="0.5x"/>
-                            <state key="selected">
-                                <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3A-Jx-r2k">
-                            <rect key="frame" x="108" y="0.0" width="30" height="41"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="1x"/>
-                            <state key="selected">
-                                <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bDs-IO-gXC">
-                            <rect key="frame" x="198" y="0.0" width="43" height="41"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="1.2x"/>
-                            <state key="selected">
-                                <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mag-hI-4hK">
-                            <rect key="frame" x="301" y="0.0" width="44" height="41"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="1.5x"/>
-                            <state key="selected">
-                                <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VwZ-qe-jZI">
-                            <rect key="frame" x="405" y="0.0" width="30" height="41"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="2x"/>
+                            <state key="normal" title="不可用"/>
                             <state key="selected">
                                 <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
@@ -640,6 +589,9 @@
                 <constraint firstItem="CrX-Ob-dsy" firstAttribute="centerX" secondItem="MZT-mj-7ks" secondAttribute="centerX" id="Cda-Cm-S4L"/>
                 <constraint firstItem="CrX-Ob-dsy" firstAttribute="centerY" secondItem="MZT-mj-7ks" secondAttribute="centerY" id="X9c-yv-J8o"/>
             </constraints>
+            <connections>
+                <outlet property="playbackRateStackView" destination="CrX-Ob-dsy" id="gRR-aa-msc"/>
+            </connections>
             <point key="canvasLocation" x="26" y="2170"/>
         </view>
         <tapGestureRecognizer id="OPa-9b-dc4" userLabel="点击面板">
@@ -953,6 +905,9 @@
                                     </subviews>
                                 </stackView>
                             </subviews>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="1bO-LR-CK4" appends="YES" id="15P-dG-aiI"/>
+                            </connections>
                         </stackView>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
@@ -988,7 +943,7 @@
             </connections>
             <point key="canvasLocation" x="26" y="3402"/>
         </view>
-        <tapGestureRecognizer id="1bO-LR-CK4"/>
+        <tapGestureRecognizer id="1bO-LR-CK4" userLabel="占位手势"/>
     </objects>
     <resources>
         <image name="plv_vod_bg_s" width="130" height="130"/>

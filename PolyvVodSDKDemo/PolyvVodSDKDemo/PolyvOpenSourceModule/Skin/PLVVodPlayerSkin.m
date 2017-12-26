@@ -14,6 +14,8 @@
 #import "UIView+PLVVod.h"
 #import "PLVVodDanmuSendView.h"
 #import "PLVVodDanmu+PLVVod.h"
+#import "PLVVodDefinitionPanelView.h"
+#import "PLVVodPlaybackRatePanelView.h"
 
 @interface PLVVodPlayerSkin ()<UITextFieldDelegate>
 
@@ -27,10 +29,10 @@
 @property (strong, nonatomic) IBOutlet PLVVodSettingPanelView *settingsPanelView;
 
 /// 清晰度选择面板
-@property (strong, nonatomic) IBOutlet UIView *definitionPanelView;
+@property (strong, nonatomic) IBOutlet PLVVodDefinitionPanelView *definitionPanelView;
 
 /// 速率选择面板
-@property (strong, nonatomic) IBOutlet UIView *playbackRatePanelView;
+@property (strong, nonatomic) IBOutlet PLVVodPlaybackRatePanelView *playbackRatePanelView;
 
 /// 分享平台选择面板
 @property (strong, nonatomic) IBOutlet UIView *sharePanelView;
@@ -58,19 +60,13 @@
 @implementation PLVVodPlayerSkin
 {
 	UIStatusBarStyle _statusBarStyle;
-	PLVVodQuality _quality;
-	NSString *_selectedSubtitleKey;
 	BOOL _shouldHideStatusBar;
 	double _playbackRate;
-	int _qualityCount;
 }
 
 @synthesize statusBarStyle = _statusBarStyle;
-@synthesize quality = _quality;
-@synthesize selectedSubtitleKey = _selectedSubtitleKey;
 @synthesize shouldHideStatusBar = _shouldHideStatusBar;
 @synthesize playbackRate = _playbackRate;
-@synthesize qualityCount = _qualityCount;
 
 #pragma mark - property
 
@@ -120,6 +116,17 @@
 	});
 }
 
+#pragma mark - PLVVodPlayerSkinProtocol
+
+#pragma mark 字幕
+
+- (void)setSubtitleKeys:(NSArray<NSString *> *)subtitleKeys {
+	self.settingsPanelView.subtitleKeys = subtitleKeys;
+}
+- (NSArray<NSString *> *)subtitleKeys {
+	return self.settingsPanelView.subtitleKeys;
+}
+
 - (void)setSelectedSubtitleKeyDidChangeBlock:(void (^)(NSString *))selectedSubtitleKeyDidChangeBlock {
 	self.settingsPanelView.selectedSubtitleKeyDidChangeBlock = selectedSubtitleKeyDidChangeBlock;
 }
@@ -134,6 +141,64 @@
 	return self.settingsPanelView.selectedSubtitleKey;
 }
 
+#pragma mark 清晰度
+
+- (void)setQualityCount:(int)qualityCount {
+	self.definitionPanelView.qualityCount = qualityCount;
+}
+- (int)qualityCount {
+	return self.definitionPanelView.qualityCount;
+}
+
+- (void)setQuality:(PLVVodQuality)quality {
+	self.definitionPanelView.quality = quality;
+	NSString *definition = NSStringFromPLVVodQuality(quality);
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.fullscreenView.definitionButton setTitle:definition forState:UIControlStateNormal];
+	});
+}
+- (PLVVodQuality)quality {
+	return self.definitionPanelView.quality;
+}
+
+- (void)setQualityDidChangeBlock:(void (^)(PLVVodQuality))qualityDidChangeBlock {
+	self.definitionPanelView.qualityDidChangeBlock = qualityDidChangeBlock;
+}
+- (void (^)(PLVVodQuality))qualityDidChangeBlock {
+	return self.definitionPanelView.qualityDidChangeBlock;
+}
+
+#pragma mark 拉伸方式
+
+- (void)setScalingMode:(NSInteger)scalingMode {
+	self.settingsPanelView.scalingMode = scalingMode;
+}
+- (NSInteger)scalingMode {
+	return self.settingsPanelView.scalingMode;
+}
+- (void)setScalingModeDidChangeBlock:(void (^)(NSInteger))scalingModeDidChangeBlock {
+	self.settingsPanelView.scalingModeDidChangeBlock = scalingModeDidChangeBlock;
+}
+- (void (^)(NSInteger))scalingModeDidChangeBlock {
+	return self.settingsPanelView.scalingModeDidChangeBlock;
+}
+
+#pragma mark 播放速率
+
+- (void)setPlaybackRate:(double)playbackRate {
+	NSString *title = [NSString stringWithFormat:@"%.1fx", playbackRate];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.fullscreenView.playbackRateButton setTitle:title forState:UIControlStateNormal];
+	});
+}
+
+- (void)setSelectedPlaybackRateDidChangeBlock:(void (^)(double))selectedPlaybackRateDidChangeBlock {
+	self.playbackRatePanelView.selectedPlaybackRateDidChangeBlock = selectedPlaybackRateDidChangeBlock;
+}
+- (void (^)(double))selectedPlaybackRateDidChangeBlock {
+	return self.playbackRatePanelView.selectedPlaybackRateDidChangeBlock;
+}
+
 #pragma mark - view controller
 
 - (void)dealloc {
@@ -145,7 +210,6 @@
 	[self addOrientationObserve];
 	[self setupUI];
 }
-
 
 - (void)setupUI {
 	UIDevice *device = [UIDevice currentDevice];
@@ -313,13 +377,11 @@
 }
 
 - (IBAction)definitionAction:(UIButton *)sender {
-	sender.selected = !sender.selected;
 	[self transitToView:self.definitionPanelView];
 	self.topView = self.definitionPanelView;
 }
 
 - (IBAction)playbackRateAction:(UIButton *)sender {
-	sender.selected = !sender.selected;
 	[self transitToView:self.playbackRatePanelView];
 	self.topView = self.playbackRatePanelView;
 }
@@ -350,39 +412,6 @@
 - (IBAction)danmuAction:(UIButton *)sender {
 	[self transitToView:self.danmuSendView];
 	self.topView = self.danmuSendView;
-}
-
-#pragma mark - PLVVodPlayerSkinProtocol
-
-- (void)setQualityCount:(int)qualityCount {
-	_qualityCount = qualityCount;
-	// 设置界面
-}
-
-- (void)setQuality:(PLVVodQuality)quality {
-	_quality = quality;
-	// 设置界面
-}
-
-- (void)setScalingMode:(NSInteger)scalingMode {
-	self.settingsPanelView.scalingMode = scalingMode;
-}
-- (NSInteger)scalingMode {
-	return self.settingsPanelView.scalingMode;
-}
-- (void)setScalingModeDidChangeBlock:(void (^)(NSInteger))scalingModeDidChangeBlock {
-	self.settingsPanelView.scalingModeDidChangeBlock = scalingModeDidChangeBlock;
-}
-- (void (^)(NSInteger))scalingModeDidChangeBlock {
-	return self.settingsPanelView.scalingModeDidChangeBlock;
-}
-
-- (void)setSubtitleKeys:(NSArray<NSString *> *)subtitleKeys {
-	// 设置界面
-	self.settingsPanelView.subtitleKeys = subtitleKeys;
-}
-- (NSArray<NSString *> *)subtitleKeys {
-	return self.settingsPanelView.subtitleKeys;
 }
 
 - (void)sendDanmu {
