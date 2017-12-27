@@ -374,6 +374,7 @@
 - (IBAction)switchDmAction:(UIButton *)sender {
 	sender.selected = !sender.selected;
 	NSLog(@"弹幕：%s", sender.selected?"开":"关");
+	self.fullscreenView.dmButton.hidden = !sender.selected;
 }
 
 - (IBAction)definitionAction:(UIButton *)sender {

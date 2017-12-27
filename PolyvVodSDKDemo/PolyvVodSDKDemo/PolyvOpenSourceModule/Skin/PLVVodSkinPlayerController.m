@@ -14,6 +14,7 @@
 #import "PLVVodExamViewController.h"
 #import <PLVVodSDK/PLVVodExam.h>
 #import <PLVSubtitle/PLVSubtitleManager.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -34,9 +35,30 @@
 /// 字幕管理器
 @property (nonatomic, strong) PLVSubtitleManager *subtitleManager;
 
+/// 视频截图
+@property (nonatomic, strong) UIImage *snapshot;
+
 @end
 
 @implementation PLVVodSkinPlayerController
+
+#pragma mark - property
+
+- (void)setVideo:(PLVVodVideo *)video quality:(PLVVodQuality)quality {
+	[super setVideo:video quality:quality];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self setupAd];
+		[self setupDanmu];
+		[self setupExam];
+		[self setupSubtitle];
+		
+		// 设置控制中心播放信息
+		self.snapshot = nil;
+		[self setupPlaybackInfo];
+	});
+}
+
+#pragma mark - view controller
 
 - (void)dealloc {
 	[self.playbackTimer cancel];
@@ -59,9 +81,6 @@
 	[self teaserStateDidChange];
 	[self adStateDidChange];
 	
-	// for test
-	//[self setupExam];
-	
 	__weak typeof(self) weakSelf = self;
 	self.playbackTimer = [PLVTimer repeatWithInterval:0.2 repeatBlock:^{
 		dispatch_async(dispatch_get_main_queue(), ^{
@@ -83,7 +102,23 @@
 	skin.selectedSubtitleKeyDidChangeBlock = ^(NSString *selectedSubtitleKey) {
 		[weakSelf setupSubtitle];
 	};
+	
+	// 开启后台播放
+	//self.enableBackgroundPlayback = YES;
 }
+
+- (void)viewDidLayoutSubviews {
+	//NSLog(@"layout guide: %f - %f", self.topLayoutGuide.length, self.bottomLayoutGuide.length);
+	self.danmuManager.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+	self.skinView.frame = self.view.bounds;
+}
+
+- (void)didReceiveMemoryWarning {
+	[super didReceiveMemoryWarning];
+	// Dispose of any resources that can be recreated.
+}
+
+#pragma mark - private
 
 - (void)setupAd {
 	self.adPlayer.adDidTapBlock = ^(PLVVodAd *ad) {
@@ -150,33 +185,31 @@
 	}];
 }
 
-- (void)setVideo:(PLVVodVideo *)video quality:(PLVVodQuality)quality {
-	[super setVideo:video quality:quality];
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self setupAd];
-		[self setupDanmu];
-		[self setupExam];
-		[self setupSubtitle];
-	});
+// 配置控制中心播放
+- (void)setupPlaybackInfo {
+	if (self.snapshot) {
+		[self setupPlaybackInfoWithCover:self.snapshot];
+		return;
+	}
+	__weak typeof(self) weakSelf = self;
+	[[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:self.video.snapshot] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+		if (!data.length) return;
+		weakSelf.snapshot = [UIImage imageWithData:data];
+		[weakSelf setupPlaybackInfoWithCover:weakSelf.snapshot];
+	}] resume];
 }
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-}
-
-- (void)viewDidLayoutSubviews {
-	//NSLog(@"layout guide: %f - %f", self.topLayoutGuide.length, self.bottomLayoutGuide.length);
-	self.danmuManager.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
-	self.skinView.frame = self.view.bounds;
-	
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setupPlaybackInfoWithCover:(UIImage *)cover {
+	NSMutableDictionary *playbackInfo = [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo.mutableCopy;
+	if (!playbackInfo.count) playbackInfo = [NSMutableDictionary dictionary];
+	playbackInfo[MPMediaItemPropertyTitle] = self.video.title;
+	playbackInfo[MPMediaItemPropertyPlaybackDuration] = @(self.video.duration);
+	MPMediaItemArtwork *imageItem = [[MPMediaItemArtwork alloc] initWithImage:cover];
+	playbackInfo[MPMediaItemPropertyArtwork] = imageItem;
+	[MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = playbackInfo;
 }
 
 #pragma mark - tool
+
 + (void)requestStringWithUrl:(NSString *)url completion:(void (^)(NSString *string))completion {
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
 	[[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -197,9 +230,14 @@
 	}
 }
 
+#pragma mark - observer
+
 - (void)addObserver {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(teaserStateDidChange) name:PLVVodPlayerTeaserStateDidChangeNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adStateDidChange) name:PLVVodPlayerAdStateDidChangeNotification object:nil];
+	
+	// 接收远程事件
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteControlEventDidReceive:) name:PLVVodRemoteControlEventDidReceiveNotification object:nil];
 }
 
 - (void)teaserStateDidChange {
@@ -256,6 +294,43 @@
 - (void)danmuDidEnd:(NSNotification *)notification {
 	[self.danmuManager resume];
 	[self play];
+}
+
+// 处理远程事件
+- (void)remoteControlEventDidReceive:(NSNotification *)notification {
+	UIEvent *event = notification.userInfo[PLVVodRemoteControlEventKey];
+	if (event.type == UIEventTypeRemoteControl) {
+		// 更新控制中心
+		NSMutableDictionary *playbackInfo = [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo.mutableCopy;
+		if (!playbackInfo.count)
+			playbackInfo = [NSMutableDictionary dictionary];
+		playbackInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @(self.currentPlaybackTime);
+		playbackInfo[MPNowPlayingInfoPropertyPlaybackRate] = @(self.playbackRate);
+		playbackInfo[MPMediaItemPropertyPlaybackDuration] = @(self.duration);
+		[MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = playbackInfo;
+		
+		switch (event.subtype) {
+			case UIEventSubtypeRemoteControlPause:{
+				[self pause];
+			}break;
+			case UIEventSubtypeRemoteControlPlay:{
+				[self play];
+			}break;
+			case UIEventSubtypeRemoteControlTogglePlayPause:{
+				[self playPauseAction:nil];
+			}break;
+			case UIEventSubtypeRemoteControlPreviousTrack:{
+				
+			}break;
+			case UIEventSubtypeRemoteControlNextTrack:{
+				
+			}break;
+			case 5:{
+				
+			}break;
+			default:{}break;
+		}
+	}
 }
 
 @end

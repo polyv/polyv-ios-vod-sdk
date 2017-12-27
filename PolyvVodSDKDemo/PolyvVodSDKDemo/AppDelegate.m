@@ -37,7 +37,16 @@
 	PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv];
 	NSLog(@"settings: %@", settings);
 	
+	// 接收远程事件
+	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+	[self becomeFirstResponder];
+	
 	return YES;
+}
+
+/// 转发远程事件
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
+	[[NSNotificationCenter defaultCenter] postNotificationName:PLVVodRemoteControlEventDidReceiveNotification object:self userInfo:@{PLVVodRemoteControlEventKey: event}];
 }
 
 

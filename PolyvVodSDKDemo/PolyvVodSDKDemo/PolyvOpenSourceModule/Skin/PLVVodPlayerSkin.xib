@@ -273,7 +273,7 @@
                     </constraints>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rSx-dm-mU2">
-                    <rect key="frame" x="412" y="96" width="60" height="128"/>
+                    <rect key="frame" x="412" y="130" width="60" height="60"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T4D-xH-rSz" userLabel="截图">
                             <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -283,8 +283,8 @@
                                 <action selector="snapshotAction:" destination="-1" eventType="touchUpInside" id="JMQ-mL-JaF"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h89-Es-caU" userLabel="弹幕">
-                            <rect key="frame" x="0.0" y="68" width="60" height="60"/>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h89-Es-caU" userLabel="弹幕">
+                            <rect key="frame" x="0.0" y="-130" width="60" height="0.0"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" image="plv_vod_btn_send_dm"/>
                             <connections>

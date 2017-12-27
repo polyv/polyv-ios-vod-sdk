@@ -636,6 +636,11 @@
 					03CB8C5A1FB3EB220048D9FC = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					03CB8C721FB3EB220048D9FC = {
 						CreatedOnToolsVersion = 9.1;
