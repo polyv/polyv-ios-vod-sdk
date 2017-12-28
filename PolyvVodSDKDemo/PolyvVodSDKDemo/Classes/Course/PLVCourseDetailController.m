@@ -90,7 +90,7 @@
 - (void)setupPlayer {
 	self.player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
 	[self.player addPlayerOnView:self.view parentViewController:self];
-	CGFloat width = CGRectGetWidth(self.view.bounds);
+	CGFloat width = MIN(CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
 	CGFloat height = width / 16 * 9;
 	self.player.view.frame = CGRectMake(0, 64, width, height);
 	[self.player updateUI];

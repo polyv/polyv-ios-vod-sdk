@@ -37,9 +37,6 @@
 /// 分享平台选择面板
 @property (strong, nonatomic) IBOutlet UIView *sharePanelView;
 
-/// 手势指示器
-@property (strong, nonatomic) IBOutlet UIView *gestureIndicatorView;
-
 /// 在面板的点击
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *panelTap;
 
@@ -432,6 +429,16 @@
 	[self sendDanmu];
 	[self backMainControl:textField];
 	return NO;
+}
+
+#pragma mark - public method
+
+- (void)showIndicator {
+	[self transitToView:self.gestureIndicatorView];
+	self.topView = self.gestureIndicatorView;
+}
+- (void)hideIndicator {
+	[self backMainControl:self.gestureIndicatorView];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <PLVVodSDK/PLVVodPlayerSkinProtocol.h>
+#import "PLVVodGestureIndicatorView.h"
 
 @interface PLVVodPlayerSkin : UIViewController<PLVVodPlayerSkinProtocol>
 
@@ -40,5 +41,10 @@
 /// 字幕标签
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 
+/// 手势指示器
+@property (strong, nonatomic) IBOutlet PLVVodGestureIndicatorView *gestureIndicatorView;
+
+- (void)showIndicator;
+- (void)hideIndicator;
 
 @end

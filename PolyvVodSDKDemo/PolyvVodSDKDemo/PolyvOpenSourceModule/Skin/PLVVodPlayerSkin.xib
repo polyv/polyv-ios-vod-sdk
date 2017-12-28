@@ -661,7 +661,7 @@
             </constraints>
             <point key="canvasLocation" x="26" y="2581"/>
         </view>
-        <view contentMode="scaleToFill" id="ggj-qD-OqT" userLabel="手势指示器">
+        <view contentMode="scaleToFill" id="ggj-qD-OqT" userLabel="手势指示器" customClass="PLVVodGestureIndicatorView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -693,6 +693,10 @@
                 <constraint firstItem="e6b-OP-RwO" firstAttribute="centerY" secondItem="ggj-qD-OqT" secondAttribute="centerY" id="M85-dk-PgC"/>
                 <constraint firstItem="BTQ-Du-8T5" firstAttribute="centerX" secondItem="ggj-qD-OqT" secondAttribute="centerX" id="nie-ll-EGh"/>
             </constraints>
+            <connections>
+                <outlet property="indicatorImageView" destination="hEZ-Qz-XpK" id="ZzY-Ae-nhT"/>
+                <outlet property="indicatorLabel" destination="5pg-cX-Fpy" id="lP1-BR-QeK"/>
+            </connections>
             <point key="canvasLocation" x="26" y="3004"/>
         </view>
         <view contentMode="scaleToFill" id="qa0-Rh-gAf" userLabel="弹幕发送" customClass="PLVVodDanmuSendView">

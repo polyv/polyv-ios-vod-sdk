@@ -38,6 +38,9 @@
 /// 视频截图
 @property (nonatomic, strong) UIImage *snapshot;
 
+/// 滑动进度
+@property (nonatomic, assign) NSTimeInterval scrubTime;
+
 @end
 
 @implementation PLVVodSkinPlayerController
@@ -101,6 +104,11 @@
 	// 配置皮肤控件事件
 	skin.selectedSubtitleKeyDidChangeBlock = ^(NSString *selectedSubtitleKey) {
 		[weakSelf setupSubtitle];
+	};
+	
+	// 配置手势
+	self.gestureCallback = ^(PLVVodPlayerViewController *player, UIGestureRecognizer *recognizer, PLVVodGestureType gestureType) {
+		[weakSelf handleGesture:recognizer gestureType:gestureType];
 	};
 	
 	// 开启后台播放
@@ -206,6 +214,144 @@
 	MPMediaItemArtwork *imageItem = [[MPMediaItemArtwork alloc] initWithImage:cover];
 	playbackInfo[MPMediaItemPropertyArtwork] = imageItem;
 	[MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = playbackInfo;
+}
+
+#pragma mark gesture
+
+- (void)handleGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
+	switch (gestureType) {
+		case PLVVodGestureTypeTap:{
+			
+		}break;
+		case PLVVodGestureTypeDoubleTap:{
+			[self playPauseAction:nil];
+		}break;
+		case PLVVodGestureTypeLeftSideDownPan:
+		case PLVVodGestureTypeLeftSideUpPan:{
+			[self changeBrightnessWithGesture:recognizer gestureType:gestureType];
+		}break;
+		case PLVVodGestureTypeRightSideDownPan:
+		case PLVVodGestureTypeRightSideUpPan:{
+			[self changeVolumeWithGesture:recognizer gestureType:gestureType];
+		}break;
+		case PLVVodGestureTypeLeftPan:
+		case PLVVodGestureTypeRightPan:{
+			[self changeProgressWithGesture:recognizer gestureType:gestureType];
+		}break;
+		default:{}break;
+	}
+}
+
+- (void)changeBrightnessWithGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
+	UIPanGestureRecognizer *pan = nil;
+	if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+		pan = (UIPanGestureRecognizer *)recognizer;
+	} else {
+		return;
+	}
+	
+	// 手势所在视图
+	UIView *gestureView = pan.view;
+	// 速率
+	CGPoint veloctyPoint = [pan velocityInView:gestureView];
+	// 皮肤
+	PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+	
+	switch (pan.state) {
+		case UIGestureRecognizerStateBegan: {
+			[skin showIndicator];
+		} break;
+		case UIGestureRecognizerStateChanged: {
+			[UIScreen mainScreen].brightness -= veloctyPoint.y/10000;
+			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+			formatter.numberStyle = NSNumberFormatterPercentStyle;
+			NSString *text = [formatter stringFromNumber:@([UIScreen mainScreen].brightness)];
+			skin.gestureIndicatorView.type = PLVVodGestureIndicatorTypeBrightness;
+			skin.gestureIndicatorView.text = text;
+		} break;
+		case UIGestureRecognizerStateEnded: {
+			[skin hideIndicator];
+		} break;
+		default: {} break;
+	}
+}
+
+- (void)changeVolumeWithGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
+	UIPanGestureRecognizer *pan = nil;
+	if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+		pan = (UIPanGestureRecognizer *)recognizer;
+	} else {
+		return;
+	}
+	
+	// 手势所在视图
+	UIView *gestureView = pan.view;
+	// 速率
+	CGPoint veloctyPoint = [pan velocityInView:gestureView];
+	// 皮肤
+	PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+	
+	switch (pan.state) {
+		case UIGestureRecognizerStateBegan: {
+			[skin showIndicator];
+		} break;
+		case UIGestureRecognizerStateChanged: {
+			self.playbackVolume -= veloctyPoint.y/10000;
+			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+			formatter.numberStyle = NSNumberFormatterPercentStyle;
+			NSString *text = [formatter stringFromNumber:@(self.playbackVolume)];
+			skin.gestureIndicatorView.type = PLVVodGestureIndicatorTypeVolume;
+			skin.gestureIndicatorView.text = text;
+		} break;
+		case UIGestureRecognizerStateEnded: {
+			[skin hideIndicator];
+		} break;
+		default: {} break;
+	}
+}
+
+- (void)changeProgressWithGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
+	UIPanGestureRecognizer *pan = nil;
+	if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+		pan = (UIPanGestureRecognizer *)recognizer;
+	} else {
+		return;
+	}
+	
+	// 手势所在视图
+	UIView *gestureView = pan.view;
+	// 速率
+	CGPoint veloctyPoint = [pan velocityInView:gestureView];
+	// 皮肤
+	PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+	
+	switch (pan.state) {
+		case UIGestureRecognizerStateBegan: { // 开始移动
+			self.scrubTime = self.currentPlaybackTime;
+			[skin showIndicator];
+		} break;
+		case UIGestureRecognizerStateChanged: { // 正在移动
+			self.scrubTime += veloctyPoint.x / 200;
+			if (self.scrubTime > self.duration) { self.scrubTime = self.duration;}
+			if (self.scrubTime < 0) { self.scrubTime = 0; }
+			NSDateComponentsFormatter *formatter = [[NSDateComponentsFormatter alloc] init];
+			NSString *currentTimeString = [formatter stringFromTimeInterval:self.scrubTime];
+			NSString *durationString = [formatter stringFromTimeInterval:self.duration];
+			NSString *text = [NSString stringWithFormat:@"%@ / %@", currentTimeString, durationString];
+			skin.gestureIndicatorView.text = text;
+			if (gestureType == PLVVodGestureTypeLeftPan) {
+				skin.gestureIndicatorView.type = PLVVodGestureIndicatorTypeProgressDown;
+			} else {
+				skin.gestureIndicatorView.type = PLVVodGestureIndicatorTypeProgressUp;
+			}
+		} break;
+		case UIGestureRecognizerStateEnded: { // 移动停止
+			self.currentPlaybackTime = self.scrubTime;
+			self.scrubTime = 0;
+			[skin hideIndicator];
+		} break;
+		default: {} break;
+	}
 }
 
 #pragma mark - tool
