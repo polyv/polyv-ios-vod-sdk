@@ -16,6 +16,7 @@
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodDefinitionPanelView.h"
 #import "PLVVodPlaybackRatePanelView.h"
+#import <Photos/Photos.h>
 
 @interface PLVVodPlayerSkin ()<UITextFieldDelegate>
 
@@ -69,7 +70,7 @@
 
 - (void)setMainControl:(UIView *)mainControl {
 	if (_mainControl && mainControl) {
-		[self transitFromView:_mainControl toView:mainControl];
+		[self transitFromView:self.topView toView:mainControl];
 	}
 	_mainControl = mainControl;
 	if ([mainControl isKindOfClass:[PLVVodFullscreenView class]]) {
@@ -90,7 +91,7 @@
 }
 
 - (void)setTopView:(UIView *)topView {
-	if (topView && _topView != topView && topView != self.mainControl) {
+	if (topView && _topView != topView && topView != self.fullscreenView && topView != self.shrinkscreenView) {
 		if ([_topView.gestureRecognizers containsObject:self.panelTap]) {
 			[_topView removeGestureRecognizer:self.panelTap];
 		}
@@ -209,19 +210,7 @@
 }
 
 - (void)setupUI {
-	UIDevice *device = [UIDevice currentDevice];
-	switch (device.orientation) {
-		case UIDeviceOrientationPortrait:{
-			self.mainControl = self.shrinkscreenView;
-		}break;
-		case UIDeviceOrientationLandscapeLeft:
-		case UIDeviceOrientationLandscapeRight:
-		case UIDeviceOrientationPortraitUpsideDown:{
-			self.mainControl = self.fullscreenView;
-		}break;
-		default:{}break;
-	}
-	//NSLog(@"main control: %@", self.mainControl);
+	self.topView = self.mainControl;
 	[self.view addSubview:self.mainControl];
 	self.priorConstraints = [self constrainSubview:self.mainControl toMatchWithSuperview:self.view];
 	
@@ -329,16 +318,13 @@
 }
 - (void)transitFromView:(UIView *)fromView toView:(UIView *)toView options:(UIViewAnimationOptions)options {
 	NSArray *priorConstraints = self.priorConstraints;
-	[UIView transitionFromView:fromView
-						toView:toView
-					  duration:0.25
-					   options:options
-					completion:^(BOOL finished) {
-						if (priorConstraints != nil) {
-							[self.view removeConstraints:priorConstraints];
-						}
-					}];
+	[UIView transitionFromView:fromView toView:toView duration:0.25 options:options completion:^(BOOL finished) {
+		if (priorConstraints != nil) {
+			[self.view removeConstraints:priorConstraints];
+		}
+	}];
 	self.priorConstraints = [self constrainSubview:toView toMatchWithSuperview:self.view];
+	self.topView = toView;
 }
 
 #pragma mark - orientation
@@ -360,7 +346,6 @@
 		return;
 	}
 	[self transitFromView:self.topView toView:self.mainControl];
-	self.topView = self.mainControl;
 }
 
 - (IBAction)switchScreenAction:(UIButton *)sender {
@@ -376,12 +361,10 @@
 
 - (IBAction)definitionAction:(UIButton *)sender {
 	[self transitToView:self.definitionPanelView];
-	self.topView = self.definitionPanelView;
 }
 
 - (IBAction)playbackRateAction:(UIButton *)sender {
 	[self transitToView:self.playbackRatePanelView];
-	self.topView = self.playbackRatePanelView;
 }
 
 - (IBAction)backAction:(UIButton *)sender {
@@ -394,22 +377,32 @@
 
 - (IBAction)shareAction:(UIButton *)sender {
 	[self transitToView:self.sharePanelView];
-	self.topView = self.sharePanelView;
 }
 
 - (IBAction)settingAction:(UIButton *)sender {
 	[self transitToView:self.settingsPanelView];
-	self.topView = self.settingsPanelView;
 }
 
 - (IBAction)snapshotAction:(UIButton *)sender {
 	UIImage *snapshot = [self.delegatePlayer snapshot];
 	NSLog(@"snapshot: %@", snapshot);
+	// 请求图库权限
+	__weak typeof(self) weakSelf = self;
+	[self.class requestPhotoAuthorizationWithDelegate:self authorized:^{
+		UIImageWriteToSavedPhotosAlbum(snapshot, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+	}];
+}
+
+-  (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+	if (error == nil) {
+		[self showMessage:@"截图保存成功"];
+	} else {
+		[self showMessage:@"截图保存失败"];
+	}
 }
 
 - (IBAction)danmuAction:(UIButton *)sender {
 	[self transitToView:self.danmuSendView];
-	self.topView = self.danmuSendView;
 }
 
 - (void)sendDanmu {
@@ -435,10 +428,65 @@
 
 - (void)showIndicator {
 	[self transitToView:self.gestureIndicatorView];
-	self.topView = self.gestureIndicatorView;
 }
 - (void)hideIndicator {
 	[self backMainControl:self.gestureIndicatorView];
+}
+
+#pragma mark - tool
+
+- (void)showMessage:(NSString *)message {
+	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+	[alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+		[alertController dismissViewControllerAnimated:YES completion:^{}];
+	}]];
+	[self presentViewController:alertController animated:YES completion:^{
+		
+	}];
+}
+
++ (void)requestPhotoAuthorizationWithDelegate:(UIViewController *__weak)viewController authorized:(void (^)(void))authorizedHandler {
+	authorizedHandler = ^(){
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if (authorizedHandler) authorizedHandler();
+		});
+	};
+	
+	PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+	switch (status) {
+		case PHAuthorizationStatusNotDetermined:{
+			// 请求权限
+			[PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+				switch (status) {
+					case PHAuthorizationStatusAuthorized:{
+						authorizedHandler();
+					}break;
+					default:{
+						// 权限不允许
+					}break;
+				}
+			}];
+		}break;
+		case PHAuthorizationStatusAuthorized:{
+			authorizedHandler();
+		}break;
+		case PHAuthorizationStatusDenied:
+		case PHAuthorizationStatusRestricted:{
+			// 前往设置页
+			NSString *message = [NSString stringWithFormat:@"无法获取您的照片权限，请前往设置"];
+			UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+			[alertController addAction:[UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+				NSURL *settingURL = [NSURL URLWithString:@"App-Prefs:root=Privacy&path=PHOTOS"];
+				if ([[UIApplication sharedApplication] canOpenURL:settingURL]) {
+					[[UIApplication sharedApplication] openURL:settingURL];
+				} else {
+					NSLog(@"无法打开 URL: %@", settingURL);
+				}
+			}]];
+			[viewController presentViewController:alertController animated:YES completion:nil];
+		}break;
+		default:{}break;
+	}
 }
 
 @end
