@@ -45,6 +45,7 @@ static NSString * const detialSegueId = @"course_detail";
     // Do any additional setup after loading the view.
 	__weak typeof(self) weakSelf = self;
 	[PLVCourseNetworking requestCoursesWithCompletion:^(NSArray<PLVCourse *> *courses) {
+		if (!courses.count) return;
 		weakSelf.courses = courses;
 		NSMutableArray *bannerCourses = [NSMutableArray array];
         NSMutableArray *indexes = [NSMutableArray array];
@@ -100,9 +101,13 @@ static NSString * const detialSegueId = @"course_detail";
     return 1;
 }
 
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.courses.count;
+    NSInteger number = self.courses.count;
+	UILabel *emptyLabel = [[UILabel alloc] init];
+	emptyLabel.text = @"暂无网校数据";
+	emptyLabel.textAlignment = NSTextAlignmentCenter;
+	collectionView.backgroundView = number ? nil : emptyLabel;
+	return number;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {

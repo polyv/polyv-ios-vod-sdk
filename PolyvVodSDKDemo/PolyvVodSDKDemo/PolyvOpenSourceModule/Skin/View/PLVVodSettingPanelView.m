@@ -56,12 +56,15 @@
 - (void)setScalingMode:(NSInteger)scalingMode {
 	_scalingMode = scalingMode;
 	if (self.scalingModeDidChangeBlock) self.scalingModeDidChangeBlock(scalingMode);
+	
+	// 拉伸模式
+	UIButton *selectedScalingButton = self.scalingModeStackView.arrangedSubviews[self.scalingMode];
+	selectedScalingButton.selected = YES;
 }
 
 #pragma mark - action
 
 - (IBAction)subtitleButtonAction:(UIButton *)sender {
-	//[self.subtitleStackView.arrangedSubviews makeObjectsPerformSelector:@selector(setSelected:) withObject:@NO];
 	for (UIButton *button in self.subtitleStackView.arrangedSubviews) {
 		button.selected = NO;
 	}
@@ -72,11 +75,9 @@
 }
 
 - (IBAction)scaleModeButtonAction:(UIButton *)sender {
-	//[self.scalingModeStackView.arrangedSubviews makeObjectsPerformSelector:@selector(setSelected:) withObject:@NO];
 	for (UIButton *button in self.scalingModeStackView.arrangedSubviews) {
 		button.selected = NO;
 	}
-	sender.selected = YES;
 	NSInteger mode = [self.scalingModeStackView.arrangedSubviews indexOfObject:sender];
 	self.scalingMode = mode;
 }

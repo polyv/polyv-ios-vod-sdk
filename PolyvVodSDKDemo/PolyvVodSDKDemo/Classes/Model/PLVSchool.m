@@ -39,9 +39,9 @@ static id _sharedInstance = nil;
 }
 
 - (void)commonInit {
-	_host = @"demo.dewx.net";
-	_schoolKey = @"301EADDD97E456709A5A8645C23F3727";
-	_vodKey = @"CMWht3MlpVkgpFzrLNAebYi4RdQDY/Nhvk3Kc+qWcck6chwHYKfl9o2aOVBvXVTRZD/14XFzVP7U5un43caq1FXwl0cYmTfimjTmNUYa1sZC1pkHE8gEsRpwpweQtEIiTGVEWrYVNo4/o5jI2/efzA==";
+	_host = @"sdk.dewx.net";
+	_schoolKey = @"989BCBAD980580763EC113D3602C985C";
+	_vodKey = @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
 	_vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
 	_vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
 }
