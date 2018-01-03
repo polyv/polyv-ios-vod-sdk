@@ -763,18 +763,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="课程介绍" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UM0-e9-0xs">
-                                <rect key="frame" x="16" y="16" width="288" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pIe-dx-bBw">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="课程介绍" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UM0-e9-0xs">
+                                        <rect key="frame" x="16" y="16" width="288" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="UM0-e9-0xs" secondAttribute="trailing" id="8IH-K1-CiS"/>
+                                    <constraint firstItem="UM0-e9-0xs" firstAttribute="top" secondItem="pIe-dx-bBw" secondAttribute="top" constant="16" id="8MZ-Xv-YVF"/>
+                                    <constraint firstItem="UM0-e9-0xs" firstAttribute="centerX" secondItem="pIe-dx-bBw" secondAttribute="centerX" id="8Nm-dK-XDF"/>
+                                    <constraint firstItem="UM0-e9-0xs" firstAttribute="width" secondItem="pIe-dx-bBw" secondAttribute="width" constant="-32" id="Etp-PM-Tx4"/>
+                                    <constraint firstAttribute="bottom" secondItem="UM0-e9-0xs" secondAttribute="bottomMargin" id="q2h-ff-5kp"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="UM0-e9-0xs" secondAttribute="trailing" id="c04-g7-1cM"/>
-                            <constraint firstItem="UM0-e9-0xs" firstAttribute="top" secondItem="0ki-X0-2pq" secondAttribute="bottom" constant="16" id="hNu-Ru-oMF"/>
-                            <constraint firstItem="UM0-e9-0xs" firstAttribute="leading" secondItem="w7k-ZP-UqA" secondAttribute="leadingMargin" id="mst-zL-VPl"/>
+                            <constraint firstItem="pIe-dx-bBw" firstAttribute="leading" secondItem="w7k-ZP-UqA" secondAttribute="leading" id="cEu-qb-827"/>
+                            <constraint firstItem="RfW-Vu-xU6" firstAttribute="top" secondItem="pIe-dx-bBw" secondAttribute="bottom" id="eT7-lG-Ak9"/>
+                            <constraint firstItem="pIe-dx-bBw" firstAttribute="top" secondItem="0ki-X0-2pq" secondAttribute="bottom" id="gOm-KP-fzv"/>
+                            <constraint firstAttribute="trailing" secondItem="pIe-dx-bBw" secondAttribute="trailing" id="z0n-ag-X8W"/>
                         </constraints>
                     </view>
                     <size key="freeformSize" width="320" height="180"/>
