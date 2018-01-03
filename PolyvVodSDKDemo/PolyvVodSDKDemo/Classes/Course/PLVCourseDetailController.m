@@ -53,10 +53,13 @@
 	//NSLog(@"desc: %@", intro.htmlContent);
 	__weak typeof(self) weakSelf = self;
 	[PLVCourseNetworking requestCourseVideosWithCourseId:self.course.courseId completion:^(NSArray *videoSections) {
+		if (!videoSections.count) return;
 		PLVCourseVideoListController *courseVideoList = weakSelf.subViewControllers[0];
 		courseVideoList.videoSections = videoSections;
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[courseVideoList.tableView reloadData];
+			// 自动播放第一项
+			[courseVideoList selectRowWithIndex:0];
 		});
 	}];
 	[self setupUI];

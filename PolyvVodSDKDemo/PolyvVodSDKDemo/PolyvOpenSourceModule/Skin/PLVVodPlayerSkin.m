@@ -53,6 +53,9 @@
 /// 弹幕发送、配置视图
 @property (strong, nonatomic) IBOutlet PLVVodDanmuSendView *danmuSendView;
 
+/// 皮肤控件容器视图
+@property (weak, nonatomic) IBOutlet UIView *controlContainerView;
+
 @end
 
 @implementation PLVVodPlayerSkin
@@ -211,8 +214,8 @@
 
 - (void)setupUI {
 	self.topView = self.mainControl;
-	[self.view addSubview:self.mainControl];
-	self.priorConstraints = [self constrainSubview:self.mainControl toMatchWithSuperview:self.view];
+	[self.controlContainerView addSubview:self.mainControl];
+	self.priorConstraints = [self constrainSubview:self.mainControl toMatchWithSuperview:self.controlContainerView];
 	
 	// 配置控件细节
 	UIImage *playbackThumb = [UIImage imageNamed:@"plv_vod_btn_slider_player"];
@@ -223,9 +226,20 @@
 	[self.settingsPanelView.volumeSlider setThumbImage:settingThumb forState:UIControlStateNormal];
 	[self.settingsPanelView.brightnessSlider setThumbImage:settingThumb forState:UIControlStateNormal];
 	
+	__weak typeof(self) weakSelf = self;
+	self.definitionPanelView.qualityButtonDidClick = ^(UIButton *sender) {
+		[weakSelf backMainControl:sender];
+	};
+	self.playbackRatePanelView.playbackRateButtonDidClick = ^(UIButton *sender) {
+		[weakSelf backMainControl:sender];
+	};
+	
 	// 链接属性
 	self.brightnessSlider = self.settingsPanelView.brightnessSlider;
 	self.volumeSlider = self.settingsPanelView.volumeSlider;
+	
+	// 自动隐藏控件
+	[self fadeoutPlaybackControl];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -320,10 +334,10 @@
 	NSArray *priorConstraints = self.priorConstraints;
 	[UIView transitionFromView:fromView toView:toView duration:0.25 options:options completion:^(BOOL finished) {
 		if (priorConstraints != nil) {
-			[self.view removeConstraints:priorConstraints];
+			[self.controlContainerView removeConstraints:priorConstraints];
 		}
 	}];
-	self.priorConstraints = [self constrainSubview:toView toMatchWithSuperview:self.view];
+	self.priorConstraints = [self constrainSubview:toView toMatchWithSuperview:self.controlContainerView];
 	self.topView = toView;
 }
 
@@ -341,21 +355,20 @@
 #pragma mark - action
 
 - (IBAction)backMainControl:(id)sender {
-	NSLog(@"%s - %@", __FUNCTION__, [NSThread currentThread]);
-	if (self.topView == self.mainControl) {
-		return;
-	}
+	//NSLog(@"%s - %@", __FUNCTION__, [NSThread currentThread]);
+	if (self.topView == self.mainControl) return;
 	[self transitFromView:self.topView toView:self.mainControl];
+	[self fadeoutPlaybackControl];
 }
 
 - (IBAction)switchScreenAction:(UIButton *)sender {
 	[self switchScreen];
-	NSLog(@"切换：%@", sender.selected?@"全屏":@"半屏");
+	//NSLog(@"切换：%@", sender.selected?@"全屏":@"半屏");
 }
 
 - (IBAction)switchDmAction:(UIButton *)sender {
 	sender.selected = !sender.selected;
-	NSLog(@"弹幕：%s", sender.selected?"开":"关");
+	//NSLog(@"弹幕：%s", sender.selected?"开":"关");
 	self.fullscreenView.dmButton.hidden = !sender.selected;
 }
 
@@ -431,6 +444,26 @@
 }
 - (void)hideIndicator {
 	[self backMainControl:self.gestureIndicatorView];
+}
+
+- (void)hideOrShowPlaybackControl {
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	if (self.topView != self.mainControl) return;
+	[self backMainControl:nil];
+	
+	BOOL isShowing = self.controlContainerView.alpha > 0.0;
+	[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
+		self.controlContainerView.alpha = isShowing ? 0 : 1;
+	} completion:^(BOOL finished) {
+		if (!isShowing && finished) {
+			[self fadeoutPlaybackControl];
+		}
+	}];
+}
+
+- (void)fadeoutPlaybackControl {
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideOrShowPlaybackControl) object:nil];
+	[self performSelector:@selector(hideOrShowPlaybackControl) withObject:nil afterDelay:PLVVodAnimationDuration*10];
 }
 
 #pragma mark - tool

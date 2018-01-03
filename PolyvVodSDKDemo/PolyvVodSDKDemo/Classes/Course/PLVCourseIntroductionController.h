@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ PLVCourseDetailController 子控制器。
+ 展示课程视频介绍。
+ */
 @interface PLVCourseIntroductionController : UIViewController
 
 @property (nonatomic, copy) NSString *htmlContent;

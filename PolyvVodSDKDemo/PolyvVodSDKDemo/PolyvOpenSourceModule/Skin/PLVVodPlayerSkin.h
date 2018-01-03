@@ -12,6 +12,8 @@
 
 @interface PLVVodPlayerSkin : UIViewController<PLVVodPlayerSkinProtocol>
 
+#pragma mark - PLVVodPlayerSkinProtocol
+
 /// 弱引用的播放器
 @property (nonatomic, weak) IBOutlet PLVVodPlayerViewController *delegatePlayer;
 
@@ -38,13 +40,20 @@
 /// 全屏/半屏按钮
 @property (nonatomic, weak) IBOutlet UIButton *fullShrinkscreenButton;
 
+#pragma mark - 额外控件
+
 /// 字幕标签
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 
 /// 手势指示器
 @property (strong, nonatomic) IBOutlet PLVVodGestureIndicatorView *gestureIndicatorView;
 
+/// 载入指示器
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
+
 - (void)showIndicator;
 - (void)hideIndicator;
+
+- (void)hideOrShowPlaybackControl;
 
 @end

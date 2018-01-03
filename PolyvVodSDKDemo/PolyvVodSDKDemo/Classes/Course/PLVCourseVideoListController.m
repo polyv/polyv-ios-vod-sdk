@@ -90,6 +90,12 @@
 	self.selecting = NO;
 }
 
+- (void)selectRowWithIndex:(NSInteger)index {
+	NSIndexPath *firstIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+	[self.tableView selectRowAtIndexPath:firstIndexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+	[self tableView:self.tableView didSelectRowAtIndexPath:firstIndexPath];
+}
+
 
 #pragma mark - Table view
 

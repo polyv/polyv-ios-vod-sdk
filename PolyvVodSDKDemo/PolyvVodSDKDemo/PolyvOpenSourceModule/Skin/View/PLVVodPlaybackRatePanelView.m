@@ -49,6 +49,7 @@
 	NSInteger index = [self.playbackRateStackView.arrangedSubviews indexOfObject:sender];
 	double playbackRate = self.playbackRates[index].doubleValue;
 	if (self.selectedPlaybackRateDidChangeBlock) self.selectedPlaybackRateDidChangeBlock(playbackRate);
+	if (self.playbackRateButtonDidClick) self.playbackRateButtonDidClick(sender);
 }
 
 #pragma mark - tool

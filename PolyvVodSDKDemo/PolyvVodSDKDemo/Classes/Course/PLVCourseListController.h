@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ 首页课程列表
+ */
 @interface PLVCourseListController : UICollectionViewController
 
 @end

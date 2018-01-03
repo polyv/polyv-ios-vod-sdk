@@ -75,6 +75,7 @@
 	self.automaticallyAdjustsScrollViewInsets = NO;
 	
 	PLVVodPlayerSkin *skin = [[PLVVodPlayerSkin alloc] initWithNibName:nil bundle:nil];
+	__weak typeof(skin) _skin = skin;
 	[self addChildViewController:skin];
 	self.skinView = skin.view;
 	[self.view addSubview:self.skinView];
@@ -111,6 +112,13 @@
 		[weakSelf handleGesture:recognizer gestureType:gestureType];
 	};
 	
+	// 配置载入状态
+	self.loadingHandler = ^(BOOL isLoading) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			isLoading ? [_skin.loadingIndicator startAnimating] : [_skin.loadingIndicator stopAnimating];
+		});
+	};
+	
 	// 开启后台播放
 	//self.enableBackgroundPlayback = YES;
 }
@@ -138,7 +146,7 @@
 	[self.adPlayer.muteButton setImage:[UIImage imageNamed:@"plv_ad_btn_volume_on"] forState:UIControlStateNormal];
 	[self.adPlayer.muteButton setImage:[UIImage imageNamed:@"plv_ad_btn_volume_off"] forState:UIControlStateSelected];
 	[self.adPlayer.muteButton sizeToFit];
-	[self.adPlayer.playButton setImage:[UIImage imageNamed:@"plv_ad_btn_play"] forState:UIControlStateNormal];
+	[self.adPlayer.playButton setImage:[UIImage imageNamed:@"plv_vod_btn_play_60"] forState:UIControlStateNormal];
 	[self.adPlayer.playButton sizeToFit];
 }
 
@@ -221,7 +229,8 @@
 - (void)handleGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
 	switch (gestureType) {
 		case PLVVodGestureTypeTap:{
-			
+			PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+			[skin hideOrShowPlaybackControl];
 		}break;
 		case PLVVodGestureTypeDoubleTap:{
 			[self playPauseAction:nil];

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ 账户视频列表
+ */
 @interface PLVAccountVideoListController : UITableViewController
 
 @end

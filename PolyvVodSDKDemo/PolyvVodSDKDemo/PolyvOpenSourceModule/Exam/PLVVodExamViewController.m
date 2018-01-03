@@ -10,8 +10,7 @@
 #import "PLVVodQuestionView.h"
 #import "PLVVodExplanationView.h"
 #import <PLVVodSDK/PLVVodExam.h>
-
-static const double PLVVodAnimationDuration = 0.25;
+#import <PLVVodSDK/PLVVodConstans.h>
 
 @interface PLVVodExamViewController ()
 

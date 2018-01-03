@@ -77,6 +77,7 @@
 	NSInteger index = [self.qualityStackView.arrangedSubviews indexOfObject:sender];
 	self.quality = (int)index + 1;
 	if (self.qualityDidChangeBlock) self.qualityDidChangeBlock(self.quality);
+	if (self.qualityButtonDidClick) self.qualityButtonDidClick(sender);
 }
 
 #pragma mark - tool

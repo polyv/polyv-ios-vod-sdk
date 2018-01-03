@@ -16,4 +16,6 @@
 @property (nonatomic, assign) int quality;
 @property (nonatomic, copy) void (^qualityDidChangeBlock)(NSInteger quality);
 
+@property (nonatomic, copy) void (^qualityButtonDidClick)(UIButton *sender);
+
 @end

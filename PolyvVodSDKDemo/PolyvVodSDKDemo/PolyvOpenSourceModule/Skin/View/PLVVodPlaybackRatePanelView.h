@@ -11,5 +11,6 @@
 @interface PLVVodPlaybackRatePanelView : UIView
 
 @property (nonatomic, copy) void (^selectedPlaybackRateDidChangeBlock)(double playbackRate);
+@property (nonatomic, copy) void (^playbackRateButtonDidClick)(UIButton *sender);
 
 @end
