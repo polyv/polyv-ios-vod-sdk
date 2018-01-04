@@ -70,12 +70,22 @@ static NSString * const detialSegueId = @"course_detail";
 		});
 	}];
 	
+	//UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+	//CGFloat screenWidth = MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds));
+	//CGFloat itemWidth = (screenWidth - 15*2 - 10)/2;
+	//CGFloat preferredWidth = PLVCourseCellPreferredContentSize.width;
+	//if (preferredWidth < itemWidth) {
+	//	itemWidth = preferredWidth;
+	//}
+	//CGFloat itemHeight = PLVCourseCellPreferredContentSize.height;
+	//flowLayout.itemSize = CGSizeMake(itemWidth, itemHeight);
+
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interfaceOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	if ([UIDevice currentDevice].systemVersion.doubleValue > 11) {
+	if (@available(iOS 11.0, *)) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability-new"
 		self.navigationController.navigationBar.prefersLargeTitles = YES;
@@ -85,7 +95,7 @@ static NSString * const detialSegueId = @"course_detail";
 }
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	if ([UIDevice currentDevice].systemVersion.doubleValue > 11) {
+	if (@available(iOS 11.0, *)) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability-new"
 		self.navigationController.navigationBar.prefersLargeTitles = NO;

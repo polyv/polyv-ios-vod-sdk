@@ -13,6 +13,7 @@
 #import "PLVCourseSection.h"
 #import "DLTabedSlideView.h"
 #import "PLVVodSkinPlayerController.h"
+#import "UIView+PLVVod.h"
 
 @interface PLVCourseDetailController ()<DLTabedSlideViewDelegate>
 
@@ -93,10 +94,23 @@
 - (void)setupPlayer {
 	self.player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
 	[self.player addPlayerOnView:self.view parentViewController:self];
-	CGFloat width = MIN(CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
-	CGFloat height = width / 16 * 9;
-	self.player.view.frame = CGRectMake(0, 64, width, height);
-	[self.player updateUI];
+//	CGFloat width = MIN(CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
+//	CGFloat height = width / 16 * 9;
+//	self.player.view.frame = CGRectMake(0, 64, width, height);
+//	[self.player updateUI];
+}
+
+- (void)viewLayoutMarginsDidChange {
+	[super viewLayoutMarginsDidChange];
+	//NSLog(@"margin: %@", NSStringFromUIEdgeInsets(self.view.layoutMargins));
+	UIEdgeInsets layoutMargins = self.view.layoutMargins;
+	UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+	if (interfaceOrientation == UIInterfaceOrientationPortrait) {
+		CGFloat width = MIN(CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
+		CGFloat height = width / 16 * 9;
+		self.player.view.frame = CGRectMake(0, layoutMargins.top, width, height);
+		[self.player updateUI];
+	}
 }
 
 - (BOOL)prefersStatusBarHidden {

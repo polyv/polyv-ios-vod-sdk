@@ -35,4 +35,16 @@
 	return nil;
 }
 
+/// 获取匹配给定视图的 autolayout 约束
+- (NSArray *)constrainToMatchWithSuperview:(UIView *)superview {
+	self.translatesAutoresizingMaskIntoConstraints = NO;
+	NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(self);
+	
+	NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|" options:0 metrics:nil views:viewsDictionary];
+	constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|" options:0 metrics:nil views:viewsDictionary]];
+	[superview addConstraints:constraints];
+	
+	return constraints;
+}
+
 @end

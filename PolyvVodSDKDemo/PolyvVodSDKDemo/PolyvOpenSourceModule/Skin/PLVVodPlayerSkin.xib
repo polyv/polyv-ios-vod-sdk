@@ -6,6 +6,7 @@
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -66,43 +67,51 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TOF-OZ-kbk" userLabel="底部工具栏">
                     <rect key="frame" x="0.0" y="266" width="480" height="54"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6FA-3b-cVY" userLabel="全屏/半屏">
-                            <rect key="frame" x="444" y="16" width="19" height="22"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="19" id="WfJ-LE-Hq5"/>
-                            </constraints>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" image="plv_vod_btn_fullscreen"/>
-                            <state key="selected" image="plv_vod_btn_exfull"/>
-                            <connections>
-                                <action selector="switchScreenAction:" destination="-1" eventType="touchUpInside" id="N0Q-Pe-dT6"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHS-iO-d00" userLabel="播放/暂停">
-                            <rect key="frame" x="17" y="16" width="14" height="22"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="14" id="ciA-3R-Fr5"/>
-                            </constraints>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" image="plv_vod_btn_play"/>
-                            <state key="selected" image="plv_vod_btn_pause"/>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00 / 20:03" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4r8-7b-Uty" userLabel="时间标签">
-                            <rect key="frame" x="48" y="16.5" width="106" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8uy-pg-t24" userLabel="右侧控件容器">
+                            <rect key="frame" x="441" y="16" width="19" height="22"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6FA-3b-cVY" userLabel="全屏/半屏">
+                                    <rect key="frame" x="0.0" y="0.0" width="19" height="22"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="19" id="WfJ-LE-Hq5"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_fullscreen"/>
+                                    <state key="selected" image="plv_vod_btn_exfull"/>
+                                    <connections>
+                                        <action selector="switchScreenAction:" destination="-1" eventType="touchUpInside" id="N0Q-Pe-dT6"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="9IC-aY-C7s" userLabel="左侧控件容器">
+                            <rect key="frame" x="20" y="16" width="136.5" height="22"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHS-iO-d00" userLabel="播放/暂停">
+                                    <rect key="frame" x="0.0" y="0.0" width="14" height="22"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="14" id="ciA-3R-Fr5"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_play"/>
+                                    <state key="selected" image="plv_vod_btn_pause"/>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00 / 20:03" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4r8-7b-Uty" userLabel="时间标签">
+                                    <rect key="frame" x="31" y="0.0" width="105.5" height="22"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="6FA-3b-cVY" secondAttribute="trailing" constant="17" id="3SV-0H-ePo"/>
-                        <constraint firstItem="xHS-iO-d00" firstAttribute="centerY" secondItem="TOF-OZ-kbk" secondAttribute="centerY" id="Cgw-zL-Zk2"/>
-                        <constraint firstItem="6FA-3b-cVY" firstAttribute="centerY" secondItem="TOF-OZ-kbk" secondAttribute="centerY" id="Ogq-pi-XUW"/>
-                        <constraint firstItem="4r8-7b-Uty" firstAttribute="centerY" secondItem="TOF-OZ-kbk" secondAttribute="centerY" id="RhO-Y7-HoH"/>
-                        <constraint firstItem="xHS-iO-d00" firstAttribute="leading" secondItem="TOF-OZ-kbk" secondAttribute="leading" constant="17" id="cxZ-WC-22m"/>
+                        <constraint firstItem="9IC-aY-C7s" firstAttribute="leading" secondItem="TOF-OZ-kbk" secondAttribute="leading" constant="20" id="Ckw-oZ-rrc"/>
+                        <constraint firstItem="8uy-pg-t24" firstAttribute="centerY" secondItem="TOF-OZ-kbk" secondAttribute="centerY" id="fs7-EU-dpm"/>
                         <constraint firstAttribute="height" constant="54" id="hck-wj-wgh"/>
-                        <constraint firstItem="4r8-7b-Uty" firstAttribute="leading" secondItem="xHS-iO-d00" secondAttribute="trailing" constant="17" id="tkh-64-yzz"/>
+                        <constraint firstItem="9IC-aY-C7s" firstAttribute="centerY" secondItem="TOF-OZ-kbk" secondAttribute="centerY" id="ovH-jw-VVV"/>
+                        <constraint firstAttribute="trailing" secondItem="8uy-pg-t24" secondAttribute="trailing" constant="20" id="vgE-Ia-XRc"/>
                     </constraints>
                 </view>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="H0g-LX-qZk" userLabel="缓冲进度">
@@ -149,146 +158,151 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yl1-Wc-fv6" userLabel="底部工具栏">
                     <rect key="frame" x="0.0" y="266" width="480" height="54"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00 / 20:03" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlF-RW-YrS" userLabel="时间标签">
-                            <rect key="frame" x="48" y="17" width="105.5" height="20.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F67-0j-oen" userLabel="速率">
-                            <rect key="frame" x="375" y="13.5" width="32" height="27"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="32" id="pSE-Mn-V3W"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="1x"/>
-                            <state key="selected">
-                                <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="playbackRateAction:" destination="-1" eventType="touchUpInside" id="kau-mP-SKQ"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1w-XP-Fw3" userLabel="播放/暂停">
-                            <rect key="frame" x="17" y="16" width="14" height="22"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="14" id="5kk-CX-Fbi"/>
-                            </constraints>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" image="plv_vod_btn_play"/>
-                            <state key="selected" image="plv_vod_btn_pause"/>
-                        </button>
-                        <button opaque="NO" contentMode="scaleAspectFit" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PhT-m4-gZI" userLabel="全屏/半屏">
-                            <rect key="frame" x="444" y="16" width="19" height="22"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="19" id="pXt-4d-FHM"/>
-                            </constraints>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" image="plv_vod_btn_fullscreen"/>
-                            <state key="selected" image="plv_vod_btn_exfull"/>
-                            <connections>
-                                <action selector="switchScreenAction:" destination="-1" eventType="touchUpInside" id="IXQ-iD-Abt"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7k7-Ox-gzF" userLabel="弹幕开关">
-                            <rect key="frame" x="238" y="16" width="31" height="22"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" image="plv_vod_btn_dm_off"/>
-                            <state key="selected" image="plv_vod_btn_dm_on"/>
-                            <connections>
-                                <action selector="switchDmAction:" destination="-1" eventType="touchUpInside" id="RU0-jf-rdL"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vun-eN-a4o" userLabel="清晰度">
-                            <rect key="frame" x="306" y="13" width="32" height="27"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="32" id="Nfb-Gd-QHt"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="高清"/>
-                            <state key="selected">
-                                <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="definitionAction:" destination="-1" eventType="touchUpInside" id="33a-yM-aT1"/>
-                            </connections>
-                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="2hd-na-E3E" userLabel="左侧控件容器">
+                            <rect key="frame" x="20" y="16" width="136.5" height="22"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1w-XP-Fw3" userLabel="播放/暂停">
+                                    <rect key="frame" x="0.0" y="0.0" width="14" height="22"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="14" id="5kk-CX-Fbi"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_play"/>
+                                    <state key="selected" image="plv_vod_btn_pause"/>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00 / 20:03" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlF-RW-YrS" userLabel="时间标签">
+                                    <rect key="frame" x="31" y="0.0" width="105.5" height="22"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="37" translatesAutoresizingMaskIntoConstraints="NO" id="Wvi-ry-FS3" userLabel="右侧控件容器">
+                            <rect key="frame" x="235" y="13.5" width="225" height="27"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7k7-Ox-gzF" userLabel="弹幕开关">
+                                    <rect key="frame" x="0.0" y="0.0" width="31" height="27"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_dm_off"/>
+                                    <state key="selected" image="plv_vod_btn_dm_on"/>
+                                    <connections>
+                                        <action selector="switchDmAction:" destination="-1" eventType="touchUpInside" id="RU0-jf-rdL"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vun-eN-a4o" userLabel="清晰度">
+                                    <rect key="frame" x="68" y="0.0" width="32" height="27"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="32" id="Nfb-Gd-QHt"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" title="高清"/>
+                                    <state key="selected">
+                                        <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="definitionAction:" destination="-1" eventType="touchUpInside" id="33a-yM-aT1"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F67-0j-oen" userLabel="速率">
+                                    <rect key="frame" x="137" y="0.0" width="32" height="27"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="32" id="pSE-Mn-V3W"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" title="1x"/>
+                                    <state key="selected">
+                                        <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="playbackRateAction:" destination="-1" eventType="touchUpInside" id="kau-mP-SKQ"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleAspectFit" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PhT-m4-gZI" userLabel="全屏/半屏">
+                                    <rect key="frame" x="206" y="0.0" width="19" height="27"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="19" id="pXt-4d-FHM"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_fullscreen"/>
+                                    <state key="selected" image="plv_vod_btn_exfull"/>
+                                    <connections>
+                                        <action selector="switchScreenAction:" destination="-1" eventType="touchUpInside" id="IXQ-iD-Abt"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="s1w-XP-Fw3" firstAttribute="leading" secondItem="Yl1-Wc-fv6" secondAttribute="leading" constant="17" id="0aP-oB-RTZ"/>
-                        <constraint firstItem="PhT-m4-gZI" firstAttribute="leading" secondItem="F67-0j-oen" secondAttribute="trailing" constant="37" id="6n2-G0-nWb"/>
-                        <constraint firstItem="s1w-XP-Fw3" firstAttribute="centerY" secondItem="Yl1-Wc-fv6" secondAttribute="centerY" id="9MA-SY-5Om"/>
-                        <constraint firstItem="vun-eN-a4o" firstAttribute="centerY" secondItem="Yl1-Wc-fv6" secondAttribute="centerY" id="GFH-wJ-5WH"/>
-                        <constraint firstItem="F67-0j-oen" firstAttribute="centerY" secondItem="Yl1-Wc-fv6" secondAttribute="centerY" id="PcW-5w-lJo"/>
-                        <constraint firstItem="7k7-Ox-gzF" firstAttribute="centerY" secondItem="Yl1-Wc-fv6" secondAttribute="centerY" id="am9-qY-T9R"/>
-                        <constraint firstItem="vun-eN-a4o" firstAttribute="leading" secondItem="7k7-Ox-gzF" secondAttribute="trailing" constant="37" id="cGj-1n-4Vq"/>
+                        <constraint firstItem="2hd-na-E3E" firstAttribute="leading" secondItem="Yl1-Wc-fv6" secondAttribute="leading" constant="20" id="3BS-md-Hxg"/>
+                        <constraint firstAttribute="trailing" secondItem="Wvi-ry-FS3" secondAttribute="trailing" constant="20" id="NcR-ki-HKH"/>
                         <constraint firstAttribute="height" constant="54" id="ciY-mU-Ezd"/>
-                        <constraint firstItem="mlF-RW-YrS" firstAttribute="leading" secondItem="s1w-XP-Fw3" secondAttribute="trailing" constant="17" id="iqY-sB-0yH"/>
-                        <constraint firstItem="mlF-RW-YrS" firstAttribute="centerY" secondItem="Yl1-Wc-fv6" secondAttribute="centerY" id="lCi-hy-hac"/>
-                        <constraint firstItem="F67-0j-oen" firstAttribute="leading" secondItem="vun-eN-a4o" secondAttribute="trailing" constant="37" id="tF7-GK-mie"/>
-                        <constraint firstAttribute="trailing" secondItem="PhT-m4-gZI" secondAttribute="trailing" constant="17" id="yKa-Wo-ThI"/>
-                        <constraint firstItem="PhT-m4-gZI" firstAttribute="centerY" secondItem="Yl1-Wc-fv6" secondAttribute="centerY" id="zPI-k9-ZWP"/>
+                        <constraint firstItem="Wvi-ry-FS3" firstAttribute="centerY" secondItem="Yl1-Wc-fv6" secondAttribute="centerY" id="sMQ-qF-nrG"/>
+                        <constraint firstItem="2hd-na-E3E" firstAttribute="centerY" secondItem="Yl1-Wc-fv6" secondAttribute="centerY" id="uda-Bc-lCi"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEp-Xe-LQj" userLabel="顶部工具栏">
-                    <rect key="frame" x="0.0" y="20" width="480" height="44"/>
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="44"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我是标题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIg-Q0-KgJ" userLabel="视频标题">
-                            <rect key="frame" x="49" y="12" width="69.5" height="20.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYi-5F-3u5" userLabel="返回">
-                            <rect key="frame" x="20" y="11" width="9" height="22"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" image="plv_vod_btn_back"/>
-                            <connections>
-                                <action selector="backAction:" destination="-1" eventType="touchUpInside" id="FxY-8M-gb2"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rem-Kt-gSH" userLabel="分享">
-                            <rect key="frame" x="383" y="11" width="22" height="22"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" image="plv_vod_btn_share"/>
-                            <connections>
-                                <action selector="shareAction:" destination="-1" eventType="touchUpInside" id="XDa-yU-6A6"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqT-93-2RH" userLabel="设置">
-                            <rect key="frame" x="440" y="11" width="20" height="22"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" image="plv_vod_btn_settings"/>
-                            <connections>
-                                <action selector="settingAction:" destination="-1" eventType="touchUpInside" id="eXv-Qs-YKp"/>
-                            </connections>
-                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Hcy-mk-aKT" userLabel="左侧控件容器">
+                            <rect key="frame" x="20" y="11" width="98.5" height="22"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYi-5F-3u5" userLabel="返回">
+                                    <rect key="frame" x="0.0" y="0.0" width="9" height="22"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_back"/>
+                                    <connections>
+                                        <action selector="backAction:" destination="-1" eventType="touchUpInside" id="FxY-8M-gb2"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我是标题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIg-Q0-KgJ" userLabel="视频标题">
+                                    <rect key="frame" x="29" y="0.0" width="69.5" height="22"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="Fh2-rt-Zgw" userLabel="右侧控件容器">
+                            <rect key="frame" x="383" y="11" width="77" height="22"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rem-Kt-gSH" userLabel="分享">
+                                    <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_share"/>
+                                    <connections>
+                                        <action selector="shareAction:" destination="-1" eventType="touchUpInside" id="XDa-yU-6A6"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqT-93-2RH" userLabel="设置">
+                                    <rect key="frame" x="57" y="0.0" width="20" height="22"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_settings"/>
+                                    <connections>
+                                        <action selector="settingAction:" destination="-1" eventType="touchUpInside" id="eXv-Qs-YKp"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="2EI-ON-Tm5"/>
-                        <constraint firstItem="pqT-93-2RH" firstAttribute="leading" secondItem="rem-Kt-gSH" secondAttribute="trailing" constant="35" id="8Ye-OX-qde"/>
-                        <constraint firstItem="pqT-93-2RH" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="TWR-VI-s5M"/>
-                        <constraint firstItem="rem-Kt-gSH" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="YJj-nO-o9r"/>
-                        <constraint firstItem="BYi-5F-3u5" firstAttribute="leading" secondItem="pEp-Xe-LQj" secondAttribute="leading" constant="20" id="fE0-bA-q5C"/>
-                        <constraint firstItem="lIg-Q0-KgJ" firstAttribute="leading" secondItem="BYi-5F-3u5" secondAttribute="trailing" constant="20" id="fH1-2c-Jxs"/>
-                        <constraint firstAttribute="trailing" secondItem="pqT-93-2RH" secondAttribute="trailing" constant="20" id="qQU-JS-Z9n"/>
-                        <constraint firstItem="lIg-Q0-KgJ" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="w5W-f3-rBa"/>
-                        <constraint firstItem="BYi-5F-3u5" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="wcB-5Q-ZCh"/>
+                        <constraint firstItem="Hcy-mk-aKT" firstAttribute="leading" secondItem="pEp-Xe-LQj" secondAttribute="leading" constant="20" id="V3S-r4-0Ho"/>
+                        <constraint firstAttribute="trailing" secondItem="Fh2-rt-Zgw" secondAttribute="trailing" constant="20" id="VnF-th-5tN"/>
+                        <constraint firstItem="Fh2-rt-Zgw" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="Z32-dg-Xbc"/>
+                        <constraint firstItem="Hcy-mk-aKT" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="qWR-YR-bbp"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BuY-ou-2r2" userLabel="状态栏">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="20"/>
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="0.0"/>
                     <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="yeW-iU-5kE"/>
-                    </constraints>
                 </view>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rSx-dm-mU2">
-                    <rect key="frame" x="412" y="130" width="60" height="60"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rSx-dm-mU2" userLabel="右侧控件容器">
+                    <rect key="frame" x="404" y="130" width="60" height="60"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T4D-xH-rSz" userLabel="截图">
                             <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -335,10 +349,11 @@
                 <constraint firstItem="Yl1-Wc-fv6" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="N8Q-ZJ-sYg"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="top" id="Nbs-rL-q02"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="P1z-ht-qbH"/>
+                <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="topMargin" id="W2c-Zq-Y47"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="bui-Kl-w8g"/>
                 <constraint firstItem="F6C-pN-1tf" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="cwR-0w-clH"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="BuY-ou-2r2" secondAttribute="bottom" id="fdZ-t5-uyk"/>
-                <constraint firstAttribute="trailing" secondItem="rSx-dm-mU2" secondAttribute="trailing" constant="8" id="fn1-nO-9kZ"/>
+                <constraint firstAttribute="trailingMargin" secondItem="rSx-dm-mU2" secondAttribute="trailing" id="fn1-nO-9kZ"/>
                 <constraint firstAttribute="trailing" secondItem="pEp-Xe-LQj" secondAttribute="trailing" id="lXn-Qm-a0T"/>
                 <constraint firstAttribute="trailing" secondItem="suR-o2-ESP" secondAttribute="trailing" id="mgr-xz-DIo"/>
                 <constraint firstAttribute="trailing" secondItem="Yl1-Wc-fv6" secondAttribute="trailing" id="t1P-a6-5Mz"/>
