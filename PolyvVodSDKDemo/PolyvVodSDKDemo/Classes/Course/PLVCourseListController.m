@@ -70,6 +70,7 @@ static NSString * const detialSegueId = @"course_detail";
 		});
 	}];
 	
+	// UI
 	//UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
 	//CGFloat screenWidth = MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds));
 	//CGFloat itemWidth = (screenWidth - 15*2 - 10)/2;
@@ -79,6 +80,10 @@ static NSString * const detialSegueId = @"course_detail";
 	//}
 	//CGFloat itemHeight = PLVCourseCellPreferredContentSize.height;
 	//flowLayout.itemSize = CGSizeMake(itemWidth, itemHeight);
+	
+	if (@available(iOS 11.0, *)) {
+		self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+	}
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interfaceOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
@@ -86,21 +91,15 @@ static NSString * const detialSegueId = @"course_detail";
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	if (@available(iOS 11.0, *)) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunguarded-availability-new"
 		self.navigationController.navigationBar.prefersLargeTitles = YES;
 		self.navigationController.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
-#pragma clang diagnostic pop
 	}
 }
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	if (@available(iOS 11.0, *)) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunguarded-availability-new"
 		self.navigationController.navigationBar.prefersLargeTitles = NO;
 		self.navigationController.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
-#pragma clang diagnostic pop
 	}
 }
 

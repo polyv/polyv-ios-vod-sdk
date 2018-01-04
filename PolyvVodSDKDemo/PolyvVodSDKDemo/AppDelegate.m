@@ -41,11 +41,6 @@
 	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 	[self becomeFirstResponder];
 	
-	// UI 配置
-	if (@available(iOS 11.0, *)) {
-		[[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
-	}
-	
 	return YES;
 }
 
