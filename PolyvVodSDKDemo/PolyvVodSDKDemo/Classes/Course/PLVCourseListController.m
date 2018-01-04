@@ -73,6 +73,27 @@ static NSString * const detialSegueId = @"course_detail";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interfaceOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	if ([UIDevice currentDevice].systemVersion.doubleValue > 11) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
+		self.navigationController.navigationBar.prefersLargeTitles = YES;
+		self.navigationController.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
+#pragma clang diagnostic pop
+	}
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	if ([UIDevice currentDevice].systemVersion.doubleValue > 11) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
+		self.navigationController.navigationBar.prefersLargeTitles = NO;
+		self.navigationController.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+#pragma clang diagnostic pop
+	}
+}
+
 - (void)interfaceOrientationDidChange:(NSNotification *)notification {
 	[self.collectionView reloadData];
 }
