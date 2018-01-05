@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet PLVToolbar *toolbar;
 @property (nonatomic, strong) NSArray<PLVVodDownloadInfo *> *downloadInfos;
+@property (nonatomic, strong) NSDictionary<NSString *, PLVLoadCell *> *downloadItemCellDic;
+
 @property (nonatomic, strong) PLVTimer *timer;
 
 @property (nonatomic, strong) UIButton *queueDownloadButton;
@@ -72,6 +74,46 @@
 	self.emptyView = emptyLabel;
 }
 
+#pragma mark - property
+
+- (void)setDownloadInfos:(NSArray<PLVVodDownloadInfo *> *)downloadInfos {
+	_downloadInfos = downloadInfos;
+	
+	// 设置单元格字典
+	NSMutableDictionary *downloadItemCellDic = [NSMutableDictionary dictionary];
+	for (PLVVodDownloadInfo *info in downloadInfos) {
+		UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:[PLVLoadCell identifier]];
+		downloadItemCellDic[info.vid] = cell;
+	}
+	self.downloadItemCellDic = downloadItemCellDic;
+	
+	// 设置回调
+	__weak typeof(self) weakSelf = self;
+	for (PLVVodDownloadInfo *info in downloadInfos) {
+		info.stateDidChangeBlock = ^(PLVVodDownloadInfo *info) {
+			PLVLoadCell *cell = weakSelf.downloadItemCellDic[info.vid];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				cell.downloadStateLabel.text = NSStringFromPLVVodDownloadState(info.state);
+			});
+		};
+		info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
+			//NSLog(@"vid: %@, progress: %f", info.vid, info.progress);
+			PLVLoadCell *cell = weakSelf.downloadItemCellDic[info.vid];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				cell.downloadProgressView.progress = info.progress;
+			});
+		};
+		info.bytesPerSecondsDidChangeBlock = ^(PLVVodDownloadInfo *info) {
+			PLVLoadCell *cell = weakSelf.downloadItemCellDic[info.vid];
+			NSString *speedString = [NSByteCountFormatter stringFromByteCount:info.bytesPerSeconds countStyle:NSByteCountFormatterCountStyleFile];
+			speedString = [speedString stringByAppendingFormat:@"/s"];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				cell.downloadSpeedLabel.text = speedString;
+			});
+		};
+	}
+}
+
 #pragma mark - action
 
 - (void)queueDownloadButtonAction:(UIButton *)sender {
@@ -93,8 +135,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - property
-
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -104,19 +144,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    PLVLoadCell *cell = (PLVLoadCell *)[tableView dequeueReusableCellWithIdentifier:[PLVLoadCell identifier] forIndexPath:indexPath];
+	PLVVodDownloadInfo *info = self.downloadInfos[indexPath.row];
+    //PLVLoadCell *cell = (PLVLoadCell *)[tableView dequeueReusableCellWithIdentifier:[PLVLoadCell identifier] forIndexPath:indexPath];
+	PLVLoadCell *cell = self.downloadItemCellDic[info.vid];
+	if (!cell) return nil;
 	
-	PLVVodDownloadInfo *downloadInfo = self.downloadInfos[indexPath.row];
-	PLVVodVideo *video = downloadInfo.video;
+	PLVVodVideo *video = info.video;
 	cell.thumbnailUrl = video.snapshot;
 	cell.titleLabel.text = video.title;
-	cell.videoSizeLabel.text = [NSByteCountFormatter stringFromByteCount:[video.filesizes[downloadInfo.quality-1] longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
-	cell.downloadStateLabel.text = NSStringFromPLVVodDownloadState(downloadInfo.state);
-	cell.downloadProgressView.progress = downloadInfo.progress;
-	NSString *speedString = [NSByteCountFormatter stringFromByteCount:downloadInfo.bytesPerSeconds countStyle:NSByteCountFormatterCountStyleFile];
-	speedString = [speedString stringByAppendingFormat:@"/s"];
-	cell.downloadSpeedLabel.text = speedString;
-	__weak typeof(downloadInfo) _downloadInfo = downloadInfo;
+	cell.videoSizeLabel.text = [NSByteCountFormatter stringFromByteCount:[video.filesizes[info.quality-1] longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
+	
+	__weak typeof(info) _downloadInfo = info;
 	cell.downloadButtonAction = ^(PLVLoadCell *cell, UIButton *sender) {
 		sender.selected = _downloadInfo.state == PLVVodDownloadStateRunning;
 		//PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
@@ -144,49 +182,5 @@
 	[manager removeDownloadWithVid:downloadInfo.video.vid error:nil];
 	[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

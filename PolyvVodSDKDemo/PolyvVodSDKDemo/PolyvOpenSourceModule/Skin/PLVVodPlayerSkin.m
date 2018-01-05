@@ -63,11 +63,13 @@
 	UIStatusBarStyle _statusBarStyle;
 	BOOL _shouldHideStatusBar;
 	double _playbackRate;
+	BOOL _localPlayback;
 }
 
 @synthesize statusBarStyle = _statusBarStyle;
 @synthesize shouldHideStatusBar = _shouldHideStatusBar;
 @synthesize playbackRate = _playbackRate;
+@synthesize localPlayback = _localPlayback;
 
 #pragma mark - property
 
@@ -117,6 +119,21 @@
 	});
 }
 
+- (void)setLocalPlayback:(BOOL)localPlayback {
+	_localPlayback = localPlayback;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		UIButton *definitionButton = self.fullscreenView.definitionButton;
+		if (localPlayback) {
+			[definitionButton setTitle:@"本地" forState:UIControlStateNormal];
+			definitionButton.selected = NO;
+			definitionButton.enabled = NO;
+		} else {
+			definitionButton.selected = YES;
+			definitionButton.enabled = YES;
+		}
+	});
+}
+
 #pragma mark - PLVVodPlayerSkinProtocol
 
 #pragma mark 字幕
@@ -155,7 +172,8 @@
 	self.definitionPanelView.quality = quality;
 	NSString *definition = NSStringFromPLVVodQuality(quality);
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[self.fullscreenView.definitionButton setTitle:definition forState:UIControlStateNormal];
+		UIButton *definitionButton = self.fullscreenView.definitionButton;
+		[definitionButton setTitle:definition forState:UIControlStateNormal];
 	});
 }
 - (PLVVodQuality)quality {
