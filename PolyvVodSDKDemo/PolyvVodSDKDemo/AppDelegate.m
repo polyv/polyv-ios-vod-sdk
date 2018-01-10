@@ -30,12 +30,16 @@
 //	}];
 //	UIImage *image = [UIImage imageNamed:@"XRPlaceholder"];
 //	NSLog(@"image: %@", image);
+	NSError *error = nil;
 	PLVSchool *school = [PLVSchool sharedInstance];
 	NSString *vodKey = school.vodKey;
 	NSString *decodeKey = school.vodKeyDecodeKey;
 	NSString *decodeIv = school.vodKeyDecodeIv;
-	PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv];
+	PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
 	NSLog(@"settings: %@", settings);
+	if (error) {
+		NSLog(@"account settings error: %@", error);
+	}
 	
 	// 接收远程事件
 	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];

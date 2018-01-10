@@ -72,6 +72,10 @@
 	emptyLabel.text = @"暂无缓存视频";
 	emptyLabel.textAlignment = NSTextAlignmentCenter;
 	self.emptyView = emptyLabel;
+	
+	[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
+		NSLog(@"download error: %@\n%@", video, error);
+	};
 }
 
 #pragma mark - property
