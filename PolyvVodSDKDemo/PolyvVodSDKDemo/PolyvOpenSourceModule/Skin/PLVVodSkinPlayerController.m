@@ -121,6 +121,11 @@
 	
 	// 开启后台播放
 	//self.enableBackgroundPlayback = YES;
+	
+	// 错误回调
+	self.playerErrorHandler = ^(PLVVodPlayerViewController *player, NSError *error) {
+		NSLog(@"player error: %@", error);
+	};
 }
 
 - (void)viewDidLayoutSubviews {
