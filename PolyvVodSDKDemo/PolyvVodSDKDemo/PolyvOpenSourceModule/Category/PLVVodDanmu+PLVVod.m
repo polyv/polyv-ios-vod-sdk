@@ -52,13 +52,14 @@ static NSString *paramStr(NSDictionary *paramDict) {
 		componentCount = (int)timeComponents.count;
 	}
 	for (int i = 0; i < componentCount; i++) {
-		NSInteger timeComponent = [timeComponents[i] integerValue];
-		seconds += pow(60, componentCount-1-i) * timeComponent;
+		NSInteger index = timeComponents.count-1-i;
+		NSTimeInterval timeComponent = [timeComponents[index] doubleValue];
+		seconds += pow(60, i) * timeComponent;
 	}
 	return seconds;
-	return [[timeComponents objectAtIndex:0]intValue] * 60 * 60
-	+[[timeComponents objectAtIndex:1]intValue] * 60
-	+ [[timeComponents objectAtIndex:2]intValue];
+//	return [[timeComponents objectAtIndex:0]intValue] * 60 * 60
+//	+[[timeComponents objectAtIndex:1]intValue] * 60
+//	+ [[timeComponents objectAtIndex:2]intValue];
 }
 
 + (PLVVodDanmuMode)danmuModeWithDescription:(NSString *)description {
