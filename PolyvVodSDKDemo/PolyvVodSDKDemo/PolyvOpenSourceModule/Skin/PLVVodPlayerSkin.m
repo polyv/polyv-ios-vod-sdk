@@ -96,7 +96,7 @@
 }
 
 - (void)setTopView:(UIView *)topView {
-	if (topView && _topView != topView && topView != self.fullscreenView && topView != self.shrinkscreenView) {
+	if (topView && _topView != topView && topView != self.fullscreenView && topView != self.shrinkscreenView && topView != self.gestureIndicatorView) {
 		if ([_topView.gestureRecognizers containsObject:self.panelTap]) {
 			[_topView removeGestureRecognizer:self.panelTap];
 		}
@@ -114,6 +114,7 @@
 	_delegatePlayer = delegatePlayer;
 	if (!delegatePlayer) return;
 	__weak typeof(self) weakSelf = self;
+	//[self.delegatePlayer.doNotReceiveGestureViews addObject:self.shrinkscreenView];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		weakSelf.fullscreenView.titleLabel.text = delegatePlayer.video.title;
 	});
