@@ -9,6 +9,17 @@
 #import "PLVLoadCell.h"
 #import <YYWebImage/YYWebImage.h>
 
+@interface PLVLoadCell ()
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+
+@property (weak, nonatomic) IBOutlet UIStackView *downloadProcessStackView;
+
+#pragma clang diagnostic pop
+
+@end
+
 @implementation PLVLoadCell
 
 - (void)awakeFromNib {
@@ -32,13 +43,18 @@
 	_state = state;
 	switch (state) {
 		case PLVLoadCellStateProcessing:{
+			self.downloadProcessStackView.hidden = NO;
 			[UIView animateWithDuration:.5 animations:^{
 				self.downloadButton.alpha = 1;
+				self.downloadProcessStackView.alpha = 1;
 			}];
 		}break;
 		case PLVLoadCellStateCompleted:{
 			[UIView animateWithDuration:.5 animations:^{
 				self.downloadButton.alpha = 0;
+				self.downloadProcessStackView.alpha = 0;
+			} completion:^(BOOL finished) {
+				self.downloadProcessStackView.hidden = YES;
 			}];
 		}break;
 		default:{}break;

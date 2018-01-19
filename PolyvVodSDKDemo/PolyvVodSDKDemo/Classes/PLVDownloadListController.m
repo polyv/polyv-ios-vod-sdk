@@ -17,6 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet PLVToolbar *toolbar;
+
 @property (nonatomic, strong) NSArray<PLVVodDownloadInfo *> *downloadInfos;
 @property (nonatomic, strong) NSDictionary<NSString *, PLVLoadCell *> *downloadItemCellDic;
 
@@ -45,26 +46,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-	self.downloadInfos = [PLVVodDownloadManager sharedManager].downloadInfos;
+	
+	__weak typeof(self) weakSelf = self;
+	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
+	[downloadManager requestDownloadInfosWithCompletion:^(NSMutableArray<PLVVodDownloadInfo *> *downloadInfos) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			weakSelf.downloadInfos = downloadInfos;
+			[weakSelf.tableView reloadData];
+		});
+	}];
+	
+	downloadManager.completeBlock = ^{
+		dispatch_async(dispatch_get_main_queue(), ^{
+			weakSelf.queueDownloadButton.selected = NO;
+		});
+	};
 	
 	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
 	self.tableView.tableFooterView = [UIView new];
-	
-//	__weak typeof(self) weakSelf = self;
-//	self.timer = [PLVTimer repeatWithInterval:2 repeatBlock:^{
-//		dispatch_async(dispatch_get_main_queue(), ^{
-//			[weakSelf.tableView reloadData];
-//		});
-//		if (!weakSelf.downloadInfos.count) {
-//			[weakSelf.timer cancel];
-//		}
-//	}];
 	
 	self.toolbar.buttons = @[self.queueDownloadButton];
 	self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
@@ -98,6 +97,7 @@
 			PLVLoadCell *cell = weakSelf.downloadItemCellDic[info.vid];
 			dispatch_async(dispatch_get_main_queue(), ^{
 				cell.downloadStateLabel.text = NSStringFromPLVVodDownloadState(info.state);
+				cell.state = info.state == PLVVodDownloadStateSuccess ? PLVLoadCellStateCompleted : PLVLoadCellStateProcessing;
 			});
 		};
 		info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
@@ -156,7 +156,8 @@
 	PLVVodVideo *video = info.video;
 	cell.thumbnailUrl = video.snapshot;
 	cell.titleLabel.text = video.title;
-	cell.videoSizeLabel.text = [NSByteCountFormatter stringFromByteCount:[video.filesizes[info.quality-1] longLongValue] countStyle:NSByteCountFormatterCountStyleFile];
+	NSInteger filesize = [video.filesizes[info.quality-1] integerValue];
+	cell.videoSizeLabel.text = [self.class formatFilesize:filesize];
 	
 	__weak typeof(info) _downloadInfo = info;
 	cell.downloadButtonAction = ^(PLVLoadCell *cell, UIButton *sender) {
@@ -185,6 +186,12 @@
 	PLVVodDownloadInfo *downloadInfo = self.downloadInfos[indexPath.row];
 	[manager removeDownloadWithVid:downloadInfo.video.vid error:nil];
 	[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+#pragma mark - util
+
++ (NSString *)formatFilesize:(NSInteger)filesize {
+	return [NSByteCountFormatter stringFromByteCount:filesize countStyle:NSByteCountFormatterCountStyleFile];
 }
 
 @end

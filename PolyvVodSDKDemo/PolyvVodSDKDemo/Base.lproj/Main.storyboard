@@ -583,6 +583,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="downloadButton" destination="fJK-lu-Pcw" id="wOl-cD-qql"/>
+                                            <outlet property="downloadProcessStackView" destination="NNg-69-D9j" id="4y5-st-rLf"/>
                                             <outlet property="downloadProgressView" destination="qoj-Td-iKf" id="rjQ-lp-KQr"/>
                                             <outlet property="downloadSpeedLabel" destination="6if-u9-Uch" id="hko-33-4Ja"/>
                                             <outlet property="downloadStateLabel" destination="xtn-u6-xec" id="bXb-g2-2tC"/>
