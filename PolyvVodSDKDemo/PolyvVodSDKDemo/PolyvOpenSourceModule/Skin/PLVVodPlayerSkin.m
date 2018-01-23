@@ -236,6 +236,10 @@
 	[self.controlContainerView addSubview:self.mainControl];
 	self.priorConstraints = [self constrainSubview:self.mainControl toMatchWithSuperview:self.controlContainerView];
 	
+	[self.view addSubview:self.gestureIndicatorView];
+	[self constrainSubview:self.gestureIndicatorView toMatchWithSuperview:self.view];
+	self.gestureIndicatorView.alpha = 0;
+	
 	// 配置控件细节
 	UIImage *playbackThumb = [UIImage imageNamed:@"plv_vod_btn_slider_player"];
 	[self.fullscreenView.playbackSlider setThumbImage:playbackThumb forState:UIControlStateNormal];
@@ -458,11 +462,19 @@
 
 #pragma mark - public method
 
-- (void)showIndicator {
-	[self transitToView:self.gestureIndicatorView];
+- (void)showGestureIndicator {
+	[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
+		self.gestureIndicatorView.alpha = 1;
+	} completion:^(BOOL finished) {
+		
+	}];
 }
-- (void)hideIndicator {
-	[self backMainControl:self.gestureIndicatorView];
+- (void)hideGestureIndicator {
+	[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
+		self.gestureIndicatorView.alpha = 0;
+	} completion:^(BOOL finished) {
+		
+	}];
 }
 
 - (void)hideOrShowPlaybackControl {

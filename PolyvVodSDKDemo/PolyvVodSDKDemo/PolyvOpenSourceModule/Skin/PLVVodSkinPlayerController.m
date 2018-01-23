@@ -273,7 +273,7 @@
 	
 	switch (pan.state) {
 		case UIGestureRecognizerStateBegan: {
-			[skin showIndicator];
+			[skin showGestureIndicator];
 		} break;
 		case UIGestureRecognizerStateChanged: {
 			[UIScreen mainScreen].brightness -= veloctyPoint.y/10000;
@@ -284,7 +284,7 @@
 			skin.gestureIndicatorView.text = text;
 		} break;
 		case UIGestureRecognizerStateEnded: {
-			[skin hideIndicator];
+			[skin hideGestureIndicator];
 		} break;
 		default: {} break;
 	}
@@ -307,7 +307,7 @@
 	
 	switch (pan.state) {
 		case UIGestureRecognizerStateBegan: {
-			[skin showIndicator];
+			[skin showGestureIndicator];
 		} break;
 		case UIGestureRecognizerStateChanged: {
 			self.playbackVolume -= veloctyPoint.y/10000;
@@ -318,7 +318,7 @@
 			skin.gestureIndicatorView.text = text;
 		} break;
 		case UIGestureRecognizerStateEnded: {
-			[skin hideIndicator];
+			[skin hideGestureIndicator];
 		} break;
 		default: {} break;
 	}
@@ -342,7 +342,7 @@
 	switch (pan.state) {
 		case UIGestureRecognizerStateBegan: { // 开始移动
 			self.scrubTime = self.currentPlaybackTime;
-			[skin showIndicator];
+			[skin showGestureIndicator];
 		} break;
 		case UIGestureRecognizerStateChanged: { // 正在移动
 			self.scrubTime += veloctyPoint.x / 200;
@@ -362,7 +362,7 @@
 		case UIGestureRecognizerStateEnded: { // 移动停止
 			self.currentPlaybackTime = self.scrubTime;
 			self.scrubTime = 0;
-			[skin hideIndicator];
+			[skin hideGestureIndicator];
 		} break;
 		default: {} break;
 	}

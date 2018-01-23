@@ -51,8 +51,8 @@
 /// 载入指示器
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
-- (void)showIndicator;
-- (void)hideIndicator;
+- (void)showGestureIndicator;
+- (void)hideGestureIndicator;
 
 - (void)hideOrShowPlaybackControl;
 
