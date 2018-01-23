@@ -22,6 +22,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *settingButton;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end

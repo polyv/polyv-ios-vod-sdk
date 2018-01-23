@@ -116,7 +116,7 @@
 	__weak typeof(self) weakSelf = self;
 	//[self.delegatePlayer.doNotReceiveGestureViews addObject:self.shrinkscreenView];
 	dispatch_async(dispatch_get_main_queue(), ^{
-		weakSelf.fullscreenView.titleLabel.text = delegatePlayer.video.title;
+		[weakSelf.fullscreenView.backButton setTitle:delegatePlayer.video.title forState:UIControlStateNormal];
 	});
 }
 
