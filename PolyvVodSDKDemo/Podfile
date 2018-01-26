@@ -13,15 +13,7 @@ target 'PolyvVodSDKDemo' do
 	pod 'FDStackView'
 
 	# PLVVodSDK
-	# pod 'PolyvVodSDK', :path => "../../PolyvVodSDK"
-	# ⤵ development "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES" => "YES"
-	pod 'PolyvIJKPlayer'
-	pod 'PolyvAliHttpDNS'
-	pod 'PLVMarquee'
-	pod 'PLVTimer'
-	pod 'PLVNetworkDiagnosisTool'
-	pod 'SSZipArchive'
-	pod 'WCDB'
+	pod 'PolyvVodSDK'
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu'
