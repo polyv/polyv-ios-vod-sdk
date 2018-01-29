@@ -232,6 +232,8 @@
 }
 
 - (void)setupUI {
+	[self updateUIForTraitCollection:self.traitCollection];
+	
 	self.topView = self.mainControl;
 	[self.controlContainerView addSubview:self.mainControl];
 	self.priorConstraints = [self constrainSubview:self.mainControl toMatchWithSuperview:self.controlContainerView];
@@ -282,50 +284,43 @@
 #pragma mark - observe
 
 - (void)addOrientationObserve {
-	UIDevice *device = [UIDevice currentDevice];
-	[device beginGeneratingDeviceOrientationNotifications];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChanged:) name:UIDeviceOrientationDidChangeNotification object:device];
-	[self orientationDidChanged:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interfaceOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-	[self interfaceOrientationDidChange:nil];
 }
 
 - (void)removeOrientationObserve {
-	UIDevice *device = [UIDevice currentDevice];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:device];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-}
-
-- (void)orientationDidChanged:(NSNotification *)notification {
-	UIDevice *device = [UIDevice currentDevice];
-	switch (device.orientation) {
-		case UIDeviceOrientationPortrait:{
-			
-		}break;
-		case UIDeviceOrientationLandscapeLeft:
-		case UIDeviceOrientationLandscapeRight:
-		case UIDeviceOrientationPortraitUpsideDown:{
-			
-		}break;
-		default:{}break;
-	}
 }
 
 - (void)interfaceOrientationDidChange:(NSNotification *)notification {
 	UIInterfaceOrientation interfaceOrientaion = [UIApplication sharedApplication].statusBarOrientation;
 	switch (interfaceOrientaion) {
 		case UIInterfaceOrientationPortrait:{
-			self.mainControl = self.shrinkscreenView;
-			self.statusBarStyle = UIStatusBarStyleDefault;
+			
 		}break;
 		case UIInterfaceOrientationLandscapeLeft:
 		case UIInterfaceOrientationLandscapeRight:
 		case UIInterfaceOrientationPortraitUpsideDown:
 		case UIInterfaceOrientationUnknown:{
-			self.mainControl = self.fullscreenView;
-			self.statusBarStyle = UIStatusBarStyleLightContent;
+			
 		}break;
 		default:{}break;
+	}
+	[self updateUIForTraitCollection:self.traitCollection];
+}
+
+//- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+//	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+//		[self updateUIForTraitCollection:newCollection];
+//	} completion:nil];
+//}
+
+- (void)updateUIForTraitCollection:(UITraitCollection *)collection {
+	if (collection.verticalSizeClass == UIUserInterfaceSizeClassCompact) { // 横屏
+		self.mainControl = self.fullscreenView;
+		self.statusBarStyle = UIStatusBarStyleLightContent;
+	} else {
+		self.mainControl = self.shrinkscreenView;
+		self.statusBarStyle = UIStatusBarStyleDefault;
 	}
 }
 
