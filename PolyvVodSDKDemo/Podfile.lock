@@ -2,7 +2,7 @@ PODS:
   - FDStackView (1.0.1)
   - PLVMarquee (0.0.1)
   - PLVNetworkDiagnosisTool (0.0.1)
-  - PLVSubtitle (0.0.2)
+  - PLVSubtitle (0.0.3)
   - PLVTimer (0.0.1)
   - PLVVodDanmu (0.0.1)
   - PolyvAliHttpDNS (1.6.7)
@@ -40,7 +40,7 @@ SPEC CHECKSUMS:
   FDStackView: fc0697e5be2022c8af36ce66e9e2061006058ba8
   PLVMarquee: dc17c519d8461b505e9502094effec7dc8fa5174
   PLVNetworkDiagnosisTool: e8a098546d30c12f7d1c917d8e43f10941f1bc5d
-  PLVSubtitle: f9ffb3308032a286ea0e779350556dd956c76ef4
+  PLVSubtitle: a5beb4a03a7719ceb4be1d4e10306cafe4759a11
   PLVTimer: ce7a3b70d2a1343def8d1817252292faf569b875
   PLVVodDanmu: 7f6663e2bbc3bf93a94b9bd3a404e1760b3d3511
   PolyvAliHttpDNS: 0fbbbcd3aab07a48305d36884681ca33849cc0b7

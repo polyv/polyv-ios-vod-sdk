@@ -36,10 +36,12 @@ static NSString *paramStr(NSDictionary *paramDict) {
 	if ([color hasPrefix:@"0x"]) {
 		color = [color substringFromIndex:2];
 	}
-	NSScanner *scanner = [NSScanner scannerWithString:color];
-	unsigned int colorHex;
-	if (![scanner scanHexInt:&colorHex]) colorHex = 0xFFFFFF;
-	danmu.colorHex = colorHex;
+	if (color.length) {
+		NSScanner *scanner = [NSScanner scannerWithString:color];
+		unsigned int colorHex;
+		if (![scanner scanHexInt:&colorHex]) colorHex = 0xFFFFFF;
+		danmu.colorHex = colorHex;
+	}
 	return danmu;
 }
 
