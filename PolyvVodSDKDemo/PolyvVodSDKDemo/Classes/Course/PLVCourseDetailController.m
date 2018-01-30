@@ -88,8 +88,9 @@
 
 - (void)setupUI {
 	self.title = self.course.title;
-	self.player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
-	[self.player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
+	PLVVodSkinPlayerController *player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
+	[player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
+	self.player = player;
 }
 
 - (BOOL)prefersStatusBarHidden {

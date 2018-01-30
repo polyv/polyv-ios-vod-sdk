@@ -48,6 +48,10 @@
 #pragma mark - property
 
 - (void)setVideo:(PLVVodVideo *)video quality:(PLVVodQuality)quality {
+	// for test
+	self.enableAd = YES;
+//	self.enableTeaser = YES;
+	
 	[super setVideo:video quality:quality];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self setupAd];
@@ -172,7 +176,8 @@
 }
 
 - (void)setupExam {
-	PLVVodExamViewController *examViewController = [[PLVVodExamViewController alloc] initWithNibName:@"PLVVodExamViewController" bundle:nil];
+	return;
+	PLVVodExamViewController *examViewController = [[PLVVodExamViewController alloc] initWithNibName:nil bundle:nil];
 	[self.view addSubview:examViewController.view];
 	examViewController.view.frame = self.view.bounds;
 	[self addChildViewController:examViewController];

@@ -243,6 +243,7 @@
 	self.gestureIndicatorView.alpha = 0;
 	
 	// 配置控件细节
+	self.subtitleLabel.text = @"";
 	UIImage *playbackThumb = [UIImage imageNamed:@"plv_vod_btn_slider_player"];
 	[self.fullscreenView.playbackSlider setThumbImage:playbackThumb forState:UIControlStateNormal];
 	[self.shrinkscreenView.playbackSlider setThumbImage:playbackThumb forState:UIControlStateNormal];
