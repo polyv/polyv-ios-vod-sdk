@@ -10,13 +10,4 @@
 
 @interface UIView (PLVVod)
 
-///// 获取所在的视图控制器
-//- (UIViewController *)viewController;
-//
-///// 返回所在的导航控制器
-//- (UINavigationController *)navigationController;
-
-/// 获取匹配给定视图的 autolayout 约束
-- (NSArray *)constrainToMatchWithSuperview:(UIView *)superview;
-
 @end

@@ -6,6 +6,7 @@
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -245,7 +246,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEp-Xe-LQj" userLabel="顶部工具栏">
-                    <rect key="frame" x="0.0" y="-8" width="480" height="44"/>
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="44"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="Fh2-rt-Zgw" userLabel="右侧控件容器">
                             <rect key="frame" x="381" y="11" width="79" height="22"/>
@@ -297,7 +298,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BuY-ou-2r2" userLabel="状态栏">
-                    <rect key="frame" x="0.0" y="-8" width="480" height="0.0"/>
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="0.0"/>
                     <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rSx-dm-mU2" userLabel="右侧控件容器">
@@ -339,6 +340,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="BuY-ou-2r2" secondAttribute="bottom" id="05a-ZY-Aon"/>
                 <constraint firstAttribute="trailing" secondItem="BuY-ou-2r2" secondAttribute="trailing" id="2cx-7t-vbb"/>
                 <constraint firstAttribute="trailing" secondItem="F6C-pN-1tf" secondAttribute="trailing" id="8XU-9M-OLy"/>
                 <constraint firstItem="suR-o2-ESP" firstAttribute="centerY" secondItem="F6C-pN-1tf" secondAttribute="centerY" constant="-1" id="8zj-sG-KdA"/>
@@ -346,9 +348,8 @@
                 <constraint firstItem="Yl1-Wc-fv6" firstAttribute="top" secondItem="F6C-pN-1tf" secondAttribute="bottom" id="Bn2-le-m3n"/>
                 <constraint firstItem="suR-o2-ESP" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="Hn3-SB-FIE"/>
                 <constraint firstItem="Yl1-Wc-fv6" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="N8Q-ZJ-sYg"/>
-                <constraint firstItem="BuY-ou-2r2" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="top" priority="750" id="Nbs-rL-q02"/>
+                <constraint firstItem="BuY-ou-2r2" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="top" id="Nbs-rL-q02"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="P1z-ht-qbH"/>
-                <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="topMargin" constant="-8" id="W2c-Zq-Y47"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="bui-Kl-w8g"/>
                 <constraint firstItem="F6C-pN-1tf" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="cwR-0w-clH"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="BuY-ou-2r2" secondAttribute="bottom" id="fdZ-t5-uyk"/>
@@ -356,6 +357,7 @@
                 <constraint firstAttribute="trailing" secondItem="pEp-Xe-LQj" secondAttribute="trailing" id="lXn-Qm-a0T"/>
                 <constraint firstAttribute="trailing" secondItem="suR-o2-ESP" secondAttribute="trailing" id="mgr-xz-DIo"/>
                 <constraint firstAttribute="trailing" secondItem="Yl1-Wc-fv6" secondAttribute="trailing" id="t1P-a6-5Mz"/>
+                <constraint firstItem="BuY-ou-2r2" firstAttribute="bottom" secondItem="w04-rs-iMM" secondAttribute="topMargin" priority="750" constant="-8" id="v2b-Vv-ggE"/>
                 <constraint firstItem="rSx-dm-mU2" firstAttribute="centerY" secondItem="w04-rs-iMM" secondAttribute="centerY" id="ywk-6J-sYF"/>
             </constraints>
             <connections>
@@ -370,6 +372,7 @@
                 <outlet property="settingButton" destination="pqT-93-2RH" id="G67-xX-s81"/>
                 <outlet property="shareButton" destination="rem-Kt-gSH" id="I1B-vu-XnK"/>
                 <outlet property="snapshotButton" destination="T4D-xH-rSz" id="gCl-FT-IwT"/>
+                <outlet property="statusBarHeight" destination="v2b-Vv-ggE" id="Gmm-cb-Zjb"/>
                 <outlet property="switchScreenButton" destination="PhT-m4-gZI" id="0mM-zZ-QFQ"/>
                 <outlet property="timeLabel" destination="mlF-RW-YrS" id="blc-4p-10C"/>
             </connections>

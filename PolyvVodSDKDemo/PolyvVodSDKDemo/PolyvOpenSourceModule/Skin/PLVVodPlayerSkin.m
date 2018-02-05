@@ -59,17 +59,6 @@
 @end
 
 @implementation PLVVodPlayerSkin
-{
-	UIStatusBarStyle _statusBarStyle;
-	BOOL _shouldHideStatusBar;
-	double _playbackRate;
-	BOOL _localPlayback;
-}
-
-@synthesize statusBarStyle = _statusBarStyle;
-@synthesize shouldHideStatusBar = _shouldHideStatusBar;
-@synthesize playbackRate = _playbackRate;
-@synthesize localPlayback = _localPlayback;
 
 #pragma mark - property
 
@@ -328,9 +317,11 @@
 	if (collection.verticalSizeClass == UIUserInterfaceSizeClassCompact) { // 横屏
 		self.mainControl = self.fullscreenView;
 		self.statusBarStyle = UIStatusBarStyleLightContent;
+		self.shouldHideNavigationBar = YES;
 	} else {
 		self.mainControl = self.shrinkscreenView;
 		self.statusBarStyle = UIStatusBarStyleDefault;
+		self.shouldHideNavigationBar = NO;
 	}
 }
 

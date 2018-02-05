@@ -12,10 +12,25 @@
 
 @interface PLVVodPlayerSkin : UIViewController<PLVVodPlayerSkinProtocol>
 
-#pragma mark - PLVVodPlayerSkinProtocol
+#pragma mark - PLVVodPlayerSkinProtocol 重新声明
 
 /// 弱引用的播放器
 @property (nonatomic, weak) IBOutlet PLVVodPlayerViewController *delegatePlayer;
+
+/// 指导页面隐藏导航栏
+@property (nonatomic, assign) BOOL shouldHideNavigationBar;
+
+/// 指导页面状态栏隐藏
+@property (nonatomic, assign) BOOL shouldHideStatusBar;
+
+/// 指导页面状态栏样式
+@property (nonatomic, assign) UIStatusBarStyle statusBarStyle;
+
+// 播放速率
+@property (nonatomic, assign) double playbackRate;
+
+/// 是否播放本地视频
+@property (nonatomic, assign) BOOL localPlayback;
 
 #pragma mark 控件
 

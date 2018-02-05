@@ -8,15 +8,21 @@
 
 #import "PLVVodFullscreenView.h"
 
+@interface PLVVodFullscreenView ()
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusBarHeight;
+
+
+@end
+
 @implementation PLVVodFullscreenView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (void)awakeFromNib {
+	[super awakeFromNib];
+	if (@available(iOS 9.0, *)) {} else {
+		self.statusBarHeight.constant = 12;
+	}
 }
-*/
 
 - (NSString *)description {
 	NSMutableString *description = [super.description stringByAppendingString:@":\n"].mutableCopy;

@@ -44,8 +44,6 @@
 		03856C6F1FE21C990038DEB2 /* PLVVodSkinPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C5B1FE21C990038DEB2 /* PLVVodSkinPlayerController.m */; };
 		03856C701FE21C990038DEB2 /* UIColor+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C631FE21C990038DEB2 /* UIColor+PLVVod.m */; };
 		03856C711FE21C990038DEB2 /* UINavigationController+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C641FE21C990038DEB2 /* UINavigationController+PLVVod.m */; };
-		03856C721FE21C990038DEB2 /* NSObject+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C651FE21C990038DEB2 /* NSObject+PLVVod.m */; };
-		03856C731FE21C990038DEB2 /* UIViewController+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C661FE21C990038DEB2 /* UIViewController+PLVVod.m */; };
 		03856C741FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C671FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m */; };
 		03856C751FE21C990038DEB2 /* UIView+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856C681FE21C990038DEB2 /* UIView+PLVVod.m */; };
 		03856CA31FE22A4D0038DEB2 /* PLVVodAccountVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 03856CA21FE22A4D0038DEB2 /* PLVVodAccountVideo.m */; };
@@ -159,13 +157,9 @@
 		03856C5D1FE21C990038DEB2 /* UIColor+PLVVod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+PLVVod.h"; sourceTree = "<group>"; };
 		03856C5E1FE21C990038DEB2 /* UINavigationController+PLVVod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+PLVVod.h"; sourceTree = "<group>"; };
 		03856C5F1FE21C990038DEB2 /* PLVVodDanmu+PLVVod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PLVVodDanmu+PLVVod.h"; sourceTree = "<group>"; };
-		03856C601FE21C990038DEB2 /* UIViewController+PLVVod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PLVVod.h"; sourceTree = "<group>"; };
-		03856C611FE21C990038DEB2 /* NSObject+PLVVod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PLVVod.h"; sourceTree = "<group>"; };
 		03856C621FE21C990038DEB2 /* UIView+PLVVod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PLVVod.h"; sourceTree = "<group>"; };
 		03856C631FE21C990038DEB2 /* UIColor+PLVVod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+PLVVod.m"; sourceTree = "<group>"; };
 		03856C641FE21C990038DEB2 /* UINavigationController+PLVVod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+PLVVod.m"; sourceTree = "<group>"; };
-		03856C651FE21C990038DEB2 /* NSObject+PLVVod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PLVVod.m"; sourceTree = "<group>"; };
-		03856C661FE21C990038DEB2 /* UIViewController+PLVVod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PLVVod.m"; sourceTree = "<group>"; };
 		03856C671FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PLVVodDanmu+PLVVod.m"; sourceTree = "<group>"; };
 		03856C681FE21C990038DEB2 /* UIView+PLVVod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PLVVod.m"; sourceTree = "<group>"; };
 		03856CA11FE22A4D0038DEB2 /* PLVVodAccountVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodAccountVideo.h; sourceTree = "<group>"; };
@@ -380,8 +374,6 @@
 		03856C5C1FE21C990038DEB2 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				03856C611FE21C990038DEB2 /* NSObject+PLVVod.h */,
-				03856C651FE21C990038DEB2 /* NSObject+PLVVod.m */,
 				03856C5F1FE21C990038DEB2 /* PLVVodDanmu+PLVVod.h */,
 				03856C671FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m */,
 				03856C5D1FE21C990038DEB2 /* UIColor+PLVVod.h */,
@@ -390,8 +382,6 @@
 				03856C641FE21C990038DEB2 /* UINavigationController+PLVVod.m */,
 				03856C621FE21C990038DEB2 /* UIView+PLVVod.h */,
 				03856C681FE21C990038DEB2 /* UIView+PLVVod.m */,
-				03856C601FE21C990038DEB2 /* UIViewController+PLVVod.h */,
-				03856C661FE21C990038DEB2 /* UIViewController+PLVVod.m */,
 				03856CA41FE22D090038DEB2 /* NSString+PLVVod.h */,
 				03856CA51FE22D090038DEB2 /* NSString+PLVVod.m */,
 			);
@@ -902,10 +892,8 @@
 				03856CA31FE22A4D0038DEB2 /* PLVVodAccountVideo.m in Sources */,
 				03DDF4CD1FE763BB00F63630 /* DLCustomSlideView.m in Sources */,
 				03DDF4CC1FE763BB00F63630 /* DLUtility.m in Sources */,
-				03856C731FE21C990038DEB2 /* UIViewController+PLVVod.m in Sources */,
 				03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */,
 				030DF02C1FB590560035D0B0 /* PLVCourseListController.m in Sources */,
-				03856C721FE21C990038DEB2 /* NSObject+PLVVod.m in Sources */,
 				03DDF4CB1FE763BB00F63630 /* DLFixedTabbarView.m in Sources */,
 				03856C6F1FE21C990038DEB2 /* PLVVodSkinPlayerController.m in Sources */,
 				0323727C1FCBC58D0001E904 /* PLVAccountVideoListController.m in Sources */,
