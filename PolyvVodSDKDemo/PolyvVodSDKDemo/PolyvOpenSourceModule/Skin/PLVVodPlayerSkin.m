@@ -135,6 +135,15 @@
 	});
 }
 
+- (void)setEnableDanmu:(BOOL)enableDanmu {
+	dispatch_async(dispatch_get_main_queue(), ^{
+		self.fullscreenView.danmuButton.selected = enableDanmu;
+	});
+}
+- (BOOL)enableDanmu {
+	return self.fullscreenView.danmuButton.selected;
+}
+
 #pragma mark - PLVVodPlayerSkinProtocol
 
 #pragma mark 字幕
@@ -325,41 +334,6 @@
 	}
 }
 
-#pragma mark - tool
-
-// makes "subview" match the width and height of "superview" by adding the proper auto layout constraints
-- (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {
-	subview.translatesAutoresizingMaskIntoConstraints = NO;
-	NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
-	
-	NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|" options:0 metrics:nil views:viewsDictionary];
-	constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|" options:0 metrics:nil views:viewsDictionary]];
-	[superview addConstraints:constraints];
-	
-	return constraints;
-}
-
-// 执行动画视图转场
-- (void)transitToView:(UIView *)toView {
-	[self transitFromView:self.mainControl toView:toView];
-}
-- (void)transitFromView:(UIView *)fromView toView:(UIView *)toView {
-	if (fromView == toView || !fromView || !toView) {
-		return;
-	}
-	[self transitFromView:fromView toView:toView options:UIViewAnimationOptionTransitionCrossDissolve];
-}
-- (void)transitFromView:(UIView *)fromView toView:(UIView *)toView options:(UIViewAnimationOptions)options {
-	NSArray *priorConstraints = self.priorConstraints;
-	[UIView transitionFromView:fromView toView:toView duration:0.25 options:options completion:^(BOOL finished) {
-		if (priorConstraints != nil) {
-			[self.controlContainerView removeConstraints:priorConstraints];
-		}
-	}];
-	self.priorConstraints = [self constrainSubview:toView toMatchWithSuperview:self.controlContainerView];
-	self.topView = toView;
-}
-
 #pragma mark - orientation
 
 - (void)switchScreen {
@@ -374,7 +348,6 @@
 #pragma mark - action
 
 - (IBAction)backMainControl:(id)sender {
-	//NSLog(@"%s - %@", __FUNCTION__, [NSThread currentThread]);
 	if (self.topView == self.mainControl) return;
 	[self transitFromView:self.topView toView:self.mainControl];
 	[self fadeoutPlaybackControl];
@@ -382,13 +355,12 @@
 
 - (IBAction)switchScreenAction:(UIButton *)sender {
 	[self switchScreen];
-	//NSLog(@"切换：%@", sender.selected?@"全屏":@"半屏");
 }
 
-- (IBAction)switchDmAction:(UIButton *)sender {
+- (IBAction)danmuButtonAction:(UIButton *)sender {
 	sender.selected = !sender.selected;
-	//NSLog(@"弹幕：%s", sender.selected?"开":"关");
-	self.fullscreenView.dmButton.hidden = !sender.selected;
+	self.fullscreenView.danmuSendButton.hidden = !sender.selected;
+	if (self.enableDanmuChangeHandler) self.enableDanmuChangeHandler(self, sender.selected);
 }
 
 - (IBAction)definitionAction:(UIButton *)sender {
@@ -547,6 +519,39 @@
 		}break;
 		default:{}break;
 	}
+}
+
+// makes "subview" match the width and height of "superview" by adding the proper auto layout constraints
+- (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {
+	subview.translatesAutoresizingMaskIntoConstraints = NO;
+	NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
+	
+	NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|" options:0 metrics:nil views:viewsDictionary];
+	constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|" options:0 metrics:nil views:viewsDictionary]];
+	[superview addConstraints:constraints];
+	
+	return constraints;
+}
+
+// 执行动画视图转场
+- (void)transitToView:(UIView *)toView {
+	[self transitFromView:self.mainControl toView:toView];
+}
+- (void)transitFromView:(UIView *)fromView toView:(UIView *)toView {
+	if (fromView == toView || !fromView || !toView) {
+		return;
+	}
+	[self transitFromView:fromView toView:toView options:UIViewAnimationOptionTransitionCrossDissolve];
+}
+- (void)transitFromView:(UIView *)fromView toView:(UIView *)toView options:(UIViewAnimationOptions)options {
+	NSArray *priorConstraints = self.priorConstraints;
+	[UIView transitionFromView:fromView toView:toView duration:0.25 options:options completion:^(BOOL finished) {
+		if (priorConstraints != nil) {
+			[self.controlContainerView removeConstraints:priorConstraints];
+		}
+	}];
+	self.priorConstraints = [self constrainSubview:toView toMatchWithSuperview:self.controlContainerView];
+	self.topView = toView;
 }
 
 @end

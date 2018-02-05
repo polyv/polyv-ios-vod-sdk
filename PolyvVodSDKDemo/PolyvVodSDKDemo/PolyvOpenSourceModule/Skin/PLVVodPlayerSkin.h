@@ -40,7 +40,7 @@
 /// 全屏/半屏按钮
 @property (nonatomic, weak) IBOutlet UIButton *fullShrinkscreenButton;
 
-#pragma mark - 额外控件
+#pragma mark - 额外
 
 /// 字幕标签
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
@@ -50,6 +50,10 @@
 
 /// 载入指示器
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
+
+/// 是否启用弹幕
+@property (nonatomic, assign) BOOL enableDanmu;
+@property (nonatomic, copy) void (^enableDanmuChangeHandler)(PLVVodPlayerSkin *skin, BOOL enableDanmu);
 
 - (void)showGestureIndicator;
 - (void)hideGestureIndicator;

@@ -49,7 +49,7 @@
 
 - (void)setVideo:(PLVVodVideo *)video quality:(PLVVodQuality)quality {
 	// for test
-	self.enableAd = YES;
+//	self.enableAd = YES;
 //	self.enableTeaser = YES;
 	
 	[super setVideo:video quality:quality];
@@ -168,7 +168,21 @@
 	// 配置弹幕
 	__weak typeof(self) weakSelf = self;
 	[PLVVodDanmu requestDanmusWithVid:self.video.vid completion:^(NSArray<PLVVodDanmu *> *danmus, NSError *error) {
-		weakSelf.danmuManager = [[PLVVodDanmuManager alloc] initWithDanmus:danmus inView:weakSelf.maskView];
+		__block PLVVodDanmuManager *danmuManager = [[PLVVodDanmuManager alloc] initWithDanmus:danmus inView:weakSelf.maskView];
+		__block PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
+		if (!skin.enableDanmu) {
+			[danmuManager stop];
+		} else {
+			[danmuManager resume];
+		}
+		skin.enableDanmuChangeHandler = ^(PLVVodPlayerSkin *skin, BOOL enableDanmu) {
+			if (!skin.enableDanmu) {
+				[danmuManager stop];
+			} else {
+				[danmuManager resume];
+			}
+		};
+		weakSelf.danmuManager = danmuManager;
 	}];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(danmuDidSend:) name:PLVVodDanmuDidSendNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(danmuWillSend:) name:PLVVodDanmuWillSendNotification object:nil];

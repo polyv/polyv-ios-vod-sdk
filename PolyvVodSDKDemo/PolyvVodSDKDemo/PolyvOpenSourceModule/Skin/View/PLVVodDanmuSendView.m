@@ -23,9 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIStackView *fontSizeButtonStackView;
 #pragma clang diagnostic pop
 
-@property (nonatomic, assign) CGFloat inputHeight;
-
-//@property (nonatomic, strong) NSString *danmuContent;
 @property (nonatomic, assign) NSUInteger danmuColorHex;
 @property (nonatomic, assign) int danmuFontSize;
 @property (nonatomic, assign) NSInteger danmuMode;
@@ -85,7 +82,6 @@
 	[super awakeFromNib];
 	self.danmuTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 10)];
 	self.danmuTextField.leftViewMode = UITextFieldViewModeAlways;
-	self.inputHeight = self.inputHeightLayout.constant;
 	
 	for (int i = 0; i < _colors.count; i++) {
 		UIButton *colorButton = self.colorButtonStackView.arrangedSubviews[i];
@@ -109,6 +105,7 @@
 	CGRect keyboardRect = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	[UIView animateWithDuration:duration animations:^{
 		self.inputHeightLayout.constant = keyboardRect.size.height;
+		self.settingButton.selected = NO;
 	} completion:^(BOOL finished) {
 		
 	}];
@@ -121,15 +118,7 @@
 }
 
 //当键退出时调用
-- (void)keyboardWillHide:(NSNotification *)notification {
-//	NSDictionary *userInfo = [notification userInfo];
-//	double duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-//	[UIView animateWithDuration:duration animations:^{
-//		self.inputHeight.constant = 0;
-//	} completion:^(BOOL finished) {
-//
-//	}];
-}
+- (void)keyboardWillHide:(NSNotification *)notification {}
 
 #pragma mark - action
 
@@ -178,24 +167,13 @@
 }
 
 - (void)didMoveToSuperview {
-//	NSLog(@"%s - %@", __FUNCTION__, [NSThread currentThread]);
-//	NSLog(@"didMoveToSuperview superview: %@", self.superview);
 	if (self.superview) {
-		self.inputHeightLayout.constant = self.inputHeight;
+		self.danmuTextField.text = nil;
 		[self.danmuTextField becomeFirstResponder];
 		[[NSNotificationCenter defaultCenter] postNotificationName:PLVVodDanmuWillSendNotification object:self];
 	} else {
 		[[NSNotificationCenter defaultCenter] postNotificationName:PLVVodDanmuEndSendNotification object:self];
 	}
 }
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

@@ -187,7 +187,7 @@
                                     <state key="normal" image="plv_vod_btn_dm_off"/>
                                     <state key="selected" image="plv_vod_btn_dm_on"/>
                                     <connections>
-                                        <action selector="switchDmAction:" destination="-1" eventType="touchUpInside" id="RU0-jf-rdL"/>
+                                        <action selector="danmuButtonAction:" destination="-1" eventType="touchUpInside" id="RU0-jf-rdL"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vun-eN-a4o" userLabel="清晰度">
@@ -245,7 +245,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEp-Xe-LQj" userLabel="顶部工具栏">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="44"/>
+                    <rect key="frame" x="0.0" y="-8" width="480" height="44"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="Fh2-rt-Zgw" userLabel="右侧控件容器">
                             <rect key="frame" x="381" y="11" width="79" height="22"/>
@@ -297,7 +297,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BuY-ou-2r2" userLabel="状态栏">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="0.0"/>
+                    <rect key="frame" x="0.0" y="-8" width="480" height="0.0"/>
                     <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rSx-dm-mU2" userLabel="右侧控件容器">
@@ -346,9 +346,9 @@
                 <constraint firstItem="Yl1-Wc-fv6" firstAttribute="top" secondItem="F6C-pN-1tf" secondAttribute="bottom" id="Bn2-le-m3n"/>
                 <constraint firstItem="suR-o2-ESP" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="Hn3-SB-FIE"/>
                 <constraint firstItem="Yl1-Wc-fv6" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="N8Q-ZJ-sYg"/>
-                <constraint firstItem="BuY-ou-2r2" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="top" id="Nbs-rL-q02"/>
+                <constraint firstItem="BuY-ou-2r2" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="top" priority="750" id="Nbs-rL-q02"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="P1z-ht-qbH"/>
-                <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="topMargin" id="W2c-Zq-Y47"/>
+                <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="topMargin" constant="-8" id="W2c-Zq-Y47"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="bui-Kl-w8g"/>
                 <constraint firstItem="F6C-pN-1tf" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="cwR-0w-clH"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="BuY-ou-2r2" secondAttribute="bottom" id="fdZ-t5-uyk"/>
@@ -361,8 +361,9 @@
             <connections>
                 <outlet property="backButton" destination="BYi-5F-3u5" id="lRK-DM-pCa"/>
                 <outlet property="bufferProgressView" destination="F6C-pN-1tf" id="LMx-xv-KL0"/>
+                <outlet property="danmuButton" destination="7k7-Ox-gzF" id="BUv-za-nOD"/>
+                <outlet property="danmuSendButton" destination="h89-Es-caU" id="LW8-1T-Sxr"/>
                 <outlet property="definitionButton" destination="vun-eN-a4o" id="o8H-XJ-3Nq"/>
-                <outlet property="dmButton" destination="h89-Es-caU" id="mjw-R3-TGd"/>
                 <outlet property="playPauseButton" destination="s1w-XP-Fw3" id="ZZv-xl-UcC"/>
                 <outlet property="playbackRateButton" destination="F67-0j-oen" id="Z7Z-Cw-nnm"/>
                 <outlet property="playbackSlider" destination="suR-o2-ESP" id="bU8-Zt-jmK"/>
@@ -737,7 +738,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UXE-RF-qSh" userLabel="输入栏">
                             <rect key="frame" x="0.0" y="0.0" width="480" height="44"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="HxO-Il-rGr">
+                                <stackView opaque="NO" contentMode="scaleToFill" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="HxO-Il-rGr" userLabel="输入栏组">
                                     <rect key="frame" x="12" y="8" width="456" height="28"/>
                                     <subviews>
                                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="首长，请指示.." textAlignment="natural" minimumFontSize="17" background="plv_vod_input_dm_click" disabledBackground="plv_vod_input_dm_def" translatesAutoresizingMaskIntoConstraints="NO" id="GPc-ot-JIj" userLabel="输入弹幕">
@@ -771,10 +772,10 @@
                                 <constraint firstAttribute="height" constant="44" id="sdP-uO-FYS"/>
                             </constraints>
                         </view>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="pdp-XN-RPy">
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="pdp-XN-RPy" userLabel="弹幕设置组">
                             <rect key="frame" x="26.5" y="65.5" width="427.5" height="119.5"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="fFK-KL-STC">
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="fFK-KL-STC" userLabel="弹幕颜色组">
                                     <rect key="frame" x="0.0" y="0.0" width="427.5" height="24.5"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="弹幕颜色" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFA-e5-49a">
@@ -844,7 +845,7 @@
                                         </stackView>
                                     </subviews>
                                 </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Vp0-kN-utJ">
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Vp0-kN-utJ" userLabel="弹幕类型组">
                                     <rect key="frame" x="0.0" y="47.5" width="235.5" height="24.5"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="弹幕类型" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FeT-w4-r7G">
@@ -890,7 +891,7 @@
                                         </stackView>
                                     </subviews>
                                 </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="yXB-ea-kt4">
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="yXB-ea-kt4" userLabel="弹幕字体大小组">
                                     <rect key="frame" x="0.0" y="95" width="235.5" height="24.5"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="字体大小" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edB-rr-pCA">

@@ -27,7 +27,6 @@
 	NSString *vodKey = school.vodKey;
 	NSString *decodeKey = school.vodKeyDecodeKey;
 	NSString *decodeIv = school.vodKeyDecodeIv;
-	vodKey = @"v4yoqNIHwZ69WNbOTI4rzDRHbwjUYsh14V1Czv7CNhwRE3EGBEleaezLNZms14CKhxu+KB+OPH341zknQ5+7gE5UZnz4u5V0jP+SCO9kaRwthY4UyvZ3ClHgnSBEZoTCkwrYQ+sgLVIRhjo2y+uZIQ==";
 	PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
 	NSLog(@"settings: %@", settings);
 	if (error) {

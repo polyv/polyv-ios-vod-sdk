@@ -16,11 +16,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *switchScreenButton;
 @property (weak, nonatomic) IBOutlet UIButton *snapshotButton;
-@property (weak, nonatomic) IBOutlet UIButton *dmButton;
+@property (weak, nonatomic) IBOutlet UIButton *danmuSendButton;
 @property (weak, nonatomic) IBOutlet UIButton *definitionButton;
 @property (weak, nonatomic) IBOutlet UIButton *playbackRateButton;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *settingButton;
+@property (weak, nonatomic) IBOutlet UIButton *danmuButton;
 
 @end
