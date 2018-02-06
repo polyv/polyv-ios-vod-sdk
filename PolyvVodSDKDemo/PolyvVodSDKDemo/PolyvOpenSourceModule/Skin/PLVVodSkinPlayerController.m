@@ -49,8 +49,8 @@
 
 - (void)setVideo:(PLVVodVideo *)video quality:(PLVVodQuality)quality {
 	// for test
-//	self.enableAd = YES;
-//	self.enableTeaser = YES;
+	self.enableAd = YES;
+	self.enableTeaser = YES;
 	
 	[super setVideo:video quality:quality];
 	dispatch_async(dispatch_get_main_queue(), ^{
