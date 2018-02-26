@@ -3,11 +3,11 @@ PODS:
   - PLVMarquee (0.0.1)
   - PLVNetworkDiagnosisTool (0.0.1)
   - PLVSubtitle (0.0.3)
-  - PLVTimer (0.0.1)
+  - PLVTimer (0.0.2)
   - PLVVodDanmu (0.0.1)
   - PolyvAliHttpDNS (1.6.7)
-  - PolyvIJKPlayer (0.0.3)
-  - PolyvVodSDK (0.0.2):
+  - PolyvIJKPlayer (0.1.0)
+  - PolyvVodSDK (0.0.3):
     - PLVMarquee
     - PLVNetworkDiagnosisTool
     - PLVTimer
@@ -41,11 +41,11 @@ SPEC CHECKSUMS:
   PLVMarquee: dc17c519d8461b505e9502094effec7dc8fa5174
   PLVNetworkDiagnosisTool: e8a098546d30c12f7d1c917d8e43f10941f1bc5d
   PLVSubtitle: a5beb4a03a7719ceb4be1d4e10306cafe4759a11
-  PLVTimer: ce7a3b70d2a1343def8d1817252292faf569b875
+  PLVTimer: bbab201882127402a94b7e19919aae278ae6dfa6
   PLVVodDanmu: 7f6663e2bbc3bf93a94b9bd3a404e1760b3d3511
   PolyvAliHttpDNS: 0fbbbcd3aab07a48305d36884681ca33849cc0b7
-  PolyvIJKPlayer: 36cc3a26fb266edf9db21223339e9650c36f03b1
-  PolyvVodSDK: ca302f4471263bf07eb90a2ea5134f21de8f337b
+  PolyvIJKPlayer: 512eb485908b6e60e5e5e058ee9baa823e0dbaa4
+  PolyvVodSDK: a786b7e70d31f4f4dfcbcec7057ea7efb60ead61
   SSZipArchive: 14401ade5f8e82aba1ff03e9f88e9de60937ae60
   WCDB: 4d2926bf695b2e00d785b50afd32c2dcc8cbbd98
   XRCarouselView: d3f949d1601e7de51604cdabd6e2f35a770e0f99
@@ -55,4 +55,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 336418c56db70c2f8401b6b36d538798ac7a99a2
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0
