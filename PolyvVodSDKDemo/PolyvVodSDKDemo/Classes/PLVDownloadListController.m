@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet PLVToolbar *toolbar;
 
-@property (nonatomic, strong) NSArray<PLVVodDownloadInfo *> *downloadInfos;
+@property (nonatomic, strong) NSMutableArray<PLVVodDownloadInfo *> *downloadInfos;
 @property (nonatomic, strong) NSDictionary<NSString *, PLVLoadCell *> *downloadItemCellDic;
 
 @property (nonatomic, strong) PLVTimer *timer;
@@ -79,7 +79,7 @@
 
 #pragma mark - property
 
-- (void)setDownloadInfos:(NSArray<PLVVodDownloadInfo *> *)downloadInfos {
+- (void)setDownloadInfos:(NSMutableArray<PLVVodDownloadInfo *> *)downloadInfos {
 	_downloadInfos = downloadInfos;
 	
 	// 设置单元格字典
@@ -185,6 +185,7 @@
 	PLVVodDownloadManager *manager = [PLVVodDownloadManager sharedManager];
 	PLVVodDownloadInfo *downloadInfo = self.downloadInfos[indexPath.row];
 	[manager removeDownloadWithVid:downloadInfo.video.vid error:nil];
+	[self.downloadInfos removeObject:downloadInfo];
 	[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
