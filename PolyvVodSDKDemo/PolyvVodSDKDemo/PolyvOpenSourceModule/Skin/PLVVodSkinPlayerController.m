@@ -36,7 +36,7 @@
 @property (nonatomic, strong) PLVSubtitleManager *subtitleManager;
 
 /// 视频截图
-@property (nonatomic, strong) UIImage *snapshot;
+@property (nonatomic, strong) UIImage *coverImage;
 
 /// 滑动进度
 @property (nonatomic, assign) NSTimeInterval scrubTime;
@@ -60,7 +60,7 @@
 		[self setupSubtitle];
 		
 		// 设置控制中心播放信息
-		self.snapshot = nil;
+		self.coverImage = nil;
 		[self setupPlaybackInfo];
 	});
 }
@@ -229,15 +229,15 @@
 
 // 配置控制中心播放
 - (void)setupPlaybackInfo {
-	if (self.snapshot) {
-		[self setupPlaybackInfoWithCover:self.snapshot];
+	if (self.coverImage) {
+		[self setupPlaybackInfoWithCover:self.coverImage];
 		return;
 	}
 	__weak typeof(self) weakSelf = self;
 	[[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:self.video.snapshot] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		if (!data.length) return;
-		weakSelf.snapshot = [UIImage imageWithData:data];
-		[weakSelf setupPlaybackInfoWithCover:weakSelf.snapshot];
+		weakSelf.coverImage = [UIImage imageWithData:data];
+		[weakSelf setupPlaybackInfoWithCover:weakSelf.coverImage];
 	}] resume];
 }
 - (void)setupPlaybackInfoWithCover:(UIImage *)cover {
