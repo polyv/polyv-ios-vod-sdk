@@ -78,12 +78,7 @@
 	
 	self.automaticallyAdjustsScrollViewInsets = NO;
 	
-	PLVVodPlayerSkin *skin = [[PLVVodPlayerSkin alloc] initWithNibName:nil bundle:nil];
-	__weak typeof(skin) _skin = skin;
-	[self addChildViewController:skin];
-	self.skinView = skin.view;
-	[self.view addSubview:self.skinView];
-	self.playerControl = skin;
+	[self setupSkin];
 	
 	[self addObserver];
 	[self teaserStateDidChange];
@@ -106,21 +101,9 @@
 		});
 	}];
 	
-	// 配置皮肤控件事件
-	skin.selectedSubtitleKeyDidChangeBlock = ^(NSString *selectedSubtitleKey) {
-		[weakSelf setupSubtitle];
-	};
-	
 	// 配置手势
 	self.gestureCallback = ^(PLVVodPlayerViewController *player, UIGestureRecognizer *recognizer, PLVVodGestureType gestureType) {
 		[weakSelf handleGesture:recognizer gestureType:gestureType];
-	};
-	
-	// 配置载入状态
-	self.loadingHandler = ^(BOOL isLoading) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			isLoading ? [_skin.loadingIndicator startAnimating] : [_skin.loadingIndicator stopAnimating];
-		});
 	};
 	
 	// 开启后台播放
@@ -135,7 +118,6 @@
 - (void)viewDidLayoutSubviews {
 	//NSLog(@"layout guide: %f - %f", self.topLayoutGuide.length, self.bottomLayoutGuide.length);
 	self.danmuManager.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
-	self.skinView.frame = self.view.bounds;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -144,6 +126,35 @@
 }
 
 #pragma mark - private
+
+- (void)setupSkin {
+	PLVVodPlayerSkin *skin = [[PLVVodPlayerSkin alloc] initWithNibName:nil bundle:nil];
+	__weak typeof(skin) _skin = skin;
+	[self addChildViewController:skin];
+	UIView *skinView = skin.view;
+	[self.view addSubview:skinView];
+	UIView *playerView = self.view;
+	skinView.translatesAutoresizingMaskIntoConstraints = NO;
+	NSDictionary *views = NSDictionaryOfVariableBindings(skinView, playerView);
+	[playerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[skinView]|" options:0 metrics:nil views:views]];
+	[playerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[skinView]|" options:0 metrics:nil views:views]];
+	
+	self.skinView = skinView;
+	self.playerControl = skin;
+	
+	__weak typeof(self) weakSelf = self;
+	// 配置皮肤控件事件
+	skin.selectedSubtitleKeyDidChangeBlock = ^(NSString *selectedSubtitleKey) {
+		[weakSelf setupSubtitle];
+	};
+	
+	// 配置载入状态
+	self.loadingHandler = ^(BOOL isLoading) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			isLoading ? [_skin.loadingIndicator startAnimating] : [_skin.loadingIndicator stopAnimating];
+		});
+	};
+}
 
 - (void)setupAd {
 	self.adPlayer.adDidTapBlock = ^(PLVVodAd *ad) {
@@ -157,6 +168,8 @@
 	[self.adPlayer.muteButton sizeToFit];
 	[self.adPlayer.playButton setImage:[UIImage imageNamed:@"plv_vod_btn_play_60"] forState:UIControlStateNormal];
 	[self.adPlayer.playButton sizeToFit];
+	self.adPlayer.timeLabel.shadowColor = [UIColor grayColor];
+	self.adPlayer.timeLabel.shadowOffset = CGSizeMake(1, 1);
 }
 
 - (void)setupDanmu {
