@@ -49,9 +49,9 @@
 	
 	__weak typeof(self) weakSelf = self;
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
-	[downloadManager requestDownloadInfosWithCompletion:^(NSMutableArray<PLVVodDownloadInfo *> *downloadInfos) {
+	[downloadManager requestDownloadInfosWithCompletion:^(NSArray<PLVVodDownloadInfo *> *downloadInfos) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			weakSelf.downloadInfos = downloadInfos;
+			weakSelf.downloadInfos = downloadInfos.mutableCopy;
 			[weakSelf.tableView reloadData];
 		});
 	}];

@@ -94,7 +94,7 @@
 }
 - (void)downloadVideo:(PLVVodVideo *)video {
 	PLVVodDownloadInfo *info = [[PLVVodDownloadManager sharedManager] downloadVideo:video];
-	NSLog(@"%@ - %zd 已加入下载队列", info.video.vid, info.quality);
+	if (info) NSLog(@"%@ - %zd 已加入下载队列", info.video.vid, info.quality);
 }
 
 
