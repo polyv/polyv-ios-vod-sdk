@@ -70,6 +70,7 @@
 - (void)dealloc {
 	[self.playbackTimer cancel];
 	self.playbackTimer = nil;
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -81,8 +82,6 @@
 	[self setupSkin];
 	
 	[self addObserver];
-	[self teaserStateDidChange];
-	[self adStateDidChange];
 	
 	__weak typeof(self) weakSelf = self;
 	self.playbackTimer = [PLVTimer repeatWithInterval:0.2 repeatBlock:^{
@@ -427,8 +426,10 @@
 #pragma mark - observer
 
 - (void)addObserver {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(teaserStateDidChange) name:PLVVodPlayerTeaserStateDidChangeNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adStateDidChange) name:PLVVodPlayerAdStateDidChangeNotification object:nil];
+	[self adStateDidChange];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(teaserStateDidChange) name:PLVVodPlayerTeaserStateDidChangeNotification object:nil];
+	[self teaserStateDidChange];
 	
 	// 接收远程事件
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteControlEventDidReceive:) name:PLVVodRemoteControlEventDidReceiveNotification object:nil];
