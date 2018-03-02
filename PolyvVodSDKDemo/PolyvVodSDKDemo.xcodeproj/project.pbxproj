@@ -21,6 +21,7 @@
 		033153041FCD103F00CAE849 /* PLVCourseSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 033153031FCD103F00CAE849 /* PLVCourseSection.m */; };
 		033153071FCD105400CAE849 /* PLVCourseVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 033153061FCD105400CAE849 /* PLVCourseVideo.m */; };
 		033AF0881FE9FA530068BC40 /* PLVToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 033AF0871FE9FA530068BC40 /* PLVToolbar.m */; };
+		034271D020492836002F4475 /* UIControl+PLVVod.m in Sources */ = {isa = PBXBuildFile; fileRef = 034271CF20492836002F4475 /* UIControl+PLVVod.m */; };
 		034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 034B55451FC926520031A875 /* PLVTitleHeaderReusableView.m */; };
 		03540B871FBC408400CCC7E6 /* PLVCourseBannerReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03540B861FBC408400CCC7E6 /* PLVCourseBannerReusableView.m */; };
 		0356CD051FCC383700B522A1 /* PLVCourseVideoListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356CD041FCC383700B522A1 /* PLVCourseVideoListController.m */; };
@@ -117,6 +118,8 @@
 		033153061FCD105400CAE849 /* PLVCourseVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseVideo.m; sourceTree = "<group>"; };
 		033AF0861FE9FA530068BC40 /* PLVToolbar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVToolbar.h; sourceTree = "<group>"; };
 		033AF0871FE9FA530068BC40 /* PLVToolbar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVToolbar.m; sourceTree = "<group>"; };
+		034271CE20492836002F4475 /* UIControl+PLVVod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIControl+PLVVod.h"; sourceTree = "<group>"; };
+		034271CF20492836002F4475 /* UIControl+PLVVod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIControl+PLVVod.m"; sourceTree = "<group>"; };
 		034B55441FC926520031A875 /* PLVTitleHeaderReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVTitleHeaderReusableView.h; sourceTree = "<group>"; };
 		034B55451FC926520031A875 /* PLVTitleHeaderReusableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVTitleHeaderReusableView.m; sourceTree = "<group>"; };
 		03540B851FBC408400CCC7E6 /* PLVCourseBannerReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseBannerReusableView.h; sourceTree = "<group>"; };
@@ -382,6 +385,8 @@
 				03856C641FE21C990038DEB2 /* UINavigationController+PLVVod.m */,
 				03856C621FE21C990038DEB2 /* UIView+PLVVod.h */,
 				03856C681FE21C990038DEB2 /* UIView+PLVVod.m */,
+				034271CE20492836002F4475 /* UIControl+PLVVod.h */,
+				034271CF20492836002F4475 /* UIControl+PLVVod.m */,
 				03856CA41FE22D090038DEB2 /* NSString+PLVVod.h */,
 				03856CA51FE22D090038DEB2 /* NSString+PLVVod.m */,
 			);
@@ -897,6 +902,7 @@
 				03DDF4CB1FE763BB00F63630 /* DLFixedTabbarView.m in Sources */,
 				03856C6F1FE21C990038DEB2 /* PLVVodSkinPlayerController.m in Sources */,
 				0323727C1FCBC58D0001E904 /* PLVAccountVideoListController.m in Sources */,
+				034271D020492836002F4475 /* UIControl+PLVVod.m in Sources */,
 				03856C701FE21C990038DEB2 /* UIColor+PLVVod.m in Sources */,
 				030DF03A1FB5BA9D0035D0B0 /* PLVSchool.m in Sources */,
 				0314085A1FB94DAF00D1424A /* Foundation+Log.m in Sources */,

@@ -10,6 +10,7 @@
 #import "PLVCourseVideo.h"
 #import "PLVVodAccountVideo.h"
 #import <YYWebImage/YYWebImage.h>
+#import "UIControl+PLVVod.h"
 
 @interface PLVVideoCell ()
 
@@ -55,6 +56,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+	self.playButton.acceptEventInterval = 3;
 	[self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.downloadButton addTarget:self action:@selector(downloadButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
