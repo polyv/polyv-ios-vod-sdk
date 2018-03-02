@@ -12,6 +12,7 @@
 #import "PLVCourseCell.h"
 #import "PLVCourseNetworking.h"
 #import "PLVCourseDetailController.h"
+#import "UIColor+PLVVod.h"
 
 @interface PLVCourseListController ()<UICollectionViewDelegateFlowLayout>
 
@@ -43,32 +44,7 @@ static NSString * const detialSegueId = @"course_detail";
 	[self.collectionView registerClass:[PLVTitleHeaderReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:titleHeaderId];
     
     // Do any additional setup after loading the view.
-	__weak typeof(self) weakSelf = self;
-	[PLVCourseNetworking requestCoursesWithCompletion:^(NSArray<PLVCourse *> *courses) {
-		if (!courses.count) return;
-		weakSelf.courses = courses;
-		NSMutableArray *bannerCourses = [NSMutableArray array];
-        NSMutableArray *indexes = [NSMutableArray array];
-		while (bannerCourses.count < 3) {
-			int i = arc4random() % courses.count;
-			BOOL containIndex = NO;
-            for (NSNumber *index in indexes) {
-				if (index.intValue == i) {
-					containIndex = YES;
-					break;
-				}
-            }
-			if (containIndex) {
-				continue;
-			}
-            [indexes addObject:@(i)];
-			[bannerCourses addObject:courses[i]];
-		}
-		weakSelf.bannerCourses = bannerCourses;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[weakSelf.collectionView reloadData];
-		});
-	}];
+	[self requestData];
 	
 	// UI
 	//UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
@@ -88,6 +64,35 @@ static NSString * const detialSegueId = @"course_detail";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interfaceOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
+- (void)requestData {
+	__weak typeof(self) weakSelf = self;
+	[PLVCourseNetworking requestCoursesWithCompletion:^(NSArray<PLVCourse *> *courses) {
+		if (!courses.count) return;
+		weakSelf.courses = courses;
+		NSMutableArray *bannerCourses = [NSMutableArray array];
+		NSMutableArray *indexes = [NSMutableArray array];
+		while (bannerCourses.count < 3) {
+			int i = arc4random() % courses.count;
+			BOOL containIndex = NO;
+			for (NSNumber *index in indexes) {
+				if (index.intValue == i) {
+					containIndex = YES;
+					break;
+				}
+			}
+			if (containIndex) {
+				continue;
+			}
+			[indexes addObject:@(i)];
+			[bannerCourses addObject:courses[i]];
+		}
+		weakSelf.bannerCourses = bannerCourses;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[weakSelf.collectionView reloadData];
+		});
+	}];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	if (@available(iOS 11.0, *)) {
@@ -105,6 +110,19 @@ static NSString * const detialSegueId = @"course_detail";
 
 - (void)interfaceOrientationDidChange:(NSNotification *)notification {
 	[self.collectionView reloadData];
+}
+
+- (UIView *)emptyView {
+	UIButton *emptyButton = [UIButton buttonWithType:UIButtonTypeSystem];
+	emptyButton.showsTouchWhenHighlighted = YES;
+	emptyButton.tintColor = [UIColor themeColor];
+	[emptyButton setTitle:@"暂无网校数据，点击重试" forState:UIControlStateNormal];
+	[emptyButton addTarget:self action:@selector(requestData) forControlEvents:UIControlEventTouchUpInside];
+	
+	UILabel *emptyLabel = [[UILabel alloc] init];
+	emptyLabel.text = @"暂无网校数据";
+	emptyLabel.textAlignment = NSTextAlignmentCenter;
+	return emptyButton;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -133,10 +151,7 @@ static NSString * const detialSegueId = @"course_detail";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSInteger number = self.courses.count;
-	UILabel *emptyLabel = [[UILabel alloc] init];
-	emptyLabel.text = @"暂无网校数据";
-	emptyLabel.textAlignment = NSTextAlignmentCenter;
-	collectionView.backgroundView = number ? nil : emptyLabel;
+	collectionView.backgroundView = number ? nil : [self emptyView];
 	return number;
 }
 

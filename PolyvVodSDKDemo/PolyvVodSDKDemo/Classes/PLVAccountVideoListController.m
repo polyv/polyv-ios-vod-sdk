@@ -32,13 +32,13 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
-	[self requestAccountVideos];
+	[self requestData];
 	
 	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
 	self.tableView.tableFooterView = [UIView new];
 }
 
-- (void)requestAccountVideos {
+- (void)requestData {
 	__weak typeof(self) weakSelf = self;
 	[PLVCourseNetworking requestAccountVideoWithPageCount:99 page:1 completion:^(NSArray<PLVVodAccountVideo *> *accountVideos) {
 		weakSelf.accountVideos = accountVideos;
@@ -46,6 +46,15 @@
 			[weakSelf.tableView reloadData];
 		});
 	}];
+}
+
+- (UIView *)emptyView {
+	UIButton *emptyButton = [UIButton buttonWithType:UIButtonTypeSystem];
+	emptyButton.showsTouchWhenHighlighted = YES;
+	emptyButton.tintColor = [UIColor themeColor];
+	[emptyButton setTitle:@"暂无数据，点击重试" forState:UIControlStateNormal];
+	[emptyButton addTarget:self action:@selector(requestData) forControlEvents:UIControlEventTouchUpInside];
+	return emptyButton;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,9 +65,10 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.accountVideos.count;
+	NSInteger number = self.accountVideos.count;
+	tableView.backgroundView = number ? nil : [self emptyView];
+    return number;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PLVVideoCell *cell = (PLVVideoCell *)[tableView dequeueReusableCellWithIdentifier:[PLVVideoCell identifier] forIndexPath:indexPath];
