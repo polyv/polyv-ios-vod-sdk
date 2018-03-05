@@ -19,7 +19,7 @@
 
 - (void)awakeFromNib {
 	[super awakeFromNib];
-	if (@available(iOS 9.0, *)) {} else {
+	if ([UIDevice currentDevice].systemVersion.integerValue < 11) {
 		self.statusBarHeight.constant = 12;
 	}
 }
