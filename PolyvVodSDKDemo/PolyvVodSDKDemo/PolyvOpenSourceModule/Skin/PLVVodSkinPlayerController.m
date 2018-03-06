@@ -15,6 +15,7 @@
 #import <PLVVodSDK/PLVVodExam.h>
 #import <PLVSubtitle/PLVSubtitleManager.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <PLVMarquee/PLVMarquee.h>
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -49,8 +50,8 @@
 
 - (void)setVideo:(PLVVodVideo *)video quality:(PLVVodQuality)quality {
 	// for test
-	self.enableAd = YES;
-	self.enableTeaser = YES;
+    self.enableAd = YES;
+    self.enableTeaser = YES;
 	
 	[super setVideo:video quality:quality];
 	dispatch_async(dispatch_get_main_queue(), ^{
@@ -90,11 +91,13 @@
 			weakSelf.danmuManager.currentTime = weakSelf.currentPlaybackTime;
 			//NSLog(@"danmu time: %f", weakSelf.danmuManager.currentTime);
 			[weakSelf.danmuManager synchronouslyShowDanmu];
-			
+
 			/// 同步显示问答
 			weakSelf.examViewController.currentTime = weakSelf.currentPlaybackTime;
-			[weakSelf.examViewController synchronouslyShowExam];
-			
+			if (weakSelf.playbackState == PLVVodPlaybackStatePlaying) {
+				[weakSelf.examViewController synchronouslyShowExam];
+			}
+
 			/// 同步显示字幕
 			[weakSelf.subtitleManager showSubtitleWithTime:weakSelf.currentPlaybackTime];
 		});
@@ -204,7 +207,6 @@
 }
 
 - (void)setupExam {
-	return;
 	PLVVodExamViewController *examViewController = [[PLVVodExamViewController alloc] initWithNibName:nil bundle:nil];
 	[self.view addSubview:examViewController.view];
 	examViewController.view.frame = self.view.bounds;
@@ -233,6 +235,7 @@
 		self.subtitleManager = [PLVSubtitleManager managerWithSubtitle:nil label:skin.subtitleLabel error:nil];
 	}
 	__weak typeof(self) weakSelf = self;
+	// 获取字幕内容并设置字幕
 	[self.class requestStringWithUrl:srtUrl completion:^(NSString *string) {
 		NSString *srtContent = string;
 		weakSelf.subtitleManager = [PLVSubtitleManager managerWithSubtitle:srtContent label:skin.subtitleLabel error:nil];

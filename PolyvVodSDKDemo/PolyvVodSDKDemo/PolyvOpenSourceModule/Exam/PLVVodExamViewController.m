@@ -146,9 +146,9 @@
 	if (showTime == intTime) { // hit
 		[self.tempExams removeObjectAtIndex:0];
 		return exam;
-	} else if (showTime < intTime) {
+	} else if (showTime < intTime && self.tempExams.count) {
 		[self.tempExams removeObjectAtIndex:0];
-		exam = [self examAtTime:time];
+		[self examAtTime:time];
 	}
 	return nil;
 }
