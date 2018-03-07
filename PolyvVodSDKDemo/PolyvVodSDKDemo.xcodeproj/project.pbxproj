@@ -310,6 +310,7 @@
 		03722E321FEB66CC00031180 /* PolyvOpenSourceModule */ = {
 			isa = PBXGroup;
 			children = (
+				03856C4B1FE21C8A0038DEB2 /* PLVVodResources.xcassets */,
 				03856C5C1FE21C990038DEB2 /* Category */,
 				03856C4D1FE21C990038DEB2 /* Skin */,
 				03722E2C1FEB65DC00031180 /* Exam */,
@@ -438,7 +439,6 @@
 				03CB8C641FB3EB220048D9FC /* Main.storyboard */,
 				03CB8C931FB3EE360048D9FC /* LaunchScreen.storyboard */,
 				03CB8C671FB3EB220048D9FC /* Assets.xcassets */,
-				03856C4B1FE21C8A0038DEB2 /* PLVVodResources.xcassets */,
 				03CB8C6C1FB3EB220048D9FC /* Info.plist */,
 				03CB8C6D1FB3EB220048D9FC /* main.m */,
 			);
