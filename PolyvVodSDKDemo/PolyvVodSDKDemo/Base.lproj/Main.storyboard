@@ -511,6 +511,11 @@
                                     <constraint firstAttribute="height" constant="44" id="ejQ-Ws-gb5"/>
                                 </constraints>
                                 <items>
+                                    <barButtonItem systemItem="save" id="r2g-u5-AAx">
+                                        <connections>
+                                            <action selector="saveAction:" destination="u8u-iQ-7yV" id="V9A-xr-UjS"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="测试" id="SMg-rE-65z">
                                         <connections>
                                             <action selector="testAction:" destination="u8u-iQ-7yV" id="5Pi-Ag-noR"/>
@@ -898,7 +903,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TUW-h1-lx4" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cY1-gb-RbW">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
