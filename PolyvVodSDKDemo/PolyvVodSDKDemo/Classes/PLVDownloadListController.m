@@ -49,6 +49,8 @@
 	
 	__weak typeof(self) weakSelf = self;
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
+	
+	// 获取所有下载信息列表
 	[downloadManager requestDownloadInfosWithCompletion:^(NSArray<PLVVodDownloadInfo *> *downloadInfos) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			weakSelf.downloadInfos = downloadInfos.mutableCopy;
@@ -56,10 +58,16 @@
 		});
 	}];
 	
+	// 所有下载完成回调
 	downloadManager.completeBlock = ^{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			weakSelf.queueDownloadButton.selected = NO;
 		});
+	};
+	
+	// 下载错误回调
+	[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
+		NSLog(@"download error: %@\n%@", video, error);
 	};
 	
 	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
@@ -71,10 +79,6 @@
 	emptyLabel.text = @"暂无缓存视频";
 	emptyLabel.textAlignment = NSTextAlignmentCenter;
 	self.emptyView = emptyLabel;
-	
-	[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
-		NSLog(@"download error: %@\n%@", video, error);
-	};
 }
 
 #pragma mark - property
@@ -93,6 +97,7 @@
 	// 设置回调
 	__weak typeof(self) weakSelf = self;
 	for (PLVVodDownloadInfo *info in downloadInfos) {
+		// 下载状态改变回调
 		info.stateDidChangeBlock = ^(PLVVodDownloadInfo *info) {
 			PLVLoadCell *cell = weakSelf.downloadItemCellDic[info.vid];
 			dispatch_async(dispatch_get_main_queue(), ^{
@@ -100,6 +105,7 @@
 				cell.state = info.state == PLVVodDownloadStateSuccess ? PLVLoadCellStateCompleted : PLVLoadCellStateProcessing;
 			});
 		};
+		// 下载进度回调
 		info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
 			//NSLog(@"vid: %@, progress: %f", info.vid, info.progress);
 			PLVLoadCell *cell = weakSelf.downloadItemCellDic[info.vid];
@@ -107,6 +113,7 @@
 				cell.downloadProgressView.progress = info.progress;
 			});
 		};
+		// 下载速率回调
 		info.bytesPerSecondsDidChangeBlock = ^(PLVVodDownloadInfo *info) {
 			PLVLoadCell *cell = weakSelf.downloadItemCellDic[info.vid];
 			NSString *speedString = [NSByteCountFormatter stringFromByteCount:info.bytesPerSeconds countStyle:NSByteCountFormatterCountStyleFile];
@@ -124,8 +131,10 @@
 	sender.selected = !sender.selected;
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
 	if (sender.selected) {
+		// 开始队列下载
 		[downloadManager startDownload];
 	} else {
+		// 停止队列下载
 		[downloadManager stopDownload];
 	}
 }
@@ -182,9 +191,9 @@
 	return YES;
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-	PLVVodDownloadManager *manager = [PLVVodDownloadManager sharedManager];
+	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
 	PLVVodDownloadInfo *downloadInfo = self.downloadInfos[indexPath.row];
-	[manager removeDownloadWithVid:downloadInfo.video.vid error:nil];
+	[downloadManager removeDownloadWithVid:downloadInfo.video.vid error:nil];
 	[self.downloadInfos removeObject:downloadInfo];
 	[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }

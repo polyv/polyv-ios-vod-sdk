@@ -88,6 +88,7 @@
 
 - (void)setupUI {
 	self.title = self.course.title;
+	// 初始化播放器
 	PLVVodSkinPlayerController *player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
 	[player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
 	self.player = player;
