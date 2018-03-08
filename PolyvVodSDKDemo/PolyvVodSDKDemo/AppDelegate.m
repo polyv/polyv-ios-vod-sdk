@@ -45,6 +45,10 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:PLVVodRemoteControlEventDidReceiveNotification object:self userInfo:@{PLVVodRemoteControlEventKey: event}];
 }
 
+// 为后台下载进行桥接
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler {
+	[PLVVodDownloadManager sharedManager].backgroundCompletionHandler = completionHandler;
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
