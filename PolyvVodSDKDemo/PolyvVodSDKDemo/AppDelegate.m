@@ -33,6 +33,12 @@
 		NSLog(@"account settings error: %@", error);
 	}
 	
+	//[PLVVodDownloadManager sharedManager].autoStart = YES;
+	// 下载错误统一回调
+	[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
+		NSLog(@"download error: %@\n%@", video.vid, error);
+	};
+	
 	// 接收远程事件
 	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 	[self becomeFirstResponder];

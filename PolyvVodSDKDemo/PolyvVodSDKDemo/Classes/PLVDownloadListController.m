@@ -65,10 +65,10 @@
 		});
 	};
 	
-	// 下载错误回调
-	[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
-		NSLog(@"download error: %@\n%@", video, error);
-	};
+//	// 下载错误回调
+//	[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
+//		NSLog(@"download error: %@\n%@", video.vid, error);
+//	};
 	
 	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
 	self.tableView.tableFooterView = [UIView new];
