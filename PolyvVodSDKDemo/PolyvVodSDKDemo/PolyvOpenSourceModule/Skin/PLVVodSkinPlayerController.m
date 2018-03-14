@@ -54,6 +54,7 @@
     self.enableTeaser = YES;
 	
 	[super setVideo:video quality:quality];
+	if (!video.available) return;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self setupAd];
 		[self setupDanmu];
