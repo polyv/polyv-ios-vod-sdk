@@ -106,6 +106,9 @@
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
 	PLVVodDownloadInfo *info = [downloadManager downloadVideo:video];
 	if (info) NSLog(@"%@ - %zd 已加入下载队列", info.video.vid, info.quality);
+	info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
+		NSLog(@"%@: %@", info.vid, @(info.progress));
+	};
 }
 
 

@@ -49,9 +49,17 @@
 #pragma mark - property
 
 - (void)setVideo:(PLVVodVideo *)video quality:(PLVVodQuality)quality {
-	// for test
-    self.enableAd = YES;
-    self.enableTeaser = YES;
+	// !!!: 这部分的功能的控制，由于与每次设置的 video 有关，因此必须在设置 PLVVodVideo 对象之前，或在这里设置。
+	{
+		// 开启广告
+		//self.enableAd = YES;
+		
+		// 开启片头
+		//self.enableTeaser = YES;
+		
+		// 自动续播
+		//self.autoContinue = YES;
+	}
 	
 	[super setVideo:video quality:quality];
 	if (!video.available) return;
@@ -111,6 +119,15 @@
 	
 	// 开启后台播放
 	//self.enableBackgroundPlayback = YES;
+	
+	// 自动播放
+	//self.autoplay = NO;
+	
+	// 设置跑马灯
+	//PLVMarquee *marquee = [[PLVMarquee alloc] init];
+	//marquee.type = PLVMarqueeTypeRollFade;
+	//marquee.maxFadeInterval = 5;
+	//self.marquee = marquee;
 	
 	// 错误回调
 	self.playerErrorHandler = ^(PLVVodPlayerViewController *player, NSError *error) {
@@ -208,6 +225,7 @@
 }
 
 - (void)setupExam {
+	return;
 	PLVVodExamViewController *examViewController = [[PLVVodExamViewController alloc] initWithNibName:nil bundle:nil];
 	[self.view addSubview:examViewController.view];
 	examViewController.view.frame = self.view.bounds;
