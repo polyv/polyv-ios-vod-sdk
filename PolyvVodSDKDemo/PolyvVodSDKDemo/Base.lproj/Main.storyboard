@@ -499,14 +499,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNz-Uy-qMW">
-                                <rect key="frame" x="0.0" y="44" width="480" height="270"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="180"/>
                                 <color key="backgroundColor" red="0.12941176469999999" green="0.58823529409999997" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="FNz-Uy-qMW" secondAttribute="height" multiplier="16:9" id="Dvr-jO-uCl"/>
                                 </constraints>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p4o-ZL-DgP">
-                                <rect key="frame" x="0.0" y="314" width="480" height="44"/>
+                                <rect key="frame" x="0.0" y="244" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ejQ-Ws-gb5"/>
                                 </constraints>
@@ -524,10 +524,10 @@
                                 </items>
                             </toolbar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kxf-ZY-F0G">
-                                <rect key="frame" x="16" y="366" width="448" height="184"/>
+                                <rect key="frame" x="16" y="296" width="288" height="184"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入vid并回车" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cnj-Xq-eeg">
-                                        <rect key="frame" x="0.0" y="0.0" width="448" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Wut-cO-MuM"/>
                                         </constraints>
@@ -539,7 +539,7 @@
                                         </connections>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="视频信息" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JNy-ih-hsD">
-                                        <rect key="frame" x="0.0" y="38" width="448" height="146"/>
+                                        <rect key="frame" x="0.0" y="38" width="288" height="146"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -714,13 +714,7 @@
                             <constraint firstItem="1hq-s6-2vn" firstAttribute="top" secondItem="fWV-Lj-zqk" secondAttribute="top" id="pbf-rw-Wy2"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="缓存" id="koo-7y-9T6">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="pzv-3U-npk">
-                            <connections>
-                                <action selector="refreshDownloadState:" destination="Caa-Cu-5fy" id="UtI-kd-eQh"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="缓存" id="koo-7y-9T6"/>
                     <connections>
                         <outlet property="tableView" destination="1hq-s6-2vn" id="gM0-bc-FLD"/>
                         <outlet property="toolbar" destination="kHJ-07-94n" id="HBl-RB-xml"/>

@@ -43,6 +43,10 @@
 	return self.player.preferredStatusBarStyle;
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	self.editing = NO;
+}
+
 #pragma property
 
 - (void)setVideo:(PLVVodVideo *)video {
@@ -58,11 +62,14 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	NSString *vid = textField.text;
 	vid = [vid stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	__weak typeof(self) weakSelf = self;
-	[PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-		weakSelf.video = video;
-	}];
+	if (vid.length) {
+		__weak typeof(self) weakSelf = self;
+		[PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
+			weakSelf.video = video;
+		}];
+	}
 	
+	[textField endEditing:YES];
 	return NO;
 }
 

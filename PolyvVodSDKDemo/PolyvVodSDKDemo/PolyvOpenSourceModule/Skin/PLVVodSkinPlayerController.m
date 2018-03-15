@@ -225,7 +225,6 @@
 }
 
 - (void)setupExam {
-	return;
 	PLVVodExamViewController *examViewController = [[PLVVodExamViewController alloc] initWithNibName:nil bundle:nil];
 	[self.view addSubview:examViewController.view];
 	examViewController.view.frame = self.view.bounds;

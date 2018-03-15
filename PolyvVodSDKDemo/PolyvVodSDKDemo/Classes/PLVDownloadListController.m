@@ -72,6 +72,7 @@
 	
 	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
 	self.tableView.tableFooterView = [UIView new];
+	self.tableView.allowsSelection = NO;
 	
 	self.toolbar.buttons = @[self.queueDownloadButton];
 	self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
@@ -101,8 +102,23 @@
 		info.stateDidChangeBlock = ^(PLVVodDownloadInfo *info) {
 			PLVLoadCell *cell = weakSelf.downloadItemCellDic[info.vid];
 			dispatch_async(dispatch_get_main_queue(), ^{
-				cell.downloadStateLabel.text = NSStringFromPLVVodDownloadState(info.state);
 				cell.state = info.state == PLVVodDownloadStateSuccess ? PLVLoadCellStateCompleted : PLVLoadCellStateProcessing;
+				cell.downloadStateLabel.text = NSStringFromPLVVodDownloadState(info.state);
+				switch (info.state) {
+					case PLVVodDownloadStateReady:
+					case PLVVodDownloadStateStopped:
+					case PLVVodDownloadStatePreparing:{
+						cell.downloadStateLabel.textColor = [UIColor colorWithHex:0xE67E22];
+					}break;
+					case PLVVodDownloadStateRunning:
+					case PLVVodDownloadStateStopping:
+					case PLVVodDownloadStateSuccess:{
+						cell.downloadStateLabel.textColor = [UIColor colorWithHex:0x7CB342];
+					}break;
+					case PLVVodDownloadStateFailed:{
+						cell.downloadStateLabel.textColor = [UIColor redColor];
+					}break;
+				}
 			});
 		};
 		// 下载进度回调
@@ -137,10 +153,6 @@
 		// 停止队列下载
 		[downloadManager stopDownload];
 	}
-}
-
-- (IBAction)refreshDownloadState:(UIBarButtonItem *)sender {
-	[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
