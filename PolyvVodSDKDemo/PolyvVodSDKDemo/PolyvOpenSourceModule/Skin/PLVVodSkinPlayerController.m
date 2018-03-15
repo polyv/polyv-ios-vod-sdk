@@ -75,6 +75,14 @@
 	});
 }
 
+- (void)setExamViewController:(PLVVodExamViewController *)examViewController {
+	if (_examViewController) {
+		[_examViewController.view removeFromSuperview];
+		[_examViewController removeFromParentViewController];
+	}
+	_examViewController = examViewController;
+}
+
 #pragma mark - view controller
 
 - (void)dealloc {
