@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="cZY-Bx-3f4">
-                    <rect key="frame" x="15" y="20" width="450" height="300"/>
+                    <rect key="frame" x="16" y="20" width="448" height="300"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pwy-fK-pfD">
@@ -77,8 +78,8 @@
                 <constraint firstItem="7uS-y5-UUo" firstAttribute="leading" secondItem="vaD-2r-P0g" secondAttribute="leading" id="Ghw-yZ-ma5"/>
                 <constraint firstItem="7uS-y5-UUo" firstAttribute="bottom" secondItem="cZY-Bx-3f4" secondAttribute="bottom" id="RWh-Xx-6DM"/>
                 <constraint firstAttribute="trailing" secondItem="7uS-y5-UUo" secondAttribute="trailing" id="Y0p-fh-bq0"/>
-                <constraint firstItem="cZY-Bx-3f4" firstAttribute="leading" secondItem="vaD-2r-P0g" secondAttribute="leading" constant="15" id="YmV-sO-dhx"/>
-                <constraint firstAttribute="trailing" secondItem="cZY-Bx-3f4" secondAttribute="trailing" constant="15" id="dH1-bR-duF"/>
+                <constraint firstItem="cZY-Bx-3f4" firstAttribute="leading" secondItem="vaD-2r-P0g" secondAttribute="leadingMargin" id="YmV-sO-dhx"/>
+                <constraint firstItem="cZY-Bx-3f4" firstAttribute="trailing" secondItem="vaD-2r-P0g" secondAttribute="trailingMargin" id="j0C-AY-vgh"/>
                 <constraint firstAttribute="bottom" secondItem="7uS-y5-UUo" secondAttribute="bottom" id="n4u-JZ-TzY"/>
                 <constraint firstItem="cZY-Bx-3f4" firstAttribute="top" secondItem="vaD-2r-P0g" secondAttribute="top" constant="20" id="sJK-jm-VFg"/>
             </constraints>
@@ -136,12 +137,12 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="ffe-xd-e3h" secondAttribute="trailing" constant="16" id="8aa-Be-dgv"/>
                 <constraint firstAttribute="bottom" secondItem="TLS-gQ-8jc" secondAttribute="bottom" id="BeS-Q4-wuc"/>
-                <constraint firstItem="ffe-xd-e3h" firstAttribute="leading" secondItem="Se4-MJ-ONL" secondAttribute="leading" constant="16" id="CIk-WI-Bez"/>
+                <constraint firstItem="ffe-xd-e3h" firstAttribute="leading" secondItem="Se4-MJ-ONL" secondAttribute="leadingMargin" id="CIk-WI-Bez"/>
                 <constraint firstItem="TLS-gQ-8jc" firstAttribute="bottom" secondItem="ffe-xd-e3h" secondAttribute="bottom" id="IC1-6U-52g"/>
                 <constraint firstItem="ffe-xd-e3h" firstAttribute="top" secondItem="Se4-MJ-ONL" secondAttribute="top" constant="20" id="KcR-qD-cSj"/>
                 <constraint firstAttribute="trailing" secondItem="TLS-gQ-8jc" secondAttribute="trailing" id="aIu-Yg-dI1"/>
+                <constraint firstItem="ffe-xd-e3h" firstAttribute="trailing" secondItem="Se4-MJ-ONL" secondAttribute="trailingMargin" id="fa4-hU-HqV"/>
                 <constraint firstItem="TLS-gQ-8jc" firstAttribute="leading" secondItem="Se4-MJ-ONL" secondAttribute="leading" id="rdF-g6-qVM"/>
             </constraints>
             <connections>
