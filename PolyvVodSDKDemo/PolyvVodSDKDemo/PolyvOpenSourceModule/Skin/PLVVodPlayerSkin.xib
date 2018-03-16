@@ -769,9 +769,9 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="HxO-Il-rGr" firstAttribute="leading" secondItem="UXE-RF-qSh" secondAttribute="leading" constant="12" id="1Ld-CK-biK"/>
+                                <constraint firstItem="HxO-Il-rGr" firstAttribute="leading" secondItem="UXE-RF-qSh" secondAttribute="leadingMargin" constant="4" id="1Ld-CK-biK"/>
+                                <constraint firstAttribute="trailingMargin" secondItem="HxO-Il-rGr" secondAttribute="trailing" constant="4" id="FIj-bO-S4D"/>
                                 <constraint firstItem="HxO-Il-rGr" firstAttribute="centerY" secondItem="UXE-RF-qSh" secondAttribute="centerY" id="VBv-4L-QV1"/>
-                                <constraint firstItem="HxO-Il-rGr" firstAttribute="centerX" secondItem="UXE-RF-qSh" secondAttribute="centerX" id="occ-1P-TMn"/>
                                 <constraint firstAttribute="height" constant="44" id="sdP-uO-FYS"/>
                             </constraints>
                         </view>
