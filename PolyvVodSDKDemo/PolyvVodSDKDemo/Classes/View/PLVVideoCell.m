@@ -56,13 +56,15 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-	self.playButton.acceptEventInterval = 3;
+	//self.playButton.acceptEventInterval = 3;
 	[self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.downloadButton addTarget:self action:@selector(downloadButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)playButtonAction:(UIButton *)sender {
+	sender.enabled = NO;
 	if (self.playButtonAction) self.playButtonAction(self, sender);
+	sender.enabled = YES;
 }
 - (void)downloadButtonAction:(UIButton *)sender {
 	if (self.downloadButtonAction) self.downloadButtonAction(self, sender);
