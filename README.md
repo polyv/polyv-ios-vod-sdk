@@ -2,6 +2,8 @@
 
 保利威视 iOS 点播 SDK Demo。本 Demo 基于网校当前版本进行开发，实现了指定网校的视频播放与下载，同时可配置自己的保利威视点播账号，使用点播 SDK 播放与下载账号下的点播视频。
 
+详细文档请参见[本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
+
 ## ATS
 
 POLYV iOS VOD SDK 所有请求都使用 HTTPS 协议，已全面支持 ATS（App Transport Security）。
