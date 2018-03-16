@@ -62,9 +62,7 @@
 }
 
 - (void)playButtonAction:(UIButton *)sender {
-	sender.enabled = NO;
 	if (self.playButtonAction) self.playButtonAction(self, sender);
-	sender.enabled = YES;
 }
 - (void)downloadButtonAction:(UIButton *)sender {
 	if (self.downloadButtonAction) self.downloadButtonAction(self, sender);
