@@ -41,6 +41,7 @@ static void *IgnoreEventKey = &IgnoreEventKey;
 	if (self.ignoreEvent) return;
 	if (self.acceptEventInterval > 0) {
 		self.ignoreEvent = YES;
+		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(setIgnoreEvent:) object:nil];
 		[self performSelector:@selector(setIgnoreEvent:) withObject:@(NO) afterDelay:self.acceptEventInterval];
 	}
 	
