@@ -81,7 +81,7 @@
                 <constraint firstItem="cZY-Bx-3f4" firstAttribute="leading" secondItem="vaD-2r-P0g" secondAttribute="leadingMargin" id="YmV-sO-dhx"/>
                 <constraint firstItem="cZY-Bx-3f4" firstAttribute="trailing" secondItem="vaD-2r-P0g" secondAttribute="trailingMargin" id="j0C-AY-vgh"/>
                 <constraint firstAttribute="bottom" secondItem="7uS-y5-UUo" secondAttribute="bottom" id="n4u-JZ-TzY"/>
-                <constraint firstItem="cZY-Bx-3f4" firstAttribute="top" secondItem="vaD-2r-P0g" secondAttribute="top" constant="20" id="sJK-jm-VFg"/>
+                <constraint firstItem="cZY-Bx-3f4" firstAttribute="top" secondItem="vaD-2r-P0g" secondAttribute="topMargin" constant="20" id="sJK-jm-VFg"/>
             </constraints>
             <connections>
                 <outlet property="collectionLayout" destination="pwy-fK-pfD" id="6Wh-1E-vpm"/>
@@ -140,7 +140,7 @@
                 <constraint firstAttribute="bottom" secondItem="TLS-gQ-8jc" secondAttribute="bottom" id="BeS-Q4-wuc"/>
                 <constraint firstItem="ffe-xd-e3h" firstAttribute="leading" secondItem="Se4-MJ-ONL" secondAttribute="leadingMargin" id="CIk-WI-Bez"/>
                 <constraint firstItem="TLS-gQ-8jc" firstAttribute="bottom" secondItem="ffe-xd-e3h" secondAttribute="bottom" id="IC1-6U-52g"/>
-                <constraint firstItem="ffe-xd-e3h" firstAttribute="top" secondItem="Se4-MJ-ONL" secondAttribute="top" constant="20" id="KcR-qD-cSj"/>
+                <constraint firstItem="ffe-xd-e3h" firstAttribute="top" secondItem="Se4-MJ-ONL" secondAttribute="topMargin" constant="20" id="KcR-qD-cSj"/>
                 <constraint firstAttribute="trailing" secondItem="TLS-gQ-8jc" secondAttribute="trailing" id="aIu-Yg-dI1"/>
                 <constraint firstItem="ffe-xd-e3h" firstAttribute="trailing" secondItem="Se4-MJ-ONL" secondAttribute="trailingMargin" id="fa4-hU-HqV"/>
                 <constraint firstItem="TLS-gQ-8jc" firstAttribute="leading" secondItem="Se4-MJ-ONL" secondAttribute="leading" id="rdF-g6-qVM"/>
