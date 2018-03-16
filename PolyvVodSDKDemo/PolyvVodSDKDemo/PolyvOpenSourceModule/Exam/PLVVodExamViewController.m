@@ -187,7 +187,7 @@
 		return;
 	}
 	self.currentExam.correct = correct;
-	[self.explanationView setExplanation:exam.explanation correct:correct];
+	[self.explanationView setExplanation:[exam explanation] correct:correct];
 	[self transitFromView:self.questionView toView:self.explanationView completion:^{
 		[self.explanationView scrollToTop];
 	}];
