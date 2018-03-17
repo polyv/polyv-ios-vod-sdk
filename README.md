@@ -1,6 +1,6 @@
 # POLYV iOS VOD SDK Demo
 
-保利威视 iOS 点播 SDK Demo。本 Demo 基于网校当前版本进行开发，实现了指定网校的视频播放与下载，同时可配置自己的保利威视点播账号，使用点播 SDK 播放与下载账号下的点播视频。
+本项目详细演示了如何使用保利威视 iOS 点播 SDK。项目基于网校当前版本进行开发，实现了指定网校的视频播放与下载，同时可配置自己的保利威视点播账号，使用点播 SDK 播放与下载账号下的点播视频。
 
 详细文档请参见[本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
 
@@ -11,11 +11,23 @@
 
 ## API 文档
 
-[各版本 API 文档](./wiki/API)
+POLYV iOS VOD SDK 各版本接口文档，可参见 [各版本 API 文档](https://github.com/polyv/polyv-ios-vod-sdk/wiki/API)。
+
+## 更新日志
+
+POLYV iOS VOD SDK 更新日志可参见 [CHANGELOG](./CHANGELOG)。
 
 ## ATS
 
 POLYV iOS VOD SDK 所有请求都使用 HTTPS 协议，已全面支持 ATS（App Transport Security）。
+
+## iPhone X 适配
+
+播放器及其 Demo 所有页面已针对 iPhone X 进行适配，若有在 iPhone X 显示不正常的 UI，欢迎 issue 本项目。
+
+## 支持兼容最低系统版本
+
+iOS 8
 
 ## 部分逻辑说明
 
