@@ -2,14 +2,14 @@
 
 本项目详细演示了如何使用保利威视 iOS 点播 SDK。项目基于网校当前版本进行开发，实现了指定网校的视频播放与下载，同时可配置自己的保利威视点播账号，使用点播 SDK 播放与下载账号下的点播视频。
 
-详细文档请参见 [本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
-
 ## 快速开始
 
 1. `git clone https://github.com/polyv/polyv-ios-vod-sdk.git`
 2. `pod install`
 
-## API 文档
+## 文档
+
+详细文档请参见 [本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
 
 POLYV iOS VOD SDK 各版本接口文档，可参见 [各版本 API 文档](https://github.com/polyv/polyv-ios-vod-sdk/wiki/API)。
 
@@ -25,9 +25,9 @@ POLYV iOS VOD SDK 所有请求都使用 HTTPS 协议，已全面支持 ATS（App
 
 播放器及其 Demo 所有页面已针对 iPhone X 进行适配，若有在 iPhone X 显示不正常的 UI，欢迎 issue 本项目。
 
-## 支持兼容最低系统版本
+## 系统要求
 
-iOS 8
+本项目及其点播 SDK 最低支持兼容系统版本为 iOS 8。
 
 ## 部分逻辑说明
 
@@ -41,3 +41,7 @@ iOS 8
 - 队列下载
 	+ 目前实现的队列只支持单个视频队列下载，加入视频的队列只有第一个视频在下载，第一个视频下载后，下载后面的视频，以此类推。
 	+ 队列的顺序由加入队列的顺序决定。
+
+## 协议
+
+本项目使用 Apache-2.0 许可证，详情见 [LICENSE](./LICENSE) 文件。
