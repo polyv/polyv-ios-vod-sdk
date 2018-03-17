@@ -2,7 +2,7 @@
 
 本项目详细演示了如何使用保利威视 iOS 点播 SDK。项目基于网校当前版本进行开发，实现了指定网校的视频播放与下载，同时可配置自己的保利威视点播账号，使用点播 SDK 播放与下载账号下的点播视频。
 
-详细文档请参见[本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
+详细文档请参见 [本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
 
 ## 快速开始
 
@@ -15,7 +15,7 @@ POLYV iOS VOD SDK 各版本接口文档，可参见 [各版本 API 文档](https
 
 ## 更新日志
 
-POLYV iOS VOD SDK 更新日志可参见 [CHANGELOG](./CHANGELOG)。
+POLYV iOS VOD SDK 更新日志可参见 [CHANGELOG](./CHANGELOG.md)。
 
 ## ATS
 
