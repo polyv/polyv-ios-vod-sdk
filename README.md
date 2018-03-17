@@ -11,7 +11,7 @@
 
 ## API 文档
 
-[各版本 API 文档](./wiki/API.md)
+[各版本 API 文档](./wiki/API)
 
 ## ATS
 
