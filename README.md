@@ -4,6 +4,15 @@
 
 详细文档请参见[本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
 
+## 快速开始
+
+1. `git clone https://github.com/polyv/polyv-ios-vod-sdk.git`
+2. `pod install`
+
+## API 文档
+
+[各版本 API 文档](./wiki/API.md)
+
 ## ATS
 
 POLYV iOS VOD SDK 所有请求都使用 HTTPS 协议，已全面支持 ATS（App Transport Security）。
