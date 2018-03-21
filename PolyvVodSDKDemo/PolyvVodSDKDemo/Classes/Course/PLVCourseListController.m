@@ -34,29 +34,13 @@ static NSString * const detialSegueId = @"course_detail";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
     // Register cell classes
-//    [self.collectionView registerClass:[PLVCourseCell class] forCellWithReuseIdentifier:reuseIdentifier];
-//	[self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([PLVCourseCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
 	[self.collectionView registerClass:[PLVCourseBannerReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:bannerHeaderId];
 	[self.collectionView registerClass:[PLVTitleHeaderReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:titleHeaderId];
     
-    // Do any additional setup after loading the view.
 	[self requestData];
 	
 	// UI
-	//UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-	//CGFloat screenWidth = MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds));
-	//CGFloat itemWidth = (screenWidth - 15*2 - 10)/2;
-	//CGFloat preferredWidth = PLVCourseCellPreferredContentSize.width;
-	//if (preferredWidth < itemWidth) {
-	//	itemWidth = preferredWidth;
-	//}
-	//CGFloat itemHeight = PLVCourseCellPreferredContentSize.height;
-	//flowLayout.itemSize = CGSizeMake(itemWidth, itemHeight);
-	
 	if (@available(iOS 11.0, *)) {
 		self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
 	}
@@ -135,8 +119,6 @@ static NSString * const detialSegueId = @"course_detail";
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 	if ([segue.destinationViewController isKindOfClass:[PLVCourseDetailController class]]) {
 		PLVCourseDetailController *detail = segue.destinationViewController;
 		detail.course = self.selectedCourse;
@@ -163,7 +145,6 @@ static NSString * const detialSegueId = @"course_detail";
 
 #pragma mark <UICollectionViewDelegate>
 
-
 // Uncomment this method to specify if the specified item should be highlighted during tracking
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
 	return YES;
@@ -183,21 +164,6 @@ static NSString * const detialSegueId = @"course_detail";
 	UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
 	[self performSegueWithIdentifier:detialSegueId sender:cell];
 }
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 
