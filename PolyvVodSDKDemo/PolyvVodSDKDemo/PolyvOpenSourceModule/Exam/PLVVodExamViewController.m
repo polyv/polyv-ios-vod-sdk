@@ -80,7 +80,7 @@
 	if (currentTime+1 < _currentTime && _currentTime > 0) {
 		[self hideExam];
 		_tempExams = self.exams.mutableCopy;
-		NSLog(@"current: %f -> %f", _currentTime, currentTime);
+		//NSLog(@"current: %f -> %f", _currentTime, currentTime);
 	}
 	_currentTime = currentTime;
 }

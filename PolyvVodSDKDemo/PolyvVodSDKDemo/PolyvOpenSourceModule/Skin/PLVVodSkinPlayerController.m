@@ -57,8 +57,8 @@
 		// 开启片头
 		//self.enableTeaser = YES;
 		
-		// 自动续播
-		//self.autoContinue = YES;
+		// 记忆播放位置
+		//self.rememberLastPosition = YES;
 	}
 	
 	[super setVideo:video quality:quality];
