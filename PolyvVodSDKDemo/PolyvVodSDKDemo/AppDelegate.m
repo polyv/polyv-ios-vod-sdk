@@ -34,14 +34,15 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
 	
 	// 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
-	NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-	NSLog(@"user: %@", user.dictionaryRepresentation);
-	BOOL enableUserVodKey = [user boolForKey:PLVApplySettingKey];
-	if (enableUserVodKey) {
-		NSString *userVodKey = [user stringForKey:PLVVodKeySettingKey];
-		userVodKey = [userVodKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		if (userVodKey.length) {
-			settings = [PLVVodSettings settingsWithConfigString:userVodKey error:&error];
+	{
+		NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+		BOOL enableUserVodKey = [user boolForKey:PLVApplySettingKey];
+		if (enableUserVodKey) {
+			NSString *userVodKey = [user stringForKey:PLVVodKeySettingKey];
+			userVodKey = [userVodKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+			if (userVodKey.length) {
+				settings = [PLVVodSettings settingsWithConfigString:userVodKey error:&error];
+			}
 		}
 	}
 	
@@ -50,12 +51,14 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 		NSLog(@"account settings error: %@", error);
 	}
 	
-	/// PLVVodDownloadManager 下载配置
-	//[PLVVodDownloadManager sharedManager].autoStart = YES;
-	// 下载错误统一回调
-	[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
-		NSLog(@"download error: %@\n%@", video.vid, error);
-	};
+	// PLVVodDownloadManager 下载配置
+	{
+		//[PLVVodDownloadManager sharedManager].autoStart = YES;
+		// 下载错误统一回调
+		[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
+			NSLog(@"download error: %@\n%@", video.vid, error);
+		};
+	}
 	
 	// 接收远程事件
 	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];

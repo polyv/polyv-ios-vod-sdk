@@ -20,7 +20,7 @@
 @implementation PLVSimpleDetailController
 
 - (void)dealloc {
-	NSLog(@"%s", __FUNCTION__);
+	//NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)viewDidLoad {
