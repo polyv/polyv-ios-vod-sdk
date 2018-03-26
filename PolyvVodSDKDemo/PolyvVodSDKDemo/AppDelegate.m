@@ -13,6 +13,10 @@
 #import "PLVSchool.h"
 #import "PLVVodAccountVideo.h"
 
+static NSString * const PLVVodKeySettingKey = @"vodKey_preference";
+static NSString * const PLVSdkVersionSettingKey = @"sdkVersion_preference";
+static NSString * const PLVApplySettingKey = @"apply_preference";
+
 @interface AppDelegate ()
 
 @end
@@ -28,11 +32,25 @@
 	NSString *decodeKey = school.vodKeyDecodeKey;
 	NSString *decodeIv = school.vodKeyDecodeIv;
 	PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
+	
+	// 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
+	NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+	NSLog(@"user: %@", user.dictionaryRepresentation);
+	BOOL enableUserVodKey = [user boolForKey:PLVApplySettingKey];
+	if (enableUserVodKey) {
+		NSString *userVodKey = [user stringForKey:PLVVodKeySettingKey];
+		userVodKey = [userVodKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		if (userVodKey.length) {
+			settings = [PLVVodSettings settingsWithConfigString:userVodKey error:&error];
+		}
+	}
+	
 	NSLog(@"settings: %@", settings);
 	if (error) {
 		NSLog(@"account settings error: %@", error);
 	}
 	
+	/// PLVVodDownloadManager 下载配置
 	//[PLVVodDownloadManager sharedManager].autoStart = YES;
 	// 下载错误统一回调
 	[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
@@ -42,8 +60,27 @@
 	// 接收远程事件
 	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 	[self becomeFirstResponder];
-	
+	[self updateSettingsBundle];
 	return YES;
+}
+
+- (void)updateSettingsBundle {
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"Settings.bundle/Root.plist" ofType:nil];
+	NSMutableDictionary *settingsBundleDic = [NSDictionary dictionaryWithContentsOfFile:path].mutableCopy;
+	NSString *settingBundleKey = @"PreferenceSpecifiers";
+	NSMutableArray *settingsBundles = [settingsBundleDic[settingBundleKey] mutableCopy];
+	settingsBundleDic[settingBundleKey] = settingsBundles;
+	
+	for (int i = 0; i < settingsBundles.count; i++) {
+		NSDictionary *dic = settingsBundles[i];
+		if ([dic[@"Key"] isEqualToString:PLVSdkVersionSettingKey]) {
+			NSMutableDictionary *versionDic = dic.mutableCopy;
+			versionDic[@"Title"] = [NSString stringWithFormat:@"SDK 版本：%@", PLVVodSdkVersion];
+			[settingsBundles replaceObjectAtIndex:i withObject:versionDic];
+			break;
+		}
+	}
+	[settingsBundleDic writeToFile:path atomically:YES];
 }
 
 /// 转发远程事件

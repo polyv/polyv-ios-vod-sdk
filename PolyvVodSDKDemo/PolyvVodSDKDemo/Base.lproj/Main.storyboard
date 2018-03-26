@@ -8,6 +8,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -475,12 +476,22 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="在线视频" id="hJB-kF-G29">
-                        <barButtonItem key="rightBarButtonItem" title="vid" id="67S-5q-hsh">
-                            <connections>
-                                <segue destination="TUW-h1-lx4" kind="presentation" id="ACa-Dr-ia8"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="plv_vod_btn_settings" id="yf6-Fv-tjb">
+                                <connections>
+                                    <action selector="settingsAction:" destination="tbc-pX-4Ut" id="UyO-WX-5GM"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="vid" id="67S-5q-hsh">
+                                <connections>
+                                    <segue destination="TUW-h1-lx4" kind="presentation" id="ACa-Dr-ia8"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <segue destination="fJC-la-rR2" kind="show" identifier="PLVSimplePlaySegue" id="4pJ-LG-6hU"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mAd-JW-GeE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -575,7 +586,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YMp-O9-sdD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="204" y="660"/>
+            <point key="canvasLocation" x="248" y="1430"/>
         </scene>
         <!--缓存-->
         <scene sceneID="khh-9Z-VVQ">
@@ -907,7 +918,40 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L2h-LZ-oBp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="203" y="-110"/>
+            <point key="canvasLocation" x="248" y="660"/>
+        </scene>
+        <!--Simple Detail Controller-->
+        <scene sceneID="9AZ-8e-ZTo">
+            <objects>
+                <viewController id="fJC-la-rR2" customClass="PLVSimpleDetailController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GRE-EY-qtD"/>
+                        <viewControllerLayoutGuide type="bottom" id="JiK-kC-8gQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mI3-lv-IHP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3kH-KD-fSh">
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3kH-KD-fSh" firstAttribute="leading" secondItem="mI3-lv-IHP" secondAttribute="leading" id="Due-Th-jKE"/>
+                            <constraint firstItem="3kH-KD-fSh" firstAttribute="top" secondItem="GRE-EY-qtD" secondAttribute="bottom" id="Qe1-ny-u4q"/>
+                            <constraint firstItem="JiK-kC-8gQ" firstAttribute="top" secondItem="3kH-KD-fSh" secondAttribute="bottom" id="Wxd-Y7-nSA"/>
+                            <constraint firstAttribute="trailing" secondItem="3kH-KD-fSh" secondAttribute="trailing" id="d0A-TB-BJs"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="playerPlaceholder" destination="3kH-KD-fSh" id="Kpm-nq-QPZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QGJ-AT-e4Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="247.5" y="-110"/>
         </scene>
     </scenes>
     <resources>
@@ -919,5 +963,6 @@
         <image name="plv_icon_teacher" width="11" height="12"/>
         <image name="plv_icon_time" width="14" height="14"/>
         <image name="plv_ph_courseCover" width="170" height="106"/>
+        <image name="plv_vod_btn_settings" width="20" height="20"/>
     </resources>
 </document>

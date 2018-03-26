@@ -10,13 +10,16 @@
 #import "PLVCourseNetworking.h"
 #import "PLVVodAccountVideo.h"
 #import "PLVVideoCell.h"
-#import "PLVVodSkinPlayerController.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "UIColor+PLVVod.h"
+#import "PLVSimpleDetailController.h"
+
+static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 
 @interface PLVAccountVideoListController ()
 
 @property (nonatomic, strong) NSArray<PLVVodAccountVideo *> *accountVideos;
+@property (nonatomic, copy) NSString *vidShouldPlay;
 
 @end
 
@@ -57,6 +60,13 @@
 	return emptyButton;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([PLVSimplePlaySegueKey isEqualToString:segue.identifier] && [segue.destinationViewController isKindOfClass:[PLVSimpleDetailController class]]) {
+		PLVSimpleDetailController *vc = (PLVSimpleDetailController *)segue.destinationViewController;
+		vc.vid = self.vidShouldPlay;
+	}
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -78,9 +88,8 @@
 		PLVVodAccountVideo *accountVideo = cell.video;
 		NSString *vid = accountVideo.vid;
 		if (!vid.length) return;
-		[PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-			[weakSelf playVideo:video];
-		}];
+		weakSelf.vidShouldPlay = vid;
+		[weakSelf performSegueWithIdentifier:PLVSimplePlaySegueKey sender:sender];
 	};
 	cell.downloadButtonAction = ^(PLVVideoCell *cell, UIButton *sender) {
 		PLVVodAccountVideo *accountVideo = cell.video;
@@ -95,13 +104,7 @@
     return cell;
 }
 
-- (void)playVideo:(PLVVodVideo *)video {
-	PLVVodSkinPlayerController *player = [[PLVVodSkinPlayerController alloc] init];
-	player.video = video;
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self.navigationController pushViewController:player animated:YES];
-	});
-}
+
 - (void)downloadVideo:(PLVVodVideo *)video {
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
 	PLVVodDownloadInfo *info = [downloadManager downloadVideo:video];
@@ -111,49 +114,24 @@
 	};
 }
 
+#pragma mark - Action
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (IBAction)settingsAction:(UIBarButtonItem *)sender {
+	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"前往设置" message:@"可配置点播加密串\n更改设置后需重启应用" preferredStyle:UIAlertControllerStyleAlert];
+	[alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+		[alertController dismissViewControllerAnimated:YES completion:^{}];
+	}]];
+	[alertController addAction:[UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+		NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+		UIApplication *app = [UIApplication sharedApplication];
+		if ([app canOpenURL:settingsURL]) {
+			[app openURL:settingsURL];
+		}
+	}]];
+	[self presentViewController:alertController animated:YES completion:^{
+		
+	}];
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
