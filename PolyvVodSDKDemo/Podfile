@@ -13,7 +13,7 @@ target 'PolyvVodSDKDemo' do
 	pod 'FDStackView', '~> 1.0.1'
 
 	# PLVVodSDK
-	pod 'PolyvVodSDK', '~> 2.0.0'
+	pod 'PolyvVodSDK', '~> 2.1.0'
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'

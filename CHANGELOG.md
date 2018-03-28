@@ -10,6 +10,19 @@
 ### Removed
 ### Fixed -->
 
+## [2.1.0] - 2018-03-27
+
+### Added
+
+- `PLVVodPlayerViewController`，添加是否就绪播放回调；
+	+ `@property (nonatomic, copy) void (^preparedToPlayHandler)(PLVVodPlayerViewController *player);`
+- `PLVVodPlayerViewController`，添加播放状态回调；
+	+ `@property (nonatomic, copy) void (^playbackStateHandler)(PLVVodPlayerViewController *player);`
+- `PLVVodPlayerViewController`，添加加载状态回调；
+	+ `@property (nonatomic, copy) void (^loadStateHandler)(PLVVodPlayerViewController *player);`
+- `PLVVodPlayerViewController`，添加播放结束回调；
+	+ `@property (nonatomic, copy) void (^reachEndHandler)(PLVVodPlayerViewController *player);`
+
 ## [2.0.0] - 2018-03-21
 
 ### Changed
