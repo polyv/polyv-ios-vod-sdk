@@ -10,6 +10,13 @@
 ### Removed
 ### Fixed -->
 
+## [2.2.0] - 2018-04-12
+
+### Added
+
+- `PLVVodDownloadManager`, 补充兼容 1.x.x 离线视频方法；
+	+ `-compatibleWithPreviousVideos`
+
 ## [2.1.0] - 2018-03-27
 
 ### Added

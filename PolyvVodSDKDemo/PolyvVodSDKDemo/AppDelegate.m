@@ -53,11 +53,17 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	
 	// PLVVodDownloadManager 下载配置
 	{
-		//[PLVVodDownloadManager sharedManager].autoStart = YES;
+		PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
+		//downloadManager.autoStart = YES;
 		// 下载错误统一回调
-		[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
+		downloadManager.downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
 			NSLog(@"download error: %@\n%@", video.vid, error);
 		};
+		
+		// 若需兼容 1.x.x 版本 SDK 视频，则需解注以下代码
+		// 首先需确保 `downloadManager.downloadDir` 与之前版本的下载目录一致，然后调用兼容 1.x.x 离线视频方法
+		//downloadManager.downloadDir = <#1.x.x版本的下载目录#>
+		//[downloadManager compatibleWithPreviousVideos];
 	}
 	
 	// 接收远程事件
