@@ -27,6 +27,8 @@
 
 详细文档请参见 [本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
 
+点播 SDK 2.0 解决 1.0 的问题与优化，参见 [1.x-2.x 升级与优化](https://github.com/polyv/polyv-ios-vod-sdk/wiki/Improvement)。
+
 POLYV iOS VOD SDK 各版本接口文档，可参见 [各版本 API 文档](https://github.com/polyv/polyv-ios-vod-sdk/wiki/API)。
 
 ## 更新日志
