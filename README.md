@@ -12,10 +12,16 @@
 
 试用的内测 App 使用企业签名，若运行中遇到问题，可参见 [在 iOS 9 及以上版本中运行企业版应用](https://github.com/polyv/polyv-ios-vod-sdk/wiki/RunEnterpriseApp)。
 
+## 系统要求
+
+- 本项目及其点播 SDK 最低支持兼容系统版本为 iOS 8。
+- 本地环境需安装 CocoaPods，可参看[官方指导](https://guides.cocoapods.org/)。
+
 ## 快速开始
 
-1. `git clone https://github.com/polyv/polyv-ios-vod-sdk.git`
-2. `pod install`
+1. 下载 Demo 代码 `git clone https://github.com/polyv/polyv-ios-vod-sdk.git` 
+2. 在终端工具下进入 PolyvVodSDKDemo 文件夹，`cd $路径/PolyvVodSDKDemo`
+3. 下载 pods 依赖库，`pod install` 或 `pod update`（首次建议使用pod update命令）
 
 ## 文档
 
@@ -34,10 +40,6 @@ POLYV iOS VOD SDK 所有请求都使用 HTTPS 协议，已全面支持 ATS（App
 ## iPhone X 适配
 
 播放器及其 Demo 所有页面已针对 iPhone X 进行适配，若有在 iPhone X 显示不正常的 UI，欢迎 issue 本项目。
-
-## 系统要求
-
-本项目及其点播 SDK 最低支持兼容系统版本为 iOS 8。
 
 ## 部分逻辑说明
 
