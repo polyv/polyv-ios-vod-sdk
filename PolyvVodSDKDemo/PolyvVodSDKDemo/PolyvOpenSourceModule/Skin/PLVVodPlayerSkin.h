@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <PLVVodSDK/PLVVodPlayerSkinProtocol.h>
+#import <PLVVodSDK/PLVVodVideo.h>
 #import "PLVVodGestureIndicatorView.h"
+
+@class PLVVodAudioCoverPanelView;
 
 @interface PLVVodPlayerSkin : UIViewController<PLVVodPlayerSkinProtocol>
 
@@ -66,6 +69,9 @@
 /// 载入指示器
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
+/// 皮肤覆盖层，显示弹幕
+@property (nonatomic, strong) UIView *skinMaskView;
+
 /// 是否启用弹幕
 @property (nonatomic, assign) BOOL enableDanmu;
 @property (nonatomic, copy) void (^enableDanmuChangeHandler)(PLVVodPlayerSkin *skin, BOOL enableDanmu);
@@ -74,5 +80,10 @@
 - (void)hideGestureIndicator;
 
 - (void)hideOrShowPlaybackControl;
+
+- (void)setUpPlaybackMode:(PLVVodVideo *)video;
+- (void)updatePlayModeContainView:(PLVVodVideo *)video;
+
+- (void)updateAudioCoverAnimation:(BOOL)isPlaying;
 
 @end

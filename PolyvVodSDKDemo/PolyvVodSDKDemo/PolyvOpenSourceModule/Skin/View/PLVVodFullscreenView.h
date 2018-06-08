@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <PLVVodSDK/PLVVodConstans.h>
 
 @interface PLVVodFullscreenView : UIView
 
@@ -23,5 +24,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *settingButton;
 @property (weak, nonatomic) IBOutlet UIButton *danmuButton;
+
+//音视频切换
+@property (weak, nonatomic) IBOutlet UIView *playModeContainerView;
+@property (weak, nonatomic) IBOutlet UIButton *videoPlayModeButton;
+@property (weak, nonatomic) IBOutlet UIButton *audioPlayModeButton;
+
+- (void)switchToPlayMode:(PLVVodPlaybackMode)mode;
 
 @end

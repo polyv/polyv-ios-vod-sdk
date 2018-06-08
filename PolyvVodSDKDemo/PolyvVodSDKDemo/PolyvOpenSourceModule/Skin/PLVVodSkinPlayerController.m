@@ -64,6 +64,7 @@
 	[super setVideo:video quality:quality];
 	if (!video.available) return;
 	dispatch_async(dispatch_get_main_queue(), ^{
+        [self setupPlaybackMode];
 		[self setupAd];
 		[self setupDanmu];
 		[self setupExam];
@@ -209,8 +210,9 @@
 	// 配置弹幕
 	__weak typeof(self) weakSelf = self;
 	[PLVVodDanmu requestDanmusWithVid:self.video.vid completion:^(NSArray<PLVVodDanmu *> *danmus, NSError *error) {
-		__block PLVVodDanmuManager *danmuManager = [[PLVVodDanmuManager alloc] initWithDanmus:danmus inView:weakSelf.maskView];
-		__block PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
+        
+        __block PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
+		__block PLVVodDanmuManager *danmuManager = [[PLVVodDanmuManager alloc] initWithDanmus:danmus inView:skin.skinMaskView/*weakSelf.maskView*/];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if (!skin.enableDanmu) {
 				[danmuManager stop];
@@ -289,6 +291,24 @@
 	MPMediaItemArtwork *imageItem = [[MPMediaItemArtwork alloc] initWithImage:cover];
 	playbackInfo[MPMediaItemPropertyArtwork] = imageItem;
 	[MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = playbackInfo;
+}
+
+// 设置播放模式
+- (void)setupPlaybackMode {
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    [skin setUpPlaybackMode:self.video];
+}
+
+#pragma mark override
+// 更新播放模式更新成功回调
+- (void)playbackModeDidChange {
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    [skin updatePlayModeContainView:self.video];
+}
+
+- (void)updateAudioCoverAnimation:(BOOL)isPlaying {
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    [skin updateAudioCoverAnimation:isPlaying];
 }
 
 #pragma mark gesture

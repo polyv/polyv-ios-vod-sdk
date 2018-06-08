@@ -11,6 +11,7 @@
 #import "PLVVodFullscreenView.h"
 #import "PLVVodShrinkscreenView.h"
 #import "PLVVodSettingPanelView.h"
+#import "PLVVodAudioCoverPanelView.h"
 #import "UIView+PLVVod.h"
 #import "PLVVodDanmuSendView.h"
 #import "PLVVodDanmu+PLVVod.h"
@@ -37,6 +38,9 @@
 
 /// 分享平台选择面板
 @property (strong, nonatomic) IBOutlet UIView *sharePanelView;
+
+/// 音频封面面板
+@property (strong, nonatomic) IBOutlet PLVVodAudioCoverPanelView *audioCoverPanelView;
 
 /// 在面板的点击
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *panelTap;
@@ -213,8 +217,54 @@
 - (void)setSelectedPlaybackRateDidChangeBlock:(void (^)(double))selectedPlaybackRateDidChangeBlock {
 	self.playbackRatePanelView.selectedPlaybackRateDidChangeBlock = selectedPlaybackRateDidChangeBlock;
 }
+
 - (void (^)(double))selectedPlaybackRateDidChangeBlock {
 	return self.playbackRatePanelView.selectedPlaybackRateDidChangeBlock;
+}
+
+#pragma mark 音视频切换（PlaybackMode）
+- (void)setUpPlaybackMode:(PLVVodVideo *)video {
+    if ([video canSwithPlaybackMode]) {
+        self.shrinkscreenView.playModeContainerView.hidden = NO;
+        self.fullscreenView.playModeContainerView.hidden = NO;
+        
+        [self.audioCoverPanelView setCoverUrl:video.snapshot];
+        [self.view addSubview:self.audioCoverPanelView];
+        [self constrainSubview:self.audioCoverPanelView toMatchWithSuperview:self.view];
+        [self.view sendSubviewToBack:self.audioCoverPanelView];
+        
+        [self updatePlayModeContainView:video];
+    } else {
+        self.shrinkscreenView.playModeContainerView.hidden = YES;
+        self.fullscreenView.playModeContainerView.hidden = YES;
+    }
+}
+
+- (void)updatePlayModeContainView:(PLVVodVideo *)video {
+    if ([video canSwithPlaybackMode]) {
+        PLVVodPlaybackMode playbackMode = self.delegatePlayer.playbackMode;
+        [self.shrinkscreenView switchToPlayMode:playbackMode];
+        [self.fullscreenView switchToPlayMode:playbackMode];
+        [self.audioCoverPanelView switchToPlayMode:playbackMode];
+    }
+}
+
+- (void)updateAudioCoverAnimation:(BOOL)isPlaying {
+    if (isPlaying) {
+        [self.audioCoverPanelView startRotate];
+    } else {
+        [self.audioCoverPanelView stopRotate];
+    }
+}
+
+#pragma getter --
+- (UIView *)skinMaskView
+{
+    if (!_skinMaskView){
+        _skinMaskView = [[UIView alloc] init];
+    }
+    
+    return _skinMaskView;
 }
 
 #pragma mark - view controller
@@ -264,6 +314,12 @@
 	
 	// 自动隐藏控件
 	[self fadeoutPlaybackControl];
+    
+    // 皮肤控件覆盖层，现实弹幕
+    [self.view addSubview:self.skinMaskView];
+    [self constrainSubview:self.skinMaskView toMatchWithSuperview:self.view];
+    self.skinMaskView.backgroundColor = [UIColor clearColor];
+    [self.view sendSubviewToBack:self.skinMaskView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -376,6 +432,7 @@
 
 - (IBAction)settingAction:(UIButton *)sender {
 	[self transitToView:self.settingsPanelView];
+    [self.settingsPanelView switchToPlayMode:self.delegatePlayer.playbackMode];
 }
 
 - (IBAction)snapshotAction:(UIButton *)sender {
@@ -410,6 +467,14 @@
 	[danmu sendDammuWithVid:self.delegatePlayer.video.vid completion:^(NSError *error) {
 		NSLog(@"send danmu error: %@", error);
 	}];
+}
+
+- (IBAction)videoPlaybackModeAction:(id)sender {
+    self.delegatePlayer.playbackMode = PLVVodPlaybackModeVideo;
+}
+
+- (IBAction)audioPlaybackModeAction:(id)sender {
+    self.delegatePlayer.playbackMode = PLVVodPlaybackModeAudio;
 }
 
 #pragma mark - UITextFieldDelegate

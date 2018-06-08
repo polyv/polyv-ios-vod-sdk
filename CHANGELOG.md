@@ -10,6 +10,17 @@
 ### Removed
 ### Fixed -->
 
+## [2.3.0] - 2018-06-08
+
+### Added
+
+- 增加音视频播放切换功能，具体用法参考 demo中 PLVVodSkinPlayerController 的例子
+
+### Fixed
+
+- 解决断网状态，不能播放本地已经下载视频的bug
+
+
 ## [2.2.0] - 2018-04-12
 
 ### Added
