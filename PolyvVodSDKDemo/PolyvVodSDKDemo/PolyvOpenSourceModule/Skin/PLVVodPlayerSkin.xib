@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PLVVodPlayerSkin">
             <connections>
+                <outlet property="audioCoverPanelView" destination="fBS-tL-F6W" id="K5z-ek-SZM"/>
                 <outlet property="controlContainerView" destination="mwx-JJ-GUb" id="PrV-1N-MrC"/>
                 <outlet property="danmuSendView" destination="qa0-Rh-gAf" id="vaM-3e-5Nc"/>
                 <outlet property="definitionPanelView" destination="inz-cI-pDt" id="Mrp-NU-aGp"/>
@@ -40,7 +41,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="jiE-j7-hFB">
-                    <rect key="frame" x="222" y="142" width="37" height="37"/>
+                    <rect key="frame" x="221.5" y="141.5" width="37" height="37"/>
                 </activityIndicatorView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mwx-JJ-GUb" userLabel="控件容器">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
@@ -65,6 +66,79 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LZm-tb-AsH" userLabel="左侧音视频切换容器">
+                    <rect key="frame" x="16" y="121" width="75" height="78"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_bg" translatesAutoresizingMaskIntoConstraints="NO" id="sSx-mN-NYB" userLabel="音视频切换按钮组背景">
+                            <rect key="frame" x="0.0" y="0.0" width="36" height="78"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PjV-Vs-YcC" userLabel="视频组件容器">
+                            <rect key="frame" x="2" y="2" width="75" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_selected" translatesAutoresizingMaskIntoConstraints="NO" id="Rns-jI-0FT" userLabel="视频播放状态图">
+                                    <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_video" translatesAutoresizingMaskIntoConstraints="NO" id="jOF-a2-xz1" userLabel="视频标志图">
+                                    <rect key="frame" x="8" y="10" width="16" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="视频" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70e-Os-z6W" userLabel="视频文字">
+                                    <rect key="frame" x="40" y="8" width="25" height="15"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="highlightedColor" red="0.011764705882352941" green="0.66274509803921566" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fch-CF-8Ah" userLabel="视频切换按钮">
+                                    <rect key="frame" x="0.0" y="0.0" width="75" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <connections>
+                                        <action selector="videoPlaybackModeAction:" destination="-1" eventType="touchUpInside" id="3g8-BF-TiG"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mz0-gh-IZ4" userLabel="音频组件容器">
+                            <rect key="frame" x="2" y="44" width="75" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_selected" translatesAutoresizingMaskIntoConstraints="NO" id="GGq-HH-1qx" userLabel="音频播放状态图">
+                                    <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_audio" translatesAutoresizingMaskIntoConstraints="NO" id="scH-8B-vl9" userLabel="音频标志图">
+                                    <rect key="frame" x="10" y="8" width="12" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="音频" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IcR-MM-Uhx" userLabel="音频文字">
+                                    <rect key="frame" x="40" y="8" width="25" height="15"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="highlightedColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWg-wh-7nG" userLabel="音频切换按钮">
+                                    <rect key="frame" x="0.0" y="0.0" width="75" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <connections>
+                                        <action selector="audioPlaybackModeAction:" destination="-1" eventType="touchUpInside" id="Kmd-jd-7y9"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="78" id="2iB-mK-aN2"/>
+                        <constraint firstAttribute="width" constant="75" id="vkh-D1-O7N"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TOF-OZ-kbk" userLabel="底部工具栏">
                     <rect key="frame" x="0.0" y="266" width="480" height="54"/>
                     <subviews>
@@ -133,8 +207,10 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="LZm-tb-AsH" firstAttribute="leading" secondItem="xdj-6z-3JE" secondAttribute="leading" constant="16" id="5hd-jr-Vtu"/>
                 <constraint firstItem="TzY-zP-vqR" firstAttribute="leading" secondItem="xdj-6z-3JE" secondAttribute="leading" id="IU5-Sg-RJD"/>
                 <constraint firstAttribute="bottom" secondItem="TOF-OZ-kbk" secondAttribute="bottom" id="KSX-Hu-UNT"/>
+                <constraint firstItem="LZm-tb-AsH" firstAttribute="centerY" secondItem="xdj-6z-3JE" secondAttribute="centerY" id="NVm-12-J9g"/>
                 <constraint firstAttribute="trailing" secondItem="TOF-OZ-kbk" secondAttribute="trailing" id="axv-6t-hwg"/>
                 <constraint firstAttribute="trailing" secondItem="TzY-zP-vqR" secondAttribute="trailing" id="iL2-tT-TdE"/>
                 <constraint firstAttribute="trailing" secondItem="H0g-LX-qZk" secondAttribute="trailing" id="jjk-UZ-uor"/>
@@ -144,11 +220,18 @@
                 <constraint firstItem="TOF-OZ-kbk" firstAttribute="leading" secondItem="xdj-6z-3JE" secondAttribute="leading" id="yfg-vh-HXO"/>
             </constraints>
             <connections>
+                <outlet property="audioModeLabel" destination="IcR-MM-Uhx" id="I5C-aU-VMu"/>
+                <outlet property="audioModeSelectedImageView" destination="GGq-HH-1qx" id="6cq-zi-1kk"/>
+                <outlet property="audioPlayModeButton" destination="RWg-wh-7nG" id="X3x-QS-6xq"/>
                 <outlet property="bufferProgressView" destination="H0g-LX-qZk" id="Ixl-No-6h9"/>
+                <outlet property="playModeContainerView" destination="LZm-tb-AsH" id="sKY-ds-g6n"/>
                 <outlet property="playPauseButton" destination="xHS-iO-d00" id="bTa-ie-c6U"/>
                 <outlet property="playbackSlider" destination="TzY-zP-vqR" id="XEZ-xw-Gci"/>
                 <outlet property="switchScreenButton" destination="6FA-3b-cVY" id="jFb-tt-cnI"/>
                 <outlet property="timeLabel" destination="4r8-7b-Uty" id="Kez-U9-4ew"/>
+                <outlet property="videoModeLabel" destination="70e-Os-z6W" id="nzM-3A-22r"/>
+                <outlet property="videoModeSelectedImageView" destination="Rns-jI-0FT" id="Oak-Ac-L2M"/>
+                <outlet property="videoPlayModeButton" destination="fch-CF-8Ah" id="Lfv-AT-ft2"/>
             </connections>
             <point key="canvasLocation" x="26" y="465"/>
         </view>
@@ -156,6 +239,130 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEp-Xe-LQj" userLabel="标题工具栏">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="44"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="Fh2-rt-Zgw" userLabel="右侧控件容器">
+                            <rect key="frame" x="381" y="11" width="79" height="22"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rem-Kt-gSH" userLabel="分享">
+                                    <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="22" id="RSD-VP-nld"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_share"/>
+                                    <connections>
+                                        <action selector="shareAction:" destination="-1" eventType="touchUpInside" id="XDa-yU-6A6"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqT-93-2RH" userLabel="设置">
+                                    <rect key="frame" x="57" y="0.0" width="22" height="22"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="22" id="hE9-Ac-oVC"/>
+                                    </constraints>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" image="plv_vod_btn_settings"/>
+                                    <connections>
+                                        <action selector="settingAction:" destination="-1" eventType="touchUpInside" id="eXv-Qs-YKp"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYi-5F-3u5" userLabel="返回">
+                            <rect key="frame" x="20" y="12" width="361" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="60" maxY="0.0"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="我是标题" image="plv_vod_btn_back"/>
+                            <connections>
+                                <action selector="backAction:" destination="-1" eventType="touchUpInside" id="FxY-8M-gb2"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="Fh2-rt-Zgw" firstAttribute="leading" secondItem="BYi-5F-3u5" secondAttribute="trailing" id="26A-V6-e9F"/>
+                        <constraint firstAttribute="height" constant="44" id="2EI-ON-Tm5"/>
+                        <constraint firstAttribute="trailing" secondItem="Fh2-rt-Zgw" secondAttribute="trailing" constant="20" id="VnF-th-5tN"/>
+                        <constraint firstItem="Fh2-rt-Zgw" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="Z32-dg-Xbc"/>
+                        <constraint firstItem="BYi-5F-3u5" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="r2U-FV-Lyb"/>
+                        <constraint firstItem="BYi-5F-3u5" firstAttribute="leading" secondItem="pEp-Xe-LQj" secondAttribute="leading" constant="20" id="shy-je-J36"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTL-qF-dKU" userLabel="左侧音视频切换容器">
+                    <rect key="frame" x="16" y="121" width="75" height="78"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_bg" translatesAutoresizingMaskIntoConstraints="NO" id="J9R-zW-sSy" userLabel="音视频切换按钮组背景">
+                            <rect key="frame" x="0.0" y="0.0" width="36" height="78"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S3W-5y-g2i" userLabel="视频组件容器">
+                            <rect key="frame" x="2" y="2" width="75" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_selected" translatesAutoresizingMaskIntoConstraints="NO" id="WVH-Bi-tNJ" userLabel="视频播放状态图">
+                                    <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_video" translatesAutoresizingMaskIntoConstraints="NO" id="6Ky-Yj-Bc3" userLabel="视频标志图">
+                                    <rect key="frame" x="8" y="10" width="16" height="12"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="视频" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QbR-Nf-sVG" userLabel="视频文字">
+                                    <rect key="frame" x="40" y="8" width="25" height="15"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="highlightedColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IV7-JI-VVF" userLabel="视频切换按钮">
+                                    <rect key="frame" x="0.0" y="0.0" width="75" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <connections>
+                                        <action selector="videoPlaybackModeAction:" destination="-1" eventType="touchUpInside" id="8wD-Pz-aLn"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gwD-Sy-vxV" userLabel="音频组件容器">
+                            <rect key="frame" x="2" y="44" width="75" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_selected" translatesAutoresizingMaskIntoConstraints="NO" id="yFk-Eh-S1F" userLabel="音频播放状态图">
+                                    <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_vod_av_swtich_audio" translatesAutoresizingMaskIntoConstraints="NO" id="FTa-1z-Pdz" userLabel="音频标志图">
+                                    <rect key="frame" x="10" y="8" width="12" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="音频" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qe2-sb-peP" userLabel="音频文字">
+                                    <rect key="frame" x="40" y="8" width="25" height="15"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="highlightedColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bg9-DH-N1x" userLabel="音频切换按钮">
+                                    <rect key="frame" x="0.0" y="0.0" width="75" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <connections>
+                                        <action selector="audioPlaybackModeAction:" destination="-1" eventType="touchUpInside" id="Dk1-vG-Ngq"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="75" id="GXY-RF-vmW"/>
+                        <constraint firstAttribute="height" constant="78" id="qmE-gF-X6Y"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yl1-Wc-fv6" userLabel="底部工具栏">
                     <rect key="frame" x="0.0" y="266" width="480" height="54"/>
                     <subviews>
@@ -245,58 +452,6 @@
                         <constraint firstItem="2hd-na-E3E" firstAttribute="centerY" secondItem="Yl1-Wc-fv6" secondAttribute="centerY" id="uda-Bc-lCi"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEp-Xe-LQj" userLabel="顶部工具栏">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="44"/>
-                    <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="Fh2-rt-Zgw" userLabel="右侧控件容器">
-                            <rect key="frame" x="381" y="11" width="79" height="22"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rem-Kt-gSH" userLabel="分享">
-                                    <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="22" id="RSD-VP-nld"/>
-                                    </constraints>
-                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <state key="normal" image="plv_vod_btn_share"/>
-                                    <connections>
-                                        <action selector="shareAction:" destination="-1" eventType="touchUpInside" id="XDa-yU-6A6"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqT-93-2RH" userLabel="设置">
-                                    <rect key="frame" x="57" y="0.0" width="22" height="22"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="22" id="hE9-Ac-oVC"/>
-                                    </constraints>
-                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <state key="normal" image="plv_vod_btn_settings"/>
-                                    <connections>
-                                        <action selector="settingAction:" destination="-1" eventType="touchUpInside" id="eXv-Qs-YKp"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </stackView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYi-5F-3u5" userLabel="返回">
-                            <rect key="frame" x="20" y="12" width="361" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="60" maxY="0.0"/>
-                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            <state key="normal" title="我是标题" image="plv_vod_btn_back"/>
-                            <connections>
-                                <action selector="backAction:" destination="-1" eventType="touchUpInside" id="FxY-8M-gb2"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstItem="Fh2-rt-Zgw" firstAttribute="leading" secondItem="BYi-5F-3u5" secondAttribute="trailing" id="26A-V6-e9F"/>
-                        <constraint firstAttribute="height" constant="44" id="2EI-ON-Tm5"/>
-                        <constraint firstAttribute="trailing" secondItem="Fh2-rt-Zgw" secondAttribute="trailing" constant="20" id="VnF-th-5tN"/>
-                        <constraint firstItem="Fh2-rt-Zgw" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="Z32-dg-Xbc"/>
-                        <constraint firstItem="BYi-5F-3u5" firstAttribute="centerY" secondItem="pEp-Xe-LQj" secondAttribute="centerY" id="r2U-FV-Lyb"/>
-                        <constraint firstItem="BYi-5F-3u5" firstAttribute="leading" secondItem="pEp-Xe-LQj" secondAttribute="leading" constant="20" id="shy-je-J36"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BuY-ou-2r2" userLabel="状态栏">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="0.0"/>
                     <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
@@ -352,8 +507,10 @@
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="P1z-ht-qbH"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="bui-Kl-w8g"/>
                 <constraint firstItem="F6C-pN-1tf" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="cwR-0w-clH"/>
+                <constraint firstItem="hTL-qF-dKU" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" constant="16" id="fYC-ar-hdO"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="BuY-ou-2r2" secondAttribute="bottom" id="fdZ-t5-uyk"/>
                 <constraint firstAttribute="trailingMargin" secondItem="rSx-dm-mU2" secondAttribute="trailing" id="fn1-nO-9kZ"/>
+                <constraint firstItem="hTL-qF-dKU" firstAttribute="centerY" secondItem="w04-rs-iMM" secondAttribute="centerY" id="gdS-TK-OSA"/>
                 <constraint firstAttribute="trailing" secondItem="pEp-Xe-LQj" secondAttribute="trailing" id="lXn-Qm-a0T"/>
                 <constraint firstAttribute="trailing" secondItem="suR-o2-ESP" secondAttribute="trailing" id="mgr-xz-DIo"/>
                 <constraint firstAttribute="trailing" secondItem="Yl1-Wc-fv6" secondAttribute="trailing" id="t1P-a6-5Mz"/>
@@ -361,11 +518,15 @@
                 <constraint firstItem="rSx-dm-mU2" firstAttribute="centerY" secondItem="w04-rs-iMM" secondAttribute="centerY" id="ywk-6J-sYF"/>
             </constraints>
             <connections>
+                <outlet property="audioModeLabel" destination="Qe2-sb-peP" id="UhC-0H-uJG"/>
+                <outlet property="audioModeSelectedImageView" destination="yFk-Eh-S1F" id="knz-dh-Bwb"/>
+                <outlet property="audioPlayModeButton" destination="bg9-DH-N1x" id="lBq-Ah-ZGC"/>
                 <outlet property="backButton" destination="BYi-5F-3u5" id="lRK-DM-pCa"/>
                 <outlet property="bufferProgressView" destination="F6C-pN-1tf" id="LMx-xv-KL0"/>
                 <outlet property="danmuButton" destination="7k7-Ox-gzF" id="BUv-za-nOD"/>
                 <outlet property="danmuSendButton" destination="h89-Es-caU" id="LW8-1T-Sxr"/>
                 <outlet property="definitionButton" destination="vun-eN-a4o" id="o8H-XJ-3Nq"/>
+                <outlet property="playModeContainerView" destination="hTL-qF-dKU" id="bgm-L0-XxR"/>
                 <outlet property="playPauseButton" destination="s1w-XP-Fw3" id="ZZv-xl-UcC"/>
                 <outlet property="playbackRateButton" destination="F67-0j-oen" id="Z7Z-Cw-nnm"/>
                 <outlet property="playbackSlider" destination="suR-o2-ESP" id="bU8-Zt-jmK"/>
@@ -375,6 +536,9 @@
                 <outlet property="statusBarHeight" destination="v2b-Vv-ggE" id="Gmm-cb-Zjb"/>
                 <outlet property="switchScreenButton" destination="PhT-m4-gZI" id="0mM-zZ-QFQ"/>
                 <outlet property="timeLabel" destination="mlF-RW-YrS" id="blc-4p-10C"/>
+                <outlet property="videoModeLabel" destination="QbR-Nf-sVG" id="n8Z-c0-toN"/>
+                <outlet property="videoModeSelectedImageView" destination="WVH-Bi-tNJ" id="ySh-Dd-z8g"/>
+                <outlet property="videoPlayModeButton" destination="IV7-JI-VVF" id="tk3-Gd-XA3"/>
             </connections>
             <point key="canvasLocation" x="26" y="882"/>
         </view>
@@ -382,7 +546,7 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVR-D6-8jg" userLabel="控件容器">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVR-D6-8jg" userLabel="控件容器" customClass="UIStackView">
                     <rect key="frame" x="95" y="37.5" width="290" height="245"/>
                     <subviews>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" minimumValueImage="plv_vod_ic_bri_s" maximumValueImage="plv_vod_ic_bri_l" translatesAutoresizingMaskIntoConstraints="NO" id="OVG-eh-nAB" userLabel="亮度滑杆">
@@ -393,14 +557,7 @@
                                 <constraint firstAttribute="height" relation="lessThanOrEqual" constant="13" id="oTi-p5-dw5"/>
                             </constraints>
                         </slider>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" minimumValueImage="plv_vod_ic_vol_s" maximumValueImage="plv_vod_ic_vol_l" translatesAutoresizingMaskIntoConstraints="NO" id="Ffk-ye-6WX" userLabel="音量滑杆">
-                            <rect key="frame" x="-2" y="57" width="294" height="14"/>
-                            <color key="tintColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="13" id="HQF-1d-BeF"/>
-                            </constraints>
-                        </slider>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="F9r-qq-une">
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="F9r-qq-une" userLabel="视频填充设置">
                             <rect key="frame" x="4" y="114" width="282" height="21"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uuT-gD-j1r">
@@ -453,7 +610,7 @@
                                 </button>
                             </subviews>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="UCW-u5-Hg9">
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="UCW-u5-Hg9" userLabel="字幕设置">
                             <rect key="frame" x="4" y="224" width="282" height="21"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ql-Pe-EdN">
@@ -497,7 +654,7 @@
                                 <constraint firstAttribute="height" constant="21" id="aFV-4e-KYl"/>
                             </constraints>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="K0j-5l-bjM">
+                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="K0j-5l-bjM" userLabel="字幕">
                             <rect key="frame" x="0.0" y="179" width="290" height="21"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1oI-qq-v5j" userLabel="分割线L">
@@ -528,24 +685,31 @@
                                 <constraint firstItem="NMv-ef-oyr" firstAttribute="width" secondItem="1oI-qq-v5j" secondAttribute="width" id="QIO-hY-LNo"/>
                             </constraints>
                         </stackView>
+                        <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" minimumValueImage="plv_vod_ic_vol_s" maximumValueImage="plv_vod_ic_vol_l" translatesAutoresizingMaskIntoConstraints="NO" id="Ffk-ye-6WX" userLabel="音量滑杆">
+                            <rect key="frame" x="2" y="50" width="290" height="14"/>
+                            <color key="tintColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="13" id="HQF-1d-BeF"/>
+                            </constraints>
+                        </slider>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="Ffk-ye-6WX" firstAttribute="top" secondItem="OVG-eh-nAB" secondAttribute="bottom" constant="44" id="2gA-mo-aan"/>
                         <constraint firstItem="K0j-5l-bjM" firstAttribute="centerX" secondItem="rVR-D6-8jg" secondAttribute="centerX" id="6sF-hH-yDY"/>
                         <constraint firstAttribute="bottom" secondItem="UCW-u5-Hg9" secondAttribute="bottom" id="9Lb-x4-nfs"/>
                         <constraint firstItem="UCW-u5-Hg9" firstAttribute="centerX" secondItem="rVR-D6-8jg" secondAttribute="centerX" id="9x6-fJ-bUb"/>
                         <constraint firstItem="UCW-u5-Hg9" firstAttribute="top" secondItem="K0j-5l-bjM" secondAttribute="bottom" constant="24" id="E6M-Jw-ieV"/>
                         <constraint firstItem="K0j-5l-bjM" firstAttribute="leading" secondItem="rVR-D6-8jg" secondAttribute="leading" id="Ecr-iC-2MA"/>
-                        <constraint firstItem="Ffk-ye-6WX" firstAttribute="top" secondItem="OVG-eh-nAB" secondAttribute="bottom" constant="44" id="GWD-uG-Xzk"/>
                         <constraint firstItem="K0j-5l-bjM" firstAttribute="height" secondItem="F9r-qq-une" secondAttribute="height" id="Ics-yh-PfO"/>
                         <constraint firstItem="OVG-eh-nAB" firstAttribute="top" secondItem="rVR-D6-8jg" secondAttribute="top" id="Mi9-ef-PAK"/>
                         <constraint firstItem="OVG-eh-nAB" firstAttribute="leading" secondItem="rVR-D6-8jg" secondAttribute="leading" id="RQe-v2-NM4"/>
-                        <constraint firstItem="Ffk-ye-6WX" firstAttribute="leading" secondItem="rVR-D6-8jg" secondAttribute="leading" id="Rbh-o1-fbH"/>
                         <constraint firstItem="F9r-qq-une" firstAttribute="centerX" secondItem="rVR-D6-8jg" secondAttribute="centerX" id="UwL-Tu-DVf"/>
-                        <constraint firstItem="F9r-qq-une" firstAttribute="top" secondItem="Ffk-ye-6WX" secondAttribute="bottom" constant="44" id="fn9-ch-MJw"/>
+                        <constraint firstItem="F9r-qq-une" firstAttribute="top" secondItem="Ffk-ye-6WX" secondAttribute="bottom" constant="44" id="Vse-ru-pLG"/>
+                        <constraint firstItem="Ffk-ye-6WX" firstAttribute="leading" secondItem="rVR-D6-8jg" secondAttribute="leading" id="XCQ-pb-aYA"/>
+                        <constraint firstAttribute="trailing" secondItem="Ffk-ye-6WX" secondAttribute="trailing" id="fYJ-m3-aIJ"/>
                         <constraint firstItem="UCW-u5-Hg9" firstAttribute="height" secondItem="F9r-qq-une" secondAttribute="height" id="foX-vd-P0w"/>
                         <constraint firstItem="UCW-u5-Hg9" firstAttribute="width" secondItem="F9r-qq-une" secondAttribute="width" id="m7U-OI-4ia"/>
-                        <constraint firstAttribute="trailing" secondItem="Ffk-ye-6WX" secondAttribute="trailing" id="mWe-Oc-sfX"/>
                         <constraint firstItem="K0j-5l-bjM" firstAttribute="top" secondItem="F9r-qq-une" secondAttribute="bottom" constant="44" id="nJf-Z3-Lih"/>
                         <constraint firstAttribute="trailing" secondItem="OVG-eh-nAB" secondAttribute="trailing" id="uWb-2H-8DZ"/>
                     </constraints>
@@ -562,7 +726,9 @@
             </constraints>
             <connections>
                 <outlet property="brightnessSlider" destination="OVG-eh-nAB" id="fba-jl-3pA"/>
+                <outlet property="containerStackView" destination="rVR-D6-8jg" id="aPY-WN-xiR"/>
                 <outlet property="scalingModeStackView" destination="F9r-qq-une" id="aR5-l8-lQX"/>
+                <outlet property="subtitleSeparateStackView" destination="K0j-5l-bjM" id="yS2-zo-Azx"/>
                 <outlet property="subtitleStackView" destination="UCW-u5-Hg9" id="2Le-rv-Rhy"/>
                 <outlet property="volumeSlider" destination="Ffk-ye-6WX" id="1PQ-Xk-ZaC"/>
             </connections>
@@ -974,8 +1140,67 @@
             <point key="canvasLocation" x="26" y="3402"/>
         </view>
         <tapGestureRecognizer id="1bO-LR-CK4" userLabel="占位手势"/>
+        <view contentMode="scaleToFill" id="fBS-tL-F6W" userLabel="音频封面" customClass="PLVVodAudioCoverPanelView">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="weX-TX-Ddq" userLabel="音频封面外层容器">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="77I-9W-afn" userLabel="音频封面外层容器背景图">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+                        </imageView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mnb-JY-Zco" userLabel="音频封面内层容器">
+                            <rect key="frame" x="160" y="80" width="160" height="160"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plv_void_audio_cover" translatesAutoresizingMaskIntoConstraints="NO" id="v2p-5q-8wI" userLabel="音频封面底图">
+                                    <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HQu-A1-0TR" userLabel="音频封面图">
+                                    <rect key="frame" x="20" y="20" width="120" height="120"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="160" id="uKn-lH-8kz"/>
+                                <constraint firstAttribute="height" constant="160" id="vhv-Xd-F5t"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="77I-9W-afn" secondAttribute="bottom" id="1zs-gN-YTD"/>
+                        <constraint firstItem="mnb-JY-Zco" firstAttribute="centerY" secondItem="weX-TX-Ddq" secondAttribute="centerY" id="HYa-Rt-MBQ"/>
+                        <constraint firstItem="77I-9W-afn" firstAttribute="leading" secondItem="weX-TX-Ddq" secondAttribute="leading" id="MQ9-iP-Kkf"/>
+                        <constraint firstAttribute="trailing" secondItem="77I-9W-afn" secondAttribute="trailing" id="ZFw-O5-hyH"/>
+                        <constraint firstItem="mnb-JY-Zco" firstAttribute="centerX" secondItem="weX-TX-Ddq" secondAttribute="centerX" id="byK-iu-e7R"/>
+                        <constraint firstItem="77I-9W-afn" firstAttribute="top" secondItem="weX-TX-Ddq" secondAttribute="top" id="u1e-7J-0Wt"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="weX-TX-Ddq" firstAttribute="leading" secondItem="fBS-tL-F6W" secondAttribute="leading" id="Awb-JZ-eAl"/>
+                <constraint firstAttribute="bottom" secondItem="weX-TX-Ddq" secondAttribute="bottom" id="WuP-K5-c56"/>
+                <constraint firstAttribute="trailing" secondItem="weX-TX-Ddq" secondAttribute="trailing" id="m1w-sN-sge"/>
+                <constraint firstItem="weX-TX-Ddq" firstAttribute="top" secondItem="fBS-tL-F6W" secondAttribute="top" id="nFQ-pB-3pe"/>
+            </constraints>
+            <connections>
+                <outlet property="audioCoverContainerBackgroundImageView" destination="77I-9W-afn" id="voN-I9-Tbk"/>
+                <outlet property="audioCoverContainerView" destination="weX-TX-Ddq" id="vSZ-Cj-Yfc"/>
+                <outlet property="audioCoverImage" destination="HQu-A1-0TR" id="Voa-0y-NK4"/>
+            </connections>
+            <point key="canvasLocation" x="26" y="3843"/>
+        </view>
     </objects>
     <resources>
+        <image name="plv_vod_av_swtich_audio" width="12" height="16"/>
+        <image name="plv_vod_av_swtich_bg" width="36" height="78"/>
+        <image name="plv_vod_av_swtich_selected" width="32" height="32"/>
+        <image name="plv_vod_av_swtich_video" width="16" height="12"/>
         <image name="plv_vod_bg_s" width="130" height="130"/>
         <image name="plv_vod_btn_back" width="9" height="17"/>
         <image name="plv_vod_btn_dm_off" width="31" height="19"/>
@@ -1002,5 +1227,6 @@
         <image name="plv_vod_ic_vol_s" width="6" height="11"/>
         <image name="plv_vod_input_dm_click" width="28" height="28"/>
         <image name="plv_vod_input_dm_def" width="28" height="28"/>
+        <image name="plv_void_audio_cover" width="160" height="160"/>
     </resources>
 </document>

@@ -12,6 +12,7 @@
 #import "UIColor+PLVVod.h"
 #import <PLVTimer/PLVTimer.h>
 #import "PLVToolbar.h"
+#import "PLVSimpleDetailController.h"
 
 @interface PLVDownloadListController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -54,6 +55,7 @@
 	[downloadManager requestDownloadInfosWithCompletion:^(NSArray<PLVVodDownloadInfo *> *downloadInfos) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			weakSelf.downloadInfos = downloadInfos.mutableCopy;
+            
 			[weakSelf.tableView reloadData];
 		});
 	}];
@@ -72,7 +74,7 @@
 	
 	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
 	self.tableView.tableFooterView = [UIView new];
-	self.tableView.allowsSelection = NO;
+	self.tableView.allowsSelection = YES;
 	
 	self.toolbar.buttons = @[self.queueDownloadButton];
 	self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
@@ -193,6 +195,28 @@
 	cell.backgroundColor = self.tableView.backgroundColor;
 	
     return cell;
+}
+
+#pragma mark -- UITableViewDelegate --
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    // 播放本地缓存视频
+    PLVVodDownloadInfo *info = self.downloadInfos[indexPath.row];
+    if (info.state == PLVVodDownloadStateSuccess){
+        
+        //
+        PLVVodVideo *videoModel = info.video;
+        
+        // 非加密
+//        PLVVodLocalVideo *localModel = [PLVVodLocalVideo localVideoWithVid:info.vid dir:[PLVVodDownloadManager sharedManager].downloadDir];
+        
+        // 播放本地加密/非加密视频
+        PLVVodLocalVideo *localModel = [PLVVodLocalVideo localVideoWithVideo:videoModel dir:[PLVVodDownloadManager sharedManager].downloadDir];
+        
+        PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
+        detailVC.localVideo = localModel;
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
 }
 
 /// 删除

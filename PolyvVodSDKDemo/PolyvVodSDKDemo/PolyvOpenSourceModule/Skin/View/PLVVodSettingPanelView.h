@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <PLVVodSDK/PLVVodConstans.h>
 
 @interface PLVVodSettingPanelView : UIView
 @property (weak, nonatomic) IBOutlet UISlider *brightnessSlider;
@@ -18,5 +19,7 @@
 
 @property (nonatomic, assign) NSInteger scalingMode;
 @property (nonatomic, copy) void (^scalingModeDidChangeBlock)(NSInteger scalingMode);
+
+- (void)switchToPlayMode:(PLVVodPlaybackMode)mode;
 
 @end

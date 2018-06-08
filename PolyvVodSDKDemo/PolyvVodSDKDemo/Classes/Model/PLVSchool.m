@@ -39,11 +39,24 @@ static id _sharedInstance = nil;
 }
 
 - (void)commonInit {
+	// 网校信息
 	_host = @"sdk.dewx.net";
 	_schoolKey = @"989BCBAD980580763EC113D3602C985C";
-	_vodKey = @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
-	_vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
-	_vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
+	
+	// 对应的点播账号信息
+    BOOL userDefault = YES;
+    if (userDefault){
+        
+        _vodKey = @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
+        _vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
+        _vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
+
+    }
+    else{
+        
+        // TODO： 配置个人账号信息，方便测试
+       
+    }
 	// P.S. 在代码里面配置，比从文件中读取要安全
 }
 

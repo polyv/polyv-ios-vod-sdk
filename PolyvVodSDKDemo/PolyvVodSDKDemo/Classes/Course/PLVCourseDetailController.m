@@ -91,6 +91,9 @@
 	// 初始化播放器
 	PLVVodSkinPlayerController *player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
 	[player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
+	player.reachEndHandler = ^(PLVVodPlayerViewController *player) {
+		NSLog(@"%@ finish handler.", player.video.vid);
+	};
 	self.player = player;
 }
 

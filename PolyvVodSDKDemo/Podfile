@@ -8,16 +8,16 @@ target 'PolyvVodSDKDemo' do
 	# use_frameworks!
 
 	# Pods for PolyvVodSDKDemo
-	pod 'XRCarouselView'
-	pod 'YYWebImage'
-	pod 'FDStackView'
+	pod 'XRCarouselView', '~> 2.6.1'
+	pod 'YYWebImage', '~> 1.0.5'
+	pod 'FDStackView', '~> 1.0.1'
 
 	# PLVVodSDK
-	pod 'PolyvVodSDK'
+	pod 'PolyvVodSDK', '~> 2.3.0'
 
 	# POLYV Open Source
-	pod 'PLVVodDanmu'
-	pod 'PLVSubtitle'
+	pod 'PLVVodDanmu', '~> 0.0.1'
+	pod 'PLVSubtitle', '~> 0.0.3'
 
 	target 'PolyvVodSDKDemoTests' do
 		inherit! :search_paths

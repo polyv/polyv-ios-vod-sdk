@@ -35,14 +35,21 @@
 	[player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
 	self.player = player;
 	NSString *vid = self.vid;
-	__weak typeof(self) weakSelf = self;
-	[PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-		if (!video.available) return;
-		weakSelf.player.video = video;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			weakSelf.title = video.title;
-		});
-	}];
+    if (self.localVideo){
+        // 本地播放
+        self.player.video = self.localVideo;
+    }
+    else{
+        __weak typeof(self) weakSelf = self;
+        [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
+            if (!video.available) return;
+            weakSelf.player.video = video;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.title = video.title;
+            });
+        }];
+
+    }
 }
 
 - (BOOL)prefersStatusBarHidden {

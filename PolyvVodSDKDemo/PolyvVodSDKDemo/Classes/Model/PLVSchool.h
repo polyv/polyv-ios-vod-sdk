@@ -10,12 +10,18 @@
 
 @interface PLVSchool : NSObject
 
+/// 网校域名
 @property (nonatomic, copy) NSString *host;
+/// 网校 ID
 @property (nonatomic, copy) NSString *schoolId;
+/// 网校 Key
 @property (nonatomic, copy) NSString *schoolKey;
-@property (nonatomic, copy) NSString *appSecretKey;
+
+/// 点播加密串
 @property (nonatomic, copy) NSString *vodKey;
+/// 点播加密串解密秘钥
 @property (nonatomic, copy) NSString *vodKeyDecodeKey;
+/// 点播加密串解密向量
 @property (nonatomic, copy) NSString *vodKeyDecodeIv;
 
 /// 静态对象

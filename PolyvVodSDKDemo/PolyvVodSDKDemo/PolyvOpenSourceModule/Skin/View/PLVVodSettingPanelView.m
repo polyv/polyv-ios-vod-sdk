@@ -15,14 +15,71 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
 
-@property (weak, nonatomic) IBOutlet UIStackView *subtitleStackView;
-@property (weak, nonatomic) IBOutlet UIStackView *scalingModeStackView;
+@property (weak, nonatomic) IBOutlet UIStackView *subtitleStackView;    // 字幕设置
+@property (weak, nonatomic) IBOutlet UIStackView *scalingModeStackView; // 视频填充
+@property (weak, nonatomic) IBOutlet UIStackView *subtitleSeparateStackView; // 字幕分割
+@property (weak, nonatomic) IBOutlet UIStackView *containerStackView; // 容器视图
 
 #pragma clang diagnostic pop
 
 @end
 
 @implementation PLVVodSettingPanelView
+
+- (void)switchToPlayMode:(PLVVodPlaybackMode)mode {
+    
+    if (mode == PLVVodPlaybackModeAudio) {
+        
+        // 隐藏视频相关配置 todo
+        NSLog(@"hide video setting");
+        
+        if (!self.scalingModeStackView.hidden)
+        {
+            [self clearContainerStackView];
+
+            [self.containerStackView addArrangedSubview:self.brightnessSlider];
+            [self.containerStackView addArrangedSubview:self.volumeSlider];
+            
+            self.containerStackView.axis = UILayoutConstraintAxisVertical;
+            self.containerStackView.spacing = 60;
+            
+            self.scalingModeStackView.hidden = YES;
+            self.subtitleSeparateStackView.hidden = YES;
+            self.subtitleStackView.hidden = YES;
+        }
+        
+    } else {
+        // 显示视频相关配置 todo
+        NSLog(@"show video setting");
+        
+        if (self.scalingModeStackView.hidden)
+        {
+            [self clearContainerStackView];
+            
+            [self.containerStackView addArrangedSubview:self.brightnessSlider];
+            [self.containerStackView addArrangedSubview:self.volumeSlider];
+            [self.containerStackView addArrangedSubview:self.scalingModeStackView];
+            [self.containerStackView addArrangedSubview:self.subtitleSeparateStackView];
+            [self.containerStackView addArrangedSubview:self.subtitleStackView];
+            
+            self.containerStackView.axis = UILayoutConstraintAxisVertical;
+            self.containerStackView.spacing = 40;
+            
+            self.scalingModeStackView.hidden = NO;
+            self.subtitleSeparateStackView.hidden = NO;
+            self.subtitleStackView.hidden = NO;
+        }
+    }
+}
+
+- (void)clearContainerStackView
+{
+    [self.containerStackView removeArrangedSubview:self.brightnessSlider];
+    [self.containerStackView removeArrangedSubview:self.volumeSlider];
+    [self.containerStackView removeArrangedSubview:self.scalingModeStackView];
+    [self.containerStackView removeArrangedSubview:self.subtitleSeparateStackView];
+    [self.containerStackView removeArrangedSubview:self.subtitleStackView];
+}
 
 #pragma mark - property
 
