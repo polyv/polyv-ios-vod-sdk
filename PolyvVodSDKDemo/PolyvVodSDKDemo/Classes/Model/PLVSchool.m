@@ -44,7 +44,7 @@ static id _sharedInstance = nil;
 	_schoolKey = @"989BCBAD980580763EC113D3602C985C";
 	
 	// 对应的点播账号信息
-    BOOL userDefault = NO;
+    BOOL userDefault = YES;
     if (userDefault){
         
         _vodKey = @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
@@ -55,7 +55,7 @@ static id _sharedInstance = nil;
     else{
         
         // TODO： 配置个人账号信息，方便测试
-               _vodKey = @"tWNIA/nE+Ck5lQIHtsJx8JMuVX9AKmISNsi3Xmxy1HVejRGTJGWJzZYysQ2vmn2tX6/38f6neB7j7QauOlu8Jw+s+v7vUO6xmIdOAX70HHrBE76YS1Mmn5rh3W/aLLcVjgVahWmNe7U9QtjjvuKOtg==";
+        
     }
 	// P.S. 在代码里面配置，比从文件中读取要安全
 }
