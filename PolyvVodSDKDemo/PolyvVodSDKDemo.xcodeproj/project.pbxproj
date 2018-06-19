@@ -34,8 +34,6 @@
 		03722E371FEB8BDE00031180 /* PLVVodOptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03722E351FEB8BDE00031180 /* PLVVodOptionCell.xib */; };
 		03722E3B1FEB90DB00031180 /* PLVVodQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03722E3A1FEB90DB00031180 /* PLVVodQuestionView.m */; };
 		03722E3E1FEB910300031180 /* PLVVodExplanationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03722E3D1FEB910300031180 /* PLVVodExplanationView.m */; };
-		03722E421FEB984F00031180 /* PLVVodQuestionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03722E401FEB984F00031180 /* PLVVodQuestionReusableView.m */; };
-		03722E431FEB984F00031180 /* PLVVodQuestionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03722E411FEB984F00031180 /* PLVVodQuestionReusableView.xib */; };
 		037C21121FECB56D008CD03C /* PLVVodQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C21111FECB56D008CD03C /* PLVVodQuestion.m */; };
 		03856C4C1FE21C8B0038DEB2 /* PLVVodResources.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03856C4B1FE21C8A0038DEB2 /* PLVVodResources.xcassets */; };
 		03856C691FE21C990038DEB2 /* PLVVodPlayerSkin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03856C501FE21C990038DEB2 /* PLVVodPlayerSkin.xib */; };
@@ -144,9 +142,6 @@
 		03722E3A1FEB90DB00031180 /* PLVVodQuestionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodQuestionView.m; sourceTree = "<group>"; };
 		03722E3C1FEB910300031180 /* PLVVodExplanationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodExplanationView.h; sourceTree = "<group>"; };
 		03722E3D1FEB910300031180 /* PLVVodExplanationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodExplanationView.m; sourceTree = "<group>"; };
-		03722E3F1FEB984F00031180 /* PLVVodQuestionReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodQuestionReusableView.h; sourceTree = "<group>"; };
-		03722E401FEB984F00031180 /* PLVVodQuestionReusableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodQuestionReusableView.m; sourceTree = "<group>"; };
-		03722E411FEB984F00031180 /* PLVVodQuestionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PLVVodQuestionReusableView.xib; sourceTree = "<group>"; };
 		037C21101FECB56D008CD03C /* PLVVodQuestion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodQuestion.h; sourceTree = "<group>"; };
 		037C21111FECB56D008CD03C /* PLVVodQuestion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodQuestion.m; sourceTree = "<group>"; };
 		03856C4B1FE21C8A0038DEB2 /* PLVVodResources.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PLVVodResources.xcassets; sourceTree = "<group>"; };
@@ -331,9 +326,6 @@
 				03722E331FEB8BDE00031180 /* PLVVodOptionCell.h */,
 				03722E341FEB8BDE00031180 /* PLVVodOptionCell.m */,
 				03722E351FEB8BDE00031180 /* PLVVodOptionCell.xib */,
-				03722E3F1FEB984F00031180 /* PLVVodQuestionReusableView.h */,
-				03722E401FEB984F00031180 /* PLVVodQuestionReusableView.m */,
-				03722E411FEB984F00031180 /* PLVVodQuestionReusableView.xib */,
 				03722E391FEB90DB00031180 /* PLVVodQuestionView.h */,
 				03722E3A1FEB90DB00031180 /* PLVVodQuestionView.m */,
 			);
@@ -692,7 +684,6 @@
 				03CB8C681FB3EB220048D9FC /* Assets.xcassets in Resources */,
 				03856C4C1FE21C8B0038DEB2 /* PLVVodResources.xcassets in Resources */,
 				03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */,
-				03722E431FEB984F00031180 /* PLVVodQuestionReusableView.xib in Resources */,
 				03722E311FEB664700031180 /* PLVVodExamViewController.xib in Resources */,
 				03856C691FE21C990038DEB2 /* PLVVodPlayerSkin.xib in Resources */,
 				0369C7C92064F3A90065672D /* Settings.bundle in Resources */,
@@ -810,7 +801,6 @@
 				03722E2F1FEB65DC00031180 /* PLVVodExamViewController.m in Sources */,
 				0356CD081FCC387400B522A1 /* PLVCourseIntroductionController.m in Sources */,
 				03856C711FE21C990038DEB2 /* UINavigationController+PLVVod.m in Sources */,
-				03722E421FEB984F00031180 /* PLVVodQuestionReusableView.m in Sources */,
 				03856C751FE21C990038DEB2 /* UIView+PLVVod.m in Sources */,
 				037C21121FECB56D008CD03C /* PLVVodQuestion.m in Sources */,
 				0334A0052068831E00A49905 /* PLVSimpleDetailController.m in Sources */,

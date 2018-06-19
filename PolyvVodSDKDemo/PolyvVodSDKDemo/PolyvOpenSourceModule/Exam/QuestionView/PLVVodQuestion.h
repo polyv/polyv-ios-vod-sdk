@@ -13,5 +13,6 @@
 @property (nonatomic, copy) NSString *question;
 @property (nonatomic, strong) NSArray<NSString *> *options;
 @property (nonatomic, assign) BOOL skippable;
+@property (nonatomic, copy) NSString *illustration;
 
 @end

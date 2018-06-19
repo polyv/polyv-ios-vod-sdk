@@ -245,7 +245,7 @@
 		[weakSelf pause];
 	};
 	self.examViewController.examDidCompleteHandler = ^(PLVVodExam *exam, NSTimeInterval backTime) {
-		if (backTime > 0) {
+		if (backTime >= 0) {
 			weakSelf.currentPlaybackTime = backTime;
 		}
 		[weakSelf play];

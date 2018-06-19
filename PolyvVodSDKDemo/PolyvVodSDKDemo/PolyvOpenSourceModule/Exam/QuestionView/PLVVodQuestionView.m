@@ -8,12 +8,25 @@
 
 #import "PLVVodQuestionView.h"
 #import "PLVVodOptionCell.h"
-#import "PLVVodQuestionReusableView.h"
+#import <YYWebImage/YYWebImage.h>
 
 @interface PLVVodQuestionView ()<UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *outerContainerLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *outerContainerBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *outerContainerTailingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *outerContainerTopConstraint;
+@property CGFloat outerContanerWeidht;
+
+@property (weak, nonatomic) IBOutlet UILabel *questionLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *illustrationImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *illustrationContainerWidthConstraint;
+
 @property (weak, nonatomic) IBOutlet UICollectionView *optionCollectionView;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *collectionLayout;
+@property CGFloat cellwidth;
+@property CGFloat *cellHeights;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *skipButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *submitButton;
@@ -46,29 +59,34 @@
 }
 
 - (void)interfaceOrientationDidChange:(NSNotification *)notification {
-	[self.optionCollectionView reloadData];
+    if (self.question) {
+        [self updateUI];
+    }
 }
 
 - (void)awakeFromNib {
 	[super awakeFromNib];
 	[self.optionCollectionView registerNib:[UINib nibWithNibName:[PLVVodOptionCell identifier] bundle:nil] forCellWithReuseIdentifier:[PLVVodOptionCell identifier]];
-	[self.optionCollectionView registerNib:[UINib nibWithNibName:[PLVVodQuestionReusableView identifier] bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[PLVVodQuestionReusableView identifier]];
 	self.optionCollectionView.allowsMultipleSelection = YES;
-	self.optionCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+	self.optionCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
+- (void)clear {
+    self.question = nil;
+    self.cellwidth = 0;
+    self.cellHeights = NULL;
+    self.outerContanerWeidht = 0;
 }
 
 #pragma mark - property
-
 - (void)setQuestion:(PLVVodQuestion *)question {
 	_question = question;
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[self.optionCollectionView reloadData];
-		self.skipButton.enabled = question.skippable;
+        [self updateUI];
 	});
 }
 
 #pragma mark - action
-
 - (IBAction)skipButtonAction:(UIBarButtonItem *)sender {
 	if (self.skipActionHandler) self.skipActionHandler();
 }
@@ -77,7 +95,6 @@
 }
 
 #pragma mark - UICollectionView
-
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 	return 1;
 }
@@ -96,7 +113,6 @@
 	return YES;
 }
 
-// Uncomment this method to specify if the specified item should be selected
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	return YES;
 }
@@ -106,38 +122,92 @@
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-	CGFloat width = CGRectGetWidth(collectionView.bounds);
-	NSString *headerText = self.question.question;
-	CGFloat height = [PLVVodQuestionReusableView preferredHeightWithText:headerText inSize:CGSizeMake(width, CGFLOAT_MAX)];
-	CGSize headerSize = CGSizeMake(width, height);
-	return headerSize;
-}
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	PLVVodQuestionReusableView *header = (PLVVodQuestionReusableView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[PLVVodQuestionReusableView identifier] forIndexPath:indexPath];
-	//header.text = @"POLYV保利威视不提供何种产品服务？";
-	header.text = self.question.question;
-	return header;
-}
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	CGFloat margin = 15;
-	CGFloat minWidth = 160;
-	CGFloat collectionWidth = CGRectGetWidth(collectionView.bounds);
-	CGFloat width = minWidth;
-	if (collectionWidth < minWidth*2+margin) {
-		width = collectionWidth;
-	} else if ((collectionWidth - margin)/2 > minWidth) {
-		width = (collectionWidth - margin)/2;
-	}
-	return CGSizeMake(width, 25);
+    return CGSizeMake(self.cellwidth, self.cellHeights[indexPath.row]);
 }
 
 #pragma mark - public method
-
 - (void)scrollToTop {
 	[self.optionCollectionView setContentOffset:CGPointZero animated:YES];
+}
+
+#pragma mark - private method
+- (void)updateUI {
+    [self updateOuterContainerSize];
+    
+    CGFloat padding = 16;
+    
+    // 是否有插图
+    BOOL hasIllustration = _question.illustration.length > 0;
+    
+    // 设置插图
+    if (hasIllustration) {
+        self.illustrationContainerWidthConstraint.constant = self.outerContanerWeidht / 2 - padding;
+        [self.illustrationImageView yy_setImageWithURL:[NSURL URLWithString:_question.illustration] placeholder:nil];
+    } else {
+        self.illustrationContainerWidthConstraint.constant = 0;
+    }
+    
+    // 计算cell的宽度
+    self.cellwidth = self.outerContanerWeidht / 2 - padding - 10;
+    
+    // 计算cell的高度
+    int count = _question.options.count;
+    self.cellHeights = malloc(sizeof(CGFloat) * count);
+    for (int i=0; i<count; i++) { // 根据每个cell的文字计算每个cell适合的高度
+        self.cellHeights[i] = [PLVVodOptionCell calculateCellWithHeight:_question.options[i] andWidth:self.cellwidth];
+    }
+    if (!hasIllustration) { // 没有插图时，一行显示两个cell，两个cell的高度要保持一致
+        for (int i=0; i<count/2; i++) {
+            int leftCellIndex = i * 2;
+            int rightCellIndex = i * 2 + 1;
+            if (self.cellHeights[leftCellIndex] > self.cellHeights[rightCellIndex]) {
+                self.cellHeights[rightCellIndex] = self.cellHeights[leftCellIndex];
+            } else {
+                self.cellHeights[leftCellIndex] = self.cellHeights[rightCellIndex];
+            }
+        }
+    }
+    
+    [self.optionCollectionView reloadData];
+    
+    // 设置问题
+    self.questionLabel.text = _question.question;
+    
+    // 设置跳过按钮
+    self.skipButton.enabled = _question.skippable;
+    
+}
+
+- (void)updateOuterContainerSize {
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (interfaceOrientation == UIInterfaceOrientationPortrait) { // 竖屏
+        self.outerContainerLeadingConstraint.constant = 0;
+        self.outerContainerTailingConstraint.constant = 0;
+        self.outerContainerTopConstraint.constant = 0;
+        self.outerContainerBottomConstraint.constant = 0;
+        
+        self.outerContanerWeidht = [UIScreen mainScreen].bounds.size.width;
+    } else { // 横屏
+        CGFloat verticalPadding = 60;
+        CGFloat horzontalPadding;
+        
+        CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+        
+        CGFloat outerContanerHeight = screenHeight - 60 * 2;
+        NSLog(@"outerContanerHeight = %f", outerContanerHeight);
+        self.outerContanerWeidht = outerContanerHeight / 9 * 16;
+        
+        horzontalPadding = (screenWidth - self.outerContanerWeidht) / 2;
+        
+        self.outerContainerLeadingConstraint.constant = horzontalPadding;
+        self.outerContainerTailingConstraint.constant = horzontalPadding;
+        self.outerContainerTopConstraint.constant = verticalPadding;
+        self.outerContainerBottomConstraint.constant = verticalPadding;
+    }
+    
+    [self layoutIfNeeded];
 }
 
 @end

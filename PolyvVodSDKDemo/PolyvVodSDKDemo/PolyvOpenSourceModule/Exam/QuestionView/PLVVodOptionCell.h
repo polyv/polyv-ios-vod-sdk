@@ -14,4 +14,6 @@
 
 + (NSString *)identifier;
 
++ (CGFloat)calculateCellWithHeight:(NSString *)s andWidth:(CGFloat)width;
+
 @end

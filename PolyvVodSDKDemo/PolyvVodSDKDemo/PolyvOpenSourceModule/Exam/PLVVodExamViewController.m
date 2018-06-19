@@ -124,13 +124,14 @@
 #pragma mark - private method
 
 - (PLVVodQuestion *)questionForExam:(PLVVodExam *)exam {
-	if (!exam || !exam.question.length) {
+	if (!exam) {
 		return nil;
 	}
 	PLVVodQuestion *question = [[PLVVodQuestion alloc] init];
 	question.question = exam.question;
 	question.options = exam.options;
 	question.skippable = exam.skippable;
+    question.illustration = exam.illustration;
 	return question;
 }
 
