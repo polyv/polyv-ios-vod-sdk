@@ -211,6 +211,7 @@
 	NSString *title = [NSString stringWithFormat:@"%.1fx", playbackRate];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.fullscreenView.playbackRateButton setTitle:title forState:UIControlStateNormal];
+        [self.playbackRatePanelView setCurRate:playbackRate];
 	});
 }
 
