@@ -43,7 +43,7 @@
 	_state = state;
 	switch (state) {
 		case PLVLoadCellStateProcessing:{
-			self.downloadProcessStackView.hidden = NO;
+//            self.downloadProcessStackView.hidden = NO;
 			[UIView animateWithDuration:.5 animations:^{
 				self.downloadButton.alpha = 1;
 				self.downloadProcessStackView.alpha = 1;
@@ -54,7 +54,7 @@
 				self.downloadButton.alpha = 0;
 				self.downloadProcessStackView.alpha = 0;
 			} completion:^(BOOL finished) {
-				self.downloadProcessStackView.hidden = YES;
+//                self.downloadProcessStackView.hidden = YES;
 			}];
 		}break;
 		default:{}break;

@@ -66,6 +66,7 @@
 			weakSelf.queueDownloadButton.selected = NO;
 		});
 	};
+    self.queueDownloadButton.selected = [PLVVodDownloadManager sharedManager].isDownloading;
 	
 //	// 下载错误回调
 //	[PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
@@ -146,6 +147,9 @@
 #pragma mark - action
 
 - (void)queueDownloadButtonAction:(UIButton *)sender {
+    if (self.downloadInfos.count == 0)
+        return;
+    
 	sender.selected = !sender.selected;
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
 	if (sender.selected) {
@@ -177,15 +181,25 @@
 	if (!cell) return nil;
 	
 	PLVVodVideo *video = info.video;
-	cell.thumbnailUrl = video.snapshot;
-	cell.titleLabel.text = video.title;
-	NSInteger filesize = [video.filesizes[info.quality-1] integerValue];
-	cell.videoSizeLabel.text = [self.class formatFilesize:filesize];
+    if (video){
+        cell.thumbnailUrl = video.snapshot;
+        cell.titleLabel.text = video.title;
+        NSInteger filesize = [video.filesizes[info.quality-1] integerValue];
+        cell.videoSizeLabel.text = [self.class formatFilesize:filesize];
+    }
+    else{
+        // 取info数据
+        
+        cell.thumbnailUrl = info.snapshot;
+        cell.titleLabel.text = info.title;
+        NSInteger filesize = info.filesize;
+        cell.videoSizeLabel.text = [self.class formatFilesize:filesize];
+    }
 	
 	__weak typeof(info) _downloadInfo = info;
 	cell.downloadButtonAction = ^(PLVLoadCell *cell, UIButton *sender) {
 		sender.selected = _downloadInfo.state == PLVVodDownloadStateRunning;
-		//PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
+		// *downloadManager = [PLVVodDownloadManager sharedManager];
 		if (_downloadInfo.state == PLVVodDownloadStateRunning) {
 			//[downloadManager stopDownload];
 		} else {
@@ -208,14 +222,28 @@
         PLVVodVideo *videoModel = info.video;
         
         // 非加密
-//        PLVVodLocalVideo *localModel = [PLVVodLocalVideo localVideoWithVid:info.vid dir:[PLVVodDownloadManager sharedManager].downloadDir];
+        PLVVodLocalVideo *localModel = nil;
+        if (videoModel){
+            localModel = [PLVVodLocalVideo localVideoWithVideo:videoModel dir:[PLVVodDownloadManager sharedManager].downloadDir];
+        }
         
-        // 播放本地加密/非加密视频
-        PLVVodLocalVideo *localModel = [PLVVodLocalVideo localVideoWithVideo:videoModel dir:[PLVVodDownloadManager sharedManager].downloadDir];
+        if (!localModel){
+            localModel = [PLVVodLocalVideo localVideoWithVid:info.vid dir:[PLVVodDownloadManager sharedManager].downloadDir];
+        }
         
-        PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
-        detailVC.localVideo = localModel;
-        [self.navigationController pushViewController:detailVC animated:YES];
+        if (localModel){
+            // 播放本地加密/非加密视频
+            PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
+            detailVC.localVideo = localModel;
+            [self.navigationController pushViewController:detailVC animated:YES];
+        }
+        else{
+            
+            // 在线播放
+//            PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
+//            detailVC.vid = info.vid;
+//            [self.navigationController pushViewController:detailVC animated:YES];
+        }
     }
 }
 

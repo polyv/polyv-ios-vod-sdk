@@ -40,15 +40,24 @@
         self.player.video = self.localVideo;
     }
     else{
-        __weak typeof(self) weakSelf = self;
-        [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-            if (!video.available) return;
-            weakSelf.player.video = video;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                weakSelf.title = video.title;
-            });
-        }];
 
+        // 无网络情况下，优先检测本地视频文件
+        PLVVodLocalVideo *local = [PLVVodLocalVideo localVideoWithVid:self.vid dir:[PLVVodDownloadManager sharedManager].downloadDir];
+        if (local && local.path){
+            self.player.video = local;
+        }
+        else
+        {
+            // 有网情况下，也可以调用此接口，只要存在本地视频，都会优先播放本地视频
+            __weak typeof(self) weakSelf = self;
+            [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
+                if (!video.available) return;
+                weakSelf.player.video = video;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.title = video.title;
+                });
+            }];
+        }
     }
 }
 

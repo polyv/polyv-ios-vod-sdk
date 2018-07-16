@@ -56,7 +56,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-	self.playButton.acceptEventInterval = 2;
+    
+    // ??? 暂时屏蔽，真机再次点击无法响应事件
+//    self.playButton.acceptEventInterval = 2;
+    
 	[self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	[self.downloadButton addTarget:self action:@selector(downloadButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }

@@ -10,6 +10,18 @@
 ### Removed
 ### Fixed -->
 
+## [2.4.0] - 2018-07-16
+
+### Added
+
+- `PLVVodDownloadManager`，添加App 进入前台，后台状态时的方法，用于提升后台下载的稳定性；
++ `-applicationWillEnterForeground`  App 回到前台调用，具体参考AppDelegate 里面调用方式
++ `-applicationDidEnterBackground` App 切换到后台调用，具体参考AppDelegate 里面调用方式
+
+### Fixed
+
+- 优化下载逻辑，提升后台下载的稳定性
+
 ## [2.3.3] - 2018-06-26
 
 ### Added

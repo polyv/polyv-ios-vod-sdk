@@ -17,6 +17,7 @@
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodDefinitionPanelView.h"
 #import "PLVVodPlaybackRatePanelView.h"
+#import "UIButton+EnlargeTouchArea.h"
 #import <Photos/Photos.h>
 
 @interface PLVVodPlayerSkin ()<UITextFieldDelegate>
@@ -86,6 +87,8 @@
 		self.playbackSlider = playbackControl.playbackSlider;
 		self.fullShrinkscreenButton = playbackControl.switchScreenButton;
 	}
+    
+    [self.playPauseButton setEnlargeEdgeWithTop:15 right:15 bottom:15 left:15];
 }
 
 - (void)setTopView:(UIView *)topView {
