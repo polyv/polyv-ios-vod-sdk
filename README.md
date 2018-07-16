@@ -4,9 +4,9 @@
 
 ## 试用
 
-[点击安装](https://www.pgyer.com/Qtuw)，或扫描下方二维码使用 Safari 安装。
+[点击安装](https://www.pgyer.com/dxHs)，或扫描下方二维码使用 Safari 安装。
 
-![](https://www.pgyer.com/app/qrcode/Qtuw)
+![](https://www.pgyer.com/app/qrcode/dxHs)
 
 安装密码：polyv
 

@@ -39,6 +39,19 @@
 	}
 }
 
+- (void)setCurRate:(float)curRate{
+    
+    _curRate = curRate;
+    for (UIButton *button in self.playbackRateStackView.arrangedSubviews) {
+        if ([button.titleLabel.text floatValue] == self.curRate){
+            button.selected = YES;
+        }
+        else{
+            button.selected = NO;
+        }
+    }
+}
+
 #pragma mark - action
 
 - (IBAction)rateButtonAction:(UIButton *)sender {

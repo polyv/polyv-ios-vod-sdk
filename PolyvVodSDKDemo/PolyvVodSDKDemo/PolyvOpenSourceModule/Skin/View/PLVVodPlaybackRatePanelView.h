@@ -13,4 +13,6 @@
 @property (nonatomic, copy) void (^selectedPlaybackRateDidChangeBlock)(double playbackRate);
 @property (nonatomic, copy) void (^playbackRateButtonDidClick)(UIButton *sender);
 
+@property (nonatomic, assign) float curRate; // 当前播放速率
+
 @end
