@@ -23,7 +23,7 @@
 	+ `-requestDownloadCompleteList` 从数据库获取所有已缓存成功视频信息
 
 - `PLVVodDownloadManager`，新增单个视频的下载完成回调，用法参见demo
-        + `@property (nonatomic, copy) void(^downloadCompleteBlock)(PLVVodDownloadInfo *info);`
+	+ `@property (nonatomic, copy) void(^downloadCompleteBlock)(PLVVodDownloadInfo *info);`
 
 
 ### Changed
