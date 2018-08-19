@@ -10,6 +10,36 @@
 ### Removed
 ### Fixed -->
 
+## [2.5.0] - 2018-08-19
+
+### Added
+
+- `PLVVodDownloadManager`，下载队列中添加指定视频的暂停/开始功能，用法参见demo
++ `-startDownloadWithVid`  开始下载指定视频
++ `-stopDownloadWithVid` 停止下载指定视频
+
+- `PLVVodDownloadManager`，新增从数据库中获取缓存中/已缓存视频列表信息，用法参见demo
++ `-requstDownloadProcessingListWithCompletion`  从数据库中获取所有缓存中视频信息（准备缓存，缓存中，缓存失败 等等）
++ `-requestDownloadCompleteList` 从数据库获取所有已缓存成功视频信息
+
+- `PLVVodDownloadManager`，新增单个视频的下载完成回调，用法参见demo
+        + `@property (nonatomic, copy) void(^downloadCompleteBlock)(PLVVodDownloadInfo *info);`
+
+
+### Changed
+
+- 下载页面改版，界面交互优化为缓存中/已缓存 列表
+- 优化已缓存界面展示播放逻辑，先通过-localVideos 方法从本地目录获取已缓存视频列表基本信息，再通过-requestDownloadCompleteList 方法
+获取已缓存视频列表详细信息，组合数据后分别用于本地视频播放与界面展示。详见demo。
+
+### Fixed
+
+- 恢复HLS 加密视频zip 下载方式
+- mp4 / flv 等单文件视频下载，支持后台下载功能
+- `PLVVodDownloadManager`  中 `-localVideos`  方法bug修复，过滤未缓存完成的HLS 视频
+- 提升下载功能的整体稳定性
+
+
 ## [2.4.0] - 2018-07-16
 
 ### Added

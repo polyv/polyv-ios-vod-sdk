@@ -52,6 +52,11 @@
         [self switchTo:selectedIndex];
     }
 }
+
+- (void)setCanScroll:(BOOL)canScroll{
+    pan_.enabled = canScroll;
+}
+
 //- (void)setViewControllers:(NSArray *)vcs{
 //    _viewControllers = vcs;
 //}

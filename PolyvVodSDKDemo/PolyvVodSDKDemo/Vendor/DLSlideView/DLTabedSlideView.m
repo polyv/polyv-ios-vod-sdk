@@ -127,6 +127,10 @@
     [tabbar_ setSelectedIndex:selectedIndex];
 }
 
+- (void)setCanScroll:(BOOL)canScroll{
+    [slideView_ setCanScroll:canScroll];
+}
+
 - (void)DLSlideTabbar:(id)sender selectAt:(NSInteger)index{
     [slideView_ setSelectedIndex:index];
 }

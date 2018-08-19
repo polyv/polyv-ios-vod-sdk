@@ -46,10 +46,10 @@ static id _sharedInstance = nil;
 	// 对应的点播账号信息
     BOOL userDefault = YES;
     if (userDefault){
-        
+        // polyv
         _vodKey = @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
-        _vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
-        _vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
+//        _vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
+//        _vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
 
     }
     else{

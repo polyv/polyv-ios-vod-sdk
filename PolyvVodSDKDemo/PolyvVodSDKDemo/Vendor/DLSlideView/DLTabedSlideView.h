@@ -33,13 +33,14 @@
 
 
 //set tabbar properties.
-@property (nonatomic, strong) UIColor *tabItemNormalColor;
-@property (nonatomic, strong) UIColor *tabItemSelectedColor;
+@property(nonatomic, strong) UIColor *tabItemNormalColor;
+@property(nonatomic, strong) UIColor *tabItemSelectedColor;
 @property(nonatomic, strong) UIImage *tabbarBackgroundImage;
 @property(nonatomic, strong) UIColor *tabbarTrackColor;
 @property(nonatomic, strong) NSArray *tabbarItems;
 @property(nonatomic, assign) float tabbarHeight;
 @property(nonatomic, assign) float tabbarBottomSpacing;
+@property(nonatomic, assign) BOOL canScroll;
 
 // cache properties
 @property(nonatomic, assign) NSInteger cacheCount;

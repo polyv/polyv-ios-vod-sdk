@@ -13,6 +13,8 @@
 #import "PLVSchool.h"
 #import "PLVVodAccountVideo.h"
 #import <PLVVodSDK/PLVVodSDK.h>
+#import <IJKMediaFramework/IJKMediaFramework.h>
+
 
 static NSString * const PLVVodKeySettingKey = @"vodKey_preference";
 static NSString * const PLVSdkVersionSettingKey = @"sdkVersion_preference";
@@ -33,6 +35,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	NSString *decodeKey = school.vodKeyDecodeKey;
 	NSString *decodeIv = school.vodKeyDecodeIv;
 	PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
+    settings.logLevel = PLVVodLogLevelInfo;
 	
 	// 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
 	{
@@ -71,6 +74,9 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 	[self becomeFirstResponder];
 	[self updateSettingsBundle];
+    
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+
 	return YES;
 }
 

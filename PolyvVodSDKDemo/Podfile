@@ -11,10 +11,11 @@ target 'PolyvVodSDKDemo' do
 	pod 'XRCarouselView', '~> 2.6.1'
 	pod 'YYWebImage', '~> 1.0.5'
 	pod 'FDStackView', '~> 1.0.1'
+    pod 'Masonry'
 
 	# PLVVodSDK
 #    pod 'PolyvVodSDK', '~> 2.3.0'
-    pod 'ABN_PolyvVodSDK', '~> 2.4.0'
+    pod 'ABN_PolyvVodSDK', '~> 2.5.0'
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'
