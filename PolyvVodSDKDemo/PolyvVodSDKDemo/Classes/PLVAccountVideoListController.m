@@ -13,6 +13,7 @@
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "UIColor+PLVVod.h"
 #import "PLVSimpleDetailController.h"
+#import "PLVPlayQueueBackgroundController.h"
 
 static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 
@@ -84,13 +85,21 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
     PLVVideoCell *cell = (PLVVideoCell *)[tableView dequeueReusableCellWithIdentifier:[PLVVideoCell identifier] forIndexPath:indexPath];
 	cell.video = self.accountVideos[indexPath.row];
 	__weak typeof(self) weakSelf = self;
+    
 	cell.playButtonAction = ^(PLVVideoCell *cell, UIButton *sender) {
 		PLVVodAccountVideo *accountVideo = cell.video;
 		NSString *vid = accountVideo.vid;
 		if (!vid.length) return;
-		weakSelf.vidShouldPlay = vid;
-		[weakSelf performSegueWithIdentifier:PLVSimplePlaySegueKey sender:sender];
+        
+        weakSelf.vidShouldPlay = vid;
+        [weakSelf performSegueWithIdentifier:PLVSimplePlaySegueKey sender:sender];
+        
+//        PLVPlayQueueBackgroundController *queueVC = [[PLVPlayQueueBackgroundController alloc] init];
+//        queueVC.videoArray = weakSelf.accountVideos;
+//        [weakSelf.navigationController pushViewController:queueVC animated:YES];
+        
 	};
+    
 	cell.downloadButtonAction = ^(PLVVideoCell *cell, UIButton *sender) {
 		PLVVodAccountVideo *accountVideo = cell.video;
 		NSString *vid = accountVideo.vid;

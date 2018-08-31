@@ -70,6 +70,7 @@
 		03EA41C91FBD36F500BA68AD /* PLVCourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EA41C71FBD36F500BA68AD /* PLVCourseCell.m */; };
 		03F04E2A204D4A8700CA0A4F /* PLVVodVidTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F04E29204D4A8700CA0A4F /* PLVVodVidTestController.m */; };
 		03F899721FF3AA450091AC89 /* PLVVodGestureIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F899711FF3AA450091AC89 /* PLVVodGestureIndicatorView.m */; };
+		04F57DB92136827D001AD451 /* PLVPlayQueueBackgroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */; };
 		04F9F0F020EF51D000D204EA /* UIButton+EnlargeTouchArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F9F0EF20EF51D000D204EA /* UIButton+EnlargeTouchArea.m */; };
 		65B1567CCBB05F3CA6F0F627 /* libPods-PolyvVodSDKDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D48385445BEBBF31B3A68C /* libPods-PolyvVodSDKDemo.a */; };
 		6C7EC5DBE11F18F657BD5452 /* libPods-PolyvVodSDKDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41262FFFDEA4B0CB3E0822DB /* libPods-PolyvVodSDKDemoTests.a */; };
@@ -217,6 +218,8 @@
 		03F04E29204D4A8700CA0A4F /* PLVVodVidTestController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodVidTestController.m; sourceTree = "<group>"; };
 		03F899701FF3AA450091AC89 /* PLVVodGestureIndicatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodGestureIndicatorView.h; sourceTree = "<group>"; };
 		03F899711FF3AA450091AC89 /* PLVVodGestureIndicatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodGestureIndicatorView.m; sourceTree = "<group>"; };
+		04F57DB72136827D001AD451 /* PLVPlayQueueBackgroundController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVPlayQueueBackgroundController.h; sourceTree = "<group>"; };
+		04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVPlayQueueBackgroundController.m; sourceTree = "<group>"; };
 		04F9F0EE20EF51D000D204EA /* UIButton+EnlargeTouchArea.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+EnlargeTouchArea.h"; sourceTree = "<group>"; };
 		04F9F0EF20EF51D000D204EA /* UIButton+EnlargeTouchArea.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+EnlargeTouchArea.m"; sourceTree = "<group>"; };
 		0932076C8F6010F254BC97E3 /* Pods-PolyvVodSDKDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -492,6 +495,8 @@
 				030DF0311FB590F20035D0B0 /* PLVDownloadListController.m */,
 				03F04E28204D4A8700CA0A4F /* PLVVodVidTestController.h */,
 				03F04E29204D4A8700CA0A4F /* PLVVodVidTestController.m */,
+				04F57DB72136827D001AD451 /* PLVPlayQueueBackgroundController.h */,
+				04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -589,7 +594,6 @@
 				03CB8C581FB3EB220048D9FC /* Frameworks */,
 				03CB8C591FB3EB220048D9FC /* Resources */,
 				91112C1348FF2B092E70D5B0 /* [CP] Copy Pods Resources */,
-				A4A140C9DFBE68A9E5941B7A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -608,8 +612,6 @@
 				03CB8C6F1FB3EB220048D9FC /* Sources */,
 				03CB8C701FB3EB220048D9FC /* Frameworks */,
 				03CB8C711FB3EB220048D9FC /* Resources */,
-				BB7A9F11C6F10E69990A884E /* [CP] Embed Pods Frameworks */,
-				6BA886882E588D54556A9581 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -629,8 +631,6 @@
 				03CB8C7A1FB3EB220048D9FC /* Sources */,
 				03CB8C7B1FB3EB220048D9FC /* Frameworks */,
 				03CB8C7C1FB3EB220048D9FC /* Resources */,
-				B7970B5720F7E462D132E61E /* [CP] Embed Pods Frameworks */,
-				14C0EB7250A1FCC1BBD9E987 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -727,21 +727,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		14C0EB7250A1FCC1BBD9E987 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemoUITests/Pods-PolyvVodSDKDemoUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2441B99200F1DDB0AA6A8AA9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -778,21 +763,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6BA886882E588D54556A9581 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		91112C1348FF2B092E70D5B0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -809,51 +779,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh\"\n";
-		};
-		A4A140C9DFBE68A9E5941B7A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B7970B5720F7E462D132E61E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemoUITests/Pods-PolyvVodSDKDemoUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BB7A9F11C6F10E69990A884E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		F2062B550416CBEC2AE6ED33 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -886,6 +811,7 @@
 				DA00893D20BC0F44006CEBBE /* PLVVodAudioCoverPanelView.m in Sources */,
 				03C9D4551FF255B0006F460C /* PLVVodPlaybackRatePanelView.m in Sources */,
 				034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */,
+				04F57DB92136827D001AD451 /* PLVPlayQueueBackgroundController.m in Sources */,
 				030DF0321FB590F20035D0B0 /* PLVDownloadListController.m in Sources */,
 				03DDF4C81FE763BB00F63630 /* DLLRUCache.m in Sources */,
 				03722E3B1FEB90DB00031180 /* PLVVodQuestionView.m in Sources */,
