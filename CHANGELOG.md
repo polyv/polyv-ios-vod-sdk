@@ -10,6 +10,26 @@
 ### Removed
 ### Fixed -->
 
+## [2.4.1] - 2018-08-31
+
+### Added
+
+- 播放器支持默认音频播放功能
+
+- `PLVVodPlayerViewController`，新增正常播放结束标志属性，用于判断播放器是正常播放结束，还是异常播放结束；
+    + `@property (nonatomic, readonly) BOOL reachEndSuccess;`
+- `PLVVodPlayerViewController`，新增播放恢复回调，播放异常结束后，该block每5s回调一次，在该block中可实现恢复播放逻辑;具体可参考PLVVodSkinPlayerController 文件中相关逻辑
+   + `@property (nonatomic, copy) void (^playbackRecoveryHandle)(PLVVodPlayerViewController *player);`
+
+
+### Fixed
+
+- 码率切换，视频会重新播放 
+- 视频播放结束，不能区分是正常结束，还是异常结束
+- 同一个播放器播放不同视频，不能准确记录各个视频的历史播放位置
+- 断网状态播放离线视频，视频总时长显示错误
+- 播放器解析的视频时长与videojson的视频时长不一致，导致错误记录历史播放位置，再次播放视频总是从最后几秒开始播放
+
 ## [2.4.0] - 2018-07-16
 
 ### Fixed
