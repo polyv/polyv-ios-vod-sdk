@@ -34,6 +34,9 @@
 	PLVVodSkinPlayerController *player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
 	[player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
 	self.player = player;
+    self.player.rememberLastPosition = YES;
+    self.player.enableBackgroundPlayback = YES;
+    
 	NSString *vid = self.vid;
     if (self.localVideo){
         // 本地播放

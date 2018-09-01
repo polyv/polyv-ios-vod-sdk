@@ -141,7 +141,17 @@
 	// 错误回调
 	self.playerErrorHandler = ^(PLVVodPlayerViewController *player, NSError *error) {
 		NSLog(@"player error: %@", error);
+        
 	};
+    
+    // 恢复播放
+    self.playbackRecoveryHandle = ^(PLVVodPlayerViewController *player) {
+        
+        // 应用层重试，减小sdk出错概率，降低风险
+        [weakSelf setCurrentPlaybackTime:weakSelf.lastPosition];
+        // 对于某些场景需要再次调用play函数才能播放
+        [weakSelf play];
+    };
 }
 
 - (void)viewDidLayoutSubviews {

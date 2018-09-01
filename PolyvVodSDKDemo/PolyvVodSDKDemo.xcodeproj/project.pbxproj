@@ -74,6 +74,7 @@
 		04B051D02106CE9600F6C791 /* PLVDownloadProcessingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B051CF2106CE9600F6C791 /* PLVDownloadProcessingViewController.m */; };
 		04B051D32106CEC000F6C791 /* PLVDownloadCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B051D22106CEC000F6C791 /* PLVDownloadCompleteViewController.m */; };
 		04D4038D2127BA3C002B16CC /* PLVDownloadCompleteInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D4038C2127BA3C002B16CC /* PLVDownloadCompleteInfoModel.m */; };
+		04F57DB92136827D001AD451 /* PLVPlayQueueBackgroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */; };
 		04F9F0F020EF51D000D204EA /* UIButton+EnlargeTouchArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F9F0EF20EF51D000D204EA /* UIButton+EnlargeTouchArea.m */; };
 		65B1567CCBB05F3CA6F0F627 /* libPods-PolyvVodSDKDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D48385445BEBBF31B3A68C /* libPods-PolyvVodSDKDemo.a */; };
 		6C7EC5DBE11F18F657BD5452 /* libPods-PolyvVodSDKDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41262FFFDEA4B0CB3E0822DB /* libPods-PolyvVodSDKDemoTests.a */; };
@@ -232,6 +233,8 @@
 		04B051D82106EC4C00F6C791 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		04D4038B2127BA3C002B16CC /* PLVDownloadCompleteInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadCompleteInfoModel.h; sourceTree = "<group>"; };
 		04D4038C2127BA3C002B16CC /* PLVDownloadCompleteInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVDownloadCompleteInfoModel.m; sourceTree = "<group>"; };
+		04F57DB72136827D001AD451 /* PLVPlayQueueBackgroundController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVPlayQueueBackgroundController.h; sourceTree = "<group>"; };
+		04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVPlayQueueBackgroundController.m; sourceTree = "<group>"; };
 		04F9F0EE20EF51D000D204EA /* UIButton+EnlargeTouchArea.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+EnlargeTouchArea.h"; sourceTree = "<group>"; };
 		04F9F0EF20EF51D000D204EA /* UIButton+EnlargeTouchArea.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+EnlargeTouchArea.m"; sourceTree = "<group>"; };
 		0932076C8F6010F254BC97E3 /* Pods-PolyvVodSDKDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -506,6 +509,8 @@
 				030DF0311FB590F20035D0B0 /* PLVDownloadListController.m */,
 				03F04E28204D4A8700CA0A4F /* PLVVodVidTestController.h */,
 				03F04E29204D4A8700CA0A4F /* PLVVodVidTestController.m */,
+				04F57DB72136827D001AD451 /* PLVPlayQueueBackgroundController.h */,
+				04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -857,6 +862,7 @@
 				DA00893D20BC0F44006CEBBE /* PLVVodAudioCoverPanelView.m in Sources */,
 				03C9D4551FF255B0006F460C /* PLVVodPlaybackRatePanelView.m in Sources */,
 				034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */,
+				04F57DB92136827D001AD451 /* PLVPlayQueueBackgroundController.m in Sources */,
 				030DF0321FB590F20035D0B0 /* PLVDownloadListController.m in Sources */,
 				03DDF4C81FE763BB00F63630 /* DLLRUCache.m in Sources */,
 				03722E3B1FEB90DB00031180 /* PLVVodQuestionView.m in Sources */,
