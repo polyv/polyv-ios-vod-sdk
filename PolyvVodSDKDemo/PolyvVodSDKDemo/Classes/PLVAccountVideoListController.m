@@ -104,9 +104,14 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 		PLVVodAccountVideo *accountVideo = cell.video;
 		NSString *vid = accountVideo.vid;
 		if (!vid.length) return;
-		[PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-			[weakSelf downloadVideo:video];
-		}];
+        
+        // 采用新接口，优先从缓存读取数据，且会更新本地缓存
+//        [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
+//            [weakSelf downloadVideo:video];
+//        }];
+        [PLVVodVideo requestVideoPriorityCacheWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
+            [weakSelf downloadVideo:video];
+        }];
 	};
 	cell.backgroundColor = self.tableView.backgroundColor;
 	

@@ -81,9 +81,9 @@
 	// 下载视频
 	for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
 		NSString *vid = self.videoSections[indexPath.section].videos[indexPath.row].vid;
-		[PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-			[[PLVVodDownloadManager sharedManager] downloadVideo:video];
-		}];
+        [PLVVodVideo requestVideoPriorityCacheWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
+            [[PLVVodDownloadManager sharedManager] downloadVideo:video];
+        }];
 	}
 	[self.tableView setEditing:NO animated:YES];
 	self.toolbar.buttons = @[self.downloadButton];

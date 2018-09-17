@@ -49,7 +49,8 @@
     [self.view addSubview:self.playerPlaceholder];
     
     [self.videoArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx > 5){
+        if (idx > 3)
+        {
             [self.playList addObject:obj];
         }
     }];
@@ -95,6 +96,9 @@
 
         __weak typeof(self) weakSelf = self;
         NSString *vid = video.vid;
+        
+        //
+        vid = @"a0f97cbb5676eea6be4b70e4fdc3d8a3_a";
         
         [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
             if (!video.available) return;

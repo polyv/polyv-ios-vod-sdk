@@ -20,6 +20,8 @@
 #import "UIButton+EnlargeTouchArea.h"
 #import <Photos/Photos.h>
 
+#define isIpad(newCollection) (newCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular && newCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
+
 @interface PLVVodPlayerSkin ()<UITextFieldDelegate>
 
 /// 半屏皮肤
@@ -374,15 +376,34 @@
 //}
 
 - (void)updateUIForTraitCollection:(UITraitCollection *)collection {
-	if (collection.verticalSizeClass == UIUserInterfaceSizeClassCompact) { // 横屏
-		self.mainControl = self.fullscreenView;
-		self.statusBarStyle = UIStatusBarStyleLightContent;
-		self.shouldHideNavigationBar = YES;
-	} else {
-		self.mainControl = self.shrinkscreenView;
-		self.statusBarStyle = UIStatusBarStyleDefault;
-		self.shouldHideNavigationBar = NO;
-	}
+//    if (collection.verticalSizeClass == UIUserInterfaceSizeClassCompact) { // 横屏
+//        self.mainControl = self.fullscreenView;
+//        self.statusBarStyle = UIStatusBarStyleLightContent;
+//        self.shouldHideNavigationBar = YES;
+//    } else {
+//        self.mainControl = self.shrinkscreenView;
+//        self.statusBarStyle = UIStatusBarStyleDefault;
+//        self.shouldHideNavigationBar = NO;
+//    }
+    
+    BOOL fullScreen = NO;
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (UIInterfaceOrientationIsLandscape(orientation)){
+        fullScreen = YES;
+    }
+    else{
+        fullScreen = NO;
+    }
+    
+    if (fullScreen) { // 横屏
+        self.mainControl = self.fullscreenView;
+        self.statusBarStyle = UIStatusBarStyleLightContent;
+        self.shouldHideNavigationBar = YES;
+    } else {
+        self.mainControl = self.shrinkscreenView;
+        self.statusBarStyle = UIStatusBarStyleDefault;
+        self.shouldHideNavigationBar = NO;
+    }
 }
 
 #pragma mark - orientation
@@ -568,8 +589,7 @@
 			NSString *message = [NSString stringWithFormat:@"无法获取您的照片权限，请前往设置"];
 			UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
 			[alertController addAction:[UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-				//NSURL *settingURL = [NSURL URLWithString:@"App-Prefs:root=Privacy&path=PHOTOS"];
-                NSURL *settingURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+				NSURL *settingURL = [NSURL URLWithString:@"App-Prefs:root=Privacy&path=PHOTOS"];
 				if ([[UIApplication sharedApplication] canOpenURL:settingURL]) {
 					[[UIApplication sharedApplication] openURL:settingURL];
 				} else {

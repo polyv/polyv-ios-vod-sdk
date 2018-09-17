@@ -34,9 +34,9 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	NSString *vodKey = school.vodKey;
 	NSString *decodeKey = school.vodKeyDecodeKey;
 	NSString *decodeIv = school.vodKeyDecodeIv;
-	PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
-    settings.logLevel = PLVVodLogLevelInfo;
-	
+    PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
+    settings.logLevel = PLVVodLogLevelAll;
+    
 	// 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
 	{
 		NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -75,7 +75,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	[self becomeFirstResponder];
 	[self updateSettingsBundle];
     
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
 
 	return YES;
 }
