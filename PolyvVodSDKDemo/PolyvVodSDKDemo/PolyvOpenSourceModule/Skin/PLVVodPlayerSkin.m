@@ -589,7 +589,8 @@
 			NSString *message = [NSString stringWithFormat:@"无法获取您的照片权限，请前往设置"];
 			UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
 			[alertController addAction:[UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-				NSURL *settingURL = [NSURL URLWithString:@"App-Prefs:root=Privacy&path=PHOTOS"];
+                NSURL *settingURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+
 				if ([[UIApplication sharedApplication] canOpenURL:settingURL]) {
 					[[UIApplication sharedApplication] openURL:settingURL];
 				} else {
