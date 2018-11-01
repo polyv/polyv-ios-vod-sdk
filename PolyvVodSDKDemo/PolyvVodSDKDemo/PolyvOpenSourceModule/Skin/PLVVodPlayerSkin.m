@@ -590,7 +590,6 @@
 			UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
 			[alertController addAction:[UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 NSURL *settingURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-
 				if ([[UIApplication sharedApplication] canOpenURL:settingURL]) {
 					[[UIApplication sharedApplication] openURL:settingURL];
 				} else {

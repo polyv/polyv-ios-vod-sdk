@@ -14,7 +14,7 @@ target 'PolyvVodSDKDemo' do
     pod 'Masonry'
 
 	# PLVVodSDK
-    pod 'PolyvVodSDK', '~> 2.5.0'
+    pod 'ABN_PolyvVodSDK', '~> 2.5.2'
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'

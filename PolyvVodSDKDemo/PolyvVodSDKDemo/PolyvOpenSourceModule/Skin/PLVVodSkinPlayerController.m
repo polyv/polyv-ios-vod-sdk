@@ -16,6 +16,8 @@
 #import <PLVSubtitle/PLVSubtitleManager.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <PLVMarquee/PLVMarquee.h>
+#import <MediaPlayer/MPVolumeView.h>
+
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -41,6 +43,9 @@
 
 /// 滑动进度
 @property (nonatomic, assign) NSTimeInterval scrubTime;
+
+/// 修改系统音量
+@property (nonatomic, strong) MPVolumeView *volumeView;
 
 @end
 
@@ -383,37 +388,73 @@
 }
 
 - (void)changeVolumeWithGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
-	UIPanGestureRecognizer *pan = nil;
-	if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-		pan = (UIPanGestureRecognizer *)recognizer;
-	} else {
-		return;
-	}
-	
-	// 手势所在视图
-	UIView *gestureView = pan.view;
-	// 速率
-	CGPoint veloctyPoint = [pan velocityInView:gestureView];
-	// 皮肤
-	PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
-	
-	switch (pan.state) {
-		case UIGestureRecognizerStateBegan: {
-			[skin showGestureIndicator];
-		} break;
-		case UIGestureRecognizerStateChanged: {
-			self.playbackVolume -= veloctyPoint.y/10000;
-			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-			formatter.numberStyle = NSNumberFormatterPercentStyle;
-			NSString *text = [formatter stringFromNumber:@(self.playbackVolume)];
-			skin.gestureIndicatorView.type = PLVVodGestureIndicatorTypeVolume;
-			skin.gestureIndicatorView.text = text;
-		} break;
-		case UIGestureRecognizerStateEnded: {
-			[skin hideGestureIndicator];
-		} break;
-		default: {} break;
-	}
+    UIPanGestureRecognizer *pan = nil;
+    if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        pan = (UIPanGestureRecognizer *)recognizer;
+    } else {
+        return;
+    }
+    
+    // 手势所在视图
+    UIView *gestureView = pan.view;
+    // 速率
+    CGPoint veloctyPoint = [pan velocityInView:gestureView];
+    // 皮肤
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    
+    BOOL isSystemVolume = YES;
+    if (isSystemVolume){
+        // 系统音量调节
+        switch (pan.state) {
+            case UIGestureRecognizerStateBegan: {
+            } break;
+            case UIGestureRecognizerStateChanged: {
+                self.playbackVolume -= veloctyPoint.y/10000;
+                
+                [self changeVolume:self.playbackVolume];
+            } break;
+            case UIGestureRecognizerStateEnded: {
+            } break;
+            default: {} break;
+        }
+    }
+    else{
+        // App 音量调节
+        switch (pan.state) {
+            case UIGestureRecognizerStateBegan: {
+                [skin showGestureIndicator];
+            } break;
+            case UIGestureRecognizerStateChanged: {
+                self.playbackVolume -= veloctyPoint.y/10000;
+                
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                formatter.numberStyle = NSNumberFormatterPercentStyle;
+                NSString *text = [formatter stringFromNumber:@(self.playbackVolume)];
+                skin.gestureIndicatorView.type = PLVVodGestureIndicatorTypeVolume;
+                skin.gestureIndicatorView.text = text;
+            } break;
+            case UIGestureRecognizerStateEnded: {
+                [skin hideGestureIndicator];
+            } break;
+            default: {} break;
+        }
+    }
+}
+
+- (void)changeVolume:(CGFloat)distance {
+    if (self.volumeView == nil) {
+        self.volumeView = [[MPVolumeView alloc] init];
+        self.volumeView.showsVolumeSlider = YES;
+    }
+    
+    for (UIView *v in self.volumeView.subviews) {
+        if ([v.class.description isEqualToString:@"MPVolumeSlider"]) {
+            UISlider *volumeSlider = (UISlider *)v;
+            [volumeSlider setValue:distance];
+            [volumeSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+            break;
+        }
+    }
 }
 
 - (void)changeProgressWithGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
