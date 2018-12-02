@@ -14,11 +14,11 @@ target 'PolyvVodSDKDemo' do
     pod 'Masonry'
 
 	# PLVVodSDK
-    pod 'ABN_PolyvVodSDK', '~> 2.5.2'
+    pod 'ABN_PolyvVodSDK', '~> 2.5.3'
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'
-	pod 'PLVSubtitle', '~> 0.0.3'
+	pod 'PLVSubtitle', '~> 0.1.0'
 
 	target 'PolyvVodSDKDemoTests' do
 		inherit! :search_paths

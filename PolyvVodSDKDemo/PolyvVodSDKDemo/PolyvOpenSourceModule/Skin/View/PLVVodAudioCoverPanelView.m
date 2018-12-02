@@ -48,6 +48,7 @@
         animation.repeatCount = UIViewAnimationOptionRepeat;
         animation.fromValue = @(0.0);
         animation.toValue = @(2 * M_PI);
+        animation.removedOnCompletion = NO;
         [self.audioCoverImage.layer addAnimation:animation forKey:@"rotate"];
     }
 }

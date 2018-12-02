@@ -275,13 +275,13 @@
 	NSString *srtUrl = self.video.srts[skin.selectedSubtitleKey];
 	//srtUrl = @"https://static.polyv.net/usrt/f/f46ead66de/srt/b3ecc235-a47c-4c22-af29-0aab234b1b69.srt";
 	if (!srtUrl.length) {
-		self.subtitleManager = [PLVSubtitleManager managerWithSubtitle:nil label:skin.subtitleLabel error:nil];
+		self.subtitleManager = [PLVSubtitleManager managerWithSubtitle:nil label:skin.subtitleLabel topLabel:skin.subtitleTopLabel error:nil];
 	}
 	__weak typeof(self) weakSelf = self;
 	// 获取字幕内容并设置字幕
 	[self.class requestStringWithUrl:srtUrl completion:^(NSString *string) {
 		NSString *srtContent = string;
-		weakSelf.subtitleManager = [PLVSubtitleManager managerWithSubtitle:srtContent label:skin.subtitleLabel error:nil];
+		weakSelf.subtitleManager = [PLVSubtitleManager managerWithSubtitle:srtContent label:skin.subtitleLabel topLabel:skin.subtitleTopLabel error:nil];
 	}];
 }
 

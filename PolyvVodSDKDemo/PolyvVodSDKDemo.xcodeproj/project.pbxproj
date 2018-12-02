@@ -69,6 +69,13 @@
 		03F04E2A204D4A8700CA0A4F /* PLVVodVidTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F04E29204D4A8700CA0A4F /* PLVVodVidTestController.m */; };
 		03F899721FF3AA450091AC89 /* PLVVodGestureIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F899711FF3AA450091AC89 /* PLVVodGestureIndicatorView.m */; };
 		040FD1A4218ADFA000F6460B /* PLVVodErrorUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 040FD1A3218ADFA000F6460B /* PLVVodErrorUtil.m */; };
+		0427C524219FD01E00B2C910 /* PLVVodDownloadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427C522219FD01E00B2C910 /* PLVVodDownloadHelper.m */; };
+		0427C525219FD01E00B2C910 /* plv_bg_voice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0427C523219FD01E00B2C910 /* plv_bg_voice.mp3 */; };
+		043D44712193ECA100C2F776 /* PLVVodServiceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D44702193ECA100C2F776 /* PLVVodServiceUtil.m */; };
+		043D44742194098400C2F776 /* PLVUserVideoListResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D44732194098400C2F776 /* PLVUserVideoListResult.m */; };
+		0463BAE821A52FBB0010A5EC /* PLVVodDBManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0463BAE421A52FBB0010A5EC /* PLVVodDBManager.mm */; };
+		0463BAE921A52FBB0010A5EC /* PLVVodExtendVideoInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0463BAE621A52FBB0010A5EC /* PLVVodExtendVideoInfo.mm */; };
+		04851978219995A1008058A6 /* PLVVideoPlayTimesResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 04851977219995A1008058A6 /* PLVVideoPlayTimesResult.m */; };
 		0489AFDD21077559004A26A4 /* PLVDownloadProcessingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0489AFDC21077559004A26A4 /* PLVDownloadProcessingCell.m */; };
 		0489AFE02107757E004A26A4 /* PLVDownloadComleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0489AFDF2107757E004A26A4 /* PLVDownloadComleteCell.m */; };
 		04B051CD2106BDD500F6C791 /* PLVDownloadManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B051CC2106BDD500F6C791 /* PLVDownloadManagerViewController.m */; };
@@ -223,6 +230,20 @@
 		040FD1A2218ADFA000F6460B /* PLVVodErrorUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodErrorUtil.h; sourceTree = "<group>"; };
 		040FD1A3218ADFA000F6460B /* PLVVodErrorUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodErrorUtil.m; sourceTree = "<group>"; };
 		0423F49A2109B87000FBA8BC /* PolyvVodSDKDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PolyvVodSDKDemo-Prefix.pch"; sourceTree = "<group>"; };
+		0427C521219FD01E00B2C910 /* PLVVodDownloadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodDownloadHelper.h; sourceTree = "<group>"; };
+		0427C522219FD01E00B2C910 /* PLVVodDownloadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVVodDownloadHelper.m; sourceTree = "<group>"; };
+		0427C523219FD01E00B2C910 /* plv_bg_voice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = plv_bg_voice.mp3; sourceTree = "<group>"; };
+		043D446F2193ECA100C2F776 /* PLVVodServiceUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodServiceUtil.h; sourceTree = "<group>"; };
+		043D44702193ECA100C2F776 /* PLVVodServiceUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodServiceUtil.m; sourceTree = "<group>"; };
+		043D44722194098400C2F776 /* PLVUserVideoListResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVUserVideoListResult.h; sourceTree = "<group>"; };
+		043D44732194098400C2F776 /* PLVUserVideoListResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVUserVideoListResult.m; sourceTree = "<group>"; };
+		0463BAE321A52FBB0010A5EC /* PLVVodExtendVideoInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodExtendVideoInfo.h; sourceTree = "<group>"; };
+		0463BAE421A52FBB0010A5EC /* PLVVodDBManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PLVVodDBManager.mm; sourceTree = "<group>"; };
+		0463BAE521A52FBB0010A5EC /* PLVVodDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodDBManager.h; sourceTree = "<group>"; };
+		0463BAE621A52FBB0010A5EC /* PLVVodExtendVideoInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PLVVodExtendVideoInfo.mm; sourceTree = "<group>"; };
+		0463BAE721A52FBB0010A5EC /* PLVVodExtendVideoInfo+WCTTableCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PLVVodExtendVideoInfo+WCTTableCoding.h"; sourceTree = "<group>"; };
+		04851976219995A1008058A6 /* PLVVideoPlayTimesResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVideoPlayTimesResult.h; sourceTree = "<group>"; };
+		04851977219995A1008058A6 /* PLVVideoPlayTimesResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVideoPlayTimesResult.m; sourceTree = "<group>"; };
 		0489AFDB21077559004A26A4 /* PLVDownloadProcessingCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadProcessingCell.h; sourceTree = "<group>"; };
 		0489AFDC21077559004A26A4 /* PLVDownloadProcessingCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVDownloadProcessingCell.m; sourceTree = "<group>"; };
 		0489AFDE2107757E004A26A4 /* PLVDownloadComleteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadComleteCell.h; sourceTree = "<group>"; };
@@ -582,13 +603,31 @@
 			children = (
 				040FD1A2218ADFA000F6460B /* PLVVodErrorUtil.h */,
 				040FD1A3218ADFA000F6460B /* PLVVodErrorUtil.m */,
+				043D446F2193ECA100C2F776 /* PLVVodServiceUtil.h */,
+				043D44702193ECA100C2F776 /* PLVVodServiceUtil.m */,
+				043D44722194098400C2F776 /* PLVUserVideoListResult.h */,
+				043D44732194098400C2F776 /* PLVUserVideoListResult.m */,
+				04851976219995A1008058A6 /* PLVVideoPlayTimesResult.h */,
+				04851977219995A1008058A6 /* PLVVideoPlayTimesResult.m */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		0427C520219FD00A00B2C910 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				0427C523219FD01E00B2C910 /* plv_bg_voice.mp3 */,
+				0427C521219FD01E00B2C910 /* PLVVodDownloadHelper.h */,
+				0427C522219FD01E00B2C910 /* PLVVodDownloadHelper.m */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		0427F3972105D74500E41084 /* Download */ = {
 			isa = PBXGroup;
 			children = (
+				0463BAE221A52F7F0010A5EC /* PolyvOpenDatabase */,
+				0427C520219FD00A00B2C910 /* Helper */,
 				04D4038A2127B964002B16CC /* Model */,
 				0489AFDA21077529004A26A4 /* View */,
 				04B051CB2106BDD500F6C791 /* PLVDownloadManagerViewController.h */,
@@ -599,6 +638,18 @@
 				04B051D22106CEC000F6C791 /* PLVDownloadCompleteViewController.m */,
 			);
 			path = Download;
+			sourceTree = "<group>";
+		};
+		0463BAE221A52F7F0010A5EC /* PolyvOpenDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				0463BAE521A52FBB0010A5EC /* PLVVodDBManager.h */,
+				0463BAE421A52FBB0010A5EC /* PLVVodDBManager.mm */,
+				0463BAE321A52FBB0010A5EC /* PLVVodExtendVideoInfo.h */,
+				0463BAE621A52FBB0010A5EC /* PLVVodExtendVideoInfo.mm */,
+				0463BAE721A52FBB0010A5EC /* PLVVodExtendVideoInfo+WCTTableCoding.h */,
+			);
+			path = PolyvOpenDatabase;
 			sourceTree = "<group>";
 		};
 		0489AFDA21077529004A26A4 /* View */ = {
@@ -765,6 +816,7 @@
 				03CB8C681FB3EB220048D9FC /* Assets.xcassets in Resources */,
 				03856C4C1FE21C8B0038DEB2 /* PLVVodResources.xcassets in Resources */,
 				03CB8C661FB3EB220048D9FC /* Main.storyboard in Resources */,
+				0427C525219FD01E00B2C910 /* plv_bg_voice.mp3 in Resources */,
 				03722E311FEB664700031180 /* PLVVodExamViewController.xib in Resources */,
 				03856C691FE21C990038DEB2 /* PLVVodPlayerSkin.xib in Resources */,
 				0369C7C92064F3A90065672D /* Settings.bundle in Resources */,
@@ -870,6 +922,7 @@
 			files = (
 				04B051D02106CE9600F6C791 /* PLVDownloadProcessingViewController.m in Sources */,
 				03856C6E1FE21C990038DEB2 /* PLVVodShrinkscreenView.m in Sources */,
+				043D44742194098400C2F776 /* PLVUserVideoListResult.m in Sources */,
 				03DDF4CA1FE763BB00F63630 /* DLScrollTabbarView.m in Sources */,
 				03DDF4C91FE763BB00F63630 /* DLTabedSlideView.m in Sources */,
 				04B051CD2106BDD500F6C791 /* PLVDownloadManagerViewController.m in Sources */,
@@ -878,6 +931,7 @@
 				034B55461FC926520031A875 /* PLVTitleHeaderReusableView.m in Sources */,
 				04F57DB92136827D001AD451 /* PLVPlayQueueBackgroundController.m in Sources */,
 				030DF0321FB590F20035D0B0 /* PLVDownloadListController.m in Sources */,
+				0427C524219FD01E00B2C910 /* PLVVodDownloadHelper.m in Sources */,
 				03DDF4C81FE763BB00F63630 /* DLLRUCache.m in Sources */,
 				03722E3B1FEB90DB00031180 /* PLVVodQuestionView.m in Sources */,
 				03C9D44F1FF23D4B006F460C /* PLVVodDefinitionPanelView.m in Sources */,
@@ -890,6 +944,8 @@
 				037C21121FECB56D008CD03C /* PLVVodQuestion.m in Sources */,
 				0334A0052068831E00A49905 /* PLVSimpleDetailController.m in Sources */,
 				03856CA61FE22D090038DEB2 /* NSString+PLVVod.m in Sources */,
+				0463BAE921A52FBB0010A5EC /* PLVVodExtendVideoInfo.mm in Sources */,
+				0463BAE821A52FBB0010A5EC /* PLVVodDBManager.mm in Sources */,
 				03F04E2A204D4A8700CA0A4F /* PLVVodVidTestController.m in Sources */,
 				03722E361FEB8BDE00031180 /* PLVVodOptionCell.m in Sources */,
 				0356CD051FCC383700B522A1 /* PLVCourseVideoListController.m in Sources */,
@@ -908,6 +964,7 @@
 				030DF02F1FB590910035D0B0 /* PLVCourseDetailController.m in Sources */,
 				03540B871FBC408400CCC7E6 /* PLVCourseBannerReusableView.m in Sources */,
 				0323727F1FCBE4690001E904 /* PLVVideoCell.m in Sources */,
+				043D44712193ECA100C2F776 /* PLVVodServiceUtil.m in Sources */,
 				04D4038D2127BA3C002B16CC /* PLVDownloadCompleteInfoModel.m in Sources */,
 				03856C6B1FE21C990038DEB2 /* PLVVodDanmuSendView.m in Sources */,
 				03F899721FF3AA450091AC89 /* PLVVodGestureIndicatorView.m in Sources */,
@@ -918,6 +975,7 @@
 				03CB8C601FB3EB220048D9FC /* AppDelegate.m in Sources */,
 				030DF02C1FB590560035D0B0 /* PLVCourseListController.m in Sources */,
 				03DDF4CB1FE763BB00F63630 /* DLFixedTabbarView.m in Sources */,
+				04851978219995A1008058A6 /* PLVVideoPlayTimesResult.m in Sources */,
 				03856C6F1FE21C990038DEB2 /* PLVVodSkinPlayerController.m in Sources */,
 				0323727C1FCBC58D0001E904 /* PLVAccountVideoListController.m in Sources */,
 				034271D020492836002F4475 /* UIControl+PLVVod.m in Sources */,

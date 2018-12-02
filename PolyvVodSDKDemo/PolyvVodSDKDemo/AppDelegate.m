@@ -14,6 +14,8 @@
 #import "PLVVodAccountVideo.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 #import <IJKMediaFramework/IJKMediaFramework.h>
+#import "PLVVodDownloadHelper.h"
+#import "PLVVodDBManager.h"
 
 
 static NSString * const PLVVodKeySettingKey = @"vodKey_preference";
@@ -35,8 +37,11 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	NSString *decodeKey = school.vodKeyDecodeKey;
 	NSString *decodeIv = school.vodKeyDecodeIv;
     PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
-    settings.logLevel = PLVVodLogLevelDebug;
+    settings.logLevel = PLVVodLogLevelInfo;
     
+    settings.viewerId = @"UserID";
+    settings.viewerName = @"用户名称";
+
 	// 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
 	{
 		NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -59,6 +64,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	{
 		PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
 		//downloadManager.autoStart = YES;
+        downloadManager.maxRuningCount = 3;
 		// 下载错误统一回调
 		downloadManager.downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
 			NSLog(@"download error: %@\n%@", video.vid, error);
@@ -76,7 +82,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	[self updateSettingsBundle];
     
     [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
-
+    
 	return YES;
 }
 
@@ -105,10 +111,12 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 }
 
 // 为后台下载进行桥接
-- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler {
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier
+  completionHandler:(void (^)(void))completionHandler {
     NSLog(@"++++++++ %@ ++++++++ identifier: %@", NSStringFromSelector(_cmd), identifier);
 
-	[PLVVodDownloadManager sharedManager].backgroundCompletionHandler = completionHandler;
+//    [PLVVodDownloadManager sharedManager].backgroundCompletionHandler = completionHandler;
+    [[PLVVodDownloadManager sharedManager] handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -125,7 +133,6 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 - (void)applicationWillEnterForeground:(UIApplication *)application {
 	// Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     [[PLVVodDownloadManager sharedManager] applicationWillEnterForeground];
-
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

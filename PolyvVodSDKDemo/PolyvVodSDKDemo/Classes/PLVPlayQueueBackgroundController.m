@@ -66,11 +66,9 @@
     self.player.rememberLastPosition = YES;
     self.player.enableBackgroundPlayback = YES;
     
-    NSString *vid = self.vid;
-    
     _playIndex = 0;
     
-    PLVVodAccountVideo *video = self.playList[0];
+    PLVVodAccountVideo *video = self.playList[_playIndex];
     // 有网情况下，也可以调用此接口，只要存在本地视频，都会优先播放本地视频
     __weak typeof(self) weakSelf = self;
     [PLVVodVideo requestVideoWithVid:video.vid completion:^(PLVVodVideo *video, NSError *error) {
@@ -98,8 +96,6 @@
         NSString *vid = video.vid;
         
         //
-        vid = @"a0f97cbb5676eea6be4b70e4fdc3d8a3_a";
-        
         [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
             if (!video.available) return;
             weakSelf.player.video = video;

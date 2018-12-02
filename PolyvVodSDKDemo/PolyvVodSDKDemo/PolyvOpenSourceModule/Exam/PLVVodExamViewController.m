@@ -54,7 +54,7 @@
 	};
 	self.explanationView.confirmActionHandler = ^(BOOL correct) {
 		PLVVodExam *exam = [weakSelf hideExam];
-		NSTimeInterval backTime = correct ? 0 : exam.backTime;
+		NSTimeInterval backTime = correct ? -1 : exam.backTime;
 		if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, backTime);
 	};
 	
