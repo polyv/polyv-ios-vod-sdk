@@ -16,29 +16,29 @@
 ### Added
 
 - `PLVVodDownloadManager`，支持多任务下载功能，1～3 个
-+ `@property (nonatomic, assign) NSUInteger maxRuningCount`   设置同时下载的最大任务数，默认为1
+  + `@property (nonatomic, assign) NSUInteger maxRuningCount`   设置同时下载的最大任务数，默认为1
 - `PLVVodDownloadManager`，优化后台下载完成回调处理方式，具体参考demo
-+ `-handleEventsForBackgroundURLSession:completionHandler`   
+  + `-handleEventsForBackgroundURLSession:completionHandler`   
 - `PLVVodDownloadManager (Database)`，新增下载管理分类，拓展sdk 数据库功能
-+ `-createExtendTableWithClass`   创建扩展表
-+ `-insertOrUpdateWithExtendInfo`  插入或更新一条记录
-+ `-getExtendInfoWithClass:condition`  根据条件查询记录
-+ `-getAllExtendInfoWithClass`  查询所有记录
-+ `-deleteExtendInfoWithClass:condition` 根据条件删除一条记录
-+ `-deleteAllExtendInfoWithClass`  删除所有记录
+  + `-createExtendTableWithClass`   创建扩展表
+  + `-insertOrUpdateWithExtendInfo`  插入或更新一条记录
+  + `-getExtendInfoWithClass:condition`  根据条件查询记录
+  + `-getAllExtendInfoWithClass`  查询所有记录
+  + `-deleteExtendInfoWithClass:condition` 根据条件删除一条记录
+  + `-deleteAllExtendInfoWithClass`  删除所有记录
 - `PLVVodExtendVideoInfo`，（Demo）数据库拓展表结构示例，具体参考demo
 - `PLVVodDBManager`，（Demo）新增PLVVodDBManager 二次封装sdk 数据库操作api，方便应用处理，具体参考demo
 - `PLVVodPlayerViewController`，增加seekType属性，实现精确seek功能
-+ `@property (nonatomic, assign) PLVVodPlaySeekType seekType;`
+  + `@property (nonatomic, assign) PLVVodPlaySeekType seekType;`
 - `PLVSubtitleManager`，（Demo）播放器支持顶部显示字幕功能，pod 'PLVSubtitle', '~> 0.1.0' 
-+ `-managerWithSubtitle:lale:topLable:error`   支持顶部显示字幕初始化方法
+  + `-managerWithSubtitle:lale:topLable:error`   支持顶部显示字幕初始化方法
 - `PLVVodServiceUtil`，（Demo）添加批量获取视频播放次数接口 
-+ `-requestPlayTimesWithVids`  根据vid数组批量获取播放次数
+  + `-requestPlayTimesWithVids`  根据vid数组批量获取播放次数
 
 ### Changed
 
 -   Cocoapods 支持动态库方式集成sdk，解决与其他音视频sdk部分冲突问题,集成方式：
-+ `pod 'PolyvVodSDK_Dylib'`  
+  + `pod 'PolyvVodSDK_Dylib'`  
 
 
 ### Fixed
@@ -56,14 +56,14 @@
 ### Added
 
 - `PLVVodPlayerViewController`，支持URL播放视频，兼容第三方平台视频播放
-+ `-setURL`   通过URL 播放/切换视频
+  + `-setURL`   通过URL 播放/切换视频
 - `PLVVodPlayerUtil`，新增播放器工具类，提供播放进度，播放进度时间戳获取方法
-+ `-lastPositionWithVid`   通过vid获取上一次播放进度
-+ `-lastPositionTimestampWithVid`  通过vid获取上一次播放进度时间戳
+  + `-lastPositionWithVid`   通过vid获取上一次播放进度
+  + `-lastPositionTimestampWithVid`  通过vid获取上一次播放进度时间戳
 - `PLVVodPlayerViewController`，新增循环播放属性（暂不支持m3u8视频），适用短视频播放场景
-+ `@property (nonatomic, assign) BOOL enablePlayRecycle;`
+  + `@property (nonatomic, assign) BOOL enablePlayRecycle;`
 - `PLVVodErrorUtil`，Demo 中新增错误处理工具类，根据错误码返回错误提示，支持自定义错误提示
-+ `-getErrorMsgWithCode`   根据错误码返回错误提示
+  + `-getErrorMsgWithCode`   根据错误码返回错误提示
 
 ### Changed
 -  PLVVodVideo 模型title属性修改为可读写，用户可自定义设置title
@@ -84,9 +84,9 @@
 - 播放器支持默认音频播放功能
 
 - `PLVVodPlayerViewController`，新增正常播放结束标志属性，用于判断播放器是正常播放结束，还是异常播放结束
-+`@property (nonatomic, readonly) BOOL reachEndSuccess;`
+  +`@property (nonatomic, readonly) BOOL reachEndSuccess;`
 - `PLVVodPlayerViewController`，新增播放恢复回调，播放异常结束后，该block每5s回调一次，在该block中可实现恢复播放逻辑;具体可参考PLVVodSkinPlayerController 文件中相关逻辑
-+ `@property (nonatomic, copy) void (^playbackRecoveryHandle)(PLVVodPlayerViewController *player);`
+  + `@property (nonatomic, copy) void (^playbackRecoveryHandle)(PLVVodPlayerViewController *player);`
 
 
 ### Fixed
@@ -103,15 +103,15 @@
 ### Added
 
 - `PLVVodDownloadManager`，下载队列中添加指定视频的暂停/开始功能，用法参见demo
-+ `-startDownloadWithVid`  开始下载指定视频
-+ `-stopDownloadWithVid` 停止下载指定视频
+  + `-startDownloadWithVid`  开始下载指定视频
+  + `-stopDownloadWithVid` 停止下载指定视频
 
 - `PLVVodDownloadManager`，新增从数据库中获取缓存中/已缓存视频列表信息，用法参见demo
-+ `-requstDownloadProcessingListWithCompletion`  从数据库中获取所有缓存中视频信息（准备缓存，缓存中，缓存失败 等等）
-+ `-requestDownloadCompleteList` 从数据库获取所有已缓存成功视频信息
+  + `-requstDownloadProcessingListWithCompletion`  从数据库中获取所有缓存中视频信息（准备缓存，缓存中，缓存失败 等等）
+  + `-requestDownloadCompleteList` 从数据库获取所有已缓存成功视频信息
 
 - `PLVVodDownloadManager`，新增单个视频的下载完成回调，用法参见demo
-+ `@property (nonatomic, copy) void(^downloadCompleteBlock)(PLVVodDownloadInfo *info);`
+  + `@property (nonatomic, copy) void(^downloadCompleteBlock)(PLVVodDownloadInfo *info);`
 
 
 ### Changed
@@ -134,8 +134,8 @@
 ### Added
 
 - `PLVVodDownloadManager`，添加App 进入前台，后台状态时的方法，用于提升后台下载的稳定性；
-+ `-applicationWillEnterForeground`  App 回到前台调用，具体参考AppDelegate 里面调用方式
-+ `-applicationDidEnterBackground` App 切换到后台调用，具体参考AppDelegate 里面调用方式
+  + `-applicationWillEnterForeground`  App 回到前台调用，具体参考AppDelegate 里面调用方式
+  + `-applicationDidEnterBackground` App 切换到后台调用，具体参考AppDelegate 里面调用方式
 
 ### Fixed
 
@@ -146,7 +146,7 @@
 ### Added
 
 - `PLVVodDownloadManager`，添加App即将终止运行时的调用方法，修改并保存视频下载状态，用于App下次启动时恢复视频下载状态；
-+ `-applicationWillTerminate`
+  + `-applicationWillTerminate`
 
 ### Fixed
 
