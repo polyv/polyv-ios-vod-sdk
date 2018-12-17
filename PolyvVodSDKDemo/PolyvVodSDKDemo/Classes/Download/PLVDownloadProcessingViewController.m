@@ -133,6 +133,7 @@
                         cell.videoSizeLabel.textColor = [UIColor colorWithHex:0x666666];
 
                     }break;
+                    case PLVVodDownloadStatePreparingStart:
                     case PLVVodDownloadStateRunning:{
                         cell.videoStateLable.textColor = [UIColor colorWithHex:0x4A90E2];
                         cell.videoSizeLabel.textColor = [UIColor colorWithHex:0x4A90E2];
@@ -345,6 +346,7 @@
         case PLVVodDownloadStateStopping:
             imageName = @"plv_icon_download_stop";
             break;
+        case PLVVodDownloadStatePreparingStart:
         case PLVVodDownloadStateRunning:
             imageName = @"plv_icon_download_processing";
             break;

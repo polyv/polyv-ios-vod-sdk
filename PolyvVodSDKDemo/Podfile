@@ -18,7 +18,7 @@ target 'PolyvVodSDKDemo' do
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'
-	pod 'PLVSubtitle', '~> 0.0.3'
+	pod 'PLVSubtitle', '~> 0.1.0'
 
 	target 'PolyvVodSDKDemoTests' do
 		inherit! :search_paths

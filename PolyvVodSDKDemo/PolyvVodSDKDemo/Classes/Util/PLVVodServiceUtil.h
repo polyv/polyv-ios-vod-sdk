@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PLVUserVideoListResult.h"
+#import "PLVVideoPlayTimesResult.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,6 +33,20 @@ NS_ASSUME_NONNULL_BEGIN
                           pageIndex:(NSString *)pageIndex
                       completeBlock:(void(^)(PLVUserVideoListResult *resultModel))success
                           failBlock:(void(^)(NSError *error))fail;
+
+
+/**
+ 
+ 批量获取视频播放次数
+ 
+ @param vids 视频id数组
+ @param realTime 1表示实时，0表示非实时
+ 
+ */
++ (void)requestPlayTimesWithVids:(NSArray<NSString *> *)vids
+                        realTime:(NSString *)realTime
+                   completeBlock:(void(^)(NSArray<PLVVideoPlayTimesResult *> *resultArray))success
+                       failBlock:(void(^)(NSError *error))fail;
 
 
 @end

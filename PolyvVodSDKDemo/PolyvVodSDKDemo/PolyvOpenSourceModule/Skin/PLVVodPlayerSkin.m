@@ -94,7 +94,10 @@
 }
 
 - (void)setTopView:(UIView *)topView {
-	if (topView && _topView != topView && topView != self.fullscreenView && topView != self.shrinkscreenView && topView != self.gestureIndicatorView) {
+	if (topView && _topView != topView &&
+        topView != self.fullscreenView &&
+        topView != self.shrinkscreenView
+        && topView != self.gestureIndicatorView) {
 		if ([_topView.gestureRecognizers containsObject:self.panelTap]) {
 			[_topView removeGestureRecognizer:self.panelTap];
 		}
@@ -298,6 +301,7 @@
 	
 	// 配置控件细节
 	self.subtitleLabel.text = @"";
+    self.subtitleTopLabel.text = @"";
 	UIImage *playbackThumb = [UIImage imageNamed:@"plv_vod_btn_slider_player"];
 	[self.fullscreenView.playbackSlider setThumbImage:playbackThumb forState:UIControlStateNormal];
 	[self.shrinkscreenView.playbackSlider setThumbImage:playbackThumb forState:UIControlStateNormal];
@@ -326,6 +330,13 @@
     [self constrainSubview:self.skinMaskView toMatchWithSuperview:self.view];
     self.skinMaskView.backgroundColor = [UIColor clearColor];
     [self.view sendSubviewToBack:self.skinMaskView];
+    
+    if ([self.playbackRatePanelView superview]){
+        if ([[self.playbackRatePanelView superview] isEqual:self.controlContainerView]){
+            //
+            NSLog(@"------");
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -420,9 +431,9 @@
 #pragma mark - action
 
 - (IBAction)backMainControl:(id)sender {
-	if (self.topView == self.mainControl) return;
-	[self transitFromView:self.topView toView:self.mainControl];
-	[self fadeoutPlaybackControl];
+    if (self.topView == self.mainControl) return;
+    [self transitFromView:self.topView toView:self.mainControl];
+    [self fadeoutPlaybackControl];
 }
 
 - (IBAction)switchScreenAction:(UIButton *)sender {
@@ -626,6 +637,7 @@
 }
 - (void)transitFromView:(UIView *)fromView toView:(UIView *)toView options:(UIViewAnimationOptions)options {
 	NSArray *priorConstraints = self.priorConstraints;
+    fromView.superview.alpha = 1.0;
 	[UIView transitionFromView:fromView toView:toView duration:0.25 options:options completion:^(BOOL finished) {
 		if (priorConstraints != nil) {
 			[self.controlContainerView removeConstraints:priorConstraints];

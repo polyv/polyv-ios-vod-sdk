@@ -101,6 +101,101 @@ static NSString *paramStr(NSDictionary *paramDict) {
     }];
 }
 
++ (void)requestPlayTimesWithVids:(NSArray<NSString *> *)vids
+                        realTime:(NSString *)realTime
+                   completeBlock:(void (^)(NSArray<PLVVideoPlayTimesResult *> * ))success
+                       failBlock:(void (^)(NSError * ))fail
+{
+    // 1 参数检查
+    if (vids.count ==0){
+        if (fail){
+            
+            NSError *error = [NSError errorWithDomain:PLVVodNetworkingErrorDomain
+                                                 code:1
+                                              userInfo:@{NSLocalizedFailureReasonErrorKey:@"vids 参数错误"}];
+            fail (error);
+        }
+    }
+    PLVVodSettings *settings = [PLVVodSettings sharedSettings];
+    NSString *url = [NSString stringWithFormat:@"http://api.polyv.net/v2/data/%@/play-times", settings.userid];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"ptime"] = [self timestamp];
+    if ([realTime integerValue] > 0){
+        params[@"realTime"] = @"1";
+    }
+    else{
+        params[@"realTime"] = @"0";
+    }
+    
+    NSMutableString *strVids = [[NSMutableString alloc] init];
+    for (int i=0; i<vids.count; i++) {
+        [strVids appendString:vids[i]];
+        if (i != vids.count-1){
+            [strVids appendString:@","];
+        }
+    }
+    params[@"vids"] = strVids;
+    
+    // 生成签名数据
+    NSArray *keys = params.allKeys;
+    keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        return [obj1 compare:obj2 options:NSCaseInsensitiveSearch];
+    }];
+    NSMutableString *plainSign = [NSMutableString string];
+    for (int i = 0; i < keys.count; i ++) {
+        NSString *key = keys[i];
+        [plainSign appendFormat:@"%@=%@", key, params[key]];
+        if (i < keys.count-1) {
+            [plainSign appendFormat:@"&"];
+        }
+    }
+    plainSign = [NSMutableString stringWithFormat:@"%@%@", plainSign, settings.secretkey];
+    params[@"sign"] = plainSign.sha1.uppercaseString;
+    
+    NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HTTP_GET params:params];
+    [self requestDictionary:request completion:^(NSDictionary *dic, NSError *error) {
+        NSInteger code = [dic[@"code"] integerValue];
+        if (code != 200) {
+            NSString *status = dic[@"status"];
+            NSString *message = dic[@"message"];
+            NSLog(@"%@, %@", status, message);
+            
+            if (fail){
+                fail (error);
+            }
+            
+            return;
+        }
+        
+        // 结果解析
+        id respData = [dic objectForKey:@"data"];
+        if ([respData isKindOfClass:[NSArray class]]){
+            NSMutableArray *list = [NSMutableArray arrayWithCapacity:0];
+            NSArray *respArray = respData;
+            [respArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                
+                NSDictionary *item = obj;
+                PLVVideoPlayTimesResult *model = [[PLVVideoPlayTimesResult alloc] initWithDic:item];
+                if (model){
+                    [list addObject:model];
+                }
+            }];
+            
+            if (success){
+                success (list);
+            }
+        }
+        else{
+            if (success){
+                success(nil);
+            }
+        }
+       
+    }];
+}
+
+#pragma public
+
 /// 快速生成Request
 + (NSMutableURLRequest *)requestWithUrl:(NSString *)url method:(NSString *)HTTPMethod params:(NSDictionary *)paramDic {
     NSString *urlString = url.copy;

@@ -10,6 +10,42 @@
 ### Removed
 ### Fixed -->
 
+## [2.5.3] - 2018-12-17
+
+### Added
+
+- `PLVVodDownloadManager`，支持多任务下载功能，1～3 个
++ `@property (nonatomic, assign) NSUInteger maxRuningCount`   设置同时下载的最大任务数，默认为1
+- `PLVVodDownloadManager (Database)`，新增下载管理分类，拓展sdk 数据库功能
++ `-createExtendTableWithClass`   创建扩展表
++ `-insertOrUpdateWithExtendInfo`  插入或更新一条记录
++ `-getExtendInfoWithClass:condition`  根据条件查询记录
++ `-getAllExtendInfoWithClass`  查询所有记录
++ `-deleteExtendInfoWithClass:condition` 根据条件删除一条记录
++ `-deleteAllExtendInfoWithClass`  删除所有记录
+- `PLVVodExtendVideoInfo`，（Demo）数据库拓展表结构示例，具体参考demo
+- `PLVVodDBManager`，（Demo）新增PLVVodDBManager 二次封装sdk 数据库操作api，方便应用处理，具体参考demo
+- `PLVVodPlayerViewController`，增加seekType属性，实现精确seek功能
++ `@property (nonatomic, assign) PLVVodPlaySeekType seekType;`
+- `PLVSubtitleManager`，（Demo）播放器支持顶部显示字幕功能，pod 'PLVSubtitle', '~> 0.1.0' 
++ `-managerWithSubtitle:lale:topLable:error`   支持顶部显示字幕初始化方法
+- `PLVVodServiceUtil`，（Demo）添加批量获取视频播放次数接口 
++ `-requestPlayTimesWithVids`  根据vid数组批量获取播放次数
+
+### Changed
+
+-   Cocoapods 支持动态库方式集成sdk，解决与其他音视频sdk部分冲突问题,集成方式：
++ `pod 'PolyvVodSDK_Dylib'`  
+
+
+### Fixed
+
+- 答题正确，不能续播而是重新播放问题修复 （Demo）
+- 音频模式下，从后台回到前台，播放动画停止问题修复 （Demo）
+- 长按皮肤功能设置按钮，播放器皮肤再也无法显示问题修复 （Demo）
+- 断点数据失效后，视频不能再次下载问题修复
+- 播放器已经退出，部分场景下仍会中断第三方App后台播放问题修复
+
 ## [2.5.2] - 2018-11-08
 
 ### Added

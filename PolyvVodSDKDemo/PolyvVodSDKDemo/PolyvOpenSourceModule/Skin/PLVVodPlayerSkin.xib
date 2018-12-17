@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -26,6 +24,7 @@
                 <outlet property="sharePanelView" destination="BZZ-yq-7JA" id="09G-4B-nEF"/>
                 <outlet property="shrinkscreenView" destination="xdj-6z-3JE" id="mgQ-OP-YLd"/>
                 <outlet property="subtitleLabel" destination="37T-Vn-sBr" id="QUx-jr-7n8"/>
+                <outlet property="subtitleTopLabel" destination="Gkg-Yo-h8S" id="sVo-fJ-3Ks"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -47,14 +46,23 @@
                     <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="顶部字幕" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gkg-Yo-h8S">
+                    <rect key="frame" x="8" y="28" width="464" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="Gkg-Yo-h8S" secondAttribute="trailing" constant="8" id="3Da-Rd-IRz"/>
                 <constraint firstAttribute="bottom" secondItem="mwx-JJ-GUb" secondAttribute="bottom" id="BoN-xq-kb5"/>
                 <constraint firstItem="37T-Vn-sBr" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="CBw-mo-mjC"/>
                 <constraint firstAttribute="trailing" secondItem="mwx-JJ-GUb" secondAttribute="trailing" id="G8o-a7-R4H"/>
+                <constraint firstItem="Gkg-Yo-h8S" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="28" id="Hlb-Vd-JEw"/>
                 <constraint firstAttribute="bottom" secondItem="37T-Vn-sBr" secondAttribute="bottom" constant="8" id="RIn-O4-cqe"/>
                 <constraint firstItem="mwx-JJ-GUb" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="VYs-W5-qU0"/>
+                <constraint firstItem="Gkg-Yo-h8S" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Wyg-Cj-IHt"/>
                 <constraint firstAttribute="trailing" secondItem="37T-Vn-sBr" secondAttribute="trailing" constant="8" id="nC1-3R-oy1"/>
                 <constraint firstItem="mwx-JJ-GUb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sg0-EM-7Dz"/>
                 <constraint firstItem="jiE-j7-hFB" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="uw0-MI-30U"/>
@@ -270,7 +278,7 @@
                             </subviews>
                         </stackView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYi-5F-3u5" userLabel="返回">
-                            <rect key="frame" x="20" y="12" width="361" height="21"/>
+                            <rect key="frame" x="20" y="11.5" width="361" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="60" maxY="0.0"/>
@@ -468,7 +476,7 @@
                             </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h89-Es-caU" userLabel="弹幕">
-                            <rect key="frame" x="0.0" y="-130" width="60" height="0.0"/>
+                            <rect key="frame" x="0.0" y="0.0" width="60" height="0.0"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" image="plv_vod_btn_send_dm"/>
                             <connections>
@@ -812,7 +820,7 @@
                                     <state key="normal" image="plv_vod_btn_qq"/>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QQ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AyD-EV-znf">
-                                    <rect key="frame" x="18" y="68" width="24.5" height="19.5"/>
+                                    <rect key="frame" x="17.5" y="68" width="24.5" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -838,7 +846,7 @@
                             <rect key="frame" x="234" y="0.0" width="65.5" height="87.5"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3rk-y9-CFg" userLabel="新浪微博">
-                                    <rect key="frame" x="3" y="0.0" width="60" height="60"/>
+                                    <rect key="frame" x="2.5" y="0.0" width="60" height="60"/>
                                     <state key="normal" image="plv_vod_btn_weibo"/>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新浪微博" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qm-WC-7eD">
@@ -873,7 +881,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="57" height="57"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="5pg-cX-Fpy">
-                            <rect key="frame" x="9" y="61" width="39" height="19.5"/>
+                            <rect key="frame" x="8.5" y="61" width="40" height="19.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -942,22 +950,22 @@
                             </constraints>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="pdp-XN-RPy" userLabel="弹幕设置组">
-                            <rect key="frame" x="26.5" y="65.5" width="427.5" height="119.5"/>
+                            <rect key="frame" x="26.5" y="64" width="427.5" height="121"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="fFK-KL-STC" userLabel="弹幕颜色组">
-                                    <rect key="frame" x="0.0" y="0.0" width="427.5" height="24.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="427.5" height="25"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="弹幕颜色" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFA-e5-49a">
-                                            <rect key="frame" x="0.0" y="0.0" width="57.5" height="24.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="57.5" height="25"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="hxu-mA-h92">
-                                            <rect key="frame" x="77.5" y="0.0" width="350" height="24.5"/>
+                                            <rect key="frame" x="77.5" y="0.0" width="350" height="25"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleAspectFit" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GwE-yk-3Z7" userLabel="颜色">
-                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="24.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="5g1-OU-I74"/>
                                                         <constraint firstAttribute="width" constant="25" id="jWI-zA-ddk"/>
@@ -966,7 +974,7 @@
                                                     <state key="selected" image="plv_vod_btn_white_sel"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ItU-d5-icP" userLabel="颜色">
-                                                    <rect key="frame" x="65" y="0.0" width="25" height="24.5"/>
+                                                    <rect key="frame" x="65" y="0.0" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="25" id="O3U-jh-dXU"/>
                                                         <constraint firstAttribute="height" constant="25" id="fWL-Rg-LXh"/>
@@ -975,7 +983,7 @@
                                                     <state key="selected" image="plv_vod_btn_white_sel"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSr-1P-zjh" userLabel="颜色">
-                                                    <rect key="frame" x="130" y="0.0" width="25" height="24.5"/>
+                                                    <rect key="frame" x="130" y="0.0" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="25" id="2VD-yP-VNr"/>
                                                         <constraint firstAttribute="height" constant="25" id="N8u-X1-lgQ"/>
@@ -984,7 +992,7 @@
                                                     <state key="selected" image="plv_vod_btn_white_sel"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8Y-Fx-eau" userLabel="颜色">
-                                                    <rect key="frame" x="195" y="0.0" width="25" height="24.5"/>
+                                                    <rect key="frame" x="195" y="0.0" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="25" id="QWL-Il-Ky4"/>
                                                         <constraint firstAttribute="height" constant="25" id="ibF-Jv-OCW"/>
@@ -993,7 +1001,7 @@
                                                     <state key="selected" image="plv_vod_btn_white_sel"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5v-3K-psa" userLabel="颜色">
-                                                    <rect key="frame" x="260" y="0.0" width="25" height="24.5"/>
+                                                    <rect key="frame" x="260" y="0.0" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="25" id="AXR-KD-dPJ"/>
                                                         <constraint firstAttribute="height" constant="25" id="Igi-G7-kA6"/>
@@ -1002,7 +1010,7 @@
                                                     <state key="selected" image="plv_vod_btn_white_sel"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q7Q-AF-RAc" userLabel="颜色">
-                                                    <rect key="frame" x="325" y="0.0" width="25" height="24.5"/>
+                                                    <rect key="frame" x="325" y="0.0" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="31A-9P-cVR"/>
                                                         <constraint firstAttribute="width" constant="25" id="t7n-Sy-by1"/>
@@ -1015,19 +1023,19 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Vp0-kN-utJ" userLabel="弹幕类型组">
-                                    <rect key="frame" x="0.0" y="47.5" width="235.5" height="24.5"/>
+                                    <rect key="frame" x="0.0" y="48" width="235.5" height="25"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="弹幕类型" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FeT-w4-r7G">
-                                            <rect key="frame" x="0.0" y="0.0" width="57.5" height="24.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="57.5" height="25"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="fM7-iR-VaA">
-                                            <rect key="frame" x="77.5" y="0.0" width="158" height="24.5"/>
+                                            <rect key="frame" x="77.5" y="0.0" width="158" height="25"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05r-fd-MaV">
-                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="24.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="25"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="滚动">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1037,7 +1045,7 @@
                                                     </state>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rvm-Jd-JXd">
-                                                    <rect key="frame" x="64" y="0.0" width="30" height="24.5"/>
+                                                    <rect key="frame" x="64" y="0.0" width="30" height="25"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="顶部">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1047,7 +1055,7 @@
                                                     </state>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mv8-1O-V7m">
-                                                    <rect key="frame" x="128" y="0.0" width="30" height="24.5"/>
+                                                    <rect key="frame" x="128" y="0.0" width="30" height="25"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="底部">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1061,19 +1069,19 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="yXB-ea-kt4" userLabel="弹幕字体大小组">
-                                    <rect key="frame" x="0.0" y="95" width="235.5" height="24.5"/>
+                                    <rect key="frame" x="0.0" y="96" width="235.5" height="25"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="字体大小" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edB-rr-pCA">
-                                            <rect key="frame" x="0.0" y="0.0" width="57.5" height="24.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="57.5" height="25"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="zlT-Hh-st7">
-                                            <rect key="frame" x="77.5" y="0.0" width="158" height="24.5"/>
+                                            <rect key="frame" x="77.5" y="0.0" width="158" height="25"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfT-yf-vvp">
-                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="24.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="30" height="25"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="16">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1083,7 +1091,7 @@
                                                     </state>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C9j-wH-9gj">
-                                                    <rect key="frame" x="64" y="0.0" width="30" height="24.5"/>
+                                                    <rect key="frame" x="64" y="0.0" width="30" height="25"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="18">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1093,7 +1101,7 @@
                                                     </state>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="llg-hd-3Xb">
-                                                    <rect key="frame" x="128" y="0.0" width="30" height="24.5"/>
+                                                    <rect key="frame" x="128" y="0.0" width="30" height="25"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="24">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

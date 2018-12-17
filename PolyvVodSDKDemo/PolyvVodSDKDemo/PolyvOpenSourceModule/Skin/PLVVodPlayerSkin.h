@@ -63,6 +63,9 @@
 /// 字幕标签
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 
+/// 顶部字幕标签
+@property (weak, nonatomic) IBOutlet UILabel *subtitleTopLabel;
+
 /// 手势指示器
 @property (strong, nonatomic) IBOutlet PLVVodGestureIndicatorView *gestureIndicatorView;
 
