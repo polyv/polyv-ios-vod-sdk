@@ -15,6 +15,8 @@
 #import "PLVVodSkinPlayerController.h"
 #import "UIView+PLVVod.h"
 
+#import "PLVCastBusinessManager.h"
+
 @interface PLVCourseDetailController ()<DLTabedSlideViewDelegate>
 
 @property (nonatomic, strong) NSArray *subViewControllers;
@@ -24,11 +26,14 @@
 
 @property (weak, nonatomic) IBOutlet DLTabedSlideView *tabedSlideView;
 
+@property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
+
 @end
 
 @implementation PLVCourseDetailController
 
 - (void)dealloc {
+    [self.castBM quitAllFuntionc];
 	NSLog(@"%s - %@", __FUNCTION__, [NSThread currentThread]);
 }
 
@@ -82,8 +87,19 @@
 	PLVCourseVideoListController *courseVideoList = self.subViewControllers.firstObject;
 	courseVideoList.videoDidSelect = ^(PLVVodVideo *video) {
 		//NSLog(@"video: %@", video.title);
-		weakSelf.player.video = video;
+        
+        if (weakSelf.castBM.castManager.connected) {
+            [weakSelf showMessage:@"请先退出投屏再切换"];
+        }else{
+            weakSelf.player.video = video;
+        }
+        
 	};
+    
+    if ([PLVCastBusinessManager authorizationInfoIsLegal]) {
+        self.castBM = [[PLVCastBusinessManager alloc]initCastBusinessWithListPlaceholderView:self.view player:self.player];
+        [self.castBM setup];
+    }
 }
 
 - (void)setupUI {
@@ -111,6 +127,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)showMessage:(NSString *)message {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alertController dismissViewControllerAnimated:YES completion:^{}];
+    }]];
+    [self presentViewController:alertController animated:YES completion:^{
+
+    }];
+}
 
 #pragma mark - Navigation
 

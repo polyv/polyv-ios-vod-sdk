@@ -39,7 +39,6 @@
 
 + (CGFloat)calculateCellWithHeight:(NSString *)s andWidth:(CGFloat)width {
     CGFloat labelWidth = width - (86 - 54);
-    UIFont *font = [UIFont systemFontOfSize:13];
     CGRect rect = [s boundingRectWithSize:CGSizeMake(labelWidth, MAXFLOAT)
                                   options:NSStringDrawingUsesLineFragmentOrigin
                                attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:13] }

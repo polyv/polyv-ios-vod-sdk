@@ -264,7 +264,7 @@ static NSString *paramStr(NSDictionary *paramDict) {
 #pragma mark -- tool
 /// 时间戳
 + (NSString *)timestamp {
-    NSInteger timeInterval = [NSDate date].timeIntervalSince1970 * 1000;
+    long long timeInterval = [NSDate date].timeIntervalSince1970 * 1000;
     return @(timeInterval).description;
 }
 

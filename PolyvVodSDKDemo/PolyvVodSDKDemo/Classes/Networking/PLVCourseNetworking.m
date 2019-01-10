@@ -44,8 +44,9 @@ static NSString *paramStr(NSDictionary *paramDict) {
 
 /// 时间戳
 + (NSString *)timestamp {
-	NSInteger timeInterval = [NSDate date].timeIntervalSince1970 * 1000;
-	return @(timeInterval).description;
+	float timeInterval = [NSDate date].timeIntervalSince1970 * 1000;
+    NSString *timeStr = [NSString stringWithFormat:@"%.0f", timeInterval];
+    return timeStr;
 }
 
 /// 快速生成Request

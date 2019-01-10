@@ -17,6 +17,7 @@
 #import "PLVVodDownloadHelper.h"
 #import "PLVVodDBManager.h"
 
+#import "PLVCastBusinessManager.h"
 
 static NSString * const PLVVodKeySettingKey = @"vodKey_preference";
 static NSString * const PLVSdkVersionSettingKey = @"sdkVersion_preference";
@@ -37,7 +38,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	NSString *decodeKey = school.vodKeyDecodeKey;
 	NSString *decodeIv = school.vodKeyDecodeIv;
     PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
-    settings.logLevel = PLVVodLogLevelInfo;
+    settings.logLevel = PLVVodLogLevelAll;
     
     settings.viewerId = @"UserID";
     settings.viewerName = @"用户名称";
@@ -82,6 +83,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	[self updateSettingsBundle];
     
     [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
+    [PLVCastBusinessManager getCastAuthorization];
     
 	return YES;
 }

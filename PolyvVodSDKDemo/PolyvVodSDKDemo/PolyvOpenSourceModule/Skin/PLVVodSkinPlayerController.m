@@ -18,6 +18,7 @@
 #import <PLVMarquee/PLVMarquee.h>
 #import <MediaPlayer/MPVolumeView.h>
 
+#import "PLVCastBusinessManager.h"
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -74,7 +75,8 @@
 		[self setupDanmu];
 		[self setupExam];
 		[self setupSubtitle];
-		
+        [self setupOriginalAudioCover];
+
 		// 设置控制中心播放信息
 		self.coverImage = nil;
 		[self setupPlaybackInfo];
@@ -157,6 +159,12 @@
         // 对于某些场景需要再次调用play函数才能播放
         [weakSelf play];
     };
+    
+    if ([PLVCastBusinessManager authorizationInfoIsLegal] == NO) {
+        PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+        skin.castButton.hidden = YES;
+        skin.castButtonInFullScreen.hidden = YES;
+    }
 }
 
 - (void)viewDidLayoutSubviews {
@@ -314,6 +322,12 @@
     [skin setUpPlaybackMode:self.video];
 }
 
+// 设置源文件音频播放封面图
+- (void)setupOriginalAudioCover{
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    [skin updateOriginalAudioCoverView:self.video];
+}
+
 #pragma mark override
 // 更新播放模式更新成功回调
 - (void)playbackModeDidChange {
@@ -329,6 +343,7 @@
 #pragma mark gesture
 
 - (void)handleGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
+    
 	switch (gestureType) {
 		case PLVVodGestureTypeTap:{
 			PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
@@ -626,6 +641,12 @@
 			default:{}break;
 		}
 	}
+}
+
+#pragma mark -- public
+- (BOOL)isLockScreen{
+    PLVVodPlayerSkin *skinController = (PLVVodPlayerSkin *)self.playerControl;
+    return skinController.isLockScreen;
 }
 
 @end
