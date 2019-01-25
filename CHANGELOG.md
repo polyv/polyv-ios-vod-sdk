@@ -15,8 +15,8 @@
 ### Added
 
 - 播放器新增视频打点功能，具体实现参考demo
-- `PLVVodPlayerViewController`，
-    + `@property (nonatomic, copy) void (^videoTipsSelectedHandler)(NSUInteger tipIndex);`  视频打点信息点击回调
+- `PLVVodPlayerViewController`，新增视频打点信息点击回调
+    + `@property (nonatomic, copy) void (^videoTipsSelectedHandler)(NSUInteger tipIndex);`  
 - `PLVVodPlayerSkin` , 
     + `-addVideoPlayTips` ， (DEMO) 添加视频打点信息
     + `-showVideoPlayTips`，（DEMO）展示视频打点信息
