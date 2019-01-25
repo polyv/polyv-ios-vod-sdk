@@ -18,7 +18,7 @@
 - `PLVVodPlayerViewController`，
     + `@property (nonatomic, copy) void (^videoTipsSelectedHandler)(NSUInteger tipIndex);`  视频打点信息点击回调
 - `PLVVodPlayerSkin` , 
-    + `-addVideoPlayTips`   (DEMO) 添加视频打点信息
+    + `-addVideoPlayTips` ， (DEMO) 添加视频打点信息
     + `-showVideoPlayTips`，（DEMO）展示视频打点信息
 
 ### Fixed
