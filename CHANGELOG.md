@@ -20,6 +20,8 @@
 - `PLVVodPlayerSkin` , 
     + `-addVideoPlayTips` ， (DEMO) 添加视频打点信息
     + `-showVideoPlayTips`，（DEMO）展示视频打点信息
+    + `@property (nonatomic, copy) void(^plvVideoTipsPlayerBlock)(NSUInteger playIndex);` (DEMO) 点击打点信息播放事件处理
+
 
 ### Fixed
 
