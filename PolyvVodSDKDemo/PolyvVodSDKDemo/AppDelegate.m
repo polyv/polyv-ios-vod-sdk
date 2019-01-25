@@ -82,7 +82,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	[self becomeFirstResponder];
 	[self updateSettingsBundle];
     
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     [PLVCastBusinessManager getCastAuthorization];
     
 	return YES;

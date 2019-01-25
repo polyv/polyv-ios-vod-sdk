@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -453,12 +453,24 @@
                     </constraints>
                     <color key="trackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </progressView>
-                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.30000001192092896" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="suR-o2-ESP" userLabel="播放滑杆">
-                    <rect key="frame" x="-2" y="249" width="484" height="31"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egy-dp-xa1" userLabel="播放滑杆背景视图">
+                    <rect key="frame" x="0.0" y="249" width="480" height="30"/>
+                    <subviews>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="suR-o2-ESP" userLabel="播放滑杆">
+                            <rect key="frame" x="-2" y="0.0" width="484" height="31"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </slider>
+                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <color key="tintColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                    <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </slider>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="suR-o2-ESP" secondAttribute="trailing" id="Vkw-R1-B7b"/>
+                        <constraint firstItem="suR-o2-ESP" firstAttribute="centerY" secondItem="egy-dp-xa1" secondAttribute="centerY" id="Vna-mW-fU1"/>
+                        <constraint firstAttribute="height" constant="30" id="gYY-JP-X4I"/>
+                        <constraint firstItem="suR-o2-ESP" firstAttribute="leading" secondItem="egy-dp-xa1" secondAttribute="leading" id="kFK-7M-P8a"/>
+                    </constraints>
+                </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Eay-Sz-PzG">
                     <rect key="frame" x="15" y="100" width="75" height="120"/>
                     <subviews>
@@ -556,21 +568,21 @@
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="BuY-ou-2r2" secondAttribute="bottom" id="05a-ZY-Aon"/>
                 <constraint firstAttribute="trailing" secondItem="BuY-ou-2r2" secondAttribute="trailing" id="2cx-7t-vbb"/>
                 <constraint firstAttribute="trailing" secondItem="F6C-pN-1tf" secondAttribute="trailing" id="8XU-9M-OLy"/>
-                <constraint firstItem="suR-o2-ESP" firstAttribute="centerY" secondItem="F6C-pN-1tf" secondAttribute="centerY" constant="-1" id="8zj-sG-KdA"/>
+                <constraint firstAttribute="trailing" secondItem="egy-dp-xa1" secondAttribute="trailing" id="A0n-pR-428"/>
                 <constraint firstAttribute="bottom" secondItem="Yl1-Wc-fv6" secondAttribute="bottom" id="AMN-Hj-lD8"/>
                 <constraint firstItem="Yl1-Wc-fv6" firstAttribute="top" secondItem="F6C-pN-1tf" secondAttribute="bottom" id="Bn2-le-m3n"/>
                 <constraint firstItem="Eay-Sz-PzG" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" constant="15" id="GV0-Ii-TsQ"/>
-                <constraint firstItem="suR-o2-ESP" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="Hn3-SB-FIE"/>
                 <constraint firstItem="Yl1-Wc-fv6" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="N8Q-ZJ-sYg"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="top" id="Nbs-rL-q02"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="P1z-ht-qbH"/>
+                <constraint firstItem="F6C-pN-1tf" firstAttribute="centerY" secondItem="egy-dp-xa1" secondAttribute="centerY" constant="1" id="Y5h-FJ-s6e"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="bui-Kl-w8g"/>
                 <constraint firstItem="F6C-pN-1tf" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="cwR-0w-clH"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="BuY-ou-2r2" secondAttribute="bottom" id="fdZ-t5-uyk"/>
                 <constraint firstAttribute="trailingMargin" secondItem="rSx-dm-mU2" secondAttribute="trailing" id="fn1-nO-9kZ"/>
                 <constraint firstItem="Eay-Sz-PzG" firstAttribute="centerY" secondItem="w04-rs-iMM" secondAttribute="centerY" id="hGC-TY-xo0"/>
                 <constraint firstAttribute="trailing" secondItem="pEp-Xe-LQj" secondAttribute="trailing" id="lXn-Qm-a0T"/>
-                <constraint firstAttribute="trailing" secondItem="suR-o2-ESP" secondAttribute="trailing" id="mgr-xz-DIo"/>
+                <constraint firstItem="egy-dp-xa1" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="rgl-mr-wIk"/>
                 <constraint firstAttribute="trailing" secondItem="Yl1-Wc-fv6" secondAttribute="trailing" id="t1P-a6-5Mz"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="bottom" secondItem="w04-rs-iMM" secondAttribute="topMargin" priority="750" constant="-8" id="v2b-Vv-ggE"/>
                 <constraint firstItem="rSx-dm-mU2" firstAttribute="centerY" secondItem="w04-rs-iMM" secondAttribute="centerY" id="ywk-6J-sYF"/>
@@ -591,6 +603,7 @@
                 <outlet property="playbackSlider" destination="suR-o2-ESP" id="bU8-Zt-jmK"/>
                 <outlet property="settingButton" destination="pqT-93-2RH" id="G67-xX-s81"/>
                 <outlet property="shareButton" destination="rem-Kt-gSH" id="I1B-vu-XnK"/>
+                <outlet property="sliderBackView" destination="egy-dp-xa1" id="inP-uV-z3m"/>
                 <outlet property="snapshotButton" destination="T4D-xH-rSz" id="gCl-FT-IwT"/>
                 <outlet property="statusBarHeight" destination="v2b-Vv-ggE" id="Gmm-cb-Zjb"/>
                 <outlet property="switchScreenButton" destination="PhT-m4-gZI" id="0mM-zZ-QFQ"/>
@@ -1319,7 +1332,7 @@
     <resources>
         <image name="btn-proj" width="36" height="36"/>
         <image name="btn-proj-sel" width="36" height="36"/>
-        <image name="btn_proj_q" width="44" height="44"/>
+        <image name="btn_proj_q" width="22" height="19"/>
         <image name="plv_btn_lockscreen" width="32" height="32"/>
         <image name="plv_btn_unlockscreen" width="32" height="32"/>
         <image name="plv_vod_av_swtich_audio" width="12" height="16"/>

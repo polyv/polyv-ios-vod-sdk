@@ -314,6 +314,16 @@
     // 注：若需视频也显示封面图，调整上方代码判断逻辑即可
 }
 
+#pragma mark 添加视频打点信息
+- (void)addVideoPlayTips:(PLVVodVideo *)video{
+    [self.fullscreenView addPlayTipsWithVideo:video];
+}
+
+#pragma mark 展示视频打点信息
+- (void)showVideoPlayTips:(NSUInteger)tipsIndx{
+    [self.fullscreenView showPlayTipsWithIndex:tipsIndx];
+}
+
 #pragma getter --
 - (UIView *)skinMaskView
 {
@@ -365,13 +375,20 @@
 	self.playbackRatePanelView.playbackRateButtonDidClick = ^(UIButton *sender) {
 		[weakSelf backMainControl:sender];
 	};
-	
+    
 	// 链接属性
 	self.brightnessSlider = self.settingsPanelView.brightnessSlider;
 	self.volumeSlider = self.settingsPanelView.volumeSlider;
+    
+    // 视频打点信息，点击播放回调，UI层触发
+    self.fullscreenView.plvVideoTipsSelectedBlock = ^(NSUInteger selIndex) {
+        if (weakSelf.plvVideoTipsPlayerBlock){
+            weakSelf.plvVideoTipsPlayerBlock(selIndex);
+        }
+    };
 	
 	// 自动隐藏控件
-	[self fadeoutPlaybackControl];
+    [self fadeoutPlaybackControl];
     
     // 皮肤控件覆盖层，现实弹幕
     [self.view addSubview:self.skinMaskView];
@@ -379,6 +396,8 @@
     self.skinMaskView.backgroundColor = [UIColor clearColor];
     [self.view sendSubviewToBack:self.skinMaskView];
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -610,6 +629,7 @@
 		
 	}];
 }
+
 - (void)hideGestureIndicator {
 	[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
 		self.gestureIndicatorView.alpha = 0;
@@ -626,6 +646,9 @@
 	BOOL isShowing = self.controlContainerView.alpha > 0.0;
 	[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
 		self.controlContainerView.alpha = isShowing ? 0 : 1;
+        if (isShowing){
+            [self hidePlayTipsView];
+        }
 	} completion:^(BOOL finished) {
 		if (!isShowing && finished) {
 			[self fadeoutPlaybackControl];
@@ -633,9 +656,17 @@
 	}];
 }
 
+- (void)hidePlayTipsView{
+    //
+    if ([self.mainControl isKindOfClass:[PLVVodFullscreenView class]]){
+        PLVVodFullscreenView *fullScreen = (PLVVodFullscreenView *)self.mainControl;
+        [fullScreen hidePlayTipsView];
+    }
+}
+
 - (void)fadeoutPlaybackControl {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideOrShowPlaybackControl) object:nil];
-	[self performSelector:@selector(hideOrShowPlaybackControl) withObject:nil afterDelay:PLVVodAnimationDuration*10];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideOrShowPlaybackControl) object:nil];
+    [self performSelector:@selector(hideOrShowPlaybackControl) withObject:nil afterDelay:PLVVodAnimationDuration*10];
 }
 
 #pragma mark - tool

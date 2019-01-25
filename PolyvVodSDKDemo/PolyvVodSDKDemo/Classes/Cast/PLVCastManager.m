@@ -259,8 +259,16 @@ static PLVCastManager * manager = nil;
     if (video.keepSource) {
         urlString = video.play_source_url;
     }else{
+        
+        NSArray * urlArr;
+        if(video.isPlain == YES && video.isHls == NO){
+            urlArr = video.plainVideos;
+        }else{
+            urlArr = video.hlsVideos;
+        }
         NSInteger idx = quality - 1;
-        urlString = (video.hlsVideos.count > idx && idx >= 0) ? video.hlsVideos[idx] : @"";
+        urlString = (urlArr.count > idx && idx >= 0) ? urlArr[idx] : @"";
+        
     }
     
     if (urlString == nil || [urlString isKindOfClass: [NSString class]] == NO || urlString.length == 0) {

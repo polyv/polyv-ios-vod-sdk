@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <PLVVodSDK/PLVVodConstans.h>
+#import <PLVVodSDK/PLVVodVideo.h>
 
 @interface PLVVodFullscreenView : UIView
 
@@ -31,6 +32,21 @@
 @property (weak, nonatomic) IBOutlet UIButton *videoPlayModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *audioPlayModeButton;
 
+//滑杆背景视频，添加视频打点
+@property (weak, nonatomic) IBOutlet UIView *sliderBackView;
+
+// 选中的播放打点信息回调，seek 到指定位置播放视频
+@property (nonatomic, strong) void(^plvVideoTipsSelectedBlock)(NSUInteger selIndex);
+
+// 变更播放模式
 - (void)switchToPlayMode:(PLVVodPlaybackMode)mode;
+
+// 添加播放打点信息
+- (void)addPlayTipsWithVideo:(PLVVodVideo *)video;
+
+// 展示点击后的浮动打点信息
+- (void)showPlayTipsWithIndex:(NSUInteger )index;
+// 隐藏浮动信息
+- (void)hidePlayTipsView;
 
 @end

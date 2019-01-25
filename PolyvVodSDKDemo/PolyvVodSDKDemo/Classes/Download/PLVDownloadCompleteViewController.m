@@ -136,9 +136,14 @@
     PLVVodLocalVideo *localModel = self.downloadInfos[indexPath.row].localVideo;
     
     // 播放本地加密/非加密视频
-    PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
-    detailVC.localVideo = localModel;
-    [self.navigationController pushViewController:detailVC animated:YES];
+    [PLVVodVideo requestVideoPriorityCacheWithVid:localModel.vid completion:^(PLVVodVideo *video, NSError *error) {
+        
+        PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
+        detailVC.localVideo = video;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.navigationController pushViewController:detailVC animated:YES];
+        });
+    }];
 }
 
 /// 删除

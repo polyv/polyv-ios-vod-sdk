@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class PLVVodLocalVideo;
+@class PLVVodVideo;
 
 @interface PLVSimpleDetailController : UIViewController
 
 @property (nonatomic, copy) NSString *vid;
-@property (nonatomic, strong) PLVVodLocalVideo *localVideo;
+@property (nonatomic, strong) PLVVodVideo *localVideo;
 
 @end
