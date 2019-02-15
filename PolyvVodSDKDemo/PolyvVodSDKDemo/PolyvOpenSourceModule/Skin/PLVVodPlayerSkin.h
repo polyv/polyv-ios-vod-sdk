@@ -58,6 +58,15 @@
 /// 全屏/半屏按钮
 @property (nonatomic, weak) IBOutlet UIButton *fullShrinkscreenButton;
 
+/// 投屏按钮
+@property (nonatomic, weak) IBOutlet UIButton *castButton;
+
+/// 全屏顶部投屏按钮
+@property (nonatomic, weak) IBOutlet UIButton *castButtonInFullScreen;
+
+/// 半屏全屏按钮点击事件
+@property (nonatomic, strong) void (^castButtonTouchHandler)(UIButton * button);
+
 #pragma mark - 额外
 
 /// 字幕标签
@@ -75,6 +84,9 @@
 /// 皮肤覆盖层，显示弹幕
 @property (nonatomic, strong) UIView *skinMaskView;
 
+/// 是否是锁屏状态
+@property (nonatomic, assign, readonly) BOOL isLockScreen;
+
 /// 是否启用弹幕
 @property (nonatomic, assign) BOOL enableDanmu;
 @property (nonatomic, copy) void (^enableDanmuChangeHandler)(PLVVodPlayerSkin *skin, BOOL enableDanmu);
@@ -86,6 +98,8 @@
 
 - (void)setUpPlaybackMode:(PLVVodVideo *)video;
 - (void)updatePlayModeContainView:(PLVVodVideo *)video;
+
+- (void)updateOriginalAudioCoverView:(PLVVodVideo *)video;
 
 - (void)updateAudioCoverAnimation:(BOOL)isPlaying;
 

@@ -7,7 +7,10 @@
 //
 
 #import <PLVVodSDK/PLVVodPlayerViewController.h>
+#import "PLVCastControllView.h"
 
 @interface PLVVodSkinPlayerController : PLVVodPlayerViewController
+
+@property (nonatomic, assign, readonly) BOOL isLockScreen;
 
 @end

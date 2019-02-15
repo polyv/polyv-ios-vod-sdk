@@ -10,6 +10,52 @@
 ### Removed
 ### Fixed -->
 
+## [2.5.4] - 2019-02-15
+
+### Added
+
+- 播放器新增投屏功能
+- 播放器新增锁屏键功能
+- `PLVVodPlayUtil` , 
+    + `requestCastKeyIvWitVideo`   根据video模型获取投屏加密信息
+- `PLVCastBusinessManager`，新增投屏业务管理类，部分方法如下，具体实现参考demo
+    + `-initCastBusinessWithListPlaceholderView`  初始化投屏功能 
+    + `-setup`  启用投屏功能
+- `PLVCastManager`，新增投屏管理器，部分方法如下，具体实现参考demo
+    + `+getCastAuthorization`  获取投屏权限，可在AppDelegate中提前调用
+    + `+authorizationInfoIsLegal`  是否已设置授权信息
+    + `-quitAllFuntionc` 停止投屏功能
+    + `-startPlayWithVideo` 开始视频播放
+    + `-pause` 暂停播放
+    + `-resume` 恢复播放
+    + `-stop` 停止播放
+- `PLVCastManagerDelegate`，新增投屏管理器代理协议，部分代理方法如下，具体实现参考demo
+    + `-plvCastManager_findServices` 设备搜索发现设备回调
+    + `-plvCastManager_connectServicesResult` 设备连接回调
+    + `-plvCastManager_castError` 投屏错误回调
+    + `-plvCastManager_playStatusChangedWithStatus` 播放状态回调
+    + `-plvCastManager_playTimeChangedWithCurrentTime` 播放进度回调
+- `PLVVodLockScreenView`，新增播放器锁屏键功能，具体实现参考demo
+
+
+### Changed
+
+-  ijkplayer 升级到0.4.0 版本
+-  播放音频时显示首图
+-  问答播放器优化
+-  播放器点击进度条，可以seek到指定位置
+-  切换清晰度时记住原播放速率优化
+-  适配无UI音频播放场景
+
+
+### Fixed
+
+- 部分直播转存视频播放完毕后重播失败问题修复
+- 片头/片头广告未播放完毕，切换视频声音重叠问题修复
+- 部分场景下导致vid为空而在setVideo时出现崩溃问题修复
+
+
+
 ## [2.5.3] - 2018-12-17
 
 ### Added
@@ -148,8 +194,8 @@
 ### Added
 
 - `PLVVodDownloadManager`，添加App 进入前台，后台状态时的方法，用于提升后台下载的稳定性；
-+ `-applicationWillEnterForeground`  App 回到前台调用，具体参考AppDelegate 里面调用方式
-+ `-applicationDidEnterBackground` App 切换到后台调用，具体参考AppDelegate 里面调用方式
+    + `-applicationWillEnterForeground`  App 回到前台调用，具体参考AppDelegate 里面调用方式
+    + `-applicationDidEnterBackground` App 切换到后台调用，具体参考AppDelegate 里面调用方式
 
 ### Fixed
 

@@ -10,16 +10,21 @@
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "PLVVodSkinPlayerController.h"
 
+#import "PLVCastBusinessManager.h"
+
 @interface PLVSimpleDetailController ()
 
 @property (weak, nonatomic) IBOutlet UIView *playerPlaceholder;
 @property (nonatomic, strong) PLVVodSkinPlayerController *player;
+
+@property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
 
 @end
 
 @implementation PLVSimpleDetailController
 
 - (void)dealloc {
+    [self.castBM quitAllFuntionc];
 	//NSLog(@"%s", __FUNCTION__);
 }
 
@@ -27,6 +32,11 @@
     [super viewDidLoad];
 	
 	[self setupPlayer];
+    
+    if ([PLVCastBusinessManager authorizationInfoIsLegal]) {
+        self.castBM = [[PLVCastBusinessManager alloc]initCastBusinessWithListPlaceholderView:self.view player:self.player];
+        [self.castBM setup];
+    }
 }
 
 - (void)setupPlayer {
@@ -67,8 +77,20 @@
 - (BOOL)prefersStatusBarHidden {
 	return self.player.prefersStatusBarHidden;
 }
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
 	return self.player.preferredStatusBarStyle;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (BOOL)shouldAutorotate{
+    if (self.player.isLockScreen){
+        return NO;
+    }
+    return YES;
 }
 
 @end

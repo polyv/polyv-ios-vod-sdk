@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -26,11 +26,11 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uZq-eR-VVR">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uZq-eR-VVR" userLabel="View1">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4CT-ba-NF4">
-                            <rect key="frame" x="0.0" y="0.0" width="480" height="40"/>
+                            <rect key="frame" x="16" y="0.0" width="448" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="CzI-N3-Usi"/>
                             </constraints>
@@ -38,10 +38,10 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gCg-Vn-lhb">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gCg-Vn-lhb" userLabel="View2">
                             <rect key="frame" x="16" y="40" width="448" height="232"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vs-xS-Kqg">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vs-xS-Kqg" userLabel="View3">
                                     <rect key="frame" x="0.0" y="0.0" width="224" height="232"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xaK-Pi-qLa">
@@ -52,7 +52,7 @@
                                     <constraints>
                                         <constraint firstItem="xaK-Pi-qLa" firstAttribute="top" secondItem="7vs-xS-Kqg" secondAttribute="top" id="0wh-BD-dHu"/>
                                         <constraint firstItem="xaK-Pi-qLa" firstAttribute="leading" secondItem="7vs-xS-Kqg" secondAttribute="leading" id="3BC-YG-wya"/>
-                                        <constraint firstAttribute="width" constant="224" id="LzV-S4-0V8"/>
+                                        <constraint firstAttribute="width" priority="750" constant="224" id="LzV-S4-0V8"/>
                                         <constraint firstAttribute="bottom" secondItem="xaK-Pi-qLa" secondAttribute="bottom" id="ctL-AR-ae4"/>
                                         <constraint firstAttribute="trailing" secondItem="xaK-Pi-qLa" secondAttribute="trailing" constant="6" id="ttQ-zL-MJt"/>
                                     </constraints>
@@ -74,7 +74,7 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="7vs-xS-Kqg" secondAttribute="bottom" id="5qS-12-vbp"/>
+                                <constraint firstAttribute="bottom" secondItem="7vs-xS-Kqg" secondAttribute="bottom" priority="750" id="5qS-12-vbp"/>
                                 <constraint firstAttribute="bottom" secondItem="cZY-Bx-3f4" secondAttribute="bottom" id="Jbg-bK-3qE"/>
                                 <constraint firstItem="7vs-xS-Kqg" firstAttribute="leading" secondItem="gCg-Vn-lhb" secondAttribute="leading" id="QTc-YA-vJb"/>
                                 <constraint firstItem="7vs-xS-Kqg" firstAttribute="top" secondItem="gCg-Vn-lhb" secondAttribute="top" id="UdN-0a-Tn5"/>
@@ -117,15 +117,15 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="gCg-Vn-lhb" secondAttribute="trailing" constant="16" id="02G-5m-7PT"/>
-                        <constraint firstAttribute="bottom" secondItem="gCg-Vn-lhb" secondAttribute="bottom" constant="48" id="0fO-bD-AiX"/>
+                        <constraint firstAttribute="bottom" secondItem="gCg-Vn-lhb" secondAttribute="bottom" priority="750" constant="48" id="0fO-bD-AiX"/>
                         <constraint firstAttribute="bottom" secondItem="7uS-y5-UUo" secondAttribute="bottom" id="2Zd-kK-FoW"/>
                         <constraint firstItem="4CT-ba-NF4" firstAttribute="top" secondItem="uZq-eR-VVR" secondAttribute="top" id="AUT-83-bnE"/>
                         <constraint firstItem="7uS-y5-UUo" firstAttribute="leading" secondItem="uZq-eR-VVR" secondAttribute="leading" id="FOA-Br-T2a"/>
                         <constraint firstAttribute="trailing" secondItem="7uS-y5-UUo" secondAttribute="trailing" id="KEU-s9-B3n"/>
                         <constraint firstItem="gCg-Vn-lhb" firstAttribute="leading" secondItem="uZq-eR-VVR" secondAttribute="leading" constant="16" id="hKr-MN-OnU"/>
                         <constraint firstItem="gCg-Vn-lhb" firstAttribute="top" secondItem="uZq-eR-VVR" secondAttribute="top" constant="40" id="mZT-lo-myG"/>
-                        <constraint firstItem="4CT-ba-NF4" firstAttribute="leading" secondItem="uZq-eR-VVR" secondAttribute="leading" id="yET-fu-CHH"/>
-                        <constraint firstAttribute="trailing" secondItem="4CT-ba-NF4" secondAttribute="trailing" id="zcx-fR-wky"/>
+                        <constraint firstItem="4CT-ba-NF4" firstAttribute="leading" secondItem="uZq-eR-VVR" secondAttribute="leading" constant="16" id="yET-fu-CHH"/>
+                        <constraint firstAttribute="trailing" secondItem="4CT-ba-NF4" secondAttribute="trailing" constant="16" id="zcx-fR-wky"/>
                     </constraints>
                 </view>
             </subviews>
@@ -149,7 +149,7 @@
                 <outlet property="skipButton" destination="u6I-Fl-Ch5" id="iNm-1F-J1T"/>
                 <outlet property="submitButton" destination="FDe-w5-p9l" id="haq-dt-8If"/>
             </connections>
-            <point key="canvasLocation" x="25" y="455"/>
+            <point key="canvasLocation" x="723" y="49"/>
         </view>
         <view contentMode="scaleToFill" id="Se4-MJ-ONL" userLabel="解释视图" customClass="PLVVodExplanationView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>

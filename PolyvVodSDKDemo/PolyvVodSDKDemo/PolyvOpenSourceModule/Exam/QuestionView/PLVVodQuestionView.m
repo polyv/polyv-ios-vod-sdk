@@ -105,7 +105,9 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	PLVVodOptionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[PLVVodOptionCell identifier] forIndexPath:indexPath];
-	cell.text = self.question.options[indexPath.item];
+//    cell.text = self.question.options[indexPath.item];
+    NSString *optionText = [NSString stringWithFormat:@"%@ %@", [self optionOrderWithIndex:indexPath.row], self.question.options[indexPath.item]];
+    cell.text = optionText;
 	return cell;
 }
 
@@ -150,21 +152,27 @@
     
     // 计算cell的宽度
     self.cellwidth = self.outerContanerWeidht / 2 - padding - 10;
-    
+    if ([self isLandscape] && !hasIllustration){
+        // 无图且处于横屏状态，显示一行，重新计算cell 宽度，
+        self.cellwidth = self.outerContanerWeidht - 2*padding -10;
+    }
+
     // 计算cell的高度
-    int count = _question.options.count;
+    int count = (int)_question.options.count;
     self.cellHeights = malloc(sizeof(CGFloat) * count);
     for (int i=0; i<count; i++) { // 根据每个cell的文字计算每个cell适合的高度
         self.cellHeights[i] = [PLVVodOptionCell calculateCellWithHeight:_question.options[i] andWidth:self.cellwidth];
     }
     if (!hasIllustration) { // 没有插图时，一行显示两个cell，两个cell的高度要保持一致
-        for (int i=0; i<count/2; i++) {
-            int leftCellIndex = i * 2;
-            int rightCellIndex = i * 2 + 1;
-            if (self.cellHeights[leftCellIndex] > self.cellHeights[rightCellIndex]) {
-                self.cellHeights[rightCellIndex] = self.cellHeights[leftCellIndex];
-            } else {
-                self.cellHeights[leftCellIndex] = self.cellHeights[rightCellIndex];
+        if (![self isLandscape]){
+            for (int i=0; i<count/2; i++) {
+                int leftCellIndex = i * 2;
+                int rightCellIndex = i * 2 + 1;
+                if (self.cellHeights[leftCellIndex] > self.cellHeights[rightCellIndex]) {
+                    self.cellHeights[rightCellIndex] = self.cellHeights[leftCellIndex];
+                } else {
+                    self.cellHeights[leftCellIndex] = self.cellHeights[rightCellIndex];
+                }
             }
         }
     }
@@ -173,10 +181,18 @@
     
     // 设置问题
     self.questionLabel.text = _question.question;
+    self.questionLabel.numberOfLines = 0;
     
     // 设置跳过按钮
     self.skipButton.enabled = _question.skippable;
     
+    if ([self isLandscape]){
+        self.questionLabel.textAlignment = NSTextAlignmentCenter;
+    }else{
+        self.questionLabel.textAlignment = NSTextAlignmentLeft;
+    }
+    
+    [self layoutIfNeeded];
 }
 
 - (void)updateOuterContainerSize {
@@ -199,7 +215,7 @@
         NSLog(@"outerContanerHeight = %f", outerContanerHeight);
         self.outerContanerWeidht = outerContanerHeight / 9 * 16;
         
-        horzontalPadding = (screenWidth - self.outerContanerWeidht) / 2;
+        horzontalPadding = (screenWidth - self.outerContanerWeidht) / 2 ;
         
         self.outerContainerLeadingConstraint.constant = horzontalPadding;
         self.outerContainerTailingConstraint.constant = horzontalPadding;
@@ -207,7 +223,26 @@
         self.outerContainerBottomConstraint.constant = verticalPadding;
     }
     
-    [self layoutIfNeeded];
+//    [self layoutIfNeeded];
 }
+
+- (BOOL)isLandscape{
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    return UIDeviceOrientationIsLandscape((UIDeviceOrientation)interfaceOrientation);
+}
+
+- (NSString *)optionOrderWithIndex:(NSInteger )index{
+    NSDictionary *dict = @{@"0":@"A.",
+                           @"1":@"B.",
+                           @"2":@"C.",
+                           @"3":@"D.",
+                           @"4":@"E."
+                           };
+    
+    NSString *keyStr = [NSString stringWithFormat:@"%d", (int)index];
+    
+    return dict[keyStr];
+}
+
 
 @end

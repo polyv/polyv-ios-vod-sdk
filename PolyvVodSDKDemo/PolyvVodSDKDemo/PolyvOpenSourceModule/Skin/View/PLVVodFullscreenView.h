@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *settingButton;
 @property (weak, nonatomic) IBOutlet UIButton *danmuButton;
+@property (weak, nonatomic) IBOutlet UIButton *lockScreenButton;
 
 //音视频切换
 @property (weak, nonatomic) IBOutlet UIView *playModeContainerView;

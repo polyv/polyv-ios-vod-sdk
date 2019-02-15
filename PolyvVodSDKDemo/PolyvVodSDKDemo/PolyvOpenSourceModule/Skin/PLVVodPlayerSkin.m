@@ -17,6 +17,8 @@
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodDefinitionPanelView.h"
 #import "PLVVodPlaybackRatePanelView.h"
+#import "PLVVodLockScreenView.h"
+#import "PLVVodCoverView.h"
 #import "UIButton+EnlargeTouchArea.h"
 #import <Photos/Photos.h>
 
@@ -45,6 +47,12 @@
 /// 音频封面面板
 @property (strong, nonatomic) IBOutlet PLVVodAudioCoverPanelView *audioCoverPanelView;
 
+/// 锁屏状态面板
+@property (strong, nonatomic) IBOutlet PLVVodLockScreenView *lockScreenView;
+
+/// 源文件音频播放封面图面板
+@property (strong, nonatomic) IBOutlet PLVVodCoverView *originalAudioCoverView;
+
 /// 在面板的点击
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *panelTap;
 
@@ -62,6 +70,9 @@
 
 /// 皮肤控件容器视图
 @property (weak, nonatomic) IBOutlet UIView *controlContainerView;
+
+/// 锁屏状态
+@property (assign, nonatomic) BOOL isLockScreen;
 
 @end
 
@@ -266,6 +277,43 @@
     }
 }
 
+#pragma mark 源文件音频播放封面图
+- (void)updateOriginalAudioCoverView:(PLVVodVideo *)video{
+    NSString * fileUrl;
+
+    if ([video isKindOfClass: [PLVVodLocalVideo class]]){
+        // 是本地文件
+        PLVVodDownloadInfo * info = [[PLVVodDownloadManager sharedManager]requestDownloadInfoWithVid:video.vid];
+        
+        video.snapshot = info.snapshot;
+        
+        PLVVodLocalVideo * localVideoModel = (PLVVodLocalVideo *)video;
+        fileUrl = localVideoModel.path;
+    }else{
+        // 非本地文件
+        if (video.keepSource == NO) {
+            // 非源文件，不处理
+            return;
+        }else{
+            // 源文件
+            fileUrl = video.play_source_url;
+        }
+    }
+    
+    // 判断音频链接是否存在
+    if (fileUrl && [fileUrl isKindOfClass:[NSString class]] && fileUrl.length != 0) {
+        // 判断是否是mp3
+        if ([fileUrl hasSuffix:@".mp3"]) {
+            [self.originalAudioCoverView setCoverImageWithUrl:video.snapshot];
+            [self.view addSubview:self.originalAudioCoverView];
+            [self constrainSubview:self.originalAudioCoverView toMatchWithSuperview:self.view];
+            [self.view sendSubviewToBack:self.originalAudioCoverView];
+        }
+    }
+    
+    // 注：若需视频也显示封面图，调整上方代码判断逻辑即可
+}
+
 #pragma getter --
 - (UIView *)skinMaskView
 {
@@ -330,13 +378,6 @@
     [self constrainSubview:self.skinMaskView toMatchWithSuperview:self.view];
     self.skinMaskView.backgroundColor = [UIColor clearColor];
     [self.view sendSubviewToBack:self.skinMaskView];
-    
-    if ([self.playbackRatePanelView superview]){
-        if ([[self.playbackRatePanelView superview] isEqual:self.controlContainerView]){
-            //
-            NSLog(@"------");
-        }
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -356,14 +397,21 @@
 #pragma mark - observe
 
 - (void)addOrientationObserve {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interfaceOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(interfaceOrientationDidChange:)
+                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
+                                               object:nil];
 }
 
 - (void)removeOrientationObserve {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidChangeStatusBarOrientationNotification
+                                                  object:nil];
 }
 
 - (void)interfaceOrientationDidChange:(NSNotification *)notification {
+    if (self.isLockScreen) return;
+    
 	UIInterfaceOrientation interfaceOrientaion = [UIApplication sharedApplication].statusBarOrientation;
 	switch (interfaceOrientaion) {
 		case UIInterfaceOrientationPortrait:{
@@ -428,32 +476,39 @@
 	}
 }
 
+#pragma mark - 皮肤按钮事件
 #pragma mark - action
 
+// 回到控制器主状态
 - (IBAction)backMainControl:(id)sender {
     if (self.topView == self.mainControl) return;
     [self transitFromView:self.topView toView:self.mainControl];
     [self fadeoutPlaybackControl];
 }
 
+// 横竖屏切换
 - (IBAction)switchScreenAction:(UIButton *)sender {
 	[self switchScreen];
 }
 
+// 弹幕发送
 - (IBAction)danmuButtonAction:(UIButton *)sender {
 	sender.selected = !sender.selected;
 	self.fullscreenView.danmuSendButton.hidden = !sender.selected;
 	if (self.enableDanmuChangeHandler) self.enableDanmuChangeHandler(self, sender.selected);
 }
 
+// 清晰度设置
 - (IBAction)definitionAction:(UIButton *)sender {
 	[self transitToView:self.definitionPanelView];
 }
 
+// 播放速率设置
 - (IBAction)playbackRateAction:(UIButton *)sender {
 	[self transitToView:self.playbackRatePanelView];
 }
 
+//  切换到竖屏
 - (IBAction)backAction:(UIButton *)sender {
 	// 切换到竖屏
 	UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
@@ -462,15 +517,18 @@
 	}
 }
 
+// 分享设置
 - (IBAction)shareAction:(UIButton *)sender {
 	[self transitToView:self.sharePanelView];
 }
 
+// 设置按钮
 - (IBAction)settingAction:(UIButton *)sender {
 	[self transitToView:self.settingsPanelView];
     [self.settingsPanelView switchToPlayMode:self.delegatePlayer.playbackMode];
 }
 
+// 截图按钮
 - (IBAction)snapshotAction:(UIButton *)sender {
 	UIImage *snapshot = [self.delegatePlayer snapshot];
 	NSLog(@"snapshot: %@", snapshot);
@@ -489,6 +547,7 @@
 	}
 }
 
+// 弹出弹幕按钮
 - (IBAction)danmuAction:(UIButton *)sender {
 	[self transitToView:self.danmuSendView];
 }
@@ -505,12 +564,34 @@
 	}];
 }
 
+// 视频模式按钮
 - (IBAction)videoPlaybackModeAction:(id)sender {
     self.delegatePlayer.playbackMode = PLVVodPlaybackModeVideo;
 }
 
+// 音频模式按钮
 - (IBAction)audioPlaybackModeAction:(id)sender {
     self.delegatePlayer.playbackMode = PLVVodPlaybackModeAudio;
+}
+
+// 锁屏按钮
+- (IBAction)lockScreenAction:(UIButton *)sender{
+    // 进入锁屏状态
+    [self transitToView:self.lockScreenView];
+    [self.lockScreenView showLockScreenButton];
+    self.isLockScreen = YES;
+}
+
+// 解锁按钮
+- (IBAction)unlockScreenAction:(UIButton *)sender{
+    [self backMainControl:sender];
+    self.isLockScreen = NO;
+}
+
+// 投屏按钮
+- (IBAction)castAction:(UIButton *)sender {    
+    sender.selected = !sender.selected;
+    if (self.castButtonTouchHandler) self.castButtonTouchHandler(sender);
 }
 
 #pragma mark - UITextFieldDelegate
@@ -618,8 +699,14 @@
 	subview.translatesAutoresizingMaskIntoConstraints = NO;
 	NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
 	
-	NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|" options:0 metrics:nil views:viewsDictionary];
-	constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|" options:0 metrics:nil views:viewsDictionary]];
+	NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|"
+                                                                   options:0
+                                                                   metrics:nil
+                                                                     views:viewsDictionary];
+	constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|"
+                                                                                                     options:0
+                                                                                                     metrics:nil
+                                                                                                       views:viewsDictionary]];
 	[superview addConstraints:constraints];
 	
 	return constraints;
@@ -629,12 +716,14 @@
 - (void)transitToView:(UIView *)toView {
 	[self transitFromView:self.mainControl toView:toView];
 }
+
 - (void)transitFromView:(UIView *)fromView toView:(UIView *)toView {
 	if (fromView == toView || !fromView || !toView) {
 		return;
 	}
 	[self transitFromView:fromView toView:toView options:UIViewAnimationOptionTransitionCrossDissolve];
 }
+
 - (void)transitFromView:(UIView *)fromView toView:(UIView *)toView options:(UIViewAnimationOptions)options {
 	NSArray *priorConstraints = self.priorConstraints;
     fromView.superview.alpha = 1.0;

@@ -17,6 +17,7 @@
 #import "PLVVodDownloadHelper.h"
 #import "PLVVodDBManager.h"
 
+#import "PLVCastBusinessManager.h"
 
 static NSString * const PLVVodKeySettingKey = @"vodKey_preference";
 static NSString * const PLVSdkVersionSettingKey = @"sdkVersion_preference";
@@ -82,6 +83,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	[self updateSettingsBundle];
     
     [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
+    [PLVCastBusinessManager getCastAuthorization];
     
 	return YES;
 }
