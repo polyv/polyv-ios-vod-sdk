@@ -76,6 +76,9 @@
 		[self setupExam];
 		[self setupSubtitle];
         [self setupOriginalAudioCover];
+        
+        // 设置播放打点信息
+        [self setVideoPlayTips];
 
 		// 设置控制中心播放信息
 		self.coverImage = nil;
@@ -206,6 +209,11 @@
 			isLoading ? [_skin.loadingIndicator startAnimating] : [_skin.loadingIndicator stopAnimating];
 		});
 	};
+    
+    // 配置打点信息回调
+    self.videoTipsSelectedHandler = ^(NSUInteger tipIndex) {
+        [_skin showVideoPlayTips:tipIndex];
+    };
 }
 
 - (void)setupAd {
@@ -291,6 +299,22 @@
 		NSString *srtContent = string;
 		weakSelf.subtitleManager = [PLVSubtitleManager managerWithSubtitle:srtContent label:skin.subtitleLabel topLabel:skin.subtitleTopLabel error:nil];
 	}];
+}
+
+// 设置视频打点信息
+- (void)setVideoPlayTips{
+    //
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    [skin addVideoPlayTips:self.video];
+    
+    __weak typeof(self) weakSelf = self;
+
+    // 视频打点,点击播放回调处理
+    skin.plvVideoTipsPlayerBlock = ^(NSUInteger playIndex) {
+        PLVVodVideoKeyFrameItem *item = [weakSelf.video.videokeyframes objectAtIndex:playIndex];
+        [weakSelf setCurrentPlaybackTime:[item.keytime floatValue]];
+        [weakSelf play];
+    };
 }
 
 // 配置控制中心播放

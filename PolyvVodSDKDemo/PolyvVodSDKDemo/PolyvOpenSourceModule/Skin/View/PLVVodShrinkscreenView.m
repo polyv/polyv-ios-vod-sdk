@@ -19,6 +19,46 @@
 
 @implementation PLVVodShrinkscreenView
 
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    
+    
+}
+
+#pragma mark getter
+
+// 清晰度切换
+- (UIButton *)qualitySwitchBtn{
+    if (!_qualitySwitchBtn){
+        _qualitySwitchBtn = [[UIButton alloc] init];
+        [_qualitySwitchBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    }
+    
+    return _qualitySwitchBtn;
+}
+
+// 播放倍速切换
+- (UIButton *)rateSwitchBtn{
+    if (!_rateSwitchBtn){
+        _rateSwitchBtn = [[UIButton alloc] init];
+        [_rateSwitchBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    }
+    
+    return _rateSwitchBtn;
+}
+
+// 线路切换
+- (UIButton *)lineSwitchBtn{
+    if (!_lineSwitchBtn){
+        _lineSwitchBtn = [[UIButton alloc] init];
+        [_lineSwitchBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    }
+    
+    return _lineSwitchBtn;
+}
+
+#pragma mark button action
+
 - (void)switchToPlayMode:(PLVVodPlaybackMode)mode {
     if (mode == PLVVodPlaybackModeAudio) {
         self.videoModeSelectedImageView.hidden = YES;

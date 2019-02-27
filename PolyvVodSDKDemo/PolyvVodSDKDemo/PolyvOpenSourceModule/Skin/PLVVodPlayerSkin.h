@@ -91,6 +91,9 @@
 @property (nonatomic, assign) BOOL enableDanmu;
 @property (nonatomic, copy) void (^enableDanmuChangeHandler)(PLVVodPlayerSkin *skin, BOOL enableDanmu);
 
+/// 视频打点，点击播放回调
+@property (nonatomic, copy) void(^plvVideoTipsPlayerBlock)(NSUInteger playIndex);
+
 - (void)showGestureIndicator;
 - (void)hideGestureIndicator;
 
@@ -102,5 +105,10 @@
 - (void)updateOriginalAudioCoverView:(PLVVodVideo *)video;
 
 - (void)updateAudioCoverAnimation:(BOOL)isPlaying;
+
+// 添加视频打点信息
+- (void)addVideoPlayTips:(PLVVodVideo *)video;
+// 展示视频打点信息
+- (void)showVideoPlayTips:(NSUInteger )tipsIndx;
 
 @end

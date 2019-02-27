@@ -10,6 +10,24 @@
 ### Removed
 ### Fixed -->
 
+## [2.5.5] - 2019-01-26
+
+### Added
+
+- 播放器新增视频打点功能，具体实现参考demo
+- `PLVVodPlayerViewController`，新增视频打点信息点击回调，传递被选中的打点信息索引
+    + `@property (nonatomic, copy) void (^videoTipsSelectedHandler)(NSUInteger tipIndex);`  
+- `PLVVodPlayerSkin` , 
+    + `-addVideoPlayTips` ， 添加视频打点信息
+    + `-showVideoPlayTips`，展示视频打点信息
++ `@property (nonatomic, copy) void(^plvVideoTipsPlayerBlock)(NSUInteger playIndex);` 点击打点信息播放事件处理
+
+
+### Fixed
+
+- 投屏功能sdk升级，部分bug修复
+
+
 ## [2.5.4] - 2019-02-15
 
 ### Added

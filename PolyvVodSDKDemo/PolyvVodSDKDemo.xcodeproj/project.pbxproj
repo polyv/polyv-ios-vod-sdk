@@ -72,6 +72,7 @@
 		041B5D6D21BE59B000FC7941 /* PLVVodLockScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041B5D6C21BE59B000FC7941 /* PLVVodLockScreenView.m */; };
 		0427C524219FD01E00B2C910 /* PLVVodDownloadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427C522219FD01E00B2C910 /* PLVVodDownloadHelper.m */; };
 		0427C525219FD01E00B2C910 /* plv_bg_voice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0427C523219FD01E00B2C910 /* plv_bg_voice.mp3 */; };
+		0430A41321EC4237001B8942 /* PLVVodPlayTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430A41221EC4237001B8942 /* PLVVodPlayTipsView.m */; };
 		043D44712193ECA100C2F776 /* PLVVodServiceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D44702193ECA100C2F776 /* PLVVodServiceUtil.m */; };
 		043D44742194098400C2F776 /* PLVUserVideoListResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D44732194098400C2F776 /* PLVUserVideoListResult.m */; };
 		0463BAE821A52FBB0010A5EC /* PLVVodDBManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0463BAE421A52FBB0010A5EC /* PLVVodDBManager.mm */; };
@@ -241,6 +242,8 @@
 		0427C521219FD01E00B2C910 /* PLVVodDownloadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodDownloadHelper.h; sourceTree = "<group>"; };
 		0427C522219FD01E00B2C910 /* PLVVodDownloadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVVodDownloadHelper.m; sourceTree = "<group>"; };
 		0427C523219FD01E00B2C910 /* plv_bg_voice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = plv_bg_voice.mp3; sourceTree = "<group>"; };
+		0430A41121EC4237001B8942 /* PLVVodPlayTipsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodPlayTipsView.h; sourceTree = "<group>"; };
+		0430A41221EC4237001B8942 /* PLVVodPlayTipsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodPlayTipsView.m; sourceTree = "<group>"; };
 		043D446F2193ECA100C2F776 /* PLVVodServiceUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodServiceUtil.h; sourceTree = "<group>"; };
 		043D44702193ECA100C2F776 /* PLVVodServiceUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodServiceUtil.m; sourceTree = "<group>"; };
 		043D44722194098400C2F776 /* PLVUserVideoListResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVUserVideoListResult.h; sourceTree = "<group>"; };
@@ -426,6 +429,7 @@
 		03856C521FE21C990038DEB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0430A41021EC3EF6001B8942 /* PlayTips */,
 				03F899701FF3AA450091AC89 /* PLVVodGestureIndicatorView.h */,
 				03F899711FF3AA450091AC89 /* PLVVodGestureIndicatorView.m */,
 				03C9D4531FF255B0006F460C /* PLVVodPlaybackRatePanelView.h */,
@@ -665,6 +669,15 @@
 			path = Download;
 			sourceTree = "<group>";
 		};
+		0430A41021EC3EF6001B8942 /* PlayTips */ = {
+			isa = PBXGroup;
+			children = (
+				0430A41121EC4237001B8942 /* PLVVodPlayTipsView.h */,
+				0430A41221EC4237001B8942 /* PLVVodPlayTipsView.m */,
+			);
+			path = PlayTips;
+			sourceTree = "<group>";
+		};
 		0463BAE221A52F7F0010A5EC /* PolyvOpenDatabase */ = {
 			isa = PBXGroup;
 			children = (
@@ -890,7 +903,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh",
 				"${PODS_ROOT}/XRCarouselView/XRCarouselView/XRPlaceholder.png",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -899,7 +912,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2441B99200F1DDB0AA6A8AA9 /* [CP] Check Pods Manifest.lock */ = {
@@ -1030,6 +1043,7 @@
 				034271D020492836002F4475 /* UIControl+PLVVod.m in Sources */,
 				03856C701FE21C990038DEB2 /* UIColor+PLVVod.m in Sources */,
 				030DF03A1FB5BA9D0035D0B0 /* PLVSchool.m in Sources */,
+				0430A41321EC4237001B8942 /* PLVVodPlayTipsView.m in Sources */,
 				0314085A1FB94DAF00D1424A /* Foundation+Log.m in Sources */,
 				03856C741FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m in Sources */,
 				03DDF4CE1FE763BB00F63630 /* DLSlideView.m in Sources */,
