@@ -26,11 +26,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *settingButton;
 @property (weak, nonatomic) IBOutlet UIButton *danmuButton;
 @property (weak, nonatomic) IBOutlet UIButton *lockScreenButton;
+@property (weak, nonatomic) IBOutlet UIButton *routeButton; // 线路切换
 
 //音视频切换
 @property (weak, nonatomic) IBOutlet UIView *playModeContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *videoPlayModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *audioPlayModeButton;
+
+// 清晰度按钮是否响应事件
+@property (nonatomic, assign) BOOL enableQualityBtn;   // 清晰度按钮是否响应事件
 
 //滑杆背景视频，添加视频打点
 @property (weak, nonatomic) IBOutlet UIView *sliderBackView;

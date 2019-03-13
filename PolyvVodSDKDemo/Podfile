@@ -14,8 +14,8 @@ target 'PolyvVodSDKDemo' do
     pod 'Masonry'
 
 	# PLVVodSDK
-    pod 'ABN_PolyvVodSDK', '~> 2.5.5'
-    
+    pod 'ABN_PolyvVodSDK', '~> 2.5.6'
+
     # 使用投屏功能的客户需要集成
     pod 'LBLelinkKit', '~> 30201'
 

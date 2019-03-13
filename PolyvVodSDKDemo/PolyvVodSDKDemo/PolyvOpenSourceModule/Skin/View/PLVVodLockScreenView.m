@@ -26,7 +26,7 @@
     
     self.backgroundColor = [UIColor clearColor];
     
-    if (PLV_iPhoneX || PLV_iPhoneMR){
+    if (PLV_iPhoneX || PLV_iPhoneXR){
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
         [self.constraints enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

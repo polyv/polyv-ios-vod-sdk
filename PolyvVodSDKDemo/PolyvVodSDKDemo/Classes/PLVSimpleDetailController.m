@@ -42,7 +42,9 @@
 - (void)setupPlayer {
 	// 初始化播放器
 	PLVVodSkinPlayerController *player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
-	[player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
+    // 因播放器皮肤的部分控件，需根据'防录屏'开关决定是否显示，因此若需打开，请在addPlayerOnPlaceholderView前设置
+    // player.videoCaptureProtect = YES;
+    [player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
 	self.player = player;
     self.player.rememberLastPosition = YES;
     self.player.enableBackgroundPlayback = YES;

@@ -10,18 +10,44 @@
 ### Removed
 ### Fixed -->
 
-## [2.5.5] - 2019-01-26
+## [2.5.6] - 2019-03-13
+
+### Added
+
+- 新增播放器防录屏功能
+- 播放器支持多线路切换
+- 竖屏小窗播放，支持自定义清晰度/线路倍速按钮显示
+
+- `PLVVodVideo` ,  新增音频文件线路属性，用于线路切换
+    + `@property (nonatomic, strong, readonly) NSArray<NSString *> *availableVoiceRouteLines;`   
+- `PLVVodPlayerViewController`，防录屏功能，默认NO 关闭
+    + `@property (nonatomic, assign) BOOL videoCaptureProtect;`   
+- `PLVVodShrinkscreenView`，（DEMO）小窗播放，自定义显示按钮
+    + `@property (nonatomic, assign) BOOL isShowRouteline` 是否显示线路按钮
+    + `@property (nonatomic, assign) BOOL isShowRate`  是否显示速率按钮
+    + `@property (nonatomic, assign) BOOL isShowQuality`  是否显示清晰度按钮
+
+### Changed
+- 视频播放前显示视频封面图
+- 投屏组件增加注释、针对防录屏功能的使用时机进行注释说明、默认投屏按钮隐藏（客户使用投屏功能，只需解开注释即可）
+
+### Fixed
+- 竖屏切换到横屏，跑马灯始终显示在中间不变化问题修复
+- 视频可播放但未开始播放，seek 失效问题修复
+- 删除视频，数据库记录会重建问题修复
+- 删除全部视频，autoStar 自动下载失效问题修复
+
+
+## [2.5.5] - 2019-01-25
 
 ### Added
 
 - 播放器新增视频打点功能，具体实现参考demo
-- `PLVVodPlayerViewController`，新增视频打点信息点击回调
-    + `@property (nonatomic, copy) void (^videoTipsSelectedHandler)(NSUInteger tipIndex);`  
+- `PLVVodPlayerViewController`，
+    + `@property (nonatomic, copy) void (^videoTipsSelectedHandler)(NSUInteger tipIndex);`  视频打点信息点击回调
 - `PLVVodPlayerSkin` , 
-    + `-addVideoPlayTips` ， (DEMO) 添加视频打点信息
+    + `-addVideoPlayTips`   (DEMO) 添加视频打点信息
     + `-showVideoPlayTips`，（DEMO）展示视频打点信息
-    + `@property (nonatomic, copy) void(^plvVideoTipsPlayerBlock)(NSUInteger playIndex);` (DEMO) 点击打点信息播放事件处理
-
 
 ### Fixed
 

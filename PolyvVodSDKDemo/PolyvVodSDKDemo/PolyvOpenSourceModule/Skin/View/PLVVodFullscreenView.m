@@ -36,7 +36,7 @@
 		self.statusBarHeight.constant = 12;
 	}
     
-    if (PLV_iPhoneX || PLV_iPhoneMR){
+    if (PLV_iPhoneX || PLV_iPhoneXR){
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
         [self.constraints enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -192,6 +192,17 @@
 
 - (void)hidePlayTipsView{
     self.playTipsView.hidden = YES;
+}
+
+// 清晰度按钮是否响应事件
+- (void)setEnableQualityBtn:(BOOL)enableQualityBtn{
+    self.definitionButton.enabled = enableQualityBtn;
+    if (enableQualityBtn){
+        self.definitionButton.alpha = 1.0;
+    }
+    else{
+        self.definitionButton.alpha = 0.5;
+    }
 }
 
 - (NSString *)description {

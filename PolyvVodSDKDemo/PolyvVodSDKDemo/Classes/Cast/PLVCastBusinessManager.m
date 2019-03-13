@@ -130,6 +130,11 @@
 }
 
 - (void)setup{
+
+    if (self.player.videoCaptureProtect) {
+        NSLog(@"PLVCastBusinessManager - 警告：播放器防录屏功能已开启，保利威投屏模块将不可用");
+        return;
+    }
     
     // 投屏管理器
     self.castManager = [PLVCastManager shareManager];

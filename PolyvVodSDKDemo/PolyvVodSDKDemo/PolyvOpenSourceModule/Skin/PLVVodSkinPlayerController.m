@@ -17,8 +17,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <PLVMarquee/PLVMarquee.h>
 #import <MediaPlayer/MPVolumeView.h>
-
-#import "PLVCastBusinessManager.h"
+//#import "PLVCastBusinessManager.h" // 若需投屏功能，请解开此注释
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -71,14 +70,15 @@
 	if (!video.available) return;
 	dispatch_async(dispatch_get_main_queue(), ^{
         [self setupPlaybackMode];
-		[self setupAd];
+        [self setupCover];
+        [self setupAd];
 		[self setupDanmu];
 		[self setupExam];
 		[self setupSubtitle];
-        [self setupOriginalAudioCover];
-        
         // 设置播放打点信息
         [self setVideoPlayTips];
+        // 皮肤更新
+        [self updateSkin];
 
 		// 设置控制中心播放信息
 		self.coverImage = nil;
@@ -143,10 +143,14 @@
 	//self.autoplay = NO;
 	
 	// 设置跑马灯
-	//PLVMarquee *marquee = [[PLVMarquee alloc] init];
-	//marquee.type = PLVMarqueeTypeRollFade;
-	//marquee.maxFadeInterval = 5;
-	//self.marquee = marquee;
+    
+    PLVMarquee *marquee = [[PLVMarquee alloc] init];
+    marquee.type = PLVMarqueeTypeRoll;
+    marquee.displayDuration = 10;
+    marquee.maxFadeInterval = 5*60;
+    marquee.maxRollInterval = 5*60;
+//    marquee.maxFadeInterval = 5;
+    self.marquee = marquee;
 	
 	// 错误回调
 	self.playerErrorHandler = ^(PLVVodPlayerViewController *player, NSError *error) {
@@ -162,12 +166,14 @@
         // 对于某些场景需要再次调用play函数才能播放
         [weakSelf play];
     };
-    
-    if ([PLVCastBusinessManager authorizationInfoIsLegal] == NO) {
-        PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
-        skin.castButton.hidden = YES;
-        skin.castButtonInFullScreen.hidden = YES;
-    }
+
+    // 若需投屏功能，请解开以下注释
+    // 仅在投屏信息设置有效 及 ‘防录屏’开关为NO 时投屏按钮会显示
+//    if ([PLVCastBusinessManager authorizationInfoIsLegal] && self.videoCaptureProtect == NO) {
+//        PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+//        skin.castButton.hidden = NO;
+//        skin.castButtonInFullScreen.hidden = NO;
+//    }
 }
 
 - (void)viewDidLayoutSubviews {
@@ -214,6 +220,75 @@
     self.videoTipsSelectedHandler = ^(NSUInteger tipIndex) {
         [_skin showVideoPlayTips:tipIndex];
     };
+    
+    skin.routeLineDidChangeBlock = ^(NSUInteger routeIndex) {
+        //
+        // TODO: 进行线路切换
+        NSLog(@"====== 需要线路切换 =====");
+        NSString *routeLine = nil;
+        if (weakSelf.playbackMode == PLVVodPlaybackModeAudio){
+            routeLine = [weakSelf.video.availableAudioRouteLines objectAtIndex:routeIndex];
+        }
+        else{
+            routeLine = [weakSelf.video.availableRouteLines objectAtIndex:routeIndex];
+        }
+        [weakSelf setRouteLine:routeLine];
+    };
+    
+    // 为保证封面图正常回收，需调用一次该Block
+    self.playbackStateHandler = ^(PLVVodPlayerViewController *player) {
+    
+    };
+}
+
+- (void)updateSkin{
+    // 更新线路设置
+    [self setRouteLineView];
+    
+    // 更新清晰度控制
+    [self setQualityView];
+}
+
+// 线路设置
+- (void)setRouteLineView{
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    if (self.video.keepSource){
+        // 屏蔽线路切换
+        [skin setRouteLineFullScreenBtnHidden:YES];
+        [skin setRouteLineShrinkScreenBtnHidden:YES];
+    }
+    else{
+        if ([skin isShowRoutelineInShrinkSreen]){
+            [skin setRouteLineShrinkScreenBtnHidden:NO];
+        }
+        
+        [skin setRouteLineFullScreenBtnHidden:NO];
+        if (PLVVodPlaybackModeAudio == self.playbackMode){
+            [skin setRouteLineCount:self.video.availableAudioRouteLines.count];
+        }
+        else{
+            [skin setRouteLineCount:self.video.availableRouteLines.count];
+        }
+    }
+}
+
+// 清晰度设置
+- (void)setQualityView{
+    //
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    if (self.video.keepSource){
+        // 清晰度不可点击
+        [skin setEnableQualityBtn:NO];
+    }
+    else{
+        if (self.playbackMode != PLVVodPlaybackModeAudio){
+            [skin setEnableQualityBtn:YES];
+        }
+        else{
+            // 音频模式不开启清晰度切换
+            [skin setEnableQualityBtn:NO];
+        }
+    }
 }
 
 - (void)setupAd {
@@ -346,22 +421,50 @@
     [skin setUpPlaybackMode:self.video];
 }
 
-// 设置源文件音频播放封面图
-- (void)setupOriginalAudioCover{
+// 设置封面图
+- (void)setupCover{
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
-    [skin updateOriginalAudioCoverView:self.video];
+    [skin updateCoverView:self.video];
 }
 
-#pragma mark override
+- (void)removeCover{
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    [skin removeCoverView];
+}
+
+#pragma mark override -- 播放模式切换回调
 // 更新播放模式更新成功回调
 - (void)playbackModeDidChange {
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    
+    //
     [skin updatePlayModeContainView:self.video];
+    
+    // 更新清晰度状态
+    if (self.playbackMode != PLVVodPlaybackModeAudio){
+        [skin setEnableQualityBtn:YES];
+    }
+    else{
+        [skin setEnableQualityBtn:NO];
+    }
 }
 
 - (void)updateAudioCoverAnimation:(BOOL)isPlaying {
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
     [skin updateAudioCoverAnimation:isPlaying];
+}
+
+- (void)setPlaybackStateHandler:(void (^)(PLVVodPlayerViewController *))playbackStateHandler{
+    __weak typeof(self) weakSelf = self;
+    
+    super.playbackStateHandler = ^(PLVVodPlayerViewController *player) {
+        if (player.playbackState == PLVVodPlaybackStatePlaying) {
+            [weakSelf removeCover];
+        }
+        if (playbackStateHandler) {
+            playbackStateHandler(player);
+        }
+    };
 }
 
 #pragma mark gesture
