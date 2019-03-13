@@ -16,7 +16,7 @@
 
 - 新增播放器防录屏功能
 - 播放器支持多线路切换
-- 竖屏小窗播放，支持自定义清晰度/线路倍速按钮显示
+- 竖屏小窗播放，支持自定义清晰度/线路/倍速按钮显示
 
 - `PLVVodVideo` ,  新增音频文件线路属性，用于线路切换
     + `@property (nonatomic, strong, readonly) NSArray<NSString *> *availableVoiceRouteLines;`   
