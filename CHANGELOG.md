@@ -19,7 +19,7 @@
 - 竖屏小窗播放，支持自定义清晰度/线路/倍速按钮显示
 
 - `PLVVodVideo` ,  新增音频文件线路属性，用于线路切换
-    + `@property (nonatomic, strong, readonly) NSArray<NSString *> *availableVoiceRouteLines;`   
+    + `@property (nonatomic, strong, readonly) NSArray<NSString *> *availableAudioRouteLines;`   
 - `PLVVodPlayerViewController`，防录屏功能，默认NO 关闭
     + `@property (nonatomic, assign) BOOL videoCaptureProtect;`   
 - `PLVVodShrinkscreenView`，（DEMO）小窗播放，自定义显示按钮
