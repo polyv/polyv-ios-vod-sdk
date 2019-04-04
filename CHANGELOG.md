@@ -19,13 +19,13 @@
 - 竖屏小窗播放，支持自定义清晰度/线路倍速按钮显示
 
 - `PLVVodVideo` ,  新增音频文件线路属性，用于线路切换
-+ `@property (nonatomic, strong, readonly) NSArray<NSString *> *availableVoiceRouteLines;`   
+    + `@property (nonatomic, strong, readonly) NSArray<NSString *> *availableVoiceRouteLines;`   
 - `PLVVodPlayerViewController`，防录屏功能，默认NO 关闭
-+ `@property (nonatomic, assign) BOOL videoCaptureProtect;`   
+    + `@property (nonatomic, assign) BOOL videoCaptureProtect;`   
 - `PLVVodShrinkscreenView`，（DEMO）小窗播放，自定义显示按钮
-+ `@property (nonatomic, assign) BOOL isShowRouteline` 是否显示线路按钮
-+ `@property (nonatomic, assign) BOOL isShowRate`  是否显示速率按钮
-+ `@property (nonatomic, assign) BOOL isShowQuality`  是否显示清晰度按钮
+    + `@property (nonatomic, assign) BOOL isShowRouteline` 是否显示线路按钮
+    + `@property (nonatomic, assign) BOOL isShowRate`  是否显示速率按钮
+    + `@property (nonatomic, assign) BOOL isShowQuality`  是否显示清晰度按钮
 
 ### Changed
 - 视频播放前显示视频封面图
