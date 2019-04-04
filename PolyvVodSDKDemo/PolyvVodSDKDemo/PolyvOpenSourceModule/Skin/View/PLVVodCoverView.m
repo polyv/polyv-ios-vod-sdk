@@ -11,24 +11,9 @@
 
 @interface PLVVodCoverView ()
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imgVHeightConstraint;
-
 @end
 
 @implementation PLVVodCoverView
-
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    
-    float height = 0;
-    if (self.bounds.size.width > self.bounds.size.height) {
-        height = self.bounds.size.height;
-    }else{
-        height = self.bounds.size.width;
-    }
-    
-    self.imgVHeightConstraint.constant = height;
-}
 
 - (void)setCoverImageWithUrl:(NSString *)coverUrl{
     [self.coverImgV yy_setImageWithURL:[NSURL URLWithString:coverUrl] options:0];

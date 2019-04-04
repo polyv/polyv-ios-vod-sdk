@@ -15,6 +15,7 @@
 
 // TODO
 // APPID 和 APPSECRET 需与包名绑定，获取方式请咨询Polyv技术支持
+// 若不需投屏功能，可将以下任意一值置为空字符串
 static NSString * const LBAPPID = @"10729";                                    // APP id
 static NSString * const LBSECRETKEY = @"176141b01d6bfa5c40cc7dd2b71bd3c2";     // 密钥
 

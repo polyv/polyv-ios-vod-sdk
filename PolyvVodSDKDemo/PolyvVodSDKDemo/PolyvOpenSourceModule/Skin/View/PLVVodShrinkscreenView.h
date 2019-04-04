@@ -22,10 +22,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *videoPlayModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *audioPlayModeButton;
 
-// 清晰度，倍速，线路切换
-@property (nonatomic, strong) UIButton *qualitySwitchBtn;
-@property (nonatomic, strong) UIButton *rateSwitchBtn;
-@property (nonatomic, strong) UIButton *lineSwitchBtn;
+@property (weak, nonatomic) IBOutlet UIButton *definitionButton;
+@property (weak, nonatomic) IBOutlet UIButton *playbackRateButton;
+@property (weak, nonatomic) IBOutlet UIButton *routeButton; // 线路切换
+
+@property (nonatomic, assign) BOOL isShowRouteline; // 显示线路
+@property (nonatomic, assign) BOOL isShowRate;      // 显示速率
+@property (nonatomic, assign) BOOL isShowQuality;   // 显示清晰度
+
+@property (nonatomic, assign) BOOL enableQualityBtn;   // 清晰度按钮是否响应事件
 
 - (void)switchToPlayMode:(PLVVodPlaybackMode)mode;
 

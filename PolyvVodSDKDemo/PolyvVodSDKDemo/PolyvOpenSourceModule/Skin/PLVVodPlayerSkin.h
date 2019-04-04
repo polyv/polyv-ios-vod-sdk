@@ -94,6 +94,21 @@
 /// 视频打点，点击播放回调
 @property (nonatomic, copy) void(^plvVideoTipsPlayerBlock)(NSUInteger playIndex);
 
+/// 线路选择回调
+@property (nonatomic, copy) void (^routeLineDidChangeBlock)(NSUInteger routeIndex);
+/// 设置线路数
+- (void)setRouteLineCount:(NSUInteger)count;
+/// 线路选择按钮显示或隐藏
+- (void)setRouteLineFullScreenBtnHidden:(BOOL)hidden;
+- (void)setRouteLineShrinkScreenBtnHidden:(BOOL)hidden;
+
+/// 是否显示线路按钮
+- (BOOL)isShowRoutelineInShrinkSreen;
+
+/// 清晰度按钮是否响应事件
+- (void)setEnableQualityBtn:(BOOL )enable;
+
+
 - (void)showGestureIndicator;
 - (void)hideGestureIndicator;
 
@@ -102,7 +117,8 @@
 - (void)setUpPlaybackMode:(PLVVodVideo *)video;
 - (void)updatePlayModeContainView:(PLVVodVideo *)video;
 
-- (void)updateOriginalAudioCoverView:(PLVVodVideo *)video;
+- (void)updateCoverView:(PLVVodVideo *)video;
+- (void)removeCoverView;
 
 - (void)updateAudioCoverAnimation:(BOOL)isPlaying;
 

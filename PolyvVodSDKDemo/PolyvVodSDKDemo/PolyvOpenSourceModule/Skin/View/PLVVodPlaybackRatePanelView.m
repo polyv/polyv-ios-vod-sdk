@@ -52,6 +52,20 @@
     }
 }
 
+- (void)layoutSubviews{
+    
+    if (self.frame.size.width <= PLV_Min_ScreenWidth){
+        self.playbackRateStackView.spacing = 10;
+    }
+    else if (self.frame.size.width <= PLV_Max_ScreenWidth){
+        self.playbackRateStackView.spacing = 25;
+    }
+    else{
+        self.playbackRateStackView.spacing = 60;
+    }
+}
+
+
 #pragma mark - action
 
 - (IBAction)rateButtonAction:(UIButton *)sender {
@@ -76,6 +90,15 @@
 	button.showsTouchWhenHighlighted = YES;
 	[button addTarget:target action:@selector(rateButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	return button;
+}
+
++ (BOOL)isFullScreen{
+    BOOL fullScreen = NO;
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (UIInterfaceOrientationIsLandscape(orientation)){
+        fullScreen = YES;
+    }
+    return fullScreen;
 }
 
 @end

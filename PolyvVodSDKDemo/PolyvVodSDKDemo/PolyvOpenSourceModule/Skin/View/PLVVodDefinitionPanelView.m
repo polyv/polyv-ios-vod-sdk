@@ -24,6 +24,15 @@
 
 #pragma mark - property
 
+- (void)layoutSubviews{
+    if (self.frame.size.width <= PLV_Max_ScreenWidth){
+        self.qualityStackView.spacing = 70;
+    }
+    else{
+        self.qualityStackView.spacing = 100;
+    }
+}
+
 - (void)setQualityCount:(int)qualityCount {
 	_qualityCount = qualityCount;
 	if (qualityCount < 1) {

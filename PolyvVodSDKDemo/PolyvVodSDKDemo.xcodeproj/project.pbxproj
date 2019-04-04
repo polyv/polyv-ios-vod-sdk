@@ -84,6 +84,7 @@
 		04B051D02106CE9600F6C791 /* PLVDownloadProcessingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B051CF2106CE9600F6C791 /* PLVDownloadProcessingViewController.m */; };
 		04B051D32106CEC000F6C791 /* PLVDownloadCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B051D22106CEC000F6C791 /* PLVDownloadCompleteViewController.m */; };
 		04D4038D2127BA3C002B16CC /* PLVDownloadCompleteInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D4038C2127BA3C002B16CC /* PLVDownloadCompleteInfoModel.m */; };
+		04E5BE75221577C600A8BCC9 /* PLVVodRouteLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E5BE73221577C500A8BCC9 /* PLVVodRouteLineView.m */; };
 		04F57DB92136827D001AD451 /* PLVPlayQueueBackgroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */; };
 		04F9F0F020EF51D000D204EA /* UIButton+EnlargeTouchArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F9F0EF20EF51D000D204EA /* UIButton+EnlargeTouchArea.m */; };
 		37337D047CA5560365002F6A /* libPods-PolyvVodSDKDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C60E40EDC7D355CEBC6A513F /* libPods-PolyvVodSDKDemo.a */; };
@@ -268,6 +269,8 @@
 		04B051D82106EC4C00F6C791 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		04D4038B2127BA3C002B16CC /* PLVDownloadCompleteInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadCompleteInfoModel.h; sourceTree = "<group>"; };
 		04D4038C2127BA3C002B16CC /* PLVDownloadCompleteInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVDownloadCompleteInfoModel.m; sourceTree = "<group>"; };
+		04E5BE73221577C500A8BCC9 /* PLVVodRouteLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVVodRouteLineView.m; sourceTree = "<group>"; };
+		04E5BE74221577C500A8BCC9 /* PLVVodRouteLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodRouteLineView.h; sourceTree = "<group>"; };
 		04F57DB72136827D001AD451 /* PLVPlayQueueBackgroundController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVPlayQueueBackgroundController.h; sourceTree = "<group>"; };
 		04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVPlayQueueBackgroundController.m; sourceTree = "<group>"; };
 		04F9F0EE20EF51D000D204EA /* UIButton+EnlargeTouchArea.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+EnlargeTouchArea.h"; sourceTree = "<group>"; };
@@ -429,6 +432,8 @@
 		03856C521FE21C990038DEB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				04E5BE74221577C500A8BCC9 /* PLVVodRouteLineView.h */,
+				04E5BE73221577C500A8BCC9 /* PLVVodRouteLineView.m */,
 				0430A41021EC3EF6001B8942 /* PlayTips */,
 				03F899701FF3AA450091AC89 /* PLVVodGestureIndicatorView.h */,
 				03F899711FF3AA450091AC89 /* PLVVodGestureIndicatorView.m */,
@@ -903,7 +908,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh",
 				"${PODS_ROOT}/XRCarouselView/XRCarouselView/XRPlaceholder.png",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -912,7 +917,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2441B99200F1DDB0AA6A8AA9 /* [CP] Check Pods Manifest.lock */ = {
@@ -1013,6 +1018,7 @@
 				033AF0881FE9FA530068BC40 /* PLVToolbar.m in Sources */,
 				6307224521C79917003B2526 /* PLVCastServiceListView.m in Sources */,
 				6307224821C8DFC8003B2526 /* PLVCastControllView.m in Sources */,
+				04E5BE75221577C600A8BCC9 /* PLVVodRouteLineView.m in Sources */,
 				031408601FB9806100D1424A /* PLVTeacher.m in Sources */,
 				0489AFDD21077559004A26A4 /* PLVDownloadProcessingCell.m in Sources */,
 				03722E3E1FEB910300031180 /* PLVVodExplanationView.m in Sources */,

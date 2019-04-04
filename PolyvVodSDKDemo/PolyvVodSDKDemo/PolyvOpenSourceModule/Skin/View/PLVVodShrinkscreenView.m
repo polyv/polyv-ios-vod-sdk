@@ -15,6 +15,13 @@
 @property (weak, nonatomic) IBOutlet UIImageView *audioModeSelectedImageView;
 @property (weak, nonatomic) IBOutlet UILabel *audioModeLabel;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+
+@property (weak, nonatomic) IBOutlet UIStackView *rightToolStackView;
+
+#pragma clang diagnostic pop
+
 @end
 
 @implementation PLVVodShrinkscreenView
@@ -22,39 +29,32 @@
 - (void)awakeFromNib{
     [super awakeFromNib];
     
-    
+    [self initUIControl];
 }
 
-#pragma mark getter
+- (void)initUIControl{
+    // 默认隐藏清晰度
+    self.isShowQuality = NO;
+    self.definitionButton.hidden = !self.isShowQuality;
 
-// 清晰度切换
-- (UIButton *)qualitySwitchBtn{
-    if (!_qualitySwitchBtn){
-        _qualitySwitchBtn = [[UIButton alloc] init];
-        [_qualitySwitchBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    }
-    
-    return _qualitySwitchBtn;
+    // 默认隐藏播放速率
+    self.isShowRate = NO;
+    self.playbackRateButton.hidden = !self.isShowRate;
+
+    //  默认隐藏线路切换
+    self.isShowRouteline = NO;
+    self.routeButton.hidden = !self.isShowRouteline;
 }
 
-// 播放倍速切换
-- (UIButton *)rateSwitchBtn{
-    if (!_rateSwitchBtn){
-        _rateSwitchBtn = [[UIButton alloc] init];
-        [_rateSwitchBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    }
+- (void)layoutSubviews{
     
-    return _rateSwitchBtn;
-}
-
-// 线路切换
-- (UIButton *)lineSwitchBtn{
-    if (!_lineSwitchBtn){
-        _lineSwitchBtn = [[UIButton alloc] init];
-        [_lineSwitchBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    // 客户可以具体需求，调整布局
+    if (self.frame.size.width <= PLV_Min_ScreenWidth){
+        self.rightToolStackView.spacing = 10;
     }
-    
-    return _lineSwitchBtn;
+    else{
+        self.rightToolStackView.spacing = 15;
+    }
 }
 
 #pragma mark button action
@@ -70,6 +70,16 @@
         self.videoModeLabel.highlighted = YES;
         self.audioModeSelectedImageView.hidden = YES;
         self.audioModeLabel.highlighted = NO;
+    }
+}
+
+- (void)setEnableQualityBtn:(BOOL)enableQualityBtn{
+    self.definitionButton.enabled = enableQualityBtn;
+    if (enableQualityBtn){
+        self.definitionButton.alpha = 1.0;
+    }
+    else{
+        self.definitionButton.alpha = 0.5;
     }
 }
 

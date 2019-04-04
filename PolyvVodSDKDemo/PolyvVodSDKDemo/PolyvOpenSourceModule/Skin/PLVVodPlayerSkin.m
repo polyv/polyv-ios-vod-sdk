@@ -19,6 +19,7 @@
 #import "PLVVodPlaybackRatePanelView.h"
 #import "PLVVodLockScreenView.h"
 #import "PLVVodCoverView.h"
+#import "PLVVodRouteLineView.h"
 #import "UIButton+EnlargeTouchArea.h"
 #import <Photos/Photos.h>
 
@@ -41,6 +42,9 @@
 /// 速率选择面板
 @property (strong, nonatomic) IBOutlet PLVVodPlaybackRatePanelView *playbackRatePanelView;
 
+/// 线路选择面板
+@property (strong, nonatomic) IBOutlet PLVVodRouteLineView *routeLineView;
+
 /// 分享平台选择面板
 @property (strong, nonatomic) IBOutlet UIView *sharePanelView;
 
@@ -51,7 +55,8 @@
 @property (strong, nonatomic) IBOutlet PLVVodLockScreenView *lockScreenView;
 
 /// 源文件音频播放封面图面板
-@property (strong, nonatomic) IBOutlet PLVVodCoverView *originalAudioCoverView;
+@property (strong, nonatomic) IBOutlet PLVVodCoverView *coverView;
+@property (nonatomic, assign) BOOL isVideoCover;
 
 /// 在面板的点击
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *panelTap;
@@ -115,7 +120,13 @@
 		if (![topView.gestureRecognizers containsObject:self.panelTap]) {
 			[topView addGestureRecognizer:self.panelTap];
 		}
-		self.shouldHideStatusBar = YES;
+        
+        if (self.mainControl == self.fullscreenView){
+            self.shouldHideStatusBar = YES;
+        }
+        else{
+            self.shouldHideStatusBar = NO;
+        }
 	} else {
 		self.shouldHideStatusBar = NO;
 	}
@@ -144,6 +155,14 @@
 			definitionButton.selected = YES;
 			definitionButton.enabled = YES;
 		}
+        
+        UIButton *shrinkDefiBtn = self.shrinkscreenView.definitionButton;
+        if (localPlayback) {
+            [shrinkDefiBtn setTitle:@"本地" forState:UIControlStateNormal];
+            shrinkDefiBtn.enabled = NO;
+        } else {
+            shrinkDefiBtn.enabled = YES;
+        }
 	});
 }
 
@@ -196,6 +215,11 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		UIButton *definitionButton = self.fullscreenView.definitionButton;
 		[definitionButton setTitle:definition forState:UIControlStateNormal];
+        
+        UIButton *shrinkDefinitionBtn = self.shrinkscreenView.definitionButton;
+        if (shrinkDefinitionBtn){
+            [shrinkDefinitionBtn setTitle:definition forState:UIControlStateNormal];
+        }
 	});
 }
 - (PLVVodQuality)quality {
@@ -207,6 +231,11 @@
 }
 - (void (^)(PLVVodQuality))qualityDidChangeBlock {
 	return self.definitionPanelView.qualityDidChangeBlock;
+}
+
+- (void)setEnableQualityBtn:(BOOL)enable{
+    [self.shrinkscreenView setEnableQualityBtn:enable];
+    [self.fullscreenView setEnableQualityBtn:enable];
 }
 
 #pragma mark 拉伸方式
@@ -231,6 +260,10 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.fullscreenView.playbackRateButton setTitle:title forState:UIControlStateNormal];
         [self.playbackRatePanelView setCurRate:playbackRate];
+        
+        if (self.shrinkscreenView.playbackRateButton){
+            [self.shrinkscreenView.playbackRateButton setTitle:title forState:UIControlStateNormal];
+        }
 	});
 }
 
@@ -240,6 +273,23 @@
 
 - (void (^)(double))selectedPlaybackRateDidChangeBlock {
 	return self.playbackRatePanelView.selectedPlaybackRateDidChangeBlock;
+}
+
+#pragma mark 线路数
+- (void)setRouteLineCount:(NSUInteger)count{
+    [self.routeLineView setRouteLineCount:count];
+}
+
+- (void)setRouteLineShrinkScreenBtnHidden:(BOOL)hidden{
+    self.shrinkscreenView.routeButton.hidden = hidden;
+}
+
+- (void)setRouteLineFullScreenBtnHidden:(BOOL)hidden{
+    self.fullscreenView.routeButton.hidden = hidden;
+}
+
+- (BOOL)isShowRoutelineInShrinkSreen{
+    return self.shrinkscreenView.isShowRouteline;
 }
 
 #pragma mark 音视频切换（PlaybackMode）
@@ -278,7 +328,7 @@
 }
 
 #pragma mark 源文件音频播放封面图
-- (void)updateOriginalAudioCoverView:(PLVVodVideo *)video{
+- (void)updateCoverView:(PLVVodVideo *)video{
     NSString * fileUrl;
 
     if ([video isKindOfClass: [PLVVodLocalVideo class]]){
@@ -292,26 +342,44 @@
     }else{
         // 非本地文件
         if (video.keepSource == NO) {
-            // 非源文件，不处理
-            return;
+            // 非源文件
+            fileUrl = video.hlsIndex;
         }else{
             // 源文件
             fileUrl = video.play_source_url;
         }
     }
     
-    // 判断音频链接是否存在
+    // 判断链接是否存在
     if (fileUrl && [fileUrl isKindOfClass:[NSString class]] && fileUrl.length != 0) {
-        // 判断是否是mp3
+        // 判断是否为音频，且是源文件
         if ([fileUrl hasSuffix:@".mp3"]) {
-            [self.originalAudioCoverView setCoverImageWithUrl:video.snapshot];
-            [self.view addSubview:self.originalAudioCoverView];
-            [self constrainSubview:self.originalAudioCoverView toMatchWithSuperview:self.view];
-            [self.view sendSubviewToBack:self.originalAudioCoverView];
+            if (video.keepSource) {
+                self.isVideoCover = NO;
+                self.coverView.hidden = NO;
+                [self.coverView setCoverImageWithUrl:video.snapshot];
+                [self.view addSubview:self.coverView];
+                [self constrainSubview:self.coverView toMatchWithSuperview:self.view];
+                [self.view sendSubviewToBack:self.coverView];
+            }else{
+                // 音频非源文件不添加封面图
+                return;
+            }
+        }else{
+            self.isVideoCover = YES;
+            self.coverView.hidden = NO;
+            [self.coverView setCoverImageWithUrl:video.snapshot];
+            [self.view addSubview:self.coverView];
+            [self constrainSubview:self.coverView toMatchWithSuperview:self.view];
+            [self.view sendSubviewToBack:self.coverView];
         }
     }
-    
-    // 注：若需视频也显示封面图，调整上方代码判断逻辑即可
+}
+
+- (void)removeCoverView{
+    if (self.isVideoCover) { // 视频播放时需隐藏，而音频无需
+        [self.coverView setHidden:YES];
+    }
 }
 
 #pragma mark 添加视频打点信息
@@ -375,7 +443,14 @@
 	self.playbackRatePanelView.playbackRateButtonDidClick = ^(UIButton *sender) {
 		[weakSelf backMainControl:sender];
 	};
-    
+    self.routeLineView.routeLineBtnDidClick = ^(UIButton * _Nonnull sender) {
+        [weakSelf backMainControl:sender];
+    };
+    self.routeLineView.routeLineDidChangeBlock = ^(NSUInteger routeIndex) {
+        if (weakSelf.routeLineDidChangeBlock){
+            weakSelf.routeLineDidChangeBlock(routeIndex);
+        }
+    };
 	// 链接属性
 	self.brightnessSlider = self.settingsPanelView.brightnessSlider;
 	self.volumeSlider = self.settingsPanelView.volumeSlider;
@@ -496,7 +571,6 @@
 }
 
 #pragma mark - 皮肤按钮事件
-#pragma mark - action
 
 // 回到控制器主状态
 - (IBAction)backMainControl:(id)sender {
@@ -558,6 +632,11 @@
 	}];
 }
 
+- (IBAction)routeLineAction:(UIButton *)sender{
+    //
+    [self transitToView:self.routeLineView];
+}
+
 -  (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
 	if (error == nil) {
 		[self showMessage:@"截图保存成功"];
@@ -586,11 +665,19 @@
 // 视频模式按钮
 - (IBAction)videoPlaybackModeAction:(id)sender {
     self.delegatePlayer.playbackMode = PLVVodPlaybackModeVideo;
+    
+    // add by libl [更新线路面板] 2019-02-14 start
+    [self setRouteLineCount:self.delegatePlayer.video.availableRouteLines.count];
+    // add end
 }
 
 // 音频模式按钮
 - (IBAction)audioPlaybackModeAction:(id)sender {
     self.delegatePlayer.playbackMode = PLVVodPlaybackModeAudio;
+    
+    // add by libl [更新线路面板] 2019-02-14 start
+    [self setRouteLineCount:self.delegatePlayer.video.availableAudioRouteLines.count];
+    // add end
 }
 
 // 锁屏按钮

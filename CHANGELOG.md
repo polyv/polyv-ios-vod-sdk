@@ -10,6 +10,34 @@
 ### Removed
 ### Fixed -->
 
+## [2.5.6] - 2019-04-03
+
+### Added
+
+- 新增播放器防录屏功能
+- 播放器支持多线路切换
+- 竖屏小窗播放，支持自定义清晰度/线路倍速按钮显示
+
+- `PLVVodVideo` ,  新增音频文件线路属性，用于线路切换
++ `@property (nonatomic, strong, readonly) NSArray<NSString *> *availableVoiceRouteLines;`   
+- `PLVVodPlayerViewController`，防录屏功能，默认NO 关闭
++ `@property (nonatomic, assign) BOOL videoCaptureProtect;`   
+- `PLVVodShrinkscreenView`，（DEMO）小窗播放，自定义显示按钮
++ `@property (nonatomic, assign) BOOL isShowRouteline` 是否显示线路按钮
++ `@property (nonatomic, assign) BOOL isShowRate`  是否显示速率按钮
++ `@property (nonatomic, assign) BOOL isShowQuality`  是否显示清晰度按钮
+
+### Changed
+- 视频播放前显示视频封面图
+- 投屏组件增加注释、针对防录屏功能的使用时机进行注释说明、默认投屏按钮隐藏（客户使用投屏功能，只需解开注释即可）
+
+### Fixed
+- 竖屏切换到横屏，跑马灯始终显示在中间不变化问题修复
+- 视频可播放但未开始播放，seek 失效问题修复
+- 删除视频，数据库记录会重建问题修复
+- 删除全部视频，autoStar 自动下载失效问题修复
+
+
 ## [2.5.5] - 2019-02-26
 
 ### Added
