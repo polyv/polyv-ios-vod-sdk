@@ -40,8 +40,9 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
     PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
     settings.logLevel = PLVVodLogLevelAll;
     
-    settings.viewerId = @"UserID";
-    settings.viewerName = @"用户名称";
+    settings.viewerId = @"观看用户ID";
+    settings.viewerName = @"观看用户名称";
+    settings.viewerAvatar = @"观看用户头像";
 
 	// 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
 	{
@@ -75,6 +76,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 		// 首先需确保 `downloadManager.downloadDir` 与之前版本的下载目录一致，然后调用兼容 1.x.x 离线视频方法
 		//downloadManager.downloadDir = <#1.x.x版本的下载目录#>
 		//[downloadManager compatibleWithPreviousVideos];
+    
 	}
 	
 	// 接收远程事件
@@ -82,7 +84,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	[self becomeFirstResponder];
 	[self updateSettingsBundle];
     
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
     [PLVCastBusinessManager getCastAuthorization];
     
 	return YES;

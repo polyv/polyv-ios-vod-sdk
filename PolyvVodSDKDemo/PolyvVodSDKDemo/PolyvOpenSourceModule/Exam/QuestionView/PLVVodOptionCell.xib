@@ -24,8 +24,8 @@
                             <constraint firstAttribute="height" constant="22" id="3sv-HX-tjz"/>
                             <constraint firstAttribute="width" secondItem="Cek-7m-HSy" secondAttribute="height" multiplier="1:1" id="XRu-2b-aMP"/>
                         </constraints>
-                        <state key="normal" image="plv_vod_btn_checkbox"/>
-                        <state key="selected" image="plv_vod_btn_checkbox_sel"/>
+                        <state key="normal" image="RaidoBox-Default"/>
+                        <state key="selected" image="RadioBox-Selected-Default"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选项" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ft-GS-9p7">
                         <rect key="frame" x="32" y="3" width="54" height="16"/>
@@ -52,7 +52,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="plv_vod_btn_checkbox" width="20" height="20"/>
-        <image name="plv_vod_btn_checkbox_sel" width="20" height="20"/>
+        <image name="RadioBox-Selected-Default" width="20" height="20"/>
+        <image name="RaidoBox-Default" width="20" height="20"/>
     </resources>
 </document>

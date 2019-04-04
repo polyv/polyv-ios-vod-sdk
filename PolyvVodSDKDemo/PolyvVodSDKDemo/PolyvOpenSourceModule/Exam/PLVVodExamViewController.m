@@ -50,7 +50,7 @@
 	};
 	self.questionView.skipActionHandler = ^{
 		PLVVodExam *exam = [weakSelf hideExam];
-		if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, 0);
+		if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, -1);
 	};
 	self.explanationView.confirmActionHandler = ^(BOOL correct) {
 		PLVVodExam *exam = [weakSelf hideExam];
@@ -132,6 +132,7 @@
 	question.options = exam.options;
 	question.skippable = exam.skippable;
     question.illustration = exam.illustration;
+    question.isMultipleChoice = exam.correctIndex.count > 1 ? YES : NO;
 	return question;
 }
 

@@ -38,6 +38,14 @@
 }
 */
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)layoutSubviews{
+    [self updateOuterContainerSize];
+}
+
 - (void)awakeFromNib {
 	[super awakeFromNib];
 	
@@ -45,12 +53,23 @@
     
     self.containerWithoutExplanation.layer.cornerRadius = 8;
     self.containerWithoutExplanation.layer.masksToBounds = YES;
+    
+    self.alpha = 0;
+    
+    [self commonInit];
+}
+
+- (void)commonInit {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interfaceOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+}
+
+- (void)interfaceOrientationDidChange:(NSNotification *)notification {
+    [self updateOuterContainerSize];
 }
 
 #pragma mark - property
 
 - (void)setExplanation:(NSString *)explanation correct:(BOOL)correct {
-    [self updateOuterContainerSize];
     
 	self.correct = correct;
     
@@ -103,22 +122,46 @@
 
 - (void)updateOuterContainerSize {
     UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (interfaceOrientation == UIInterfaceOrientationPortrait) {
+    
+    float width = self.superview.bounds.size.width;
+    float height = self.superview.bounds.size.height;
+    
+    if (height == 0 || width == 0) {
+        self.alpha = 0;
+    }else {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.alpha = 1;
+        }];
+    }
+    
+    if (interfaceOrientation == UIInterfaceOrientationPortrait) { // 竖屏
+        
+        if (width >= height) {
+            self.outerContainerTopConstraint.constant = 0;
+            self.outerContainerBottomConstraint.constant = 0;
+        }else{
+            CGFloat contanerHeight = width / (16.0 / 9.0);
+            CGFloat topBottomPadding = (height - contanerHeight) / 2.0;
+            
+            self.outerContainerTopConstraint.constant = topBottomPadding;
+            self.outerContainerBottomConstraint.constant = topBottomPadding;
+        }
+        
         self.outerContainerLeadingConstraint.constant = 0;
         self.outerContainerTailingConstraint.constant = 0;
-        self.outerContainerTopConstraint.constant = 0;
-        self.outerContainerBottomConstraint.constant = 0;
-    } else {
+        
+    } else { // 横屏
         CGFloat verticalPadding = 60;
         CGFloat horzontalPadding;
         
-        CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+        CGFloat scale = verticalPadding / 375.0;
+        verticalPadding = scale * height;
         
-        CGFloat outerContanerHeight = screenHeight - 60 * 2;
-        CGFloat outerContanerWeidht = outerContanerHeight / 9 * 16;
+        CGFloat outerContanerHeight = height - verticalPadding * 2;
+        NSLog(@"outerContanerHeight = %f", outerContanerHeight);
+        CGFloat outerContanerWeidht = outerContanerHeight / 9.0 * 16;
         
-        horzontalPadding = (screenWidth - outerContanerWeidht) / 2;
+        horzontalPadding = (width - outerContanerWeidht) / 2.0 ;
         
         self.outerContainerLeadingConstraint.constant = horzontalPadding;
         self.outerContainerTailingConstraint.constant = horzontalPadding;

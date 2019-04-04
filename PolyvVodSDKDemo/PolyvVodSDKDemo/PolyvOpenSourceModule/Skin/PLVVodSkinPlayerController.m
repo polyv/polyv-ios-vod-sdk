@@ -18,6 +18,7 @@
 #import <PLVMarquee/PLVMarquee.h>
 #import <MediaPlayer/MPVolumeView.h>
 //#import "PLVCastBusinessManager.h" // 若需投屏功能，请解开此注释
+#import <AlicloudUtils/AlicloudReachabilityManager.h>
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -47,6 +48,12 @@
 /// 修改系统音量
 @property (nonatomic, strong) MPVolumeView *volumeView;
 
+/// 视频播放判断网络类型功能所需的延迟操作事件
+@property (nonatomic, copy) void (^networkTipsConfirmBlock) (void);
+
+/// 是否允许4g网络播放，用于记录用户允许的网络类型
+@property (nonatomic, assign) BOOL allow4gNetwork;
+
 @end
 
 @implementation PLVVodSkinPlayerController
@@ -65,12 +72,34 @@
 		// 记忆播放位置
 		//self.rememberLastPosition = YES;
 	}
+    
+    /// 封面图无需关心网络类型
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setupCoverWithVideo:video];
+    });
+    
+    /// 因setVideo即会开始请求视频数据，因此需在此判断网络类型
+    // 若无需’视频播放判断网络类型‘功能，可将此段判断注释
+    if (self.allow4gNetwork == NO && ![self checkVideoWillPlayLocal:video]) {
+        AlicloudReachabilityManager * reachability = [AlicloudReachabilityManager shareInstance];
+        if (reachability.currentNetworkStatus >= AlicloudReachableVia2G){ // 移动网络
+            __weak typeof(self) weakSelf = self;
+            self.networkTipsConfirmBlock = ^{
+                [weakSelf setVideo:video quality:quality];
+            };
+            dispatch_async(dispatch_get_main_queue(), ^{
+                PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.playerControl;
+                [skin.loadingIndicator stopAnimating];
+                [self networkStatusDidChange:nil];
+            });
+            return;
+        }
+    }
 	
 	[super setVideo:video quality:quality];
 	if (!video.available) return;
 	dispatch_async(dispatch_get_main_queue(), ^{
         [self setupPlaybackMode];
-        [self setupCover];
         [self setupAd];
 		[self setupDanmu];
 		[self setupExam];
@@ -174,6 +203,73 @@
 //        skin.castButton.hidden = NO;
 //        skin.castButtonInFullScreen.hidden = NO;
 //    }
+    
+    // 网络类型监听
+    // 若无需’视频播放判断网络类型‘功能，可将此监听注释
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(networkStatusDidChange:)
+                                                 name:ALICLOUD_NETWOEK_STATUS_NOTIFY
+                                               object:nil];
+}
+
+- (void)networkStatusDidChange:(NSNotification *)notification {
+    if (notification) {
+        if ([self.video isKindOfClass:[PLVVodLocalVideo class]]) {
+            return;
+        }else{
+            if ([self checkVideoWillPlayLocal:self.video]) {
+                return;
+            }
+        }
+    }
+    
+    AlicloudReachabilityManager * reachability = [AlicloudReachabilityManager shareInstance];
+    
+    if (reachability.currentNetworkStatus == AlicloudNotReachable) { // 无网络
+
+    }else if (reachability.currentNetworkStatus == AlicloudReachableViaWiFi){ // WiFi
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.playerControl;
+            [skin hideNetworkTips];
+            
+            [self play];
+
+            if (self.networkTipsConfirmBlock) {
+                self.networkTipsConfirmBlock();
+                self.networkTipsConfirmBlock = nil;
+            }
+        });
+        
+    }else if (reachability.currentNetworkStatus >= AlicloudReachableVia2G){ // 移动网络
+
+        if (self.allow4gNetwork) { return; }
+        
+        // 若播放器播放中
+        if (self.playbackState == PLVVodPlaybackStatePlaying) { [self pause]; }
+        
+        __weak typeof(self) weakSelf = self;
+        PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.playerControl;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            PLVVodNetworkTipsView * tipsV = [skin showNetworkTips];
+            __weak typeof(tipsV) weakTipsV = tipsV;
+            
+            if (tipsV.playBtnClickBlock == nil) {
+                tipsV.playBtnClickBlock = ^{
+                    [weakSelf play];
+                    
+                    weakSelf.allow4gNetwork = YES;
+                    if (weakSelf.networkTipsConfirmBlock) {
+                        weakSelf.networkTipsConfirmBlock();
+                        weakSelf.networkTipsConfirmBlock = nil;
+                    }
+                    [weakTipsV hide];
+                };
+            }
+        });
+
+    }
+    
 }
 
 - (void)viewDidLayoutSubviews {
@@ -422,9 +518,9 @@
 }
 
 // 设置封面图
-- (void)setupCover{
+- (void)setupCoverWithVideo:(PLVVodVideo *)video{
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
-    [skin updateCoverView:self.video];
+    [skin updateCoverView:video];
 }
 
 - (void)removeCover{

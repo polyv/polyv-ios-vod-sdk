@@ -73,26 +73,18 @@
 
 - (void)initVideoList{
     
-    // 从本地文件目录中读取已缓存视频列表
-    NSArray<PLVVodLocalVideo *> *localArray = [[PLVVodDownloadManager sharedManager] localVideos];
-    
     // 从数据库中读取已缓存视频详细信息
     // TODO:也可以从开发者自定义数据库中读取数据,方便扩展
     NSArray<PLVVodDownloadInfo *> *dbInfos = [[PLVVodDownloadManager sharedManager] requestDownloadCompleteList];
     NSMutableDictionary *dbCachedDics = [[NSMutableDictionary alloc] init];
     [dbInfos enumerateObjectsUsingBlock:^(PLVVodDownloadInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [dbCachedDics setObject:obj forKey:obj.vid];
-    }];
-
-    // 组装数据
-    // 以本地目录数据为准，因为数据库存在损坏的情形，会丢失数据，造成用户已缓存视频无法读取
-    [localArray enumerateObjectsUsingBlock:^(PLVVodLocalVideo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         PLVDownloadCompleteInfoModel *model = [[PLVDownloadCompleteInfoModel alloc] init];
-        model.localVideo = obj;
-        model.downloadInfo = dbCachedDics[obj.vid];
+        model.downloadInfo = obj;
         [self.downloadInfos addObject:model];
     }];
+    
 }
 
 #pragma mark - property
@@ -118,6 +110,11 @@
     
     cell.thumbnailUrl = info.snapshot;
     cell.titleLabel.text = info.title;
+    if (info.fileType == PLVDownloadFileTypeAudio){
+        //
+        cell.titleLabel.text = [NSString stringWithFormat:@"[音频] %@", info.title];
+    }
+    
     NSInteger filesize = info.filesize;
     cell.videoSizeLabel.text = [self.class formatFilesize:filesize];
     cell.videoDurationTime.text = [self.class timeFormatStringWithTime:info.duration];
@@ -133,17 +130,24 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     // 播放本地缓存视频
-    PLVVodLocalVideo *localModel = self.downloadInfos[indexPath.row].localVideo;
+    PLVVodDownloadInfo *info = self.downloadInfos[indexPath.row].downloadInfo;
     
     // 播放本地加密/非加密视频
-    [PLVVodVideo requestVideoPriorityCacheWithVid:localModel.vid completion:^(PLVVodVideo *video, NSError *error) {
-        
-        PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
-        detailVC.localVideo = video;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.navigationController pushViewController:detailVC animated:YES];
-        });
-    }];
+    PLVVodPlaybackMode playMode;
+    if (info.fileType == PLVDownloadFileTypeAudio){
+        playMode = PLVVodPlaybackModeAudio;
+    }
+    else {
+        playMode = PLVVodPlaybackModeVideo;
+    }
+    PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
+    detailVC.vid = info.vid;            // vid
+    detailVC.isOffline = YES;           // 离线播放
+    detailVC.playMode = playMode;       // 根据本地资源类型设置播放模式
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.navigationController pushViewController:detailVC animated:YES];
+    });
 }
 
 /// 删除
@@ -157,10 +161,15 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
-    PLVDownloadCompleteInfoModel *localVideo = self.downloadInfos[indexPath.row];
+    PLVDownloadCompleteInfoModel *localModel = self.downloadInfos[indexPath.row];
     
-    [downloadManager removeDownloadWithVid:localVideo.localVideo.vid error:nil];
-    [self.downloadInfos removeObject:localVideo];
+    [downloadManager removeDownloadWithVid:localModel.localVideo.vid error:nil];
+    
+    // 使用音频下载功能的客户，调用如下方法
+//    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:localModel.downloadInfo.vid fileType:localModel.downloadInfo.fileType];
+//    [downloadManager removeDownloadWithVideoParams:params error:nil];
+
+    [self.downloadInfos removeObject:localModel];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 

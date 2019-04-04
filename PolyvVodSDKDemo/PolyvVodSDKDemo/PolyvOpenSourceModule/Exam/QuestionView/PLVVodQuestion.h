@@ -13,6 +13,7 @@
 @property (nonatomic, copy) NSString *question;
 @property (nonatomic, strong) NSArray<NSString *> *options;
 @property (nonatomic, assign) BOOL skippable;
+@property (nonatomic, assign) BOOL isMultipleChoice; // 是否多选题
 @property (nonatomic, copy) NSString *illustration;
 
 @end

@@ -33,6 +33,17 @@
 	self.checkboxButton.selected = selected;
 }
 
+- (void)setMultipleChoiceType:(BOOL)multipleChoiceType{
+    if (multipleChoiceType) {
+        [self.checkboxButton setImage:[UIImage imageNamed:@"Checkbox-Default"] forState:UIControlStateNormal];
+        [self.checkboxButton setImage:[UIImage imageNamed:@"Checkbox-Selected-Default"] forState:UIControlStateSelected];
+    }else{
+        [self.checkboxButton setImage:[UIImage imageNamed:@"RaidoBox-Default"] forState:UIControlStateNormal];
+        [self.checkboxButton setImage:[UIImage imageNamed:@"RadioBox-Selected-Default"] forState:UIControlStateSelected];
+    }
+    _multipleChoiceType = multipleChoiceType;
+}
+
 + (NSString *)identifier {
 	return NSStringFromClass([self class]);
 }

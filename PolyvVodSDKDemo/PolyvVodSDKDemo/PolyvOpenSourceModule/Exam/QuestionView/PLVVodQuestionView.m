@@ -18,7 +18,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *outerContainerTopConstraint;
 @property CGFloat outerContanerWeidht;
 
-@property (weak, nonatomic) IBOutlet UILabel *questionLabel;
+//@property (weak, nonatomic) IBOutlet UILabel *questionLabel;
+@property (weak, nonatomic) IBOutlet UITextView *questionLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *questionTypeLb;
 
 @property (weak, nonatomic) IBOutlet UIImageView *illustrationImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *illustrationContainerWidthConstraint;
@@ -69,6 +72,8 @@
 	[self.optionCollectionView registerNib:[UINib nibWithNibName:[PLVVodOptionCell identifier] bundle:nil] forCellWithReuseIdentifier:[PLVVodOptionCell identifier]];
 	self.optionCollectionView.allowsMultipleSelection = YES;
 	self.optionCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.questionLabel.textContainerInset = UIEdgeInsetsMake(5, 0, 0, 0);
+    self.questionLabel.editable = NO;
 }
 
 - (void)clear {
@@ -81,6 +86,7 @@
 #pragma mark - property
 - (void)setQuestion:(PLVVodQuestion *)question {
 	_question = question;
+    self.optionCollectionView.allowsMultipleSelection = _question.isMultipleChoice;
 	dispatch_async(dispatch_get_main_queue(), ^{
         [self updateUI];
 	});
@@ -108,6 +114,7 @@
 //    cell.text = self.question.options[indexPath.item];
     NSString *optionText = [NSString stringWithFormat:@"%@ %@", [self optionOrderWithIndex:indexPath.row], self.question.options[indexPath.item]];
     cell.text = optionText;
+    cell.multipleChoiceType = self.question.isMultipleChoice;
 	return cell;
 }
 
@@ -125,12 +132,16 @@
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.cellwidth, self.cellHeights[indexPath.row]);
+    CGFloat w = self.cellwidth;
+    CGFloat h = self.cellHeights[indexPath.row];
+    return CGSizeMake(w, h);
 }
 
 #pragma mark - public method
 - (void)scrollToTop {
-	[self.optionCollectionView setContentOffset:CGPointZero animated:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.optionCollectionView setContentOffset:CGPointZero animated:YES];
+    });
 }
 
 #pragma mark - private method
@@ -151,12 +162,15 @@
     }
     
     // 计算cell的宽度
-    self.cellwidth = self.outerContanerWeidht / 2 - padding - 10;
+    CGFloat cellW = self.outerContanerWeidht / 2 - padding - 10;
     if ([self isLandscape] && !hasIllustration){
         // 无图且处于横屏状态，显示一行，重新计算cell 宽度，
-        self.cellwidth = self.outerContanerWeidht - 2*padding -10;
+       cellW = self.outerContanerWeidht - 2*padding -10;
     }
-
+    
+    if (cellW <= 0) { cellW = 1; }
+    self.cellwidth = cellW;
+    
     // 计算cell的高度
     int count = (int)_question.options.count;
     self.cellHeights = malloc(sizeof(CGFloat) * count);
@@ -181,7 +195,9 @@
     
     // 设置问题
     self.questionLabel.text = _question.question;
-    self.questionLabel.numberOfLines = 0;
+
+    // 设置题型
+    self.questionTypeLb.text = _question.isMultipleChoice ? @"【多选题】" : @"【单选题】";
     
     // 设置跳过按钮
     self.skipButton.enabled = _question.skippable;
@@ -198,24 +214,40 @@
 - (void)updateOuterContainerSize {
     UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
     if (interfaceOrientation == UIInterfaceOrientationPortrait) { // 竖屏
+        
+        float width = self.superview.bounds.size.width;
+        float height = self.superview.bounds.size.height;
+        
+        if (width >= height) {
+            self.outerContainerTopConstraint.constant = 0;
+            self.outerContainerBottomConstraint.constant = 0;
+        }else{
+            CGFloat contanerHeight = width / (16.0 / 9.0);
+            CGFloat topBottomPadding = (height - contanerHeight) / 2.0;
+            
+            self.outerContainerTopConstraint.constant = topBottomPadding;
+            self.outerContainerBottomConstraint.constant = topBottomPadding;
+        }
+        
         self.outerContainerLeadingConstraint.constant = 0;
         self.outerContainerTailingConstraint.constant = 0;
-        self.outerContainerTopConstraint.constant = 0;
-        self.outerContainerBottomConstraint.constant = 0;
-        
         self.outerContanerWeidht = [UIScreen mainScreen].bounds.size.width;
+
     } else { // 横屏
         CGFloat verticalPadding = 60;
         CGFloat horzontalPadding;
         
-        CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+        CGFloat screenWidth = self.superview.bounds.size.width;
+        CGFloat screenHeight = self.superview.bounds.size.height;
         
-        CGFloat outerContanerHeight = screenHeight - 60 * 2;
+        CGFloat scale = verticalPadding / 375.0;
+        verticalPadding = scale * screenHeight;
+        
+        CGFloat outerContanerHeight = screenHeight - verticalPadding * 2;
         NSLog(@"outerContanerHeight = %f", outerContanerHeight);
-        self.outerContanerWeidht = outerContanerHeight / 9 * 16;
+        self.outerContanerWeidht = outerContanerHeight / 9.0 * 16;
         
-        horzontalPadding = (screenWidth - self.outerContanerWeidht) / 2 ;
+        horzontalPadding = (screenWidth - self.outerContanerWeidht) / 2.0 ;
         
         self.outerContainerLeadingConstraint.constant = horzontalPadding;
         self.outerContainerTailingConstraint.constant = horzontalPadding;

@@ -36,7 +36,7 @@
 		self.statusBarHeight.constant = 12;
 	}
     
-    if (PLV_iPhoneX || PLV_iPhoneXR){
+    if (PLV_iPhoneXSeries){
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
         [self.constraints enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

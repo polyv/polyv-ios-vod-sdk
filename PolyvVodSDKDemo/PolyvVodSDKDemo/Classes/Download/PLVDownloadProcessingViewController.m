@@ -109,7 +109,7 @@
     NSMutableDictionary *downloadItemCellDic = [NSMutableDictionary dictionary];
     for (PLVVodDownloadInfo *info in downloadInfos) {
         PLVDownloadProcessingCell *cell = [self.tableView dequeueReusableCellWithIdentifier:[PLVDownloadProcessingCell identifier]];
-        downloadItemCellDic[info.vid] = cell;
+        downloadItemCellDic[info.identifier] = cell;
     }
     self.downloadItemCellDic = downloadItemCellDic;
     
@@ -118,7 +118,7 @@
     for (PLVVodDownloadInfo *info in downloadInfos) {
         // 下载状态改变回调
         info.stateDidChangeBlock = ^(PLVVodDownloadInfo *info) {
-            PLVDownloadProcessingCell *cell = weakSelf.downloadItemCellDic[info.vid];
+            PLVDownloadProcessingCell *cell = weakSelf.downloadItemCellDic[info.identifier];
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 cell.videoStateLable.text = NSStringFromPLVVodDownloadState(info.state);
@@ -160,7 +160,7 @@
         // 下载进度回调
         info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
             //NSLog(@"vid: %@, progress: %f", info.vid, info.progress);
-            PLVDownloadProcessingCell *cell = weakSelf.downloadItemCellDic[info.vid];
+            PLVDownloadProcessingCell *cell = weakSelf.downloadItemCellDic[info.identifier];
             float receivedSize = info.progress * info.filesize;
             if (receivedSize >= info.filesize){
                 receivedSize = info.filesize;
@@ -181,6 +181,11 @@
 ////                cell.downloadSpeedLabel.text = speedString;
 //            });
 //        };
+        
+        // 解压进度回调
+//        info.unzipProgressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
+//            NSLog(@"vid: %@ unzipProgress:%f ", info.vid, info.unzipProgress);
+//        };
     }
 }
 
@@ -188,7 +193,7 @@
 - (void)handleDownloadSuccess:(PLVVodDownloadInfo *)downloadInfo{
     //
     [self.downloadInfos removeObject:downloadInfo];
-    [self.downloadItemCellDic removeObjectForKey:downloadInfo.vid];
+    [self.downloadItemCellDic removeObjectForKey:downloadInfo.identifier];
     
     [self.tableView reloadData];
 }
@@ -249,14 +254,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PLVVodDownloadInfo *info = self.downloadInfos[indexPath.row];
-    PLVDownloadProcessingCell *cell = self.downloadItemCellDic[info.vid];
+    PLVDownloadProcessingCell *cell = self.downloadItemCellDic[info.identifier];
     if (!cell) return [UITableViewCell new];
     
     PLVVodVideo *video = info.video;
     if (video){
         cell.thumbnailUrl = video.snapshot;
-        cell.titleLabel.text = video.title;
-        NSInteger filesize = [video.filesizes[info.quality-1] integerValue];
         
         float receivedSize = info.progress * info.filesize;
         if (receivedSize >= info.filesize){
@@ -265,13 +268,18 @@
         NSString *downloadProgressStr = [NSString stringWithFormat:@"%@/ %@", [self.class formatFilesize:receivedSize],[self.class formatFilesize:info.filesize]];
         cell.videoSizeLabel.text = downloadProgressStr;
         
+        if (info.fileType == PLVDownloadFileTypeAudio){
+            cell.titleLabel.text = [NSString stringWithFormat:@"[音频] %@", video.title];
+        }
+        else{
+            cell.titleLabel.text = video.title;
+        }
     }
     else{
         // 取info数据
         
         cell.thumbnailUrl = info.snapshot;
         cell.titleLabel.text = info.title;
-        NSInteger filesize = info.filesize;
         
         float receivedSize = info.progress * info.filesize;
         if (receivedSize >= info.filesize){
@@ -308,7 +316,6 @@
         }
             break;
     }
-    
 }
 
 /// 删除
@@ -323,7 +330,13 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
     PLVVodDownloadInfo *downloadInfo = self.downloadInfos[indexPath.row];
+    
     [downloadManager removeDownloadWithVid:downloadInfo.video.vid error:nil];
+    
+    // 使用音频下载功能的客户，调用如下方法
+//    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:downloadInfo.vid fileType:downloadInfo.fileType];
+//    [downloadManager removeDownloadWithVideoParams:params error:nil];
+    
     [self.downloadInfos removeObject:downloadInfo];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
@@ -367,10 +380,18 @@
 #pragma mark -- handle
 - (void)handleStopDownloadVideo:(PLVVodDownloadInfo *)info{
     [[PLVVodDownloadManager sharedManager] stopDownloadWithVid:info.vid];
+    
+    // 使用音频下载功能的客户，调用如下方法
+//    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:info.vid fileType:info.fileType];
+//    [[PLVVodDownloadManager sharedManager] stopDownloadWithVideoParams:params];
 }
 
 - (void)handleStartDownloadVideo:(PLVVodDownloadInfo *)info{
     [[PLVVodDownloadManager sharedManager] startDownloadWithVid:info.vid];
+    
+    // 使用音频下载功能的客户，调用如下方法
+//    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:info.vid fileType:info.fileType];
+//    [[PLVVodDownloadManager sharedManager] startDownloadWithVideoParams:params];
     
     if ([PLVVodDownloadManager sharedManager].isDownloading){
         //
