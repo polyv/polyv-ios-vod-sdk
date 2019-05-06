@@ -80,7 +80,7 @@ static NSString *paramStr(NSDictionary *paramDict) {
 #pragma mark - networking
 
 + (void)sendDanmu:(NSString *)danmu vid:(NSString *)vid time:(NSTimeInterval)time fontSize:(double)fontSize color:(NSUInteger)colorHex mode:(NSInteger)mode completion:(void (^)(NSError *error))completion {
-	NSString *url = @"https://go.polyv.net/admin/add.php";
+	NSString *url = @"https://api.polyv.net/v2/danmu/add";
 	NSString *modelName = nil;
 	switch (mode) {
 		case PLVVodDanmuModeRoll:{
@@ -119,10 +119,12 @@ static NSString *paramStr(NSDictionary *paramDict) {
 
 /// 加载弹幕
 + (void)requestDanmusWithVid:(NSString *)vid maxCount:(NSInteger)maxCount completion:(void (^)(NSArray *danmus, NSError *error))completion {
-	NSString *url = @"https://go.polyv.net/admin/printjson.php";
+	NSString *url = @"https://api.polyv.net/v2/danmu";
 	NSMutableDictionary *params = [NSMutableDictionary dictionary];
 	params[@"vid"] = vid;
-	params[@"limit"] = @(maxCount);
+    if (maxCount > 0) {
+        params[@"limit"] = @(maxCount);
+    }
 	url = [NSString stringWithFormat:@"%@?%@", url, paramStr(params)];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
 	
@@ -157,7 +159,7 @@ static NSString *paramStr(NSDictionary *paramDict) {
 
 /// 加载弹幕
 + (void)requestDanmusWithVid:(NSString *)vid completion:(void (^)(NSArray<PLVVodDanmu *> *danmus, NSError *error))completion {
-	[self requestDanmusWithVid:vid maxCount:100 completion:^(NSArray *danmus, NSError *error) {
+	[self requestDanmusWithVid:vid maxCount:200 completion:^(NSArray *danmus, NSError *error) {
 		if (error) {
 			if (completion) completion(nil, error);
 		}

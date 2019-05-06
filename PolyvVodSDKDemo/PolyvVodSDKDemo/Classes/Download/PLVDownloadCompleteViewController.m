@@ -163,7 +163,7 @@
     PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
     PLVDownloadCompleteInfoModel *localModel = self.downloadInfos[indexPath.row];
     
-    [downloadManager removeDownloadWithVid:localModel.localVideo.vid error:nil];
+    [downloadManager removeDownloadWithVid:localModel.downloadInfo.vid error:nil];
     
     // 使用音频下载功能的客户，调用如下方法
 //    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:localModel.downloadInfo.vid fileType:localModel.downloadInfo.fileType];

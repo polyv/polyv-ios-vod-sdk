@@ -92,6 +92,7 @@
 		6307223B21C35CBC003B2526 /* PLVCastManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307223A21C35CBC003B2526 /* PLVCastManager.m */; };
 		6307224521C79917003B2526 /* PLVCastServiceListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307224421C79917003B2526 /* PLVCastServiceListView.m */; };
 		6307224821C8DFC8003B2526 /* PLVCastControllView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307224721C8DFC8003B2526 /* PLVCastControllView.m */; };
+		6342327B224DF13A00AB856D /* PLVVodExamTestData.json in Resources */ = {isa = PBXBuildFile; fileRef = 6342327A224DF13A00AB856D /* PLVVodExamTestData.json */; };
 		636AAB07223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 636AAB06223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m */; };
 		63745ACA21D1D606007408C1 /* PLVVodCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63745AC921D1D606007408C1 /* PLVVodCoverView.m */; };
 		639D17E421E3579B005E00F3 /* PLVCastBusinessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 639D17E321E3579B005E00F3 /* PLVCastBusinessManager.m */; };
@@ -287,6 +288,7 @@
 		6307224421C79917003B2526 /* PLVCastServiceListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCastServiceListView.m; sourceTree = "<group>"; };
 		6307224621C8DFC7003B2526 /* PLVCastControllView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVCastControllView.h; sourceTree = "<group>"; };
 		6307224721C8DFC8003B2526 /* PLVCastControllView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVCastControllView.m; sourceTree = "<group>"; };
+		6342327A224DF13A00AB856D /* PLVVodExamTestData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PLVVodExamTestData.json; sourceTree = "<group>"; };
 		636AAB05223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodNetworkTipsView.h; sourceTree = "<group>"; };
 		636AAB06223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodNetworkTipsView.m; sourceTree = "<group>"; };
 		63745AC821D1D606007408C1 /* PLVVodCoverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodCoverView.h; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 				03722E2E1FEB65DC00031180 /* PLVVodExamViewController.h */,
 				03722E2D1FEB65DC00031180 /* PLVVodExamViewController.m */,
 				03722E301FEB664700031180 /* PLVVodExamViewController.xib */,
+				6342327A224DF13A00AB856D /* PLVVodExamTestData.json */,
 			);
 			path = Exam;
 			sourceTree = "<group>";
@@ -887,6 +890,7 @@
 				03856C691FE21C990038DEB2 /* PLVVodPlayerSkin.xib in Resources */,
 				0369C7C92064F3A90065672D /* Settings.bundle in Resources */,
 				03722E371FEB8BDE00031180 /* PLVVodOptionCell.xib in Resources */,
+				6342327B224DF13A00AB856D /* PLVVodExamTestData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

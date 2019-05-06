@@ -10,6 +10,39 @@
 ### Removed
 ### Fixed -->
 
+## [2.6.1] - 2019-05-06
+
+### Added
+
+- 下载支持多账号功能
+- 本地视频播放支持显示字幕
+- 播放器提供显示问答的接口
+- 播放器新增方法获取视频宽高 
+- `PLVVodDownloadManager` ,  
+    + `@property (nonatomic, assign) BOOL isMultiAccount` 多账号支持开关，默认NO
+    + `@property (nonatomic, copy) NSString *previousDownloadDir` 单帐号时所设置的视频下载目录，用于旧账号数据迁移到新账号
+    + `-switchDownloadAccount`  登入或切换到具体账号
+    + `-logoutMultiAccount`  登出当前帐号，登出后，会采用默认帐号进行下载相关操作
+- `PLVVodExam` 
+    + `+createExamWithDic`  将问答信息字典转为 PLVVodExam 模型对象
+    + `+createExamArrayWithDicArray`  将问答信息字典数组 转为 PLVVodExam 模型对象数组
+- `PLVVodPlayerViewController` 
+    + `-getVideoSize` 获取视频的宽高，在视频播放就绪后可获取到数值
+
+### Changed
+
+- 直播转存点播，聊天室消息以弹幕形式加载到播放器
+- 弹幕接口升级
+- 增加播放失败重试机制，自动切换码率/切换线路
+- 优化播放逻辑，高码率视频还未编码成功，自动切换到低码率视频播放
+
+### Fixed
+- qos buffer 统计二次缓冲时间不准确问题修复
+- 修改数据库默认路径，解决存储空间满时数据库可能被系统清理的问题
+- 开辟新线程执行解压操作，解决其他下载中视频数据接收回调方法不执行问题
+- 修复网络状态连续变化时可能引发的崩溃
+
+
 ## [2.6.0] - 2019-04-03
 
 ### Added

@@ -11,6 +11,7 @@
 #import "PLVVodExplanationView.h"
 #import <PLVVodSDK/PLVVodExam.h>
 #import <PLVVodSDK/PLVVodConstans.h>
+#import "NSString+PLVVod.h"
 
 @interface PLVVodExamViewController ()
 
@@ -93,9 +94,25 @@
 	}
 	
 	PLVVodExam *exam = [self examAtTime:self.currentTime];
+    
 	if (!exam || exam.correct) {
 		return;
 	}
+    
+    if (![exam.question checkStringLegal]) {
+        NSLog(@"PLVVodExamViewController - 问题展示错误，exam.question非法，请检查");
+        return;
+    }
+    
+    if (exam.options.count == 0) {
+        NSLog(@"PLVVodExamViewController - 问题展示错误，exam.options非法，请检查");
+        return;
+    }
+    
+    if (exam.correctIndex.count == 0) {
+        NSLog(@"PLVVodExamViewController - 问题展示错误，exam.correctIndex非法，请检查");
+        return;
+    }
 	
 	if (self.examWillShowHandler) self.examWillShowHandler(exam);
 	[self resetIfNeedWithCompletion:^{

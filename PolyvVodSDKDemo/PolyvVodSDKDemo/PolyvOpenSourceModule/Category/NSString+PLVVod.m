@@ -41,4 +41,11 @@
 	return output;
 }
 
+- (BOOL)checkStringLegal{
+    if (self != nil && [self isKindOfClass: [NSString class]] && self.length > 0) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

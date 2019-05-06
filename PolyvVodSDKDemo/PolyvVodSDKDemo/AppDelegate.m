@@ -65,18 +65,45 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	// PLVVodDownloadManager 下载配置
 	{
 		PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
-		//downloadManager.autoStart = YES;
+        
+        // 设置下载路径
+        // TODO:
+        
+        // 下载配置参数
+        downloadManager.autoStart = YES;
         downloadManager.maxRuningCount = 3;
+        
 		// 下载错误统一回调
 		downloadManager.downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
 			NSLog(@"download error: %@\n%@", video.vid, error);
 		};
 		
+        
 		// 若需兼容 1.x.x 版本 SDK 视频，则需解注以下代码
 		// 首先需确保 `downloadManager.downloadDir` 与之前版本的下载目录一致，然后调用兼容 1.x.x 离线视频方法
 		//downloadManager.downloadDir = <#1.x.x版本的下载目录#>
 		//[downloadManager compatibleWithPreviousVideos];
-    
+        
+        
+#ifdef PLVSupportMultiAccount
+        {
+            //  多账号配置,用于app多账号登入场景，一般用户可以不考虑
+            //  升级到多账号下载模式
+            //  开启多账号下载开关
+            [PLVVodDownloadManager sharedManager].isMultiAccount = YES;
+
+            // 设置前一个版本单帐号模式下的下载路径，用于数据迁移
+            // 否则已缓存数据丢失
+            NSString *previousDownloadDir = [self getPreviousDownlaodDir];
+            [PLVVodDownloadManager sharedManager].previousDownloadDir = previousDownloadDir;
+
+            // 登入到具体帐号,如果不调用，sdk使用默认帐号
+            // 学员的用户id
+            NSString *userId = @"111111";
+            [[PLVVodDownloadManager sharedManager] switchDownloadAccount:userId];
+        }
+        
+#endif
 	}
 	
 	// 接收远程事件
@@ -88,6 +115,13 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
     [PLVCastBusinessManager getCastAuthorization];
     
 	return YES;
+}
+
+- (NSString *)getPreviousDownlaodDir{
+    // SDK 默认存储路径,如果用户自定义存储路径，需要获取之前自定义的存储路径
+    // /Library/Cache/PolyvVodCache
+    NSString *downloadDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).lastObject stringByAppendingPathComponent:@"PolyvVodCache"];
+    return downloadDir;
 }
 
 - (void)updateSettingsBundle {

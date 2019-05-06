@@ -13,4 +13,6 @@
 - (NSString *)md5;
 - (NSString *)sha1;
 
+- (BOOL)checkStringLegal;
+
 @end
