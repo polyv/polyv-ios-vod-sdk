@@ -29,15 +29,25 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uZq-eR-VVR" userLabel="View1">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4CT-ba-NF4">
-                            <rect key="frame" x="16" y="0.0" width="448" height="40"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="【多选题】" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tPR-MT-Jng">
+                            <rect key="frame" x="16" y="0.0" width="62" height="40"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="CzI-N3-Usi"/>
+                                <constraint firstAttribute="width" constant="62" id="5VZ-xi-ijO"/>
+                                <constraint firstAttribute="height" constant="40" id="jZK-uW-G1m"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.29019607843137252" green="0.56470588235294117" blue="0.88627450980392153" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="123" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="EmB-WD-cy8" userLabel="Question Title">
+                            <rect key="frame" x="88" y="0.0" width="376" height="40"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="aKI-U0-HXF"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gCg-Vn-lhb" userLabel="View2">
                             <rect key="frame" x="16" y="40" width="448" height="232"/>
                             <subviews>
@@ -119,13 +129,15 @@
                         <constraint firstAttribute="trailing" secondItem="gCg-Vn-lhb" secondAttribute="trailing" constant="16" id="02G-5m-7PT"/>
                         <constraint firstAttribute="bottom" secondItem="gCg-Vn-lhb" secondAttribute="bottom" priority="750" constant="48" id="0fO-bD-AiX"/>
                         <constraint firstAttribute="bottom" secondItem="7uS-y5-UUo" secondAttribute="bottom" id="2Zd-kK-FoW"/>
-                        <constraint firstItem="4CT-ba-NF4" firstAttribute="top" secondItem="uZq-eR-VVR" secondAttribute="top" id="AUT-83-bnE"/>
+                        <constraint firstItem="tPR-MT-Jng" firstAttribute="leading" secondItem="uZq-eR-VVR" secondAttribute="leading" constant="16" id="AGm-eb-cyQ"/>
                         <constraint firstItem="7uS-y5-UUo" firstAttribute="leading" secondItem="uZq-eR-VVR" secondAttribute="leading" id="FOA-Br-T2a"/>
                         <constraint firstAttribute="trailing" secondItem="7uS-y5-UUo" secondAttribute="trailing" id="KEU-s9-B3n"/>
                         <constraint firstItem="gCg-Vn-lhb" firstAttribute="leading" secondItem="uZq-eR-VVR" secondAttribute="leading" constant="16" id="hKr-MN-OnU"/>
+                        <constraint firstAttribute="trailing" secondItem="EmB-WD-cy8" secondAttribute="trailing" constant="16" id="io2-Rr-ylI"/>
                         <constraint firstItem="gCg-Vn-lhb" firstAttribute="top" secondItem="uZq-eR-VVR" secondAttribute="top" constant="40" id="mZT-lo-myG"/>
-                        <constraint firstItem="4CT-ba-NF4" firstAttribute="leading" secondItem="uZq-eR-VVR" secondAttribute="leading" constant="16" id="yET-fu-CHH"/>
-                        <constraint firstAttribute="trailing" secondItem="4CT-ba-NF4" secondAttribute="trailing" constant="16" id="zcx-fR-wky"/>
+                        <constraint firstItem="EmB-WD-cy8" firstAttribute="leading" secondItem="tPR-MT-Jng" secondAttribute="trailing" constant="10" id="tU6-49-beq"/>
+                        <constraint firstItem="EmB-WD-cy8" firstAttribute="top" secondItem="uZq-eR-VVR" secondAttribute="top" id="wo7-1w-6EL"/>
+                        <constraint firstItem="tPR-MT-Jng" firstAttribute="top" secondItem="uZq-eR-VVR" secondAttribute="top" id="zLW-w7-LIQ"/>
                     </constraints>
                 </view>
             </subviews>
@@ -145,11 +157,12 @@
                 <outlet property="outerContainerLeadingConstraint" destination="1Kr-2R-PTT" id="H3I-NU-PeE"/>
                 <outlet property="outerContainerTailingConstraint" destination="VYF-8e-wwG" id="6DM-Dp-0cO"/>
                 <outlet property="outerContainerTopConstraint" destination="gzS-EK-G4r" id="4BH-xS-bbv"/>
-                <outlet property="questionLabel" destination="4CT-ba-NF4" id="ABr-Bj-SSB"/>
+                <outlet property="questionLabel" destination="EmB-WD-cy8" id="599-VY-0W8"/>
+                <outlet property="questionTypeLb" destination="tPR-MT-Jng" id="rEX-PK-evD"/>
                 <outlet property="skipButton" destination="u6I-Fl-Ch5" id="iNm-1F-J1T"/>
                 <outlet property="submitButton" destination="FDe-w5-p9l" id="haq-dt-8If"/>
             </connections>
-            <point key="canvasLocation" x="723" y="49"/>
+            <point key="canvasLocation" x="260" y="-144.375"/>
         </view>
         <view contentMode="scaleToFill" id="Se4-MJ-ONL" userLabel="解释视图" customClass="PLVVodExplanationView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>

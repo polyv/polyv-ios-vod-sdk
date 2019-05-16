@@ -234,7 +234,8 @@
         if (localModel){
             // 播放本地加密/非加密视频
             PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
-            detailVC.localVideo = localModel;
+            detailVC.vid = localModel.vid;
+            detailVC.isOffline = YES;
             [self.navigationController pushViewController:detailVC animated:YES];
         }
         else{

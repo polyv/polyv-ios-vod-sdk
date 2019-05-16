@@ -92,6 +92,7 @@
 		6307223B21C35CBC003B2526 /* PLVCastManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307223A21C35CBC003B2526 /* PLVCastManager.m */; };
 		6307224521C79917003B2526 /* PLVCastServiceListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307224421C79917003B2526 /* PLVCastServiceListView.m */; };
 		6307224821C8DFC8003B2526 /* PLVCastControllView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307224721C8DFC8003B2526 /* PLVCastControllView.m */; };
+		636AAB07223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 636AAB06223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m */; };
 		63745ACA21D1D606007408C1 /* PLVVodCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63745AC921D1D606007408C1 /* PLVVodCoverView.m */; };
 		639D17E421E3579B005E00F3 /* PLVCastBusinessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 639D17E321E3579B005E00F3 /* PLVCastBusinessManager.m */; };
 		84748DF64FFDB9CA576D0AC0 /* libPods-PolyvVodSDKDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A112B9BB76909C0D8E93FB1 /* libPods-PolyvVodSDKDemoUITests.a */; };
@@ -286,6 +287,8 @@
 		6307224421C79917003B2526 /* PLVCastServiceListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCastServiceListView.m; sourceTree = "<group>"; };
 		6307224621C8DFC7003B2526 /* PLVCastControllView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVCastControllView.h; sourceTree = "<group>"; };
 		6307224721C8DFC8003B2526 /* PLVCastControllView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVCastControllView.m; sourceTree = "<group>"; };
+		636AAB05223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodNetworkTipsView.h; sourceTree = "<group>"; };
+		636AAB06223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodNetworkTipsView.m; sourceTree = "<group>"; };
 		63745AC821D1D606007408C1 /* PLVVodCoverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodCoverView.h; sourceTree = "<group>"; };
 		63745AC921D1D606007408C1 /* PLVVodCoverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodCoverView.m; sourceTree = "<group>"; };
 		6377EC2321D4839D008B08E2 /* PolyvVodSDKDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PolyvVodSDKDemo.entitlements; sourceTree = "<group>"; };
@@ -455,6 +458,8 @@
 				041B5D6C21BE59B000FC7941 /* PLVVodLockScreenView.m */,
 				63745AC821D1D606007408C1 /* PLVVodCoverView.h */,
 				63745AC921D1D606007408C1 /* PLVVodCoverView.m */,
+				636AAB05223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.h */,
+				636AAB06223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -908,7 +913,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh",
 				"${PODS_ROOT}/XRCarouselView/XRCarouselView/XRPlaceholder.png",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -917,7 +922,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2441B99200F1DDB0AA6A8AA9 /* [CP] Check Pods Manifest.lock */ = {
@@ -983,6 +988,7 @@
 			files = (
 				04B051D02106CE9600F6C791 /* PLVDownloadProcessingViewController.m in Sources */,
 				03856C6E1FE21C990038DEB2 /* PLVVodShrinkscreenView.m in Sources */,
+				636AAB07223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m in Sources */,
 				043D44742194098400C2F776 /* PLVUserVideoListResult.m in Sources */,
 				03DDF4CA1FE763BB00F63630 /* DLScrollTabbarView.m in Sources */,
 				03DDF4C91FE763BB00F63630 /* DLTabedSlideView.m in Sources */,

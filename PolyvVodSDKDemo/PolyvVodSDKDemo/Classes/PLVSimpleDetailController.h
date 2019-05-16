@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class PLVVodVideo;
+#import <PLVVodSDK/PLVVodConstans.h>
 
 @interface PLVSimpleDetailController : UIViewController
 
 @property (nonatomic, copy) NSString *vid;
-@property (nonatomic, strong) PLVVodVideo *localVideo;
+@property (nonatomic, assign) BOOL isOffline;
+@property (nonatomic, assign) PLVVodPlaybackMode playMode;
 
 @end

@@ -10,6 +10,48 @@
 ### Removed
 ### Fixed -->
 
+
+## [2.6.0] - 2019-05-15
+
+### Added
+
+- 新增音频文件下载功能
+- 视频播放时提示网络类型
+- 新增视频解压进度回调
+- 播放统计，新增viewerAvatar 参数，统计观看用户头像
+- `PLVVodVideoParams` ,  新增数据类型，用于下载管理各接口参数传递，兼容视频/音频文件处理
+    + `videoParamsWithVid:fileType:` 初始化方法
+- `PLVVodDownloadManager`  新增兼容音频/视频下载管理的接口，无需音频下载的用户建议使用旧方法
+    + `+downloadAudio`  音频文件下载方法
+    + `-startDownloadWithVideoParams`  从指定视频/音频文件开始下载
+    + `-stopDownloadWithVideoParams`  停止下载指定的视频/音频文件
+    + `-removeDownloadWithVideoParams`   移除视频/音频下载任务，并删除对应文件
+    + `-requestDownloadInfoWithVideoParams`  获取视频/音频下载详细信息
+    + `-removeVideoWithVideoParams`   删除指定视频/音频文件 （与下载任务无关）
+- `PLVVodNetworkTipsView` (Demo) 在线视频播放时提示网络类型，用户进一步选择播放或取消，具体实现参考demo
+    + `@property (nonatomic, copy) void (^playBtnClickBlock) (void);`  按钮点击回调
+    + `-show` 显示提示框
+    + `-hide` 隐藏提示框
+- `PLVVodDownloadInfo` 新增视频解压进度回调,优化下载进度UI展示
+    + `@property (nonatomic, copy) void (^unzipProgressDidChangeBlock)(PLVVodDownloadInfo *info)`
+- `PLVVodSettings`  播放统计，新增viewerAvatar 参数
+    + `@property (nonatomic, copy) NSString *viewerAvatar;`
+
+### Changed
+-  播放统计，音视频/线路/码率切换时统一观看时长统计规则
+-  默认开启httpdns 功能
+-  优化ats设置，httpdns不依赖ats设置；投屏功能依赖ats设置，需要支持http请求。具体设置参考demo
+-  问答区分单选多选题型
+-  App 退到后台时，保存当前播放进度
+
+### Fixed
+-  问答解析窗在竖直画布时布局不正确；答题后旋转屏幕，选项可能被遮挡；问答窗在iPad上被遮挡
+-  问答点击“跳过”，播放视频回退问题修复
+-  问答窗，问题标题过长显示不全
+-  解决精准Seek下出现视频慢放问题
+-  解决缓冲进度条闪动的问题
+
+
 ## [2.5.6] - 2019-04-03
 
 ### Added

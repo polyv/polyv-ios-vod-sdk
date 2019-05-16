@@ -11,6 +11,7 @@
 @interface PLVVodOptionCell : UICollectionViewCell
 
 @property (nonatomic, copy) NSString *text;
+@property (nonatomic, assign) BOOL multipleChoiceType; // 是否多选样式
 
 + (NSString *)identifier;
 

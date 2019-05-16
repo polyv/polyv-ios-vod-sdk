@@ -109,6 +109,7 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 //        [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
 //            [weakSelf downloadVideo:video];
 //        }];
+        
         [PLVVodVideo requestVideoPriorityCacheWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
             [weakSelf downloadVideo:video];
         }];
@@ -122,6 +123,10 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 - (void)downloadVideo:(PLVVodVideo *)video {
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
 	PLVVodDownloadInfo *info = [downloadManager downloadVideo:video];
+    
+    // 音频下载测试入口，需要音频下载功能客户，放开注释
+//    [downloadManager downloadAudio:video];
+    
 	if (info) NSLog(@"%@ - %zd 已加入下载队列", info.video.vid, info.quality);
 	info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
 		NSLog(@"%@: %@", info.vid, @(info.progress));

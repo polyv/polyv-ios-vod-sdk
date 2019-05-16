@@ -10,6 +10,7 @@
 #import <PLVVodSDK/PLVVodPlayerSkinProtocol.h>
 #import <PLVVodSDK/PLVVodVideo.h>
 #import "PLVVodGestureIndicatorView.h"
+#import "PLVVodNetworkTipsView.h"
 
 @class PLVVodAudioCoverPanelView;
 
@@ -126,5 +127,9 @@
 - (void)addVideoPlayTips:(PLVVodVideo *)video;
 // 展示视频打点信息
 - (void)showVideoPlayTips:(NSUInteger )tipsIndx;
+
+// 展示网络类型提示；返回的提示视图PLVVodNetworkTipsView，可设置点击事件Block
+- (PLVVodNetworkTipsView *)showNetworkTips;
+- (void)hideNetworkTips;
 
 @end

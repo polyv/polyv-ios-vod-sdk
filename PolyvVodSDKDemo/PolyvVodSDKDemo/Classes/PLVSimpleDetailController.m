@@ -50,12 +50,25 @@
     self.player.enableBackgroundPlayback = YES;
     
 	NSString *vid = self.vid;
-    if (self.localVideo){
-        // 本地播放
-        self.player.video = self.localVideo;
+    if (self.isOffline){
+        
+        // 离线视频播放
+        __weak typeof(self) weakSelf = self;
+        
+        // 根据资源类型设置默认播放模式。本地音频文件设定音频播放模式，本地视频文件设定视频播放模式
+        // 只针对开通视频转音频服务的用户
+        self.player.playbackMode = self.playMode;
+        
+        [PLVVodVideo requestVideoPriorityCacheWithVid:self.vid completion:^(PLVVodVideo *video, NSError *error) {
+            if (!video.available) return;
+            weakSelf.player.video = video;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.title = video.title;
+            });
+        }];
     }
     else{
-        // 有网情况下，也可以调用此接口，只要存在本地视频，都会优先播放本地视频
+        // 在线视频播放，默认会优先播放本地视频
         __weak typeof(self) weakSelf = self;
         [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
             if (!video.available) return;

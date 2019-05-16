@@ -79,6 +79,9 @@
 /// 锁屏状态
 @property (assign, nonatomic) BOOL isLockScreen;
 
+/// 网络类型提示视图
+@property (nonatomic, strong) PLVVodNetworkTipsView * networkTipsV;
+
 @end
 
 @implementation PLVVodPlayerSkin
@@ -327,7 +330,7 @@
     }
 }
 
-#pragma mark 源文件音频播放封面图
+#pragma mark 音视频封面图
 - (void)updateCoverView:(PLVVodVideo *)video{
     NSString * fileUrl;
 
@@ -392,6 +395,20 @@
     [self.fullscreenView showPlayTipsWithIndex:tipsIndx];
 }
 
+#pragma mark 网络类型提示
+- (PLVVodNetworkTipsView *)showNetworkTips{
+    [self.networkTipsV show];
+    BOOL isShowing = self.controlContainerView.alpha > 0.0;
+    if (isShowing) {
+        [self hideOrShowPlaybackControl];
+    }
+    return self.networkTipsV;
+}
+
+- (void)hideNetworkTips{
+    [self.networkTipsV hide];
+}
+
 #pragma getter --
 - (UIView *)skinMaskView
 {
@@ -400,6 +417,17 @@
     }
     
     return _skinMaskView;
+}
+
+- (PLVVodNetworkTipsView *)networkTipsV{
+    if (!_networkTipsV) {
+        _networkTipsV = [[PLVVodNetworkTipsView alloc]init];
+        [_networkTipsV hide];
+        [self.view addSubview:_networkTipsV];
+        [self constrainSubview:_networkTipsV toMatchWithSuperview:self.view];
+        [self.view bringSubviewToFront:_networkTipsV];
+    }
+    return _networkTipsV;
 }
 
 #pragma mark - view controller
@@ -844,7 +872,9 @@
 
 - (void)transitFromView:(UIView *)fromView toView:(UIView *)toView options:(UIViewAnimationOptions)options {
 	NSArray *priorConstraints = self.priorConstraints;
-    fromView.superview.alpha = 1.0;
+    if (!self.networkTipsV.isShow) {
+        fromView.superview.alpha = 1.0;
+    }
 	[UIView transitionFromView:fromView toView:toView duration:0.25 options:options completion:^(BOOL finished) {
 		if (priorConstraints != nil) {
 			[self.controlContainerView removeConstraints:priorConstraints];
