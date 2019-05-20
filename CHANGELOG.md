@@ -10,6 +10,13 @@
 ### Removed
 ### Fixed -->
 
+## [2.6.2] - 2019-05-20
+
+### Added
+
+- 新增视频上传功能，集成方式 pod 'PLVVodUploadSDK', '~> 0.1.0'
+- 详细集成方式参见：[iOS 上传SDK 集成说明](https://github.com/polyv/polyv-ios-upload-sdk)
+
 
 ## [2.6.1] - 2019-05-20
 

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vau-sc-JAe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vau-sc-JAe">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -299,11 +296,18 @@
                                 <segue destination="tbc-pX-4Ut" kind="show" id="3oT-Jv-7Fb"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="plv_btn_cache" id="0E1-bX-1Rz">
-                            <connections>
-                                <segue destination="h0G-qx-d1C" kind="show" id="LeM-ci-3qM"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="plv_btn_cache" id="0E1-bX-1Rz">
+                                <connections>
+                                    <segue destination="h0G-qx-d1C" kind="show" id="LeM-ci-3qM"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="plv_btn_upload" id="gWX-5z-9nU">
+                                <connections>
+                                    <segue destination="icg-fT-kZJ" kind="show" id="2VG-YT-fzi"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <segue destination="qAb-Tx-rFj" kind="show" identifier="course_detail" id="0Xc-QS-eIY"/>
@@ -1066,7 +1070,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T75-AC-sjG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-563" y="1280"/>
+            <point key="canvasLocation" x="-1404" y="2043"/>
         </scene>
         <!--课程介绍-->
         <scene sceneID="hNT-4H-b3a">
@@ -1114,7 +1118,35 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vYx-WC-Yki" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-564" y="1618"/>
+            <point key="canvasLocation" x="-1389" y="2380"/>
+        </scene>
+        <!--上传管理-->
+        <scene sceneID="8M3-ak-bJu">
+            <objects>
+                <viewController id="icg-fT-kZJ" customClass="PLVUploadTableViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sJX-7b-71B"/>
+                        <viewControllerLayoutGuide type="bottom" id="zgE-c5-8Pf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jPV-CN-YwO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="上传管理" id="opg-gz-aTi">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plv_btn_add" id="lB8-oD-fL0">
+                            <connections>
+                                <action selector="openLibrary:" destination="icg-fT-kZJ" id="V62-lP-tvx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="openLibraryButton" destination="lB8-oD-fL0" id="n93-q0-p2A"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ugk-fr-pKU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-579" y="1430"/>
         </scene>
         <!--缓存管理-->
         <scene sceneID="JaO-SJ-eXC">
@@ -1191,10 +1223,12 @@
     </scenes>
     <resources>
         <image name="plv_bg_round4" width="8" height="8"/>
+        <image name="plv_btn_add" width="20" height="20"/>
         <image name="plv_btn_cache" width="20" height="20"/>
         <image name="plv_btn_onlineVideo" width="18" height="18"/>
         <image name="plv_btn_pauseDownload" width="48" height="48"/>
         <image name="plv_btn_startDownload" width="48" height="48"/>
+        <image name="plv_btn_upload" width="20" height="20"/>
         <image name="plv_icon_teacher" width="11" height="12"/>
         <image name="plv_icon_time" width="14" height="14"/>
         <image name="plv_ph_courseCover" width="170" height="106"/>
