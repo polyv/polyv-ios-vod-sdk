@@ -453,9 +453,24 @@
 		}
 		[weakSelf play];
 	};
-	[PLVVodExam requestVideoWithVid:self.video.vid completion:^(NSArray<PLVVodExam *> *exams, NSError *error) {
-		weakSelf.examViewController.exams = exams;
-	}];
+    
+    // 若使用保利威后台配置的题目，可按以下方式获取并配置配置
+    [PLVVodExam requestVideoWithVid:self.video.vid completion:^(NSArray<PLVVodExam *> *exams, NSError *error) {
+        weakSelf.examViewController.exams = exams;
+    }];
+    
+    // 若题目数据另外自行获取，可参考以下方式
+//    // 1、从文件中读取Json，来模拟数据从外部获取
+//    NSString * path = [[NSBundle mainBundle]pathForResource:@"PLVVodExamTestData" ofType:@"json"];
+//    NSData * data = [[NSData alloc]initWithContentsOfFile:path];
+//    NSError * error = nil;
+//    NSArray * examArr = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+//
+//    // 2、使用SDK的方法转为 PLVVodExam 模型
+//    NSArray * examModelArr = [PLVVodExam createExamArrayWithDicArray:examArr];
+//
+//    // 3、配置题目
+//    self.examViewController.exams = examModelArr;
 }
 
 - (void)setupSubtitle {

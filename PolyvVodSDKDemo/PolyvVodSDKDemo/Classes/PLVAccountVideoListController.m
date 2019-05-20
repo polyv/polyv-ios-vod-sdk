@@ -14,6 +14,7 @@
 #import "UIColor+PLVVod.h"
 #import "PLVSimpleDetailController.h"
 #import "PLVPlayQueueBackgroundController.h"
+#import <PLVVodSDK/PLVVodSDK.h>
 
 static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 
@@ -21,10 +22,23 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 
 @property (nonatomic, strong) NSArray<PLVVodAccountVideo *> *accountVideos;
 @property (nonatomic, copy) NSString *vidShouldPlay;
+@property (nonatomic, strong) UIButton *switchAccount;
 
 @end
 
 @implementation PLVAccountVideoListController
+
+- (UIButton *)switchAccount{
+    if (!_switchAccount){
+        _switchAccount = [[UIButton alloc] initWithFrame:CGRectMake(20, 100, 100, 100)];
+        _switchAccount.backgroundColor = [UIColor redColor];
+        [_switchAccount setTitle:@"帐号切换" forState:UIControlStateNormal];
+        
+        [_switchAccount addTarget:self action:@selector(switchBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return _switchAccount;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,6 +54,12 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 	
 	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
 	self.tableView.tableFooterView = [UIView new];
+    
+#ifdef PLVSupportMultiAccount
+    // 用于多账号临时测试
+    [self.view addSubview:self.switchAccount];
+#endif
+    
 }
 
 - (void)requestData {
@@ -150,6 +170,56 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 	[self presentViewController:alertController animated:YES completion:^{
 		
 	}];
+}
+
+// 帐号切换
+- (void)switchBtnClick:(UIButton *)btn{
+    //
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"帐号切换"
+                                                                             message:@"注意：每次帐号切换时先执行登出操作"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"帐号111111"
+                                                        style:UIAlertActionStyleDestructive
+                                                      handler:^(UIAlertAction * _Nonnull action) {
+                                                          
+#ifdef PLVSupportMultiAccount
+                                                          [[PLVVodDownloadManager sharedManager] switchDownloadAccount:@"111111"];
+#endif
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"帐号222222"
+                                                        style:UIAlertActionStyleDestructive
+                                                      handler:^(UIAlertAction * _Nonnull action) {
+                                                          
+#ifdef PLVSupportMultiAccount
+                                                          [[PLVVodDownloadManager sharedManager] switchDownloadAccount:@"222222"];
+#endif
+
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"帐号333333"
+                                                        style:UIAlertActionStyleDestructive
+                                                      handler:^(UIAlertAction * _Nonnull action) {
+                                                          
+#ifdef PLVSupportMultiAccount
+                                                          [[PLVVodDownloadManager sharedManager] switchDownloadAccount:@"333333"];
+#endif
+                                                      }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"登出多账号"
+                                                        style:UIAlertActionStyleDestructive
+                                                      handler:^(UIAlertAction * _Nonnull action) {
+                                                          
+#ifdef PLVSupportMultiAccount
+                                                          [[PLVVodDownloadManager sharedManager] logoutMultiAccount];
+#endif
+                                                          
+                                                      }]];
+    
+    [self presentViewController:alertController animated:YES completion:^{
+        
+    }];
 }
 
 

@@ -38,4 +38,8 @@
 #define PLV_Min_ScreenWidth 320
 #define PLV_Max_ScreenWidth 414
 
+#ifndef PLVSupportMultiAccount
+//#define PLVSupportMultiAccount
+#endif
+
 #endif /* PolyvVodSDKDemo_Prefix_pch */

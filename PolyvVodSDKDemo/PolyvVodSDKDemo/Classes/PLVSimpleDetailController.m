@@ -23,6 +23,9 @@
 
 @implementation PLVSimpleDetailController
 
+// 获取导航栏高度
+#define NavHight (self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height)
+
 - (void)dealloc {
     [self.castBM quitAllFuntionc];
 	//NSLog(@"%s", __FUNCTION__);
@@ -31,8 +34,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	[self setupPlayer];
+    [self setupPlayer];
     
+    // 兼容Demo的下载视频观看页，一般集成时无需添加此段代码
+    if (self.playerPlaceholder == nil) {
+        UIView * playerPlaceholderV = [[UIView alloc]initWithFrame:CGRectMake(0, NavHight, PLV_ScreenWidth, PLV_ScreenHeight - NavHight)];
+        [self.view addSubview:playerPlaceholderV];
+        [self.player addPlayerOnPlaceholderView:playerPlaceholderV rootViewController:self];
+    }
+    
+    // 若需投屏功能，则需以下代码来启用投屏
     if ([PLVCastBusinessManager authorizationInfoIsLegal]) {
         self.castBM = [[PLVCastBusinessManager alloc] initCastBusinessWithListPlaceholderView:self.view player:self.player];
         [self.castBM setup];
