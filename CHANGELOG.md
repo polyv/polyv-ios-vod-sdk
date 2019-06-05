@@ -16,7 +16,6 @@
 
 - 增加离线播放发送viewlog 日志的开关
 - 第三方视频播放，支持自定义请求header
-
 - `PLVVodPlayerViewController` ,  
     + `@property (nonatomic, assign) BOOL enableLocalViewLog` 离线播放发送viewlog
     + `- (void)setURL:withHeaders:` 第三方播放链接可自定义header
