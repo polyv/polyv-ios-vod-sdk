@@ -331,11 +331,13 @@
     PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
     PLVVodDownloadInfo *downloadInfo = self.downloadInfos[indexPath.row];
     
+#ifndef PLVSupportDownloadAudio
     [downloadManager removeDownloadWithVid:downloadInfo.video.vid error:nil];
-    
+#else
     // 使用音频下载功能的客户，调用如下方法
-//    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:downloadInfo.vid fileType:downloadInfo.fileType];
-//    [downloadManager removeDownloadWithVideoParams:params error:nil];
+    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:downloadInfo.vid fileType:downloadInfo.fileType];
+    [downloadManager removeDownloadWithVideoParams:params error:nil];
+#endif
     
     [self.downloadInfos removeObject:downloadInfo];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -379,19 +381,25 @@
 
 #pragma mark -- handle
 - (void)handleStopDownloadVideo:(PLVVodDownloadInfo *)info{
-    [[PLVVodDownloadManager sharedManager] stopDownloadWithVid:info.vid];
     
+#ifndef PLVSupportDownloadAudio
+    [[PLVVodDownloadManager sharedManager] stopDownloadWithVid:info.vid];
+#else
     // 使用音频下载功能的客户，调用如下方法
-//    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:info.vid fileType:info.fileType];
-//    [[PLVVodDownloadManager sharedManager] stopDownloadWithVideoParams:params];
+    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:info.vid fileType:info.fileType];
+    [[PLVVodDownloadManager sharedManager] stopDownloadWithVideoParams:params];
+#endif
 }
 
 - (void)handleStartDownloadVideo:(PLVVodDownloadInfo *)info{
-    [[PLVVodDownloadManager sharedManager] startDownloadWithVid:info.vid];
     
+#ifndef PLVSupportDownloadAudio
+    [[PLVVodDownloadManager sharedManager] startDownloadWithVid:info.vid];
+#else
     // 使用音频下载功能的客户，调用如下方法
-//    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:info.vid fileType:info.fileType];
-//    [[PLVVodDownloadManager sharedManager] startDownloadWithVideoParams:params];
+    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:info.vid fileType:info.fileType];
+    [[PLVVodDownloadManager sharedManager] startDownloadWithVideoParams:params];
+#endif
     
     if ([PLVVodDownloadManager sharedManager].isDownloading){
         //

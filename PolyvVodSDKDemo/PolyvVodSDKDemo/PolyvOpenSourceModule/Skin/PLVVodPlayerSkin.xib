@@ -407,7 +407,9 @@
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <state key="normal" title="高清"/>
+                                    <state key="normal" title="高清">
+                                        <color key="titleColor" red="0.078431372549019607" green="0.63529411764705879" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
                                     <state key="selected">
                                         <color key="titleColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
@@ -504,7 +506,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egy-dp-xa1" userLabel="播放滑杆背景视图">
                     <rect key="frame" x="0.0" y="249" width="480" height="30"/>
                     <subviews>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="suR-o2-ESP" userLabel="播放滑杆">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="suR-o2-ESP" userLabel="播放滑杆">
                             <rect key="frame" x="-2" y="0.0" width="484" height="31"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="tintColor" red="0.078431372550000003" green="0.63529411759999999" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>

@@ -96,6 +96,7 @@
         
 	};
     
+    // 若需投屏功能，则需以下代码来启用投屏
     if ([PLVCastBusinessManager authorizationInfoIsLegal]) {
         self.castBM = [[PLVCastBusinessManager alloc]initCastBusinessWithListPlaceholderView:self.view player:self.player];
         [self.castBM setup];
@@ -120,6 +121,13 @@
 }
 - (UIStatusBarStyle)preferredStatusBarStyle {
 	return self.player.preferredStatusBarStyle;
+}
+
+- (BOOL)shouldAutorotate{
+    if (self.player.isLockScreen){
+        return NO;
+    }
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -17,6 +17,13 @@
 						   alpha:1.0];
 }
 
++ (UIColor *)colorWithHex:(NSUInteger)hexValue alpha:(float)alpha {
+    return [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16))/255.0
+                           green:((float)((hexValue & 0xFF00) >> 8))/255.0
+                            blue:((float)(hexValue & 0xFF))/255.0
+                           alpha:alpha];
+}
+
 - (NSUInteger)hex {
 	if (self == [UIColor whiteColor]) {
 		return 0xffffff;
@@ -37,10 +44,14 @@
 }
 
 + (UIColor *)themeColor {
-	return [UIColor colorWithHex:0x2196F3];
+	return [UIColor colorWithHex:0x007aff];
 }
 + (UIColor *)themeBackgroundColor {
 	return [UIColor colorWithHex:0xE9EBF5];
+}
+
++ (NSUInteger)hexValueForThemeColor {
+    return 0x007aff;
 }
 
 @end

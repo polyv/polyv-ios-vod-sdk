@@ -18,6 +18,7 @@
 #define PLV_ScreenHeight  [UIScreen mainScreen].bounds.size.height
 // iPhone X
 #define PLV_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
 #define PLV_iPhoneXR1 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(828, 1792), [[UIScreen mainScreen] currentMode].size) : NO)
 #define PLV_iPhoneXR2 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1624), [[UIScreen mainScreen] currentMode].size) : NO)
 #define PLV_iPhoneXS ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
@@ -31,13 +32,20 @@
 // 状态栏高度
 #define PLV_StatusBarHeight ((PLV_iPhoneX || PLV_iPhoneXR) ? 44.f: 20.f)
 // 状态栏+导航栏高度
+
 #define PLV_StatusAndNaviBarHeight (PLV_iPhoneXSeries ? 88.f: 64.f)
 // 各个机型最小逻辑分辨率宽度
 #define PLV_Min_ScreenWidth 320
 #define PLV_Max_ScreenWidth 414
 
+// 支持多账号下载
 #ifndef PLVSupportMultiAccount
 //#define PLVSupportMultiAccount
+#endif
+
+// 支持音频文件下载
+#ifndef PLVSupportDownloadAudio
+//#define PLVSupportDownloadAudio
 #endif
 
 #endif /* PolyvVodSDKDemo_Prefix_pch */

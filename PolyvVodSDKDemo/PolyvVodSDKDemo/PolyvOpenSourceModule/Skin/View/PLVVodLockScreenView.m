@@ -26,6 +26,7 @@
     
     self.backgroundColor = [UIColor clearColor];
     
+
     if (PLV_iPhoneXSeries){
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"

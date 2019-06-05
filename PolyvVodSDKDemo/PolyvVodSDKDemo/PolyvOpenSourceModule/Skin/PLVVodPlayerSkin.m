@@ -80,7 +80,10 @@
 @property (assign, nonatomic) BOOL isLockScreen;
 
 /// 网络类型提示视图
-@property (nonatomic, strong) PLVVodNetworkTipsView * networkTipsV;
+@property (nonatomic, strong) PLVVodNetworkTipsView *networkTipsV;
+
+/// 播放错误提示视图
+@property (nonatomic, strong) PLVVodNetworkTipsView *playErrorTipsView;
 
 @end
 
@@ -409,6 +412,23 @@
     [self.networkTipsV hide];
 }
 
+#pragma mark -- 播放错误提示
+- (PLVVodNetworkTipsView *)showPlayErrorWithTips:(NSString *)errorTips isLocal:(BOOL)isLocal{
+    [self.playErrorTipsView show];
+    self.playErrorTipsView.tipsLb.text = errorTips;
+    self.playErrorTipsView.playBtn.hidden = isLocal;
+    BOOL isShowing = self.controlContainerView.alpha > 0.0;
+    if (isShowing) {
+        [self hideOrShowPlaybackControl];
+    }
+    
+    return self.playErrorTipsView;
+}
+
+- (void)hidePlayErrorTips{
+    [self.playErrorTipsView hide];
+}
+
 #pragma getter --
 - (UIView *)skinMaskView
 {
@@ -421,7 +441,7 @@
 
 - (PLVVodNetworkTipsView *)networkTipsV{
     if (!_networkTipsV) {
-        _networkTipsV = [[PLVVodNetworkTipsView alloc]init];
+        _networkTipsV = [[PLVVodNetworkTipsView alloc] init];
         [_networkTipsV hide];
         [self.view addSubview:_networkTipsV];
         [self constrainSubview:_networkTipsV toMatchWithSuperview:self.view];
@@ -429,6 +449,21 @@
     }
     return _networkTipsV;
 }
+
+- (PLVVodNetworkTipsView *)playErrorTipsView{
+    if (!_playErrorTipsView){
+        _playErrorTipsView = [[PLVVodNetworkTipsView alloc] init];
+        [_playErrorTipsView.playBtn setTitle:@"播放重试" forState:UIControlStateNormal];
+        [_playErrorTipsView hide];
+        [self.view addSubview:_playErrorTipsView];
+        [self constrainSubview:_playErrorTipsView toMatchWithSuperview:self.view];
+        [self.view bringSubviewToFront:_playErrorTipsView];
+    }
+    
+    return _playErrorTipsView;
+}
+
+
 
 #pragma mark - view controller
 

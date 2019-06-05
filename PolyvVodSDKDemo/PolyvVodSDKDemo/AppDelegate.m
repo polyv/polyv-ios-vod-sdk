@@ -70,7 +70,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
         // TODO:
         
         // 下载配置参数
-        downloadManager.autoStart = YES;
+//        downloadManager.autoStart = YES;
         downloadManager.maxRuningCount = 3;
         
 		// 下载错误统一回调
@@ -113,7 +113,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
     
     [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
     [PLVCastBusinessManager getCastAuthorization];
-    
+        
 	return YES;
 }
 

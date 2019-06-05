@@ -59,6 +59,8 @@
 	self.player = player;
     self.player.rememberLastPosition = YES;
     self.player.enableBackgroundPlayback = YES;
+    self.player.autoplay = YES;
+    self.player.enableLocalViewLog = YES;
     
 	NSString *vid = self.vid;
     if (self.isOffline){
@@ -71,7 +73,6 @@
         self.player.playbackMode = self.playMode;
         
         [PLVVodVideo requestVideoPriorityCacheWithVid:self.vid completion:^(PLVVodVideo *video, NSError *error) {
-            if (!video.available) return;
             weakSelf.player.video = video;
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakSelf.title = video.title;
@@ -82,11 +83,19 @@
         // 在线视频播放，默认会优先播放本地视频
         __weak typeof(self) weakSelf = self;
         [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-            if (!video.available) return;
-            weakSelf.player.video = video;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                weakSelf.title = video.title;
-            });
+            if (error){
+                // 用于播放重试
+                self.player.vid = vid;
+                if (self.player.playerErrorHandler) {
+                    self.player.playerErrorHandler(self.player, error);
+                };
+            }
+            else{
+                weakSelf.player.video = video;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.title = video.title;
+                });
+            }
         }];
     }
 }

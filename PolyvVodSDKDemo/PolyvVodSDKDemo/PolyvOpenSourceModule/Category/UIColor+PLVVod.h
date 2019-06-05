@@ -13,8 +13,11 @@
 @property (nonatomic, assign, readonly) NSUInteger hex;
 
 + (UIColor *)colorWithHex:(NSUInteger)hexValue;
++ (UIColor *)colorWithHex:(NSUInteger)hexValue alpha:(float)alpha;
 
 + (UIColor *)themeColor;
 + (UIColor *)themeBackgroundColor;
+
++ (NSUInteger)hexValueForThemeColor;
 
 @end

@@ -132,4 +132,11 @@
 - (PLVVodNetworkTipsView *)showNetworkTips;
 - (void)hideNetworkTips;
 
+// 播放错误提示
+- (PLVVodNetworkTipsView *)showPlayErrorWithTips:(NSString *)errorTips isLocal:(BOOL)isLocal;
+- (void)hidePlayErrorTips;
+
+
+
+
 @end

@@ -163,12 +163,16 @@
     PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
     PLVDownloadCompleteInfoModel *localModel = self.downloadInfos[indexPath.row];
     
+#ifndef PLVSupportDownloadAudio
     [downloadManager removeDownloadWithVid:localModel.downloadInfo.vid error:nil];
-    
+#else
     // 使用音频下载功能的客户，调用如下方法
-//    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:localModel.downloadInfo.vid fileType:localModel.downloadInfo.fileType];
-//    [downloadManager removeDownloadWithVideoParams:params error:nil];
-
+    PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:localModel.downloadInfo.vid
+                                                             fileType:localModel.downloadInfo.fileType];
+    [downloadManager removeDownloadWithVideoParams:params error:nil];
+#endif
+    
+    
     [self.downloadInfos removeObject:localModel];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }

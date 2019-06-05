@@ -10,6 +10,28 @@
 ### Removed
 ### Fixed -->
 
+## [2.6.2] - 2019-06-05
+
+### Added
+
+- 增加离线播放发送viewlog 日志的开关
+- 第三方视频播放，支持自定义请求header
+
+- `PLVVodPlayerViewController` ,  
+    + `@property (nonatomic, assign) BOOL enableLocalViewLog` 离线播放发送viewlog
+    + `- (void)setURL:(NSURL *)videoUrl withHeaders:(NSDictionary<NSString *, NSString *> *)headers;` 第三方播放链接可自定义header
+
+### Changed
+
+- 播放器网络错误的重试优化，提示优化
+- sdk 发送elog 错误日志完善
+
+### Fixed
+- 音频播放模式，自动播放开关设置无效问题修复
+- 横竖屏切换，跑马灯可能显示在视图区域外问题修复
+
+
+
 ## [2.6.1] - 2019-05-06
 
 ### Added

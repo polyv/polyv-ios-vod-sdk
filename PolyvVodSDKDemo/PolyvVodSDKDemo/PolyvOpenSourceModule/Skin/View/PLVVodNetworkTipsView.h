@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL isShow;
 
+@property (nonatomic, strong) UIButton * playBtn;
+@property (nonatomic, strong) UILabel * tipsLb;
+
 - (void)show;
 - (void)hide;
 
