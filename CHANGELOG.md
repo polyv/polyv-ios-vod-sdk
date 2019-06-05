@@ -19,7 +19,7 @@
 
 - `PLVVodPlayerViewController` ,  
     + `@property (nonatomic, assign) BOOL enableLocalViewLog` 离线播放发送viewlog
-    + `- (void)setURL:(NSURL *)videoUrl withHeaders:(NSDictionary<NSString *, NSString *> *)headers;` 第三方播放链接可自定义header
+    + `- (void)setURL:withHeaders:` 第三方播放链接可自定义header
 
 ### Changed
 
@@ -29,7 +29,6 @@
 ### Fixed
 - 音频播放模式，自动播放开关设置无效问题修复
 - 横竖屏切换，跑马灯可能显示在视图区域外问题修复
-
 
 
 ## [2.6.1] - 2019-05-06
