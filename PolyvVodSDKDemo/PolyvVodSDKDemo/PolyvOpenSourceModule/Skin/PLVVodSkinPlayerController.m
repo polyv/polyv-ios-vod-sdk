@@ -54,6 +54,9 @@
 /// 是否允许4g网络播放，用于记录用户允许的网络类型
 @property (nonatomic, assign) BOOL allow4gNetwork;
 
+/// 是否需要隐藏播放错误提示
+@property (nonatomic, assign) BOOL hidePlayError;
+
 @end
 
 @implementation PLVVodSkinPlayerController
@@ -157,6 +160,13 @@
 
 			/// 同步显示字幕
 			[weakSelf.subtitleManager showSubtitleWithTime:weakSelf.currentPlaybackTime];
+            
+            /// 隐藏播放错误提示
+            if (weakSelf.hidePlayError && PLVVodPlaybackStatePlaying == weakSelf.playbackState){
+                PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
+                [skin hidePlayErrorTips];
+                weakSelf.hidePlayError = NO;
+            }
 		});
 	}];
 	
@@ -184,7 +194,7 @@
 	// 错误回调
 	self.playerErrorHandler = ^(PLVVodPlayerViewController *player, NSError *error) {
 		NSLog(@"player error: %@", error);
-        
+        [weakSelf handlePlayError:player error:error];
 	};
     
     // 恢复播放
@@ -195,7 +205,7 @@
         // 对于某些场景需要再次调用play函数才能播放
         [weakSelf play];
     };
-
+    
     // 若需投屏功能，请解开以下注释
     // 仅在投屏信息设置有效 及 ‘防录屏’开关为NO 时投屏按钮会显示
 //    if ([PLVCastBusinessManager authorizationInfoIsLegal] && self.videoCaptureProtect == NO) {
@@ -213,6 +223,7 @@
                                                object:nil];
 }
 
+#pragma mark -- 播放网络状态判断
 - (void)networkStatusDidChange:(NSNotification *)notification {
     if (notification) {
         if ([self.video isKindOfClass:[PLVVodLocalVideo class]]) {
@@ -237,6 +248,7 @@
             [self play];
 
             if (self.networkTipsConfirmBlock) {
+                
                 self.networkTipsConfirmBlock();
                 self.networkTipsConfirmBlock = nil;
             }
@@ -268,9 +280,80 @@
                 };
             }
         });
-
     }
+}
+
+#pragma -- 播放重试处理
+- (void)handlePlayError:(PLVVodPlayerViewController *)player error:(NSError *)error{
+    // 客户可以自定义播放失败的错误逻辑
     
+    if (self.localPlayback || [self checkVideoWillPlayLocal:self.video]){
+        // 本地视频播放可以不重试
+        PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+        [skin.loadingIndicator stopAnimating];
+        NSString *errorMsg = [error.userInfo objectForKey:NSHelpAnchorErrorKey];
+        [skin showPlayErrorWithTips:errorMsg isLocal:YES];
+    }
+    else{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+            [skin.loadingIndicator stopAnimating];
+            NSString *errorMsg = [error.userInfo objectForKey:NSHelpAnchorErrorKey];
+
+            PLVVodNetworkTipsView *tipsView = [skin showPlayErrorWithTips:errorMsg isLocal:NO];
+            self.hidePlayError = YES;
+            __weak typeof(PLVVodPlayerSkin *) weakSkin = skin;
+            __weak typeof(PLVVodNetworkTipsView*) weakTips = tipsView;
+            __weak typeof(self) weakSelf = self;
+            
+            // 播放重试事件
+            tipsView.playBtnClickBlock = ^{
+                
+                AlicloudReachabilityManager *netMgr = [AlicloudReachabilityManager shareInstance];
+                if (AlicloudNotReachable == netMgr.currentNetworkStatus){
+                    //
+                    NSString *errorMsg = @"网络不可用，请检查网络设置";
+                    [weakSkin showPlayErrorWithTips:errorMsg isLocal:NO];
+                    weakSelf.hidePlayError = YES;
+                }
+                else{
+                    if (!weakSelf.video){
+                        //
+                        if (![weakSelf.vid isKindOfClass:[NSNull class]] && [weakSelf.vid length]){
+                            [weakTips hide];
+                            weakSelf.hidePlayError = NO;
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [weakSkin.loadingIndicator startAnimating];
+                                [PLVVodVideo requestVideoWithVid:weakSelf.vid completion:^(PLVVodVideo *video, NSError *error) {
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        [weakSkin.loadingIndicator stopAnimating];
+                                        if (error){
+                                            if (weakSelf.playerErrorHandler) { weakSelf.playerErrorHandler(weakSelf, error);};
+                                        }
+                                        else{
+                                            weakSelf.video = video;
+                                        }
+                                    });
+                                }];
+                            });
+                        }
+                        else{
+                            NSLog(@"[Player Error] - 播放重试，请传递正确的vid");
+                        }
+                    }
+                    else{
+                        // 重试播放 会自动切换码率/线路
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [weakTips hide];
+                            weakSelf.hidePlayError = NO;
+                            [weakSkin.loadingIndicator startAnimating];
+                            [weakSelf switchQuality:weakSelf.quality];
+                        });
+                    }
+                }
+            };
+        });
+    }
 }
 
 - (void)viewDidLayoutSubviews {

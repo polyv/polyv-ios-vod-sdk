@@ -38,8 +38,14 @@
 #define PLV_Min_ScreenWidth 320
 #define PLV_Max_ScreenWidth 414
 
+// 支持多账号下载
 #ifndef PLVSupportMultiAccount
 //#define PLVSupportMultiAccount
+#endif
+
+// 支持音频文件下载
+#ifndef PLVSupportDownloadAudio
+//#define PLVSupportDownloadAudio
 #endif
 
 #endif /* PolyvVodSDKDemo_Prefix_pch */

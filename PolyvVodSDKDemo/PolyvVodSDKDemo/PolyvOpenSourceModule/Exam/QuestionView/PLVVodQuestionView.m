@@ -63,7 +63,7 @@
 
 - (void)interfaceOrientationDidChange:(NSNotification *)notification {
     if (self.question) {
-        [self updateUI];
+        [self updateOuterContainerSize];
     }
 }
 
@@ -74,6 +74,10 @@
 	self.optionCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.questionLabel.textContainerInset = UIEdgeInsetsMake(5, 0, 0, 0);
     self.questionLabel.editable = NO;
+}
+
+- (void)layoutSubviews{
+    [self updateOuterContainerSize];
 }
 
 - (void)clear {
@@ -88,7 +92,7 @@
 	_question = question;
     self.optionCollectionView.allowsMultipleSelection = _question.isMultipleChoice;
 	dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateUI];
+        [self updateOuterContainerSize];
 	});
 }
 
@@ -145,9 +149,7 @@
 }
 
 #pragma mark - private method
-- (void)updateUI {
-    [self updateOuterContainerSize];
-    
+- (void)updateUI {    
     CGFloat padding = 16;
     
     // 是否有插图
@@ -175,7 +177,9 @@
     int count = (int)_question.options.count;
     self.cellHeights = malloc(sizeof(CGFloat) * count);
     for (int i=0; i<count; i++) { // 根据每个cell的文字计算每个cell适合的高度
-        self.cellHeights[i] = [PLVVodOptionCell calculateCellWithHeight:_question.options[i] andWidth:self.cellwidth];
+        NSString *optionText = [NSString stringWithFormat:@"%@ %@", [self optionOrderWithIndex:i], self.question.options[i]];
+        CGFloat h = [PLVVodOptionCell calculateCellWithHeight:optionText andWidth:self.cellwidth];
+        self.cellHeights[i] = h;
     }
     if (!hasIllustration) { // 没有插图时，一行显示两个cell，两个cell的高度要保持一致
         if (![self isLandscape]){
@@ -213,10 +217,11 @@
 
 - (void)updateOuterContainerSize {
     UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    float width = self.superview.bounds.size.width;
+    float height = self.superview.bounds.size.height;
+    
     if (interfaceOrientation == UIInterfaceOrientationPortrait) { // 竖屏
-        
-        float width = self.superview.bounds.size.width;
-        float height = self.superview.bounds.size.height;
         
         if (width >= height) {
             self.outerContainerTopConstraint.constant = 0;
@@ -237,17 +242,15 @@
         CGFloat verticalPadding = 60;
         CGFloat horzontalPadding;
         
-        CGFloat screenWidth = self.superview.bounds.size.width;
-        CGFloat screenHeight = self.superview.bounds.size.height;
-        
         CGFloat scale = verticalPadding / 375.0;
-        verticalPadding = scale * screenHeight;
+        verticalPadding = scale * height;
         
-        CGFloat outerContanerHeight = screenHeight - verticalPadding * 2;
-        NSLog(@"outerContanerHeight = %f", outerContanerHeight);
+        CGFloat outerContanerHeight = height - verticalPadding * 2;
         self.outerContanerWeidht = outerContanerHeight / 9.0 * 16;
         
-        horzontalPadding = (screenWidth - self.outerContanerWeidht) / 2.0 ;
+        horzontalPadding = (width - self.outerContanerWeidht) / 2.0 ;
+        
+        // NSLog(@"outerContanerHeight = %f", outerContanerHeight);
         
         self.outerContainerLeadingConstraint.constant = horzontalPadding;
         self.outerContainerTailingConstraint.constant = horzontalPadding;
@@ -255,7 +258,7 @@
         self.outerContainerBottomConstraint.constant = verticalPadding;
     }
     
-//    [self layoutIfNeeded];
+    [self updateUI];
 }
 
 - (BOOL)isLandscape{

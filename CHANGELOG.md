@@ -10,9 +10,28 @@
 ### Removed
 ### Fixed -->
 
-## [2.6.2] - 2019-05-20
+## [2.6.3] - 2019-06-25
 
 ### Added
+
+- 增加离线播放发送viewlog 日志的开关
+- 第三方视频播放，支持自定义请求header
+
+- `PLVVodPlayerViewController` ,  
+    + `@property (nonatomic, assign) BOOL enableLocalViewLog` 离线播放发送viewlog
+    + `- (void)setURL:(NSURL *)videoUrl withHeaders:(NSDictionary<NSString *, NSString *> *)headers;` 第三方播放链接可自定义header
+
+### Changed
+
+- 播放器网络错误的重试优化，提示优化
+- sdk 发送elog 错误日志完善
+
+### Fixed
+- 音频播放模式，自动播放开关设置无效问题修复
+- 横竖屏切换，跑马灯可能显示在视图区域外问题修复
+
+
+## [2.6.2] - 2019-05-20
 
 - 新增视频上传功能，集成方式 pod 'PLVVodUploadSDK', '~> 0.1.0'
 - 详细集成方式参见：[iOS 上传SDK 集成说明](https://github.com/polyv/polyv-ios-upload-sdk)

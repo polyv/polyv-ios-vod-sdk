@@ -125,13 +125,10 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 		NSString *vid = accountVideo.vid;
 		if (!vid.length) return;
         
-        // 采用新接口，优先从缓存读取数据，且会更新本地缓存
-//        [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-//            [weakSelf downloadVideo:video];
-//        }];
-        
         [PLVVodVideo requestVideoPriorityCacheWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-            [weakSelf downloadVideo:video];
+            if (video.available){
+                [weakSelf downloadVideo:video];
+            }
         }];
 	};
 	cell.backgroundColor = self.tableView.backgroundColor;
@@ -144,8 +141,11 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
 	PLVVodDownloadInfo *info = [downloadManager downloadVideo:video];
     
+#ifdef PLVSupportDownloadAudio
     // 音频下载测试入口，需要音频下载功能客户，放开注释
-//    [downloadManager downloadAudio:video];
+    [downloadManager downloadAudio:video];
+    
+#endif
     
 	if (info) NSLog(@"%@ - %zd 已加入下载队列", info.video.vid, info.quality);
 	info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {

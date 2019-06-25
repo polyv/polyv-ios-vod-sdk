@@ -10,9 +10,6 @@
 
 @interface PLVVodNetworkTipsView ()
 
-@property (nonatomic, strong) UIButton * playBtn;
-@property (nonatomic, strong) UILabel * tipsLb;
-
 @end
 
 @implementation PLVVodNetworkTipsView

@@ -47,7 +47,7 @@ static id _sharedInstance = nil;
     BOOL userDefault = YES;
     if (userDefault){
         
-        // polyv
+        // 网校
         _vodKey = @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
         _vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
         _vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
