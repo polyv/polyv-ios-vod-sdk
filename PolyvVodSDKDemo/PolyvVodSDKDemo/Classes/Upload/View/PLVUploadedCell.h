@@ -7,14 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class PLVUploadModel;
+#import "PLVUploadCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PLVUploadedCell : UITableViewCell
-
-- (void)setCellModel:(PLVUploadModel *)model;
+@interface PLVUploadedCell : PLVUploadCell
 
 @end
 

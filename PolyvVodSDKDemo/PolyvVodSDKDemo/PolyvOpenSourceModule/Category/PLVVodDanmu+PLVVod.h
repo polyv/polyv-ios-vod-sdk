@@ -11,7 +11,7 @@
 @interface PLVVodDanmu (PLVVod)
 
 /// 发送弹幕
-- (void)sendDammuWithVid:(NSString *)vid completion:(void (^)(NSError *error))completion;
+- (void)sendDammuWithVid:(NSString *)vid completion:(void (^)(NSError *error, NSString * danmuId))completion;
 
 /// 加载弹幕
 + (void)requestDanmusWithVid:(NSString *)vid completion:(void (^)(NSArray<PLVVodDanmu *> *danmus, NSError *error))completion;

@@ -109,9 +109,7 @@
 /// 清晰度按钮是否响应事件
 - (void)setEnableQualityBtn:(BOOL )enable;
 
-
-- (void)showGestureIndicator;
-- (void)hideGestureIndicator;
+- (void)showGestureIndicator:(BOOL)show;
 
 - (void)hideOrShowPlaybackControl;
 

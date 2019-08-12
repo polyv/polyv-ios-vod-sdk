@@ -23,4 +23,12 @@
 /// 同步显示问答
 - (void)synchronouslyShowExam;
 
+/**
+ 问题回答错误，替换问题
+ 
+ @param arrExam  新问题数组，用来替换回答错误的问题
+ @param showTime 时间节点，在该时间点替换或者插入新问题
+ */
+- (void)changeExams:(NSArray<PLVVodExam *> *)arrExam showTime:(NSTimeInterval )showTime;
+
 @end

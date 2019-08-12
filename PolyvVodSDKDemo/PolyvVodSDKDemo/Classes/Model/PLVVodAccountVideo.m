@@ -41,9 +41,6 @@
 		seconds += pow(60, componentCount-1-i) * timeComponent;
 	}
 	return seconds;
-	return [[timeComponents objectAtIndex:0]intValue] * 60 * 60
-	+[[timeComponents objectAtIndex:1]intValue] * 60
-	+ [[timeComponents objectAtIndex:2]intValue];
 }
 
 @end

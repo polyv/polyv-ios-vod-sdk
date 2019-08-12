@@ -58,7 +58,6 @@ static id _sharedInstance = nil;
         // TODO： 配置个人账号信息，方便测试
        
     }
-	// P.S. 在代码里面配置，比从文件中读取要安全
 }
 
 @end

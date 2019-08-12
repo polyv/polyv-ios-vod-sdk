@@ -48,4 +48,18 @@
 //#define PLVSupportDownloadAudio
 #endif
 
+// 支持子账号配置
+#ifndef PLVSupportSubAccount
+//#define PLVSupportSubAccount
+
+// 主帐号加密key
+// lien 6JIptfpITu
+#define PLV_MastSecretKey @"6JIptfpITu"
+#endif
+
+// 支持自定义问答功能
+#ifndef PLVSupportCustomQuestion
+//#define PLVSupportCustomQuestion
+#endif
+
 #endif /* PolyvVodSDKDemo_Prefix_pch */

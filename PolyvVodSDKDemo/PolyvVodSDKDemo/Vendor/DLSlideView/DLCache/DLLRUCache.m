@@ -25,7 +25,13 @@
 }
 
 - (void)setObject:(id)object forKey:(NSString *)key{
-    if (![lruKeyList_ containsObject:key]) {
+    if ([lruKeyList_ containsObject:key]) {
+        
+        [dic_ setValue:object forKey:key];
+        [lruKeyList_ removeObject:key];
+        [lruKeyList_ addObject:key];
+        
+    } else {
         if (lruKeyList_.count < capacity_) {
             [dic_ setValue:object forKey:key];
             [lruKeyList_ addObject:key];
@@ -38,11 +44,6 @@
             [dic_ setValue:object forKey:key];
             [lruKeyList_ addObject:key];
         }
-    }
-    else{
-        [dic_ setValue:object forKey:key];
-        [lruKeyList_ removeObject:key];
-        [lruKeyList_ addObject:key];
     }
 }
 

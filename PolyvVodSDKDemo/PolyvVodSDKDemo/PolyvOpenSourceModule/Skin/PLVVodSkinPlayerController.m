@@ -19,6 +19,9 @@
 #import <MediaPlayer/MPVolumeView.h>
 //#import "PLVCastBusinessManager.h" // 若需投屏功能，请解开此注释
 #import <AlicloudUtils/AlicloudReachabilityManager.h>
+#import <PLVVodSDK/PLVVodDownloadManager.h>
+#import <PLVVodSDK/PLVVodLocalVideo.h>
+
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -213,14 +216,6 @@
 //        skin.castButton.hidden = NO;
 //        skin.castButtonInFullScreen.hidden = NO;
 //    }
-
-    
-    // 网络类型监听
-    // 若无需’视频播放判断网络类型‘功能，可将此监听注释
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(networkStatusDidChange:)
-                                                 name:ALICLOUD_NETWOEK_STATUS_NOTIFY
-                                               object:nil];
 }
 
 #pragma mark -- 播放网络状态判断
@@ -237,9 +232,7 @@
     
     AlicloudReachabilityManager * reachability = [AlicloudReachabilityManager shareInstance];
     
-    if (reachability.currentNetworkStatus == AlicloudNotReachable) { // 无网络
-
-    }else if (reachability.currentNetworkStatus == AlicloudReachableViaWiFi){ // WiFi
+    if (reachability.currentNetworkStatus == AlicloudReachableViaWiFi){ // WiFi
         
         dispatch_async(dispatch_get_main_queue(), ^{
             PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.playerControl;
@@ -461,13 +454,7 @@
         [skin setEnableQualityBtn:NO];
     }
     else{
-        if (self.playbackMode != PLVVodPlaybackModeAudio){
-            [skin setEnableQualityBtn:YES];
-        }
-        else{
-            // 音频模式不开启清晰度切换
-            [skin setEnableQualityBtn:NO];
-        }
+        [skin setEnableQualityBtn:(self.playbackMode != PLVVodPlaybackModeAudio)];
     }
 }
 
@@ -500,16 +487,16 @@
         __block PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
 		__block PLVVodDanmuManager *danmuManager = [[PLVVodDanmuManager alloc] initWithDanmus:danmus inView:skin.skinMaskView/*weakSelf.maskView*/];
 		dispatch_async(dispatch_get_main_queue(), ^{
-			if (!skin.enableDanmu) {
-				[danmuManager stop];
+			if (skin.enableDanmu) {
+                [danmuManager resume];
 			} else {
-				[danmuManager resume];
+                [danmuManager stop];
 			}
 			skin.enableDanmuChangeHandler = ^(PLVVodPlayerSkin *skin, BOOL enableDanmu) {
-				if (!skin.enableDanmu) {
-					[danmuManager stop];
+				if (skin.enableDanmu) {
+                    [danmuManager resume];
 				} else {
-					[danmuManager resume];
+                    [danmuManager stop];
 				}
 			};
 			weakSelf.danmuManager = danmuManager;
@@ -532,43 +519,106 @@
 	};
 	self.examViewController.examDidCompleteHandler = ^(PLVVodExam *exam, NSTimeInterval backTime) {
 		if (backTime >= 0) {
+            
+#ifdef PLVSupportCustomQuestion
+            // 回答错误，可在这里替换问题
+            NSMutableArray *changeArr = [[NSMutableArray alloc] init];
+            // TODO: 添加要替换的问题
+            
+            [weakSelf.examViewController changeExams:changeArr showTime:exam.showTime];;
+#endif
+            
 			weakSelf.currentPlaybackTime = backTime;
 		}
+        
 		[weakSelf play];
 	};
     
-    // 若使用保利威后台配置的题目，可按以下方式获取并配置配置
-    [PLVVodExam requestVideoWithVid:self.video.vid completion:^(NSArray<PLVVodExam *> *exams, NSError *error) {
-        weakSelf.examViewController.exams = exams;
-    }];
+    [self loadExams];
+}
+
+- (void)loadExams{
+    // 本地播放，从本地获取问答
+    if (self.localPlayback || [self checkVideoWillPlayLocal:self.video]){
+        NSArray<PLVVodExam *> *exams = [PLVVodExam localExamsWithVid:self.video.vid
+                                                         downloadDir:[PLVVodDownloadManager sharedManager].downloadDir];
+        if (exams.count){
+            self.examViewController.exams = exams;
+            NSLog(@"[player] -- 本地问答");
+            return;
+        }
+    }
     
-    // 若题目数据另外自行获取，可参考以下方式
-//    // 1、从文件中读取Json，来模拟数据从外部获取
-//    NSString * path = [[NSBundle mainBundle]pathForResource:@"PLVVodExamTestData" ofType:@"json"];
-//    NSData * data = [[NSData alloc]initWithContentsOfFile:path];
-//    NSError * error = nil;
-//    NSArray * examArr = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-//
-//    // 2、使用SDK的方法转为 PLVVodExam 模型
-//    NSArray * examModelArr = [PLVVodExam createExamArrayWithDicArray:examArr];
-//
-//    // 3、配置题目
-//    self.examViewController.exams = examModelArr;
+    // 在线获取问答数据
+    if (self.video.interactive){
+        // 若使用保利威后台配置的题目，可按以下方式获取并配置配置
+        [PLVVodExam requestVideoWithVid:self.video.vid completion:^(NSArray<PLVVodExam *> *exams, NSError *error) {
+            self.examViewController.exams = exams;
+            NSLog(@"[player] -- 在线问答");
+        }];
+        
+        // 若题目数据另外自行获取，可参考以下方式
+        //    // 1、从文件中读取Json，来模拟数据从外部获取
+        //    NSString * path = [[NSBundle mainBundle]pathForResource:@"PLVVodExamTestData" ofType:@"json"];
+        //    NSData * data = [[NSData alloc]initWithContentsOfFile:path];
+        //    NSError * error = nil;
+        //    NSArray * examArr = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        //
+        //    // 2、使用SDK的方法转为 PLVVodExam 模型
+        //    NSArray * examModelArr = [PLVVodExam createExamArrayWithDicArray:examArr];
+        //
+        //    // 3、配置题目
+        //    self.examViewController.exams = examModelArr;
+    }
 }
 
 - (void)setupSubtitle {
 	PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
-	NSString *srtUrl = self.video.srts[skin.selectedSubtitleKey];
-	//srtUrl = @"https://static.polyv.net/usrt/f/f46ead66de/srt/b3ecc235-a47c-4c22-af29-0aab234b1b69.srt";
-	if (!srtUrl.length) {
-		self.subtitleManager = [PLVSubtitleManager managerWithSubtitle:nil label:skin.subtitleLabel topLabel:skin.subtitleTopLabel error:nil];
-	}
-	__weak typeof(self) weakSelf = self;
-	// 获取字幕内容并设置字幕
-	[self.class requestStringWithUrl:srtUrl completion:^(NSString *string) {
-		NSString *srtContent = string;
-		weakSelf.subtitleManager = [PLVSubtitleManager managerWithSubtitle:srtContent label:skin.subtitleLabel topLabel:skin.subtitleTopLabel error:nil];
-	}];
+//    //srtUrl = @"https://static.polyv.net/usrt/f/f46ead66de/srt/b3ecc235-a47c-4c22-af29-0aab234b1b69.srt";
+    
+    // 清空数据
+    self.subtitleManager = [PLVSubtitleManager managerWithSubtitle:nil
+                                                             label:skin.subtitleLabel
+                                                          topLabel:skin.subtitleTopLabel
+                                                             error:nil];
+    
+    if (!skin.selectedSubtitleKey) return;
+
+    [self loadSubtitle];
+}
+
+- (void)loadSubtitle{
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    
+    if (self.localPlayback || [self checkVideoWillPlayLocal:self.video]){
+        // 优先获取本地字幕
+        NSDictionary *srtDic = [PLVVodLocalVideo localSubtitlesWithVideo:self.video
+                                                                     dir:[PLVVodDownloadManager sharedManager].downloadDir];
+        if (srtDic.count){
+            NSString *fileUrl = [srtDic objectForKey:skin.selectedSubtitleKey];
+            if (fileUrl.length){
+                NSLog(@"[字幕] -- 本地字幕");
+                NSString *strContent = [NSString stringWithContentsOfFile:fileUrl encoding:NSUTF8StringEncoding error:nil];
+                self.subtitleManager = [PLVSubtitleManager managerWithSubtitle:strContent
+                                                                         label:skin.subtitleLabel
+                                                                      topLabel:skin.subtitleTopLabel
+                                                                         error:nil];
+                return;
+            }
+        }
+    }
+
+    // 获取在线字幕内容并设置字幕
+    __weak typeof(self) weakSelf = self;
+    NSString *srtUrl = self.video.srts[skin.selectedSubtitleKey];
+    [self.class requestStringWithUrl:srtUrl completion:^(NSString *string) {
+        NSLog(@"[字幕] -- 在线字幕");
+        NSString *srtContent = string;
+        weakSelf.subtitleManager = [PLVSubtitleManager managerWithSubtitle:srtContent
+                                                                     label:skin.subtitleLabel
+                                                                  topLabel:skin.subtitleTopLabel
+                                                                     error:nil];
+    }];
 }
 
 // 设置视频打点信息
@@ -631,17 +681,10 @@
 // 更新播放模式更新成功回调
 - (void)playbackModeDidChange {
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
-    
-    //
     [skin updatePlayModeContainView:self.video];
     
     // 更新清晰度状态
-    if (self.playbackMode != PLVVodPlaybackModeAudio){
-        [skin setEnableQualityBtn:YES];
-    }
-    else{
-        [skin setEnableQualityBtn:NO];
-    }
+    [skin setEnableQualityBtn:(self.playbackMode != PLVVodPlaybackModeAudio)];
 }
 
 - (void)updateAudioCoverAnimation:(BOOL)isPlaying {
@@ -707,7 +750,7 @@
 	
 	switch (pan.state) {
 		case UIGestureRecognizerStateBegan: {
-			[skin showGestureIndicator];
+            [skin showGestureIndicator:YES];
 		} break;
 		case UIGestureRecognizerStateChanged: {
 			[UIScreen mainScreen].brightness -= veloctyPoint.y/10000;
@@ -718,7 +761,7 @@
 			skin.gestureIndicatorView.text = text;
 		} break;
 		case UIGestureRecognizerStateEnded: {
-			[skin hideGestureIndicator];
+            [skin showGestureIndicator:NO];
 		} break;
 		default: {} break;
 	}
@@ -759,7 +802,7 @@
         // App 音量调节
         switch (pan.state) {
             case UIGestureRecognizerStateBegan: {
-                [skin showGestureIndicator];
+                [skin showGestureIndicator:YES];
             } break;
             case UIGestureRecognizerStateChanged: {
                 self.playbackVolume -= veloctyPoint.y/10000;
@@ -771,7 +814,7 @@
                 skin.gestureIndicatorView.text = text;
             } break;
             case UIGestureRecognizerStateEnded: {
-                [skin hideGestureIndicator];
+                [skin showGestureIndicator:NO];
             } break;
             default: {} break;
         }
@@ -812,7 +855,7 @@
 	switch (pan.state) {
 		case UIGestureRecognizerStateBegan: { // 开始移动
 			self.scrubTime = self.currentPlaybackTime;
-			[skin showGestureIndicator];
+			[skin showGestureIndicator:YES];
 		} break;
 		case UIGestureRecognizerStateChanged: { // 正在移动
 			self.scrubTime += veloctyPoint.x / 200;
@@ -832,7 +875,7 @@
 		case UIGestureRecognizerStateEnded: { // 移动停止
 			self.currentPlaybackTime = self.scrubTime;
 			self.scrubTime = 0;
-			[skin hideGestureIndicator];
+			[skin showGestureIndicator:NO];
 		} break;
 		default: {} break;
 	}
@@ -844,8 +887,8 @@
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
 	[[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-		if (string.length) {
-			if (completion) completion(string);
+		if (string.length && completion) {
+			completion(string);
 		}
 	}] resume];
 }
@@ -870,6 +913,13 @@
 	
 	// 接收远程事件
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteControlEventDidReceive:) name:PLVVodRemoteControlEventDidReceiveNotification object:nil];
+    
+    // 网络类型监听
+    // 若无需’视频播放判断网络类型‘功能，可将此监听注释
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(networkStatusDidChange:)
+                                                 name:ALICLOUD_NETWOEK_STATUS_NOTIFY
+                                               object:nil];
 }
 
 - (void)teaserStateDidChange {

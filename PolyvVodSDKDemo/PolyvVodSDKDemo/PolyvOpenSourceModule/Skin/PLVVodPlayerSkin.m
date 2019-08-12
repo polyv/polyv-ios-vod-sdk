@@ -23,7 +23,8 @@
 #import "UIButton+EnlargeTouchArea.h"
 #import <Photos/Photos.h>
 
-#define isIpad(newCollection) (newCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular && newCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
+#define isIpad(newCollection) (newCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular \
+&& newCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
 
 @interface PLVVodPlayerSkin ()<UITextFieldDelegate>
 
@@ -430,14 +431,6 @@
 }
 
 #pragma getter --
-- (UIView *)skinMaskView
-{
-    if (!_skinMaskView){
-        _skinMaskView = [[UIView alloc] init];
-    }
-    
-    return _skinMaskView;
-}
 
 - (PLVVodNetworkTipsView *)networkTipsV{
     if (!_networkTipsV) {
@@ -468,12 +461,19 @@
 #pragma mark - view controller
 
 - (void)dealloc {
-	[self removeOrientationObserve];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidChangeStatusBarOrientationNotification
+                                                  object:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self addOrientationObserve];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(interfaceOrientationDidChange:)
+                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
+                                               object:nil];
+    
 	[self setupUI];
 }
 
@@ -529,78 +529,22 @@
     [self fadeoutPlaybackControl];
     
     // 皮肤控件覆盖层，现实弹幕
+    self.skinMaskView = [[UIView alloc] init];
+    self.skinMaskView.backgroundColor = [UIColor clearColor];
+    
     [self.view addSubview:self.skinMaskView];
     [self constrainSubview:self.skinMaskView toMatchWithSuperview:self.view];
-    self.skinMaskView.backgroundColor = [UIColor clearColor];
     [self.view sendSubviewToBack:self.skinMaskView];
 }
 
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
-
 #pragma mark - observe
-
-- (void)addOrientationObserve {
-	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(interfaceOrientationDidChange:)
-                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
-                                               object:nil];
-}
-
-- (void)removeOrientationObserve {
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidChangeStatusBarOrientationNotification
-                                                  object:nil];
-}
 
 - (void)interfaceOrientationDidChange:(NSNotification *)notification {
     if (self.isLockScreen) return;
-    
-	UIInterfaceOrientation interfaceOrientaion = [UIApplication sharedApplication].statusBarOrientation;
-	switch (interfaceOrientaion) {
-		case UIInterfaceOrientationPortrait:{
-			
-		}break;
-		case UIInterfaceOrientationLandscapeLeft:
-		case UIInterfaceOrientationLandscapeRight:
-		case UIInterfaceOrientationPortraitUpsideDown:
-		case UIInterfaceOrientationUnknown:{
-			
-		}break;
-		default:{}break;
-	}
 	[self updateUIForTraitCollection:self.traitCollection];
 }
 
-//- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-//	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-//		[self updateUIForTraitCollection:newCollection];
-//	} completion:nil];
-//}
-
 - (void)updateUIForTraitCollection:(UITraitCollection *)collection {
-//    if (collection.verticalSizeClass == UIUserInterfaceSizeClassCompact) { // 横屏
-//        self.mainControl = self.fullscreenView;
-//        self.statusBarStyle = UIStatusBarStyleLightContent;
-//        self.shouldHideNavigationBar = YES;
-//    } else {
-//        self.mainControl = self.shrinkscreenView;
-//        self.statusBarStyle = UIStatusBarStyleDefault;
-//        self.shouldHideNavigationBar = NO;
-//    }
     
     BOOL fullScreen = NO;
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
@@ -622,17 +566,6 @@
     }
 }
 
-#pragma mark - orientation
-
-- (void)switchScreen {
-	UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-	if (interfaceOrientation == UIInterfaceOrientationPortrait) {
-		[PLVVodPlayerViewController rotateOrientation:UIInterfaceOrientationLandscapeRight];
-	} else {
-		[PLVVodPlayerViewController rotateOrientation:UIInterfaceOrientationPortrait];
-	}
-}
-
 #pragma mark - 皮肤按钮事件
 
 // 回到控制器主状态
@@ -644,7 +577,12 @@
 
 // 横竖屏切换
 - (IBAction)switchScreenAction:(UIButton *)sender {
-	[self switchScreen];
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (interfaceOrientation == UIInterfaceOrientationPortrait) {
+        [PLVVodPlayerViewController rotateOrientation:UIInterfaceOrientationLandscapeRight];
+    } else {
+        [PLVVodPlayerViewController rotateOrientation:UIInterfaceOrientationPortrait];
+    }
 }
 
 // 弹幕发送
@@ -690,39 +628,60 @@
 	NSLog(@"snapshot: %@", snapshot);
 	// 请求图库权限
 	__weak typeof(self) weakSelf = self;
-	[self.class requestPhotoAuthorizationWithDelegate:self authorized:^{
-		UIImageWriteToSavedPhotosAlbum(snapshot, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-	}];
+    
+    void (^authorizedHandler)(void) = ^() {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIImageWriteToSavedPhotosAlbum(snapshot, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+        });
+    };
+    
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    switch (status) {
+        case PHAuthorizationStatusNotDetermined:{
+            // 请求权限
+            [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+                if (status == PHAuthorizationStatusAuthorized) {
+                    authorizedHandler();
+                }
+            }];
+        }break;
+        case PHAuthorizationStatusAuthorized:{
+            authorizedHandler();
+        }break;
+        case PHAuthorizationStatusDenied:
+        case PHAuthorizationStatusRestricted:{
+            // 前往设置页
+            NSString *message = [NSString stringWithFormat:@"无法获取您的照片权限，请前往设置"];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSURL *settingURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([[UIApplication sharedApplication] canOpenURL:settingURL]) {
+                    [[UIApplication sharedApplication] openURL:settingURL];
+                } else {
+                    NSLog(@"无法打开 URL: %@", settingURL);
+                }
+            }]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }break;
+    }
 }
 
 - (IBAction)routeLineAction:(UIButton *)sender{
-    //
     [self transitToView:self.routeLineView];
 }
 
 -  (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-	if (error == nil) {
-		[self showMessage:@"截图保存成功"];
-	} else {
-		[self showMessage:@"截图保存失败"];
-	}
+    NSString *message = error ? @"截图保存失败" : @"截图保存成功";
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alertController dismissViewControllerAnimated:YES completion:^{}];
+    }]];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 // 弹出弹幕按钮
 - (IBAction)danmuAction:(UIButton *)sender {
 	[self transitToView:self.danmuSendView];
-}
-
-- (void)sendDanmu {
-	PLVVodDanmu *danmu = [[PLVVodDanmu alloc] init];
-	danmu.content = self.danmuSendView.danmuContent;
-	danmu.colorHex = self.danmuSendView.danmuColorHex;
-	danmu.fontSize = self.danmuSendView.danmuFontSize;
-	danmu.mode = self.danmuSendView.danmuMode;
-	danmu.time = self.delegatePlayer.currentPlaybackTime;
-	[danmu sendDammuWithVid:self.delegatePlayer.video.vid completion:^(NSError *error) {
-		NSLog(@"send danmu error: %@", error);
-	}];
 }
 
 // 视频模式按钮
@@ -765,27 +724,25 @@
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	[self sendDanmu];
+    PLVVodDanmu *danmu = [[PLVVodDanmu alloc] init];
+    danmu.content = self.danmuSendView.danmuContent;
+    danmu.colorHex = self.danmuSendView.danmuColorHex;
+    danmu.fontSize = self.danmuSendView.danmuFontSize;
+    danmu.mode = self.danmuSendView.danmuMode;
+    danmu.time = self.delegatePlayer.currentPlaybackTime;
+    [danmu sendDammuWithVid:self.delegatePlayer.video.vid completion:^(NSError *error, NSString *danmuId) {
+        NSLog(@"send danmu error: %@", error);
+    }];
 	[self backMainControl:textField];
 	return NO;
 }
 
 #pragma mark - public method
 
-- (void)showGestureIndicator {
-	[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
-		self.gestureIndicatorView.alpha = 1;
-	} completion:^(BOOL finished) {
-		
-	}];
-}
-
-- (void)hideGestureIndicator {
-	[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
-		self.gestureIndicatorView.alpha = 0;
-	} completion:^(BOOL finished) {
-		
-	}];
+- (void)showGestureIndicator:(BOOL)show {
+    [UIView animateWithDuration:PLVVodAnimationDuration animations:^{
+        self.gestureIndicatorView.alpha = (show ? 1 : 0);
+    }];
 }
 
 - (void)hideOrShowPlaybackControl {
@@ -796,8 +753,9 @@
 	BOOL isShowing = self.controlContainerView.alpha > 0.0;
 	[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
 		self.controlContainerView.alpha = isShowing ? 0 : 1;
-        if (isShowing){
-            [self hidePlayTipsView];
+        if (isShowing && [self.mainControl isKindOfClass:[PLVVodFullscreenView class]]){
+            PLVVodFullscreenView *fullScreen = (PLVVodFullscreenView *)self.mainControl;
+            [fullScreen hidePlayTipsView];
         }
 	} completion:^(BOOL finished) {
 		if (!isShowing && finished) {
@@ -806,74 +764,12 @@
 	}];
 }
 
-- (void)hidePlayTipsView{
-    //
-    if ([self.mainControl isKindOfClass:[PLVVodFullscreenView class]]){
-        PLVVodFullscreenView *fullScreen = (PLVVodFullscreenView *)self.mainControl;
-        [fullScreen hidePlayTipsView];
-    }
-}
-
 - (void)fadeoutPlaybackControl {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideOrShowPlaybackControl) object:nil];
     [self performSelector:@selector(hideOrShowPlaybackControl) withObject:nil afterDelay:PLVVodAnimationDuration*10];
 }
 
 #pragma mark - tool
-
-- (void)showMessage:(NSString *)message {
-	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
-	[alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-		[alertController dismissViewControllerAnimated:YES completion:^{}];
-	}]];
-	[self presentViewController:alertController animated:YES completion:^{
-		
-	}];
-}
-
-+ (void)requestPhotoAuthorizationWithDelegate:(UIViewController *__weak)viewController authorized:(void (^)(void))authorizedHandler {
-	authorizedHandler = ^(){
-		dispatch_async(dispatch_get_main_queue(), ^{
-			if (authorizedHandler) authorizedHandler();
-		});
-	};
-	
-	PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
-	switch (status) {
-		case PHAuthorizationStatusNotDetermined:{
-			// 请求权限
-			[PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-				switch (status) {
-					case PHAuthorizationStatusAuthorized:{
-						authorizedHandler();
-					}break;
-					default:{
-						// 权限不允许
-					}break;
-				}
-			}];
-		}break;
-		case PHAuthorizationStatusAuthorized:{
-			authorizedHandler();
-		}break;
-		case PHAuthorizationStatusDenied:
-		case PHAuthorizationStatusRestricted:{
-			// 前往设置页
-			NSString *message = [NSString stringWithFormat:@"无法获取您的照片权限，请前往设置"];
-			UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
-			[alertController addAction:[UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                NSURL *settingURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-				if ([[UIApplication sharedApplication] canOpenURL:settingURL]) {
-					[[UIApplication sharedApplication] openURL:settingURL];
-				} else {
-					NSLog(@"无法打开 URL: %@", settingURL);
-				}
-			}]];
-			[viewController presentViewController:alertController animated:YES completion:nil];
-		}break;
-		default:{}break;
-	}
-}
 
 // makes "subview" match the width and height of "superview" by adding the proper auto layout constraints
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {

@@ -7,20 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class PLVUploadModel;
+#import "PLVUploadCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PLVUploadingCell : UITableViewCell
+@interface PLVUploadingCell : PLVUploadCell
 
 @property (nonatomic, copy) void (^abortHandler)(void);
 
 @property (nonatomic, copy) void (^retryHandler)(void);
 
 @property (nonatomic, copy) void (^resumeHandler)(void);
-
-- (void)setCellModel:(PLVUploadModel *)model;
 
 @end
 

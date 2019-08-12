@@ -215,7 +215,15 @@ static NSString *paramStr(NSDictionary *paramDict) {
 			[plainSign appendFormat:@"&"];
 		}
 	}
-	plainSign = [NSMutableString stringWithFormat:@"%@%@", plainSign, settings.secretkey];
+#ifdef PLVSupportSubAccount
+    // 这里需要填写主帐号secretkey
+    // polyv zMV29c519P
+    // lien 6JIptfpITu
+//    NSString *secretKey = @"6JIptfpITu";
+	plainSign = [NSMutableString stringWithFormat:@"%@%@", plainSign, PLV_MastSecretKey];
+#else
+    plainSign = [NSMutableString stringWithFormat:@"%@%@", plainSign, settings.secretkey];
+#endif
 	params[@"sign"] = plainSign.sha1.uppercaseString;
 	NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:params];
 	[self requestDictionary:request completion:^(NSDictionary *dic, NSError *error) {

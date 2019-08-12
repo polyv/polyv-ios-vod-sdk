@@ -118,42 +118,12 @@
     for (PLVVodDownloadInfo *info in downloadInfos) {
         // 下载状态改变回调
         info.stateDidChangeBlock = ^(PLVVodDownloadInfo *info) {
-            PLVDownloadProcessingCell *cell = weakSelf.downloadItemCellDic[info.identifier];
             dispatch_async(dispatch_get_main_queue(), ^{
-                
-                cell.videoStateLable.text = NSStringFromPLVVodDownloadState(info.state);
-                cell.downloadStateImgView.image = [UIImage imageNamed:[self downloadStateImgFromState:info.state]];
-                
-                switch (info.state) {
-                    case PLVVodDownloadStatePreparing:
-                    case PLVVodDownloadStateReady:
-                    case PLVVodDownloadStateStopped:
-                    case PLVVodDownloadStateStopping:{
-                        cell.videoStateLable.textColor = [UIColor colorWithHex:0x666666];
-                        cell.videoSizeLabel.textColor = [UIColor colorWithHex:0x666666];
-
-                    }break;
-                    case PLVVodDownloadStatePreparingStart:
-                    case PLVVodDownloadStateRunning:{
-                        cell.videoStateLable.textColor = [UIColor colorWithHex:0x4A90E2];
-                        cell.videoSizeLabel.textColor = [UIColor colorWithHex:0x4A90E2];
-
-                    }break;
-                    case PLVVodDownloadStateSuccess:{
-                        cell.videoStateLable.textColor = [UIColor colorWithHex:0x666666];
-                        cell.videoSizeLabel.textColor = [UIColor colorWithHex:0x666666];
-
-                        if (info.state == PLVVodDownloadStateSuccess){
-                            // 下载成功，从列表中删除
-                            [weakSelf handleDownloadSuccess:info];
-                        }
-                        
-                    }break;
-                    case PLVVodDownloadStateFailed:{
-                        cell.videoStateLable.textColor = [UIColor redColor];
-                        cell.videoSizeLabel.textColor = [UIColor redColor];
-                    }break;
+                if (info.state == PLVVodDownloadStateSuccess){ //下载成功，从列表中删除
+                    [weakSelf handleDownloadSuccess:info];
                 }
+                
+                [weakSelf updateCellWithDownloadInfo:info];
             });
         };
         
@@ -161,10 +131,7 @@
         info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
             //NSLog(@"vid: %@, progress: %f", info.vid, info.progress);
             PLVDownloadProcessingCell *cell = weakSelf.downloadItemCellDic[info.identifier];
-            float receivedSize = info.progress * info.filesize;
-            if (receivedSize >= info.filesize){
-                receivedSize = info.filesize;
-            }
+            float receivedSize = MIN(info.progress, 1) * info.filesize;
             NSString *downloadProgressStr = [NSString stringWithFormat:@"%@/ %@", [self.class formatFilesize:receivedSize],[self.class formatFilesize:info.filesize]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -186,6 +153,36 @@
 //        info.unzipProgressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
 //            NSLog(@"vid: %@ unzipProgress:%f ", info.vid, info.unzipProgress);
 //        };
+    }
+}
+
+- (void)updateCellWithDownloadInfo:(PLVVodDownloadInfo *)info {
+    PLVDownloadProcessingCell *cell = self.downloadItemCellDic[info.identifier];
+    
+    cell.videoStateLable.text = NSStringFromPLVVodDownloadState(info.state);
+    cell.downloadStateImgView.image = [UIImage imageNamed:[self downloadStateImgFromState:info.state]];
+    
+    switch (info.state) {
+        case PLVVodDownloadStatePreparing:
+        case PLVVodDownloadStateReady:
+        case PLVVodDownloadStateStopped:
+        case PLVVodDownloadStateStopping:{
+            cell.videoStateLable.textColor = [UIColor colorWithHex:0x666666];
+            cell.videoSizeLabel.textColor = [UIColor colorWithHex:0x666666];
+        } break;
+        case PLVVodDownloadStatePreparingStart:
+        case PLVVodDownloadStateRunning:{
+            cell.videoStateLable.textColor = [UIColor colorWithHex:0x4A90E2];
+            cell.videoSizeLabel.textColor = [UIColor colorWithHex:0x4A90E2];
+        } break;
+        case PLVVodDownloadStateSuccess:{
+            cell.videoStateLable.textColor = [UIColor colorWithHex:0x666666];
+            cell.videoSizeLabel.textColor = [UIColor colorWithHex:0x666666];
+        } break;
+        case PLVVodDownloadStateFailed:{
+            cell.videoStateLable.textColor = [UIColor redColor];
+            cell.videoSizeLabel.textColor = [UIColor redColor];
+        } break;
     }
 }
 
@@ -300,21 +297,12 @@
     
     // 播放本地缓存视频
     PLVVodDownloadInfo *info = self.downloadInfos[indexPath.row];
-    
-    switch (info.state) {
-        case PLVVodDownloadStateReady:
-        case PLVVodDownloadStateRunning:
-        {
-            // 暂停下载
-            [self handleStopDownloadVideo:info];
-        }
-            break;
-        default:
-        {
-            // 开始下载
-            [self handleStartDownloadVideo:info];
-        }
-            break;
+    if (info.state == PLVVodDownloadStateReady || info.state == PLVVodDownloadStateRunning) {
+        // 暂停下载
+        [self handleStopDownloadVideo:info];
+    } else {
+        // 开始下载
+        [self handleStartDownloadVideo:info];
     }
 }
 
@@ -370,9 +358,6 @@
             break;
         case PLVVodDownloadStateFailed:
             imageName = @"plv_icon_download_fail";
-            break;
-            
-        default:
             break;
     }
     

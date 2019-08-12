@@ -347,8 +347,8 @@
     if (m.type == PLVCastCellType_Tips) return;     // 提示
     if (m.type == PLVCastCellType_Searching) return;// 搜索中
     
-    if (m.type == PLVCastCellType_AirPlay) {        // AirPlay
-        if (self.selectEvent) self.selectEvent(self, indexPath.row, m.type);
+    if (m.type == PLVCastCellType_AirPlay && self.selectEvent) { // AirPlay
+        self.selectEvent(self, indexPath.row, m.type);
     }
     
     if (m.type == PLVCastCellType_Device){          // 设备
@@ -554,11 +554,9 @@
 - (void)clearSelectedDevice{
     if (self.devicesArr.count == 0) return;
     for (PLVCastCellInfoModel * m in self.devicesArr) {
-        if (m.type == PLVCastCellType_Device) {
-            if (m.isConnecting) {
-                // 重置
-                m.isConnecting = NO;
-            }
+        if (m.type == PLVCastCellType_Device && m.isConnecting) {
+            // 重置
+            m.isConnecting = NO;
         }
     }
     [self.tableView reloadData];
@@ -611,13 +609,6 @@
 
 
 @implementation PLVCastDeviceCell
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-
-    }
-    return self;
-}
 
 - (void)layoutSubviews{
     [super layoutSubviews];

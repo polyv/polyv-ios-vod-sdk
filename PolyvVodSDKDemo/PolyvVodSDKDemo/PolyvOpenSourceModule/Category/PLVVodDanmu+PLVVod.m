@@ -7,22 +7,7 @@
 //
 
 #import "PLVVodDanmu+PLVVod.h"
-
-/// 请求参数字典 -> 文本
-static NSString *paramStr(NSDictionary *paramDict) {
-	NSArray *keys = paramDict.allKeys;
-	keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-		return [obj1 compare:obj2 options:NSCaseInsensitiveSearch];
-	}];
-	NSMutableString *paramStr = [NSMutableString string];
-	for (int i = 0; i < keys.count; i ++) {
-		NSString *key = keys[i];
-		[paramStr appendFormat:@"%@=%@", key, paramDict[key]];
-		if (i == keys.count - 1) break;
-		[paramStr appendString:@"&"];
-	}
-	return paramStr;
-}
+#import "PLVNetworkUtil.h"
 
 @implementation PLVVodDanmu (PLVVod)
 
@@ -65,13 +50,13 @@ static NSString *paramStr(NSDictionary *paramDict) {
 }
 
 + (PLVVodDanmuMode)danmuModeWithDescription:(NSString *)description {
-	description = description.lowercaseString;
+    NSString *lowerCaseDesc = description.lowercaseString;
 	PLVVodDanmuMode mode = PLVVodDanmuModeRoll;
-	if ([description isEqualToString:@"roll"]) {
+	if ([lowerCaseDesc isEqualToString:@"roll"]) {
 		mode = PLVVodDanmuModeRoll;
-	} else if ([description isEqualToString:@"top"]) {
+	} else if ([lowerCaseDesc isEqualToString:@"top"]) {
 		mode = PLVVodDanmuModeTop;
-	} else if ([description isEqualToString:@"bottom"]) {
+	} else if ([lowerCaseDesc isEqualToString:@"bottom"]) {
 		mode = PLVVodDanmuModeBottom;
 	}
 	return mode;
@@ -79,7 +64,7 @@ static NSString *paramStr(NSDictionary *paramDict) {
 
 #pragma mark - networking
 
-+ (void)sendDanmu:(NSString *)danmu vid:(NSString *)vid time:(NSTimeInterval)time fontSize:(double)fontSize color:(NSUInteger)colorHex mode:(NSInteger)mode completion:(void (^)(NSError *error))completion {
++ (void)sendDanmu:(NSString *)danmu vid:(NSString *)vid time:(NSTimeInterval)time fontSize:(double)fontSize color:(NSUInteger)colorHex mode:(NSInteger)mode completion:(void (^)(NSError *error, NSString * danmuId))completion {
 	NSString *url = @"https://api.polyv.net/v2/danmu/add";
 	NSString *modelName = nil;
 	switch (mode) {
@@ -94,26 +79,52 @@ static NSString *paramStr(NSDictionary *paramDict) {
 		}break;
 		default:{}break;
 	}
+    
+    NSInteger seconds = time;
+    NSString * hStr = [NSString stringWithFormat:@"%02zd",seconds/60/60];
+    NSString * mStr = [NSString stringWithFormat:@"%02zd",(seconds/60)%60];
+    NSString * sStr = [NSString stringWithFormat:@"%02zd",seconds%60];
+    NSString * timeStr = [NSString stringWithFormat:@"%@:%@:%@",hStr,mStr,sStr];
+    
+    // 清除开头空格
+    NSString *danmuMsg = nil;
+    if (danmu.length){
+        danmuMsg = [danmu stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    
 	NSMutableDictionary *params = [NSMutableDictionary dictionary];
 	params[@"vid"] = vid;
-	params[@"msg"] = danmu;
-	params[@"time"] = @(time);
+	params[@"msg"] = danmuMsg;
+	params[@"time"] = timeStr;
 	params[@"fontSize"] = @((int)fontSize);
 	params[@"fontMode"] = modelName;
 	params[@"fontColor"] = [NSString stringWithFormat:@"0x%08x", (uint)colorHex];
 	NSInteger timeInterval = [NSDate date].timeIntervalSince1970 * 1000;
 	params[@"timestamp"] = @(timeInterval).description;
-	url = [NSString stringWithFormat:@"%@?%@", url, paramStr(params)];
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+//    url = [NSString stringWithFormat:@"%@?%@", url, [PLVNetworkUtil convertDictionaryToSortedString:params]];
+//    url = [self urlEncode:url];
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSMutableURLRequest *request = [self requestWithUrl:url method:@"POST" params:params];
 	[[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 		NSInteger httpStatusCode = httpResponse.statusCode;
 		if (error) { // 网络错误
 			NSLog(@"网络错误: %@", error);
+            if (completion) { completion(error, nil); }
 		} else if (httpStatusCode != 200) { // 服务器错误
 			NSString *errorMessage = [NSString stringWithFormat:@"服务器响应失败，状态码:%zd",httpResponse.statusCode];
 			NSLog(@"%@，服务器错误: %@", request.URL.absoluteString, errorMessage);
-		}
+            if (completion) { completion(error, nil); }
+        }else{
+            NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+            NSDictionary * resData = responseDic[@"data"];
+            NSString *danmuId = nil;
+            if ([resData isKindOfClass:[NSDictionary class]]){
+                danmuId = [resData objectForKey:@"id"];
+            }
+            if (completion) { completion(nil, danmuId); }
+        }
 	}] resume];
 }
 
@@ -125,34 +136,55 @@ static NSString *paramStr(NSDictionary *paramDict) {
     if (maxCount > 0) {
         params[@"limit"] = @(maxCount);
     }
-	url = [NSString stringWithFormat:@"%@?%@", url, paramStr(params)];
+	url = [NSString stringWithFormat:@"%@?%@", url, [PLVNetworkUtil convertDictionaryToSortedString:params]];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-	
-	[[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-		NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-		NSInteger httpStatusCode = httpResponse.statusCode;
-		if (error) { // 网络错误
-			NSLog(@"网络错误: %@", error);
-		} else if (httpStatusCode != 200) { // 服务器错误
-			NSString *errorMessage = [NSString stringWithFormat:@"服务器响应失败，状态码:%zd",httpResponse.statusCode];
-			NSLog(@"%@，服务器错误: %@", request.URL.absoluteString, errorMessage);
-		} else {
-			NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-			if (error){
-				NSLog(@"JSONReading error = %@", error.localizedDescription);
-				return;
-			}
-			if ([responseDic isKindOfClass:[NSArray class]]) {
-				if (completion) completion((NSArray *)responseDic, nil);
-			}
-		}
-	}] resume];
+    [PLVNetworkUtil requestData:request completion:^(NSData * _Nullable data, NSError * _Nullable error) {
+        if (error == nil) {
+            NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+            if (error){
+                NSLog(@"JSONReading error = %@", error.localizedDescription);
+            } else if ([responseDic isKindOfClass:[NSArray class]]) {
+                !completion ?: completion((NSArray *)responseDic, nil);
+            }
+        }
+    }];
 }
+
++ (NSString *)urlEncode:(NSString *)url{
+    NSString *encodedString = (NSString *)
+    CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)url,
+                                                              (CFStringRef)@"!$&'()*+,-./:;=?@_~%#[]",
+                                                              NULL,
+                                                              kCFStringEncodingUTF8));
+    return encodedString;
+}
+
+/// 快速生成Request
++ (NSMutableURLRequest *)requestWithUrl:(NSString *)url method:(NSString *)HTTPMethod params:(NSDictionary *)paramDic {
+    NSString *urlString = url.copy;
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    if (paramDic.count) {
+        NSString *parameters = [PLVNetworkUtil convertDictionaryToSortedString:paramDic];
+        NSData *bodyData = [parameters dataUsingEncoding:NSUTF8StringEncoding];
+        request.HTTPBody = bodyData;
+    }
+    
+    NSURL *URL = [NSURL URLWithString:urlString];
+    request.URL = URL;
+    request.HTTPMethod = HTTPMethod;
+    request.timeoutInterval = 10;
+
+    return request;
+}
+
+
+
 
 #pragma mark -public
 
 /// 发送弹幕
-- (void)sendDammuWithVid:(NSString *)vid completion:(void (^)(NSError *error))completion {
+- (void)sendDammuWithVid:(NSString *)vid completion:(void (^)(NSError *error, NSString * danmuId))completion {
 	[self.class sendDanmu:self.content vid:vid time:self.time fontSize:self.fontSize color:self.colorHex mode:self.mode completion:completion];
 	[[NSNotificationCenter defaultCenter] postNotificationName:PLVVodDanmuDidSendNotification object:self];
 }
@@ -160,8 +192,8 @@ static NSString *paramStr(NSDictionary *paramDict) {
 /// 加载弹幕
 + (void)requestDanmusWithVid:(NSString *)vid completion:(void (^)(NSArray<PLVVodDanmu *> *danmus, NSError *error))completion {
 	[self requestDanmusWithVid:vid maxCount:200 completion:^(NSArray *danmus, NSError *error) {
-		if (error) {
-			if (completion) completion(nil, error);
+		if (error && completion) {
+			completion(nil, error);
 		}
 		NSMutableArray *danmuModels = [NSMutableArray array];
 		for (NSDictionary *dic in danmus) {

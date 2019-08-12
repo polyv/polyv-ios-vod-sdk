@@ -41,24 +41,17 @@
 
 - (void)setState:(PLVLoadCellState)state {
 	_state = state;
-	switch (state) {
-		case PLVLoadCellStateProcessing:{
-//            self.downloadProcessStackView.hidden = NO;
-			[UIView animateWithDuration:.5 animations:^{
-				self.downloadButton.alpha = 1;
-				self.downloadProcessStackView.alpha = 1;
-			}];
-		}break;
-		case PLVLoadCellStateCompleted:{
-			[UIView animateWithDuration:.5 animations:^{
-				self.downloadButton.alpha = 0;
-				self.downloadProcessStackView.alpha = 0;
-			} completion:^(BOOL finished) {
-//                self.downloadProcessStackView.hidden = YES;
-			}];
-		}break;
-		default:{}break;
-	}
+    if (state == PLVLoadCellStateProcessing) {
+        [UIView animateWithDuration:.5 animations:^{
+            self.downloadButton.alpha = 1;
+            self.downloadProcessStackView.alpha = 1;
+        }];
+    } else if (state == PLVLoadCellStateCompleted) {
+        [UIView animateWithDuration:.5 animations:^{
+            self.downloadButton.alpha = 0;
+            self.downloadProcessStackView.alpha = 0;
+        } completion:nil];
+    }
 }
 
 - (void)downloadButtonAction:(UIButton *)sender {

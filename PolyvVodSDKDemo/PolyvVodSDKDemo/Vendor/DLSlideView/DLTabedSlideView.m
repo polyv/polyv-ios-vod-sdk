@@ -155,7 +155,7 @@
     [tabbar_ switchingFrom:oldIndex to:toIndex percent:percent];
 }
 - (void)DLSlideView:(DLSlideView *)slide didSwitchTo:(NSInteger)index{
-    _selectedIndex = index;
+    self.selectedIndex = index;
 
     [tabbar_ setSelectedIndex:index];
     if (self.delegate && [self.delegate respondsToSelector:@selector(DLTabedSlideView:didSelectedAt:)]) {

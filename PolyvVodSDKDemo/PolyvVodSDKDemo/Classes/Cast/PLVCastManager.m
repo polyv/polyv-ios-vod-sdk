@@ -227,7 +227,7 @@ static PLVCastManager * manager = nil;
     // 若已连接其他设备
     if (self.lelinkConnection.lelinkService != nil) {
         // 提前保存即将断开的服务
-        _willBeDisconnectedService = self.lelinkConnection.lelinkService;
+        self.willBeDisconnectedService = self.lelinkConnection.lelinkService;
         
         [self stop];
         [self stop];
@@ -443,7 +443,7 @@ static void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFS
         [self.plv_servicesArr addObject:plv_s];
     }
     
-    _lb_servicesArr = lbServicesArr;
+    self.lb_servicesArr = lbServicesArr;
     // NSLog(@"PLVCastManager - 设备信息数组已更新 设备数：%lu",(unsigned long)self.plv_servicesArr.count);
 }
 
@@ -546,7 +546,7 @@ didFindLelinkServices:(NSArray<LBLelinkService *> *)services {
     }
     
     // 清空
-    _willBeDisconnectedService = nil;
+    self.willBeDisconnectedService = nil;
     if (self.lelinkConnection.lelinkService == service) {
         self.lelinkConnection.lelinkService = nil;
     }
@@ -563,7 +563,7 @@ didFindLelinkServices:(NSArray<LBLelinkService *> *)services {
 - (void)lelinkPlayer:(LBLelinkPlayer *)player playStatus:(LBLelinkPlayStatus)playStatus {
     NSLog(@"PLVCastManager - 播放状态回调 %lu",(unsigned long)playStatus);
     
-    if (self.lelinkConnection.lelinkService == _willBeDisconnectedService) {
+    if (self.lelinkConnection.lelinkService == self.willBeDisconnectedService) {
         return;
     }
     

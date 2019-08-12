@@ -74,13 +74,14 @@
 		return [@(obj1.showTime) compare:@(obj2.showTime)];
 	}];
 	_exams = sortedExams;
-	_tempExams = sortedExams.mutableCopy;
+	self.tempExams = sortedExams.mutableCopy;
 }
 
 - (void)setCurrentTime:(NSTimeInterval)currentTime {
 	if (currentTime+1 < _currentTime && _currentTime > 0) {
+        // 重置问题
 		[self hideExam];
-		_tempExams = self.exams.mutableCopy;
+		self.tempExams = self.exams.mutableCopy;
 		//NSLog(@"current: %f -> %f", _currentTime, currentTime);
 	}
 	_currentTime = currentTime;
@@ -99,6 +100,7 @@
 		return;
 	}
     
+    // 问答参数检查
     if (![exam.question checkStringLegal]) {
         NSLog(@"PLVVodExamViewController - 问题展示错误，exam.question非法，请检查");
         return;
@@ -128,15 +130,35 @@
 	}];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)changeExams:(NSArray<PLVVodExam *> *)arrExam showTime:(NSTimeInterval)showTime{
+    NSArray *tmpArr = [self updateExamArray:self.tempExams changeArray:arrExam showTime:showTime];
+    _tempExams = [NSMutableArray arrayWithArray:tmpArr];
+    _exams = [self updateExamArray:self.exams changeArray:arrExam showTime:showTime];
 }
-*/
+
+- (NSArray<PLVVodExam *> *)updateExamArray:(NSArray<PLVVodExam *> *)origArray changeArray:(NSArray<PLVVodExam *> *)changeArray showTime:(NSTimeInterval)showTime{
+    // 删除旧问题
+    NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:origArray];
+    [origArray enumerateObjectsUsingBlock:^(PLVVodExam * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.showTime == showTime){
+            [tmpArray removeObject:obj];
+        }
+    }];
+    // 插入更新后的问题
+    [changeArray enumerateObjectsUsingBlock:^(PLVVodExam * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        PLVVodExam *arrObj = obj;
+        [origArray enumerateObjectsUsingBlock:^(PLVVodExam * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (arrObj.showTime <= obj.showTime){
+                [tmpArray insertObject:arrObj atIndex:idx];
+                *stop = YES;
+            }
+        }];
+    }];
+    
+    NSArray *retArr = [NSMutableArray arrayWithArray:tmpArray];
+    
+    return retArr;
+}
 
 #pragma mark - private method
 

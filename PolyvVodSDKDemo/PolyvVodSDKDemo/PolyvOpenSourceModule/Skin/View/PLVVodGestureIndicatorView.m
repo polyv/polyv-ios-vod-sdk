@@ -38,7 +38,6 @@
 		case PLVVodGestureIndicatorTypeProgressDown:{
 			image = [UIImage imageNamed:@"plv_vod_ic_rewind"];
 		}break;
-		default:{}break;
 	}
 	dispatch_async(dispatch_get_main_queue(), ^{
 		self.indicatorImageView.image = image;
