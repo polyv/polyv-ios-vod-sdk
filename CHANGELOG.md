@@ -10,6 +10,33 @@
 ### Removed
 ### Fixed -->
 
+## [2.6.4] - 2019-08-12
+
+### Added
+
+- 点播子账号支持
+- 自定义片头支持
+- 本地问答功能支持
+- 随机更新自定义问答支持（demo）
+- 发送弹幕接口增加返回弹幕id及参数校验
+
+- `PLVVodSettings`,  
++ `+ (instancetype)settingsWithAppId:(NSString *)appId secretKey:(NSString *)secretKey userId:(NSString *)userId;` 点播子账号初始化
+- `PLVVodExam`,
++ `+ (NSArray <PLVVodExam *> *)localExamsWithVid:(NSString *)vid downloadDir:(NSString *)downloadDir;` 获取本地问答数据
+- `PLVVodPlayerViewController`,
++ `- (BOOL)setCustomTeaser:(NSString *)teaserUrl teaserDuration:(NSInteger )teaserDuration;` 设置自定义片头
+
+### Changed
+
+- m3u8 播放地址支持httpdns 解析播放
+- 跑马灯支持设置固定时间间隔，更新至0.0.4 版本
+
+### Fixed
+- 部分视频播放结束时间与视频时长不一致问题修复
+- 部分旧视频请求Key 404报错 问题修复
+
+
 ## [2.6.3] - 2019-06-25
 
 ### Added
