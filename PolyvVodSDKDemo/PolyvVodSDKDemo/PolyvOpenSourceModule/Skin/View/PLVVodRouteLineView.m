@@ -44,7 +44,10 @@
     if (routeLineCount <= 1) {
         return;
     }
-    NSUInteger processedRouteLineCount = MAX(routeLineCount, 3);
+    NSUInteger processedRouteLineCount = routeLineCount;
+    if (processedRouteLineCount > 3){
+        processedRouteLineCount = 3;
+    }
     
     UIButton *lineOne = [self.class buttonWithTitle:@"线路一" target:self];
     lineOne.selected = YES;
