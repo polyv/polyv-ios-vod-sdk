@@ -119,8 +119,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 - (void)settingConfig {
     
     NSError *error = nil;
-
-#ifndef PLVSupportSubAccount
+    
     PLVSchool *school = [PLVSchool sharedInstance];
     NSString *vodKey = school.vodKey;
     NSString *decodeKey = school.vodKeyDecodeKey;
@@ -130,15 +129,6 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
                                                                      iv:decodeIv
                                                                   error:&error];
     NSLog(@"-- %@ ", settings.secretkey);
-    
-#else
-    
-    NSString *appId = @"gwkbM1MD6H";
-    NSString *secretKey = @"32b4a54a96f44306b38843348905080d";
-    NSString *userId = @"a0f97cbb56";
-    PLVVodSettings *settings = [PLVVodSettings settingsWithAppId:appId secretKey:secretKey userId:userId];
-    
-#endif
     
     settings.logLevel = PLVVodLogLevelAll;
     settings.viewerId = @"观看用户ID";
