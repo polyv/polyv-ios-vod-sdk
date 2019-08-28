@@ -29,82 +29,11 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
-	NSError *error = nil;
-	PLVSchool *school = [PLVSchool sharedInstance];
-	NSString *vodKey = school.vodKey;
-	NSString *decodeKey = school.vodKeyDecodeKey;
-	NSString *decodeIv = school.vodKeyDecodeIv;
-    PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey key:decodeKey iv:decodeIv error:&error];
-    settings.logLevel = PLVVodLogLevelAll;
     
-    settings.viewerId = @"观看用户ID";
-    settings.viewerName = @"观看用户名称";
-    settings.viewerAvatar = @"观看用户头像";
-
-	// 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
-	{
-		NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-		BOOL enableUserVodKey = [user boolForKey:PLVApplySettingKey];
-		if (enableUserVodKey) {
-			NSString *userVodKey = [user stringForKey:PLVVodKeySettingKey];
-			userVodKey = [userVodKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-			if (userVodKey.length) {
-				settings = [PLVVodSettings settingsWithConfigString:userVodKey error:&error];
-			}
-		}
-	}
-	
-	NSLog(@"settings: %@", settings);
-	if (error) {
-		NSLog(@"account settings error: %@", error);
-	}
-	
-	// PLVVodDownloadManager 下载配置
-	{
-		PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
-        
-        // 设置下载路径
-        // TODO:
-        
-        // 下载配置参数
-//        downloadManager.autoStart = YES;
-        downloadManager.maxRuningCount = 3;
-        
-		// 下载错误统一回调
-		downloadManager.downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
-			NSLog(@"download error: %@\n%@", video.vid, error);
-		};
-		
-        
-		// 若需兼容 1.x.x 版本 SDK 视频，则需解注以下代码
-		// 首先需确保 `downloadManager.downloadDir` 与之前版本的下载目录一致，然后调用兼容 1.x.x 离线视频方法
-		//downloadManager.downloadDir = <#1.x.x版本的下载目录#>
-		//[downloadManager compatibleWithPreviousVideos];
-        
-        
-#ifdef PLVSupportMultiAccount
-        {
-            //  多账号配置,用于app多账号登入场景，一般用户可以不考虑
-            //  升级到多账号下载模式
-            //  开启多账号下载开关
-            [PLVVodDownloadManager sharedManager].isMultiAccount = YES;
-
-            // 设置前一个版本单帐号模式下的下载路径，用于数据迁移
-            // 否则已缓存数据丢失
-            NSString *previousDownloadDir = [self getPreviousDownlaodDir];
-            [PLVVodDownloadManager sharedManager].previousDownloadDir = previousDownloadDir;
-
-            // 登入到具体帐号,如果不调用，sdk使用默认帐号
-            // 学员的用户id
-            NSString *userId = @"111111";
-            [[PLVVodDownloadManager sharedManager] switchDownloadAccount:userId];
-        }
-        
-#endif
-	}
+    [self settingConfig];
+    [self downloadSetting];
 	
 	// 接收远程事件
 	[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
@@ -185,5 +114,74 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
     [[PLVVodDownloadManager sharedManager] applicationWillTerminate];
 }
 
+#pragma mark - Private
+
+- (void)settingConfig {
+    
+    NSError *error = nil;
+
+    PLVSchool *school = [PLVSchool sharedInstance];
+    NSString *vodKey = school.vodKey;
+    NSString *decodeKey = school.vodKeyDecodeKey;
+    NSString *decodeIv = school.vodKeyDecodeIv;
+    PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey
+                                                                    key:decodeKey
+                                                                     iv:decodeIv
+                                                                  error:&error];
+    NSLog(@"-- %@ ", settings.secretkey);
+    
+    settings.logLevel = PLVVodLogLevelAll;
+    settings.viewerId = @"观看用户ID";
+    settings.viewerName = @"观看用户名称";
+    settings.viewerAvatar = @"观看用户头像";
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:PLVApplySettingKey]) {
+        // 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
+        NSString *userVodKey = [[NSUserDefaults standardUserDefaults] stringForKey:PLVVodKeySettingKey];
+        userVodKey = [userVodKey stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if (userVodKey.length) {
+            settings = [PLVVodSettings settingsWithConfigString:userVodKey error:&error];
+        }
+    }
+    
+    NSLog(@"settings: %@", settings);
+    if (error) {
+        NSLog(@"account settings error: %@", error);
+    }
+}
+
+- (void)downloadSetting {
+    // 下载配置参数
+    [PLVVodDownloadManager sharedManager].autoStart = YES;
+    [PLVVodDownloadManager sharedManager].maxRuningCount = 3;
+    
+    // 下载错误统一回调
+    [PLVVodDownloadManager sharedManager].downloadErrorHandler = ^(PLVVodVideo *video, NSError *error) {
+        NSLog(@"download error: %@\n%@", video.vid, error);
+    };
+    
+    
+    // 若需兼容 1.x.x 版本 SDK 视频，则需解注以下代码
+    // 首先需确保 `[PLVVodDownloadManager sharedManager].downloadDir` 与之前版本的下载目录一致，然后调用兼容 1.x.x 离线视频方法
+    //[PLVVodDownloadManager sharedManager].downloadDir = <#1.x.x版本的下载目录#>
+    //[[PLVVodDownloadManager sharedManager] compatibleWithPreviousVideos];
+    
+#ifdef PLVSupportMultiAccount
+    //  多账号配置,用于app多账号登入场景，一般用户可以不考虑
+    //  升级到多账号下载模式
+    //  开启多账号下载开关
+    [PLVVodDownloadManager sharedManager].isMultiAccount = YES;
+    
+    // 设置前一个版本单帐号模式下的下载路径，用于数据迁移
+    // 否则已缓存数据丢失
+    NSString *previousDownloadDir = [self getPreviousDownlaodDir];
+    [PLVVodDownloadManager sharedManager].previousDownloadDir = previousDownloadDir;
+    
+    // 登入到具体帐号,如果不调用，sdk使用默认帐号
+    // 学员的用户id
+    NSString *userId = @"111111";
+    [[PLVVodDownloadManager sharedManager] switchDownloadAccount:userId];
+#endif
+}
 
 @end

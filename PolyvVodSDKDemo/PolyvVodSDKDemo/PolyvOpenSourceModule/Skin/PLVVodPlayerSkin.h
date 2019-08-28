@@ -13,8 +13,25 @@
 #import "PLVVodNetworkTipsView.h"
 
 @class PLVVodAudioCoverPanelView;
+@class PLVVodCoverView;
+@class PLVVodPlayerSkin;
+
+@protocol PLVVodPlayerSkinPPTVideoProtocol <NSObject>
+
+@optional
+
+- (void)tapSubScreenButton:(PLVVodPlayerSkin *)skin;
+
+- (void)tapPPTCatalogButton:(PLVVodPlayerSkin *)skin;
+
+- (UIImage *)tapSnapshotButton:(PLVVodPlayerSkin *)skin;
+
+@end
 
 @interface PLVVodPlayerSkin : UIViewController<PLVVodPlayerSkinProtocol>
+
+//支持三分屏功能时才需要设置 pptVideoDelegate
+@property (nonatomic, weak) id<PLVVodPlayerSkinPPTVideoProtocol> pptVideoDelegate;
 
 #pragma mark - PLVVodPlayerSkinProtocol 重新声明
 
@@ -85,6 +102,12 @@
 /// 皮肤覆盖层，显示弹幕
 @property (nonatomic, strong) UIView *skinMaskView;
 
+/// 皮肤音频模式动画
+@property (strong, nonatomic, readonly) PLVVodAudioCoverPanelView *audioCoverPanelView;
+/// 音视频封面
+@property (strong, nonatomic, readonly) PLVVodCoverView *coverView;
+
+
 /// 是否是锁屏状态
 @property (nonatomic, assign, readonly) BOOL isLockScreen;
 
@@ -109,9 +132,7 @@
 /// 清晰度按钮是否响应事件
 - (void)setEnableQualityBtn:(BOOL )enable;
 
-
-- (void)showGestureIndicator;
-- (void)hideGestureIndicator;
+- (void)showGestureIndicator:(BOOL)show;
 
 - (void)hideOrShowPlaybackControl;
 

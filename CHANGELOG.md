@@ -10,15 +10,52 @@
 ### Removed
 ### Fixed -->
 
-## [2.6.2] - 2019-06-05
+## [2.6.5] - 2019-08-28
+
+### Added
+
+- 支持三分屏播放课件
+- `PLVVodPlayerViewController` ,  
+  - `@property (nonatomic, assign) BOOL pptEnable;` 三分屏功能开关
+- demo - `PLVPPTSimpleDetailController`：三分屏功能播放页
+
+## [2.6.4] - 2019-08-13
+
+### Added
+
+- 点播子账号支持
+- 自定义片头支持
+- 本地问答功能支持
+- 随机更新自定义问答支持（demo）
+- 发送弹幕接口增加返回弹幕id及参数校验
+
+- `PLVVodSettings`,  
++ `+ (instancetype)settingsWithAppId:(NSString *)appId secretKey:(NSString *)secretKey userId:(NSString *)userId;` 点播子账号初始化
+- `PLVVodExam`,
++ `+ (NSArray <PLVVodExam *> *)localExamsWithVid:(NSString *)vid downloadDir:(NSString *)downloadDir;` 获取本地问答数据
+- `PLVVodPlayerViewController`,
++ `- (BOOL)setCustomTeaser:(NSString *)teaserUrl teaserDuration:(NSInteger )teaserDuration;` 设置自定义片头
+
+### Changed
+
+- m3u8 播放地址支持httpdns 解析播放
+- 跑马灯支持设置固定时间间隔，更新至0.0.4 版本
+
+### Fixed
+- 部分视频播放结束时间与视频时长不一致问题修复
+- 部分旧视频请求Key 404报错 问题修复
+
+
+## [2.6.3] - 2019-06-25
 
 ### Added
 
 - 增加离线播放发送viewlog 日志的开关
 - 第三方视频播放，支持自定义请求header
+
 - `PLVVodPlayerViewController` ,  
     + `@property (nonatomic, assign) BOOL enableLocalViewLog` 离线播放发送viewlog
-    + `- (void)setURL:withHeaders:` 第三方播放链接可自定义header
+    + `- (void)setURL:(NSURL *)videoUrl withHeaders:(NSDictionary<NSString *, NSString *> *)headers;` 第三方播放链接可自定义header
 
 ### Changed
 
@@ -30,7 +67,13 @@
 - 横竖屏切换，跑马灯可能显示在视图区域外问题修复
 
 
-## [2.6.1] - 2019-05-06
+## [2.6.2] - 2019-05-20
+
+- 新增视频上传功能，集成方式 pod 'PLVVodUploadSDK', '~> 0.1.0'
+- 详细集成方式参见：[iOS 上传SDK 集成说明](https://github.com/polyv/polyv-ios-upload-sdk)
+
+
+## [2.6.1] - 2019-05-20
 
 ### Added
 
@@ -63,7 +106,7 @@
 - 修复网络状态连续变化时可能引发的崩溃
 
 
-## [2.6.0] - 2019-04-03
+## [2.6.0] - 2019-05-15
 
 ### Added
 
@@ -104,7 +147,7 @@
 -  解决缓冲进度条闪动的问题
 
 
-## [2.5.6] - 2019-03-13
+## [2.5.6] - 2019-04-03
 
 ### Added
 
@@ -132,23 +175,25 @@
 - 删除全部视频，autoStar 自动下载失效问题修复
 
 
-## [2.5.5] - 2019-01-25
+## [2.5.5] - 2019-02-26
 
 ### Added
 
 - 播放器新增视频打点功能，具体实现参考demo
-- `PLVVodPlayerViewController`，
-    + `@property (nonatomic, copy) void (^videoTipsSelectedHandler)(NSUInteger tipIndex);`  视频打点信息点击回调
+- `PLVVodPlayerViewController`，新增视频打点信息点击回调，传递被选中的打点信息索引
+    + `@property (nonatomic, copy) void (^videoTipsSelectedHandler)(NSUInteger tipIndex);`  
 - `PLVVodPlayerSkin` , 
-    + `-addVideoPlayTips`   (DEMO) 添加视频打点信息
-    + `-showVideoPlayTips`，（DEMO）展示视频打点信息
+    + `-addVideoPlayTips` ， 添加视频打点信息
+    + `-showVideoPlayTips`，展示视频打点信息
++ `@property (nonatomic, copy) void(^plvVideoTipsPlayerBlock)(NSUInteger playIndex);` 点击打点信息播放事件处理
+
 
 ### Fixed
 
 - 投屏功能sdk升级，部分bug修复
 
 
-## [2.5.4] - 2019-01-10
+## [2.5.4] - 2019-02-15
 
 ### Added
 
@@ -193,32 +238,33 @@
 - 部分场景下导致vid为空而在setVideo时出现崩溃问题修复
 
 
-## [2.5.3] - 2018-12-01
+
+## [2.5.3] - 2018-12-17
 
 ### Added
 
 - `PLVVodDownloadManager`，支持多任务下载功能，1～3 个
-    + `@property (nonatomic, assign) NSUInteger maxRuningCount`   设置同时下载的最大任务数，默认为1
+	+ `@property (nonatomic, assign) NSUInteger maxRuningCount`   设置同时下载的最大任务数，默认为1
 - `PLVVodDownloadManager (Database)`，新增下载管理分类，拓展sdk 数据库功能
-    + `-createExtendTableWithClass`   创建扩展表
-    + `-insertOrUpdateWithExtendInfo`  插入或更新一条记录
-    + `-getExtendInfoWithClass:condition`  根据条件查询记录
-    + `-getAllExtendInfoWithClass`  查询所有记录
-    + `-deleteExtendInfoWithClass:condition` 根据条件删除一条记录
-    + `-deleteAllExtendInfoWithClass`  删除所有记录
+	+ `-createExtendTableWithClass`   创建扩展表
+	+ `-insertOrUpdateWithExtendInfo`  插入或更新一条记录
+	+ `-getExtendInfoWithClass:condition`  根据条件查询记录
+	+ `-getAllExtendInfoWithClass`  查询所有记录
+	+ `-deleteExtendInfoWithClass:condition` 根据条件删除一条记录
+	+ `-deleteAllExtendInfoWithClass`  删除所有记录
 - `PLVVodExtendVideoInfo`，（Demo）数据库拓展表结构示例，具体参考demo
 - `PLVVodDBManager`，（Demo）新增PLVVodDBManager 二次封装sdk 数据库操作api，方便应用处理，具体参考demo
 - `PLVVodPlayerViewController`，增加seekType属性，实现精确seek功能
-    + `@property (nonatomic, assign) PLVVodPlaySeekType seekType;`
+	+ `@property (nonatomic, assign) PLVVodPlaySeekType seekType;`
 - `PLVSubtitleManager`，（Demo）播放器支持顶部显示字幕功能，pod 'PLVSubtitle', '~> 0.1.0' 
-    + `-managerWithSubtitle:lale:topLable:error`   支持顶部显示字幕初始化方法
+	+ `-managerWithSubtitle:lale:topLable:error`   支持顶部显示字幕初始化方法
 - `PLVVodServiceUtil`，（Demo）添加批量获取视频播放次数接口 
-    + `-requestPlayTimesWithVids`  根据vid数组批量获取播放次数
+	+ `-requestPlayTimesWithVids`  根据vid数组批量获取播放次数
 
 ### Changed
 
 -   Cocoapods 支持动态库方式集成sdk，解决与其他音视频sdk部分冲突问题,集成方式：
-    + `pod 'PolyvVodSDK_Dylib'`  
+	+ `pod 'PolyvVodSDK_Dylib'`  
 
 
 ### Fixed
@@ -229,9 +275,7 @@
 - 断点数据失效后，视频不能再次下载问题修复
 - 播放器已经退出，部分场景下仍会中断第三方App后台播放问题修复
 
-
-
-## [2.5.2] - 2018-11-01
+## [2.5.2] - 2018-11-08
 
 ### Added
 
@@ -244,7 +288,9 @@
     + `@property (nonatomic, assign) BOOL enablePlayRecycle;`
 - `PLVVodErrorUtil`，Demo 中新增错误处理工具类，根据错误码返回错误提示，支持自定义错误提示
     + `-getErrorMsgWithCode`   根据错误码返回错误提示
-
+- `PLVVodServiceUtil`，Demo 中新增业务工具类，提供相关拓展的API 接口
+    + `-requestVideoListWithAccount`   根据子账户，视频分类id等参数，获取视频列表信息
+    
 ### Changed
 -  PLVVodVideo 模型title属性修改为可读写，用户可自定义设置title
 - 播放器音量调节，可选择调节系统音量还是播放器音量，参见Demo  PLVVodSkinPlayerController 类中音量调节逻辑
@@ -257,28 +303,15 @@
 - 非ViewDidLoad 函数中初始化播放器，iPad 上崩溃问题修复
 
 
-## [2.5.1] - 2018-09-01
-
-### Added
-
-- 播放器支持默认音频播放功能
-
-- `PLVVodPlayerViewController`，新增正常播放结束标志属性，用于判断播放器是正常播放结束，还是异常播放结束
-    + `@property (nonatomic, readonly) BOOL reachEndSuccess;`
-- `PLVVodPlayerViewController`，新增播放恢复回调，播放异常结束后，该block每5s回调一次，在该block中可实现恢复播放逻辑;具体可参考PLVVodSkinPlayerController 文件中相关逻辑
-    + `@property (nonatomic, copy) void (^playbackRecoveryHandle)(PLVVodPlayerViewController *player);`
-
+## [2.5.1] - 2018-09-26
 
 ### Fixed
 
-- 码率切换，视频会重新播放 
-- 视频播放结束，不能区分是正常结束，还是异常结束
-- 同一个播放器播放不同视频，不能准确记录各个视频的历史播放位置
-- 断网状态播放离线视频，视频总时长显示错误
-- 播放器解析的视频时长与videojson的视频时长不一致，导致错误记录历史播放位置，再次播放视频总是从最后几秒开始播放
+- 调用Api 进行码率切换，切换后视频会暂停播放问题修复
+- 添加视频到下载队列，立即保存记录到数据库，解决退出app 后有时不能保存下载记录的问题
 
 
-## [2.5.0] - 2018-08-19
+## [2.5.0] - 2018-09-17
 
 ### Added
 
@@ -293,6 +326,13 @@
 - `PLVVodDownloadManager`，新增单个视频的下载完成回调，用法参见demo
     + `@property (nonatomic, copy) void(^downloadCompleteBlock)(PLVVodDownloadInfo *info);`
 
+- `PLVVodDownloadManager`，新增根据vid 获取下载信息方法
+    + `-requestDownloadInfoWithVid `
+    
+- `PLVVodVideo`，新增videojson 获取方法，此方法自动更新保存videojson 到本地数据库，且优先返回本地数据
+    + `-requestVideoPriorityCacheWithVid `  添加视频到下载队列，获取videojson 时优先使用该方法
+
+- 增加视频详情数据库缓存功能
 
 ### Changed
 
@@ -305,8 +345,31 @@
 - 恢复HLS 加密视频zip 下载方式
 - mp4 / flv 等单文件视频下载，支持后台下载功能
 - `PLVVodDownloadManager`  中 `-localVideos`  方法bug修复，过滤未缓存完成的HLS 视频
+- 播放器Ipad 横竖屏适配
+- 部分源文件视频播放失败修复
+- 断网后再联网，下载状态不正确问题修复
 - 提升下载功能的整体稳定性
 
+
+## [2.4.1] - 2018-08-31
+
+### Added
+
+- 播放器支持默认音频播放功能
+
+- `PLVVodPlayerViewController`，新增正常播放结束标志属性，用于判断播放器是正常播放结束，还是异常播放结束；
+    + `@property (nonatomic, readonly) BOOL reachEndSuccess;`
+- `PLVVodPlayerViewController`，新增播放恢复回调，播放异常结束后，该block每5s回调一次，在该block中可实现恢复播放逻辑;具体可参考PLVVodSkinPlayerController 文件中相关逻辑
+   + `@property (nonatomic, copy) void (^playbackRecoveryHandle)(PLVVodPlayerViewController *player);`
+
+
+### Fixed
+
+- 码率切换，视频会重新播放 
+- 视频播放结束，不能区分是正常结束，还是异常结束
+- 同一个播放器播放不同视频，不能准确记录各个视频的历史播放位置
+- 断网状态播放离线视频，视频总时长显示错误
+- 播放器解析的视频时长与videojson的视频时长不一致，导致错误记录历史播放位置，再次播放视频总是从最后几秒开始播放
 
 
 ## [2.4.0] - 2018-07-16
@@ -326,7 +389,7 @@
 ### Added
 
 - `PLVVodDownloadManager`，添加App即将终止运行时的调用方法，修改并保存视频下载状态，用于App下次启动时恢复视频下载状态；
-    + `-applicationWillTerminate`
+        + `-applicationWillTerminate`
 
 ### Fixed
 
@@ -350,20 +413,20 @@
 ### Added
 
 - `PLVVodDownloadManager`, 补充兼容 1.x.x 离线视频方法；
-+ `-compatibleWithPreviousVideos`
+	+ `-compatibleWithPreviousVideos`
 
 ## [2.1.0] - 2018-03-27
 
 ### Added
 
 - `PLVVodPlayerViewController`，添加是否就绪播放回调；
-+ `@property (nonatomic, copy) void (^preparedToPlayHandler)(PLVVodPlayerViewController *player);`
+	+ `@property (nonatomic, copy) void (^preparedToPlayHandler)(PLVVodPlayerViewController *player);`
 - `PLVVodPlayerViewController`，添加播放状态回调；
-+ `@property (nonatomic, copy) void (^playbackStateHandler)(PLVVodPlayerViewController *player);`
+	+ `@property (nonatomic, copy) void (^playbackStateHandler)(PLVVodPlayerViewController *player);`
 - `PLVVodPlayerViewController`，添加加载状态回调；
-+ `@property (nonatomic, copy) void (^loadStateHandler)(PLVVodPlayerViewController *player);`
+	+ `@property (nonatomic, copy) void (^loadStateHandler)(PLVVodPlayerViewController *player);`
 - `PLVVodPlayerViewController`，添加播放结束回调；
-+ `@property (nonatomic, copy) void (^reachEndHandler)(PLVVodPlayerViewController *player);`
+	+ `@property (nonatomic, copy) void (^reachEndHandler)(PLVVodPlayerViewController *player);`
 
 ## [2.0.0] - 2018-03-21
 
@@ -408,7 +471,7 @@
 - 优化片头播放逻辑；
 - 优化播放器事件回调；
 - 优化下载管理器接口；
-+ `- (void)requestDownloadInfosWithCompletion:(void (^)(NSMutableArray<PLVVodDownloadInfo *> *downloadInfos))completion;` -> `- (void)requestDownloadInfosWithCompletion:(void (^)(NSArray<PLVVodDownloadInfo *> *downloadInfos))completion;`
+	+ `- (void)requestDownloadInfosWithCompletion:(void (^)(NSMutableArray<PLVVodDownloadInfo *> *downloadInfos))completion;` -> `- (void)requestDownloadInfosWithCompletion:(void (^)(NSArray<PLVVodDownloadInfo *> *downloadInfos))completion;`
 - 优化自动续播逻辑；
 - 优化广告状态回调；
 - 优化无广告时的 UI；

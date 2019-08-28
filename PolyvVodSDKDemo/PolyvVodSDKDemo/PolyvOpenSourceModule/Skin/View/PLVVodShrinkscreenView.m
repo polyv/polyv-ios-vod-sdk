@@ -20,6 +20,9 @@
 
 @property (weak, nonatomic) IBOutlet UIStackView *rightToolStackView;
 
+// 是否显示 ppt 相关按钮，默认 NO，需要设为 YES 调用方法 "-enablePPTMode:"
+@property (nonatomic, assign) BOOL supportPPT;
+
 #pragma clang diagnostic pop
 
 @end
@@ -71,6 +74,12 @@
         self.audioModeSelectedImageView.hidden = YES;
         self.audioModeLabel.highlighted = NO;
     }
+    [self enablePPTMode:_supportPPT];
+}
+
+- (void)enablePPTMode:(BOOL)enable {
+    _supportPPT = enable;
+    self.subScreenButton.hidden = !_supportPPT;
 }
 
 - (void)setEnableQualityBtn:(BOOL)enableQualityBtn{

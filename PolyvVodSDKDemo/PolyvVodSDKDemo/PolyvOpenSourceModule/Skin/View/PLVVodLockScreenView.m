@@ -31,11 +31,8 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
         [self.constraints enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.firstItem isKindOfClass:[UIButton class]]){
-                if (obj.firstAttribute == NSLayoutAttributeLeading && obj.secondAttribute == NSLayoutAttributeLeading){
-                    //
-                    obj.constant = PLV_Landscape_Left_And_Right_Safe_Side_Margin;
-                }
+            if ([obj.firstItem isKindOfClass:[UIButton class]] && obj.firstAttribute == NSLayoutAttributeLeading && obj.secondAttribute == NSLayoutAttributeLeading){
+                obj.constant = PLV_Landscape_Left_And_Right_Safe_Side_Margin;
             }
         }];
 #pragma clang diagnostic pop

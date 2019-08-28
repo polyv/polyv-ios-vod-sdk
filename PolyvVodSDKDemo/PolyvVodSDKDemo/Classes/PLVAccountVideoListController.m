@@ -13,6 +13,7 @@
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "UIColor+PLVVod.h"
 #import "PLVSimpleDetailController.h"
+#import "PLVPPTSimpleDetailController.h"
 #import "PLVPlayQueueBackgroundController.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 
@@ -111,8 +112,15 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 		NSString *vid = accountVideo.vid;
 		if (!vid.length) return;
         
+        /* 普通视频播放页面入口
         weakSelf.vidShouldPlay = vid;
         [weakSelf performSegueWithIdentifier:PLVSimplePlaySegueKey sender:sender];
+         */
+        // 三分屏模式视频播放页面入口
+        PLVPPTSimpleDetailController *vctrl = [[PLVPPTSimpleDetailController alloc] init];
+        vctrl.vid = accountVideo.vid;
+        vctrl.isOffline = NO;
+        [weakSelf.navigationController pushViewController:vctrl animated:YES];
         
 //        PLVPlayQueueBackgroundController *queueVC = [[PLVPlayQueueBackgroundController alloc] init];
 //        queueVC.videoArray = weakSelf.accountVideos;
@@ -148,9 +156,6 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 #endif
     
 	if (info) NSLog(@"%@ - %zd 已加入下载队列", info.video.vid, info.quality);
-	info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
-		NSLog(@"%@: %@", info.vid, @(info.progress));
-	};
 }
 
 #pragma mark - Action

@@ -44,8 +44,9 @@
     if (routeLineCount <= 1) {
         return;
     }
-    if (routeLineCount > 3) {
-        routeLineCount = 3;
+    NSUInteger processedRouteLineCount = routeLineCount;
+    if (processedRouteLineCount > 3) {
+        processedRouteLineCount = 3;
     }
     
     UIButton *lineOne = [self.class buttonWithTitle:@"线路一" target:self];
@@ -59,7 +60,7 @@
         [subview removeFromSuperview];
     }
     
-    switch (routeLineCount) {
+    switch (processedRouteLineCount) {
         case 1:{
             [self.routeStackView addArrangedSubview:lineOne];
         }break;

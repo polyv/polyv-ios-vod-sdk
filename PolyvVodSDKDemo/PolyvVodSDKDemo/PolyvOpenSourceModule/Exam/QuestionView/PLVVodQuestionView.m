@@ -74,6 +74,8 @@
 	self.optionCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.questionLabel.textContainerInset = UIEdgeInsetsMake(5, 0, 0, 0);
     self.questionLabel.editable = NO;
+    self.illustrationImageView.clipsToBounds = YES;
+    self.illustrationImageView.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (void)layoutSubviews{
@@ -181,16 +183,14 @@
         CGFloat h = [PLVVodOptionCell calculateCellWithHeight:optionText andWidth:self.cellwidth];
         self.cellHeights[i] = h;
     }
-    if (!hasIllustration) { // 没有插图时，一行显示两个cell，两个cell的高度要保持一致
-        if (![self isLandscape]){
-            for (int i=0; i<count/2; i++) {
-                int leftCellIndex = i * 2;
-                int rightCellIndex = i * 2 + 1;
-                if (self.cellHeights[leftCellIndex] > self.cellHeights[rightCellIndex]) {
-                    self.cellHeights[rightCellIndex] = self.cellHeights[leftCellIndex];
-                } else {
-                    self.cellHeights[leftCellIndex] = self.cellHeights[rightCellIndex];
-                }
+    if (!hasIllustration && ![self isLandscape]) { // 没有插图时，一行显示两个cell，两个cell的高度要保持一致
+        for (int i=0; i<count/2; i++) {
+            int leftCellIndex = i * 2;
+            int rightCellIndex = i * 2 + 1;
+            if (self.cellHeights[leftCellIndex] > self.cellHeights[rightCellIndex]) {
+                self.cellHeights[rightCellIndex] = self.cellHeights[leftCellIndex];
+            } else {
+                self.cellHeights[leftCellIndex] = self.cellHeights[rightCellIndex];
             }
         }
     }

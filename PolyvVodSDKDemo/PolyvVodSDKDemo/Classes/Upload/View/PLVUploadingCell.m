@@ -12,12 +12,6 @@
 
 @interface PLVUploadingCell ()
 
-@property (nonatomic, strong) PLVUploadModel *model;
-
-@property (nonatomic, strong) UIImageView *videoIconImageView;
-
-@property (nonatomic, strong) UILabel *videoTitleLabel;
-
 @property (nonatomic, strong) UILabel *progressLabel;
 
 @property (nonatomic, strong) UILabel *statusLabel;
@@ -33,15 +27,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
-        self.contentView.backgroundColor = [UIColor whiteColor];
-        
-        _videoIconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"plv_icon_video_placeholder"]];
-        [self.contentView addSubview:_videoIconImageView];
-        
-        _videoTitleLabel = [[UILabel alloc] init];
-        _videoTitleLabel.font = [UIFont systemFontOfSize:15];
-        [self.contentView addSubview:_videoTitleLabel];
         
         _progressLabel = [[UILabel alloc] init];
         _progressLabel.font = [UIFont systemFontOfSize:12];
@@ -76,17 +61,15 @@
     CGFloat rowWidth = self.contentView.frame.size.width;
     CGFloat rowHeight = self.contentView.frame.size.height;
     
-    _videoIconImageView.frame = CGRectMake(15, (rowHeight - 40)/2.0, 40, 40);
-    
     CGFloat buttonWidth = 72;
     CGFloat buttonHeight = 30;
     CGFloat buttonOriginX = rowWidth - buttonWidth - 10;
     CGFloat buttonOriginY = (rowHeight - buttonHeight) / 2.;
     _button.frame = CGRectMake(buttonOriginX, buttonOriginY, buttonWidth, buttonHeight);
     
-    CGFloat titleLabelOriginX = _videoIconImageView.frame.origin.x + _videoIconImageView.frame.size.width + 15;
+    CGFloat titleLabelOriginX = self.videoIconImageView.frame.origin.x + self.videoIconImageView.frame.size.width + 15;
     CGFloat titleLabelWidth = rowWidth - titleLabelOriginX - 10 - buttonWidth - 10;
-    _videoTitleLabel.frame = CGRectMake(titleLabelOriginX, 18, titleLabelWidth, 15);
+    self.videoTitleLabel.frame = CGRectMake(titleLabelOriginX, 18, titleLabelWidth, 15);
     
     CGFloat secondLabelOriginY = rowHeight - 12 - 15;
     _progressLabel.frame = CGRectMake(titleLabelOriginX, secondLabelOriginY, titleLabelWidth/2., 12);

@@ -8,10 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class PLVSchool;
 @class PLVCourse;
-@class PLVTeacher;
-@class PLVCourseSection;
 @class PLVVodAccountVideo;
 
 @interface PLVCourseNetworking : NSObject

@@ -40,8 +40,8 @@ static id _sharedInstance = nil;
 
 - (void)commonInit {
 	// 网校信息
-	_host = @"sdk.dewx.net";
-	_schoolKey = @"989BCBAD980580763EC113D3602C985C";
+	self.host = @"sdk.dewx.net";
+	self.schoolKey = @"989BCBAD980580763EC113D3602C985C";
 	
 	// 对应的点播账号信息
     BOOL userDefault = YES;
@@ -58,7 +58,6 @@ static id _sharedInstance = nil;
         // TODO： 配置个人账号信息，方便测试
        
     }
-	// P.S. 在代码里面配置，比从文件中读取要安全
 }
 
 @end

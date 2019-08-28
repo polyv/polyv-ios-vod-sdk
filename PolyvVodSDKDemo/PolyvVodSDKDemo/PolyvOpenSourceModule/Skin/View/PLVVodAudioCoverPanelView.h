@@ -15,6 +15,10 @@
 
 - (void)switchToPlayMode:(PLVVodPlaybackMode)mode;
 
+- (void)hiddenContainerView:(BOOL)hidden;
+
+- (void)setAniViewCornerRadius:(CGFloat)cornerRadius;
+
 - (void)startRotate;
 - (void)stopRotate;
 

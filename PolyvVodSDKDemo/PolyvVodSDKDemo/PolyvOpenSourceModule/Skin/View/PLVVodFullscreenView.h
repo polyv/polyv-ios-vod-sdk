@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *danmuButton;
 @property (weak, nonatomic) IBOutlet UIButton *lockScreenButton;
 @property (weak, nonatomic) IBOutlet UIButton *routeButton; // 线路切换
+@property (weak, nonatomic) IBOutlet UIButton *subScreenButton; // 关闭三分屏按钮
+@property (weak, nonatomic) IBOutlet UIButton *pptCatalogButton; // 显示课件目录按钮
 
 //音视频切换
 @property (weak, nonatomic) IBOutlet UIView *playModeContainerView;
@@ -44,6 +46,9 @@
 
 // 变更播放模式
 - (void)switchToPlayMode:(PLVVodPlaybackMode)mode;
+
+// 是否支持三分屏功能，不调用时默认不支持
+- (void)enablePPTMode:(BOOL)enable;
 
 // 添加播放打点信息
 - (void)addPlayTipsWithVideo:(PLVVodVideo *)video;

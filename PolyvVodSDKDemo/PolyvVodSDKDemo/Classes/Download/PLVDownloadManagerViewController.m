@@ -10,7 +10,6 @@
 #import "PLVDownloadCompleteViewController.h"
 #import "PLVDownloadProcessingViewController.h"
 #import "DLTabedSlideView.h"
-#import <Masonry/Masonry.h>
 
 @interface PLVDownloadManagerViewController ()<DLTabedSlideViewDelegate>
 

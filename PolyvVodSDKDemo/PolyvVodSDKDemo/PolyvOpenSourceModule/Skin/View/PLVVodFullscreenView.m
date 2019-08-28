@@ -10,7 +10,7 @@
 #import "PLVVodPlayTipsView.h"
 
 #import <FDStackView.h>
-#import <Masonry.h>
+#import <PLVMasonry/PLVMasonry.h>
 
 @interface PLVVodFullscreenView ()
 
@@ -24,6 +24,9 @@
 @property (strong, nonatomic) PLVVodPlayTipsView *playTipsView;
 @property (strong, nonatomic) NSArray<PLVVodVideoKeyFrameItem *> *videoTips;
 @property (assign, nonatomic) NSInteger videoDuration;  // 视频时长
+
+// 是否显示 ppt 相关按钮，默认 NO，需要设为 YES 调用方法 "-enablePPTMode:"
+@property (nonatomic, assign) BOOL supportPPT;
 
 @end
 
@@ -40,11 +43,8 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
         [self.constraints enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.firstItem isKindOfClass:[UIStackView class]]){
-                if (obj.firstAttribute == NSLayoutAttributeLeading && obj.secondAttribute == NSLayoutAttributeLeading){
-                    //
-                    obj.constant = PLV_Landscape_Left_And_Right_Safe_Side_Margin;
-                }
+            if ([obj.firstItem isKindOfClass:[UIStackView class]] && obj.firstAttribute == NSLayoutAttributeLeading && obj.secondAttribute == NSLayoutAttributeLeading){
+                obj.constant = PLV_Landscape_Left_And_Right_Safe_Side_Margin;
             }
         }];
 #pragma clang diagnostic pop
@@ -93,6 +93,13 @@
         self.definitionButton.hidden = NO;
         self.snapshotButton.hidden = NO;
     }
+    [self enablePPTMode:_supportPPT];
+}
+
+- (void)enablePPTMode:(BOOL)enable {
+    _supportPPT = enable;
+    self.subScreenButton.hidden = !_supportPPT;
+    self.pptCatalogButton.hidden = !_supportPPT;
 }
 
 - (void)addPlayTipsWithVideo:(PLVVodVideo *)video{
@@ -122,8 +129,8 @@
         PLVVodVideoKeyFrameItem *item = [video.videokeyframes objectAtIndex:i];
         float full_width = screenSize.width > screenSize.height ? screenSize.width: screenSize.height;
         NSUInteger offset_x = full_width *([item.keytime integerValue]/ video.duration);
-        [radioView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(8, 8));
+        [radioView plv_makeConstraints:^(PLVMASConstraintMaker *make) {
+            make.size.plv_equalTo(CGSizeMake(8, 8));
             make.centerY.offset (0);
             make.left.offset (offset_x);
         }];
@@ -162,29 +169,29 @@
     NSUInteger offset_x = full_width *([item.keytime floatValue]/ self.videoDuration);
     if (showWidth/2 - offset_x > 0){
         // 居左展示
-        [self.playTipsView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [self.playTipsView plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
             make.left.offset (45);
-            make.bottom.equalTo (self.sliderBackView.mas_top).offset (-10);
-            make.height.mas_equalTo(35);
-            make.width.mas_equalTo (showWidth);
+            make.bottom.equalTo (self.sliderBackView.plv_top).offset (-10);
+            make.height.plv_equalTo(35);
+            make.width.plv_equalTo (showWidth);
         }];
     }
     else if (showWidth/2 > (full_width - offset_x)){
         // 居右边展示
-        [self.playTipsView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [self.playTipsView plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
             make.right.offset (-45);
-            make.bottom.equalTo (self.sliderBackView.mas_top).offset (-10);
-            make.height.mas_equalTo(35);
-            make.width.mas_equalTo (showWidth);
+            make.bottom.equalTo (self.sliderBackView.plv_top).offset (-10);
+            make.height.plv_equalTo(35);
+            make.width.plv_equalTo (showWidth);
 
         }];
     }else{
         // 居中展示
-        [self.playTipsView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [self.playTipsView plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
             make.left.offset (offset_x - showWidth/2);
-            make.bottom.equalTo (self.sliderBackView.mas_top).offset (-10);
-            make.height.mas_equalTo(35);
-            make.width.mas_equalTo (showWidth);
+            make.bottom.equalTo (self.sliderBackView.plv_top).offset (-10);
+            make.height.plv_equalTo(35);
+            make.width.plv_equalTo (showWidth);
 
         }];
     }

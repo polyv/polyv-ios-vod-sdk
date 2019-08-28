@@ -373,7 +373,7 @@
 
 #pragma mark - ----------------- < Open Method > -----------------
 - (void)reloadControllBtnWithStringArray:(NSArray <NSString *>*)strArr{
-    _controllBtnStrArr = strArr;
+    self.controllBtnStrArr = strArr;
     
     // 清空Btn
     NSArray * subVArr = _controllBgV.subviews;

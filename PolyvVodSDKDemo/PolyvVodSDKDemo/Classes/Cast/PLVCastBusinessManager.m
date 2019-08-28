@@ -67,12 +67,7 @@
             if (weakSelf.castControllView.delegate != weakSelf) {
                 weakSelf.castControllView.delegate = weakSelf;
             }
-        }
-        
-        if (type == PLVCastCellType_AirPlay) {
-            // AirPlay连接
-        }
-        
+        }        
     };
     
     // 点击‘刷新’按钮
@@ -253,8 +248,6 @@
             
             // 更新投屏控制界面状态
             self.castControllView.status = PLVCastCVStatus_Disconnect;
-            
-        }else{                     // 主动断开
             
         }
         
