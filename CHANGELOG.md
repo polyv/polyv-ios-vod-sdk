@@ -10,7 +10,30 @@
 ### Removed
 ### Fixed -->
 
-## [2.6.4] - 2019-08-12
+## [2.6.5] - 2019-10-28
+
+### Added
+
+- 支持三分屏播放
+- 视频加载时显示加载网速
+- 增加当前播放进度回调
+
+- `PLVVodPlayerViewController` ,  
+	+ `@property (nonatomic, assign) BOOL pptEnable;` 三分屏功能开关
+	+ `@property (nonatomic, copy) void (^playbackProgressHandler)(PLVVodPlayerViewController *player, NSTimeInterval curPlayTime);`播放进度回调
+- `PLVPPTSimpleDetailController`：三分屏功能播放页(DEMO)
+
+	
+### Changed
+
+- 点播viewlog 补充flow 播放流量字段
+- vid 合法性判断逻辑优化，优化错误提示
+
+### Fixed
+- 清除下载目录所有视频时，同时清除数据库记录
+- 自动播放参数在setURL 方法不生效问题修复
+
+## [2.6.4] - 2019-08-13
 
 ### Added
 
@@ -21,11 +44,11 @@
 - 发送弹幕接口增加返回弹幕id及参数校验
 
 - `PLVVodSettings`,  
-+ `+ (instancetype)settingsWithAppId:(NSString *)appId secretKey:(NSString *)secretKey userId:(NSString *)userId;` 点播子账号初始化
+	 + `+ (instancetype)settingsWithAppId:(NSString *)appId secretKey:(NSString *)secretKey userId:(NSString *)userId;` 点播子账号初始化
 - `PLVVodExam`,
-+ `+ (NSArray <PLVVodExam *> *)localExamsWithVid:(NSString *)vid downloadDir:(NSString *)downloadDir;` 获取本地问答数据
+	 + `+ (NSArray <PLVVodExam *> *)localExamsWithVid:(NSString *)vid downloadDir:(NSString *)downloadDir;` 获取本地问答数据
 - `PLVVodPlayerViewController`,
-+ `- (BOOL)setCustomTeaser:(NSString *)teaserUrl teaserDuration:(NSInteger )teaserDuration;` 设置自定义片头
+	 + `- (BOOL)setCustomTeaser:(NSString *)teaserUrl teaserDuration:(NSInteger )teaserDuration;` 设置自定义片头
 
 ### Changed
 

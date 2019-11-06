@@ -11,11 +11,11 @@ target 'PolyvVodSDKDemo' do
 	pod 'XRCarouselView', '~> 2.6.1'
 	pod 'YYWebImage', '~> 1.0.5'
 	pod 'FDStackView', '~> 1.0.1'
-    pod 'Masonry'
+    pod 'PLVMasonry'
     pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-    pod 'PolyvVodSDK', '~> 2.6.3'
+    pod 'PolyvVodSDK', '~> 2.6.5'
     
     # 使用投屏功能的客户需要集成
     pod 'LBLelinkKit', '~> 30201'

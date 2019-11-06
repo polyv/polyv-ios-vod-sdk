@@ -20,6 +20,8 @@
 @property (nonatomic, copy) void (^examWillShowHandler)(PLVVodExam *exam);
 @property (nonatomic, copy) void (^examDidCompleteHandler)(PLVVodExam *exam, NSTimeInterval backTime);
 
+@property (nonatomic, assign, readonly) BOOL showing;
+
 /// 同步显示问答
 - (void)synchronouslyShowExam;
 

@@ -12,6 +12,7 @@
 #import <PLVTimer/PLVTimer.h>
 #import "PLVToolbar.h"
 #import "PLVSimpleDetailController.h"
+#import "PLVPPTSimpleDetailController.h"
 #import "PLVDownloadComleteCell.h"
 #import "PLVDownloadCompleteInfoModel.h"
 
@@ -140,10 +141,19 @@
     else {
         playMode = PLVVodPlaybackModeVideo;
     }
-    PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
-    detailVC.vid = info.vid;            // vid
+    
+    /* 普通视频播放页面入口
+     PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
+     detailVC.vid = info.vid;            // vid
+     detailVC.isOffline = YES;           // 离线播放
+     detailVC.playMode = playMode;       // 根据本地资源类型设置播放模式
+    */
+    
+    // 三分屏模式视频播放页面入口
+    PLVPPTSimpleDetailController *detailVC = [[PLVPPTSimpleDetailController alloc] init];
+    detailVC.vid = info.vid;
     detailVC.isOffline = YES;           // 离线播放
-    detailVC.playMode = playMode;       // 根据本地资源类型设置播放模式
+    detailVC.playbackMode = playMode;       // 根据本地资源类型设置播放模式
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.navigationController pushViewController:detailVC animated:YES];

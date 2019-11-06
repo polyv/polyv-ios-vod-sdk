@@ -26,6 +26,8 @@
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
+NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotification";
+
 @interface PLVVodSkinPlayerController ()
 
 @property (weak, nonatomic) IBOutlet UIView *skinView;
@@ -59,6 +61,9 @@
 
 /// 是否需要隐藏播放错误提示
 @property (nonatomic, assign) BOOL hidePlayError;
+
+// 上次执行播放进度回调 playbackTimeHandler 的播放进度
+@property (nonatomic, assign) NSTimeInterval lastPlaybackTime;
 
 @end
 
@@ -148,6 +153,7 @@
 	[self addObserver];
 	
 	__weak typeof(self) weakSelf = self;
+    __block NSInteger repeatCount = 0;
 	self.playbackTimer = [PLVTimer repeatWithInterval:0.2 repeatBlock:^{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			// 同步显示弹幕
@@ -169,6 +175,20 @@
                 PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
                 [skin hidePlayErrorTips];
                 weakSelf.hidePlayError = NO;
+            }
+            
+            // 回调现在播放到第几秒
+            if (weakSelf.lastPlaybackTime != weakSelf.currentPlaybackTime) {
+                !weakSelf.playbackTimeHandler ?: weakSelf.playbackTimeHandler(weakSelf.currentPlaybackTime);
+                weakSelf.lastPlaybackTime = weakSelf.currentPlaybackTime;
+            }
+            
+            // 更新加载速度
+            if (!weakSelf.localPlayback){
+                repeatCount ++;
+                if (0 == repeatCount%2){
+                    [weakSelf updateLoadSpeed];
+                }
             }
 		});
 	}];
@@ -325,6 +345,8 @@
                                         }
                                         else{
                                             weakSelf.video = video;
+                                            
+                                            [[NSNotificationCenter defaultCenter] postNotificationName:PLVVodPlaybackRecoveryNotification object:nil];
                                         }
                                     });
                                 }];
@@ -386,6 +408,9 @@
 	self.loadingHandler = ^(BOOL isLoading) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			isLoading ? [_skin.loadingIndicator startAnimating] : [_skin.loadingIndicator stopAnimating];
+            if (!weakSelf.localPlayback){
+                _skin.loadSpeed.hidden = !isLoading;
+            }
 		});
 	};
     
@@ -650,6 +675,7 @@
 		[weakSelf setupPlaybackInfoWithCover:weakSelf.coverImage];
 	}] resume];
 }
+
 - (void)setupPlaybackInfoWithCover:(UIImage *)cover {
 	NSMutableDictionary *playbackInfo = [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo.mutableCopy;
 	if (!playbackInfo.count) playbackInfo = [NSMutableDictionary dictionary];
@@ -675,6 +701,15 @@
 - (void)removeCover{
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
     [skin removeCoverView];
+}
+
+// 更新加载速率
+- (void)updateLoadSpeed{
+    //
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    if (!skin.loadSpeed.hidden){
+        skin.loadSpeed.text = self.tcpSpeed ? self.tcpSpeed: @"0 KB/s";
+    }
 }
 
 #pragma mark override -- 播放模式切换回调

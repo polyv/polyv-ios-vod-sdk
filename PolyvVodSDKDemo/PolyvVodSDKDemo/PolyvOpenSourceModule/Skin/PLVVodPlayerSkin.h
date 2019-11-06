@@ -13,8 +13,25 @@
 #import "PLVVodNetworkTipsView.h"
 
 @class PLVVodAudioCoverPanelView;
+@class PLVVodCoverView;
+@class PLVVodPlayerSkin;
+
+@protocol PLVVodPlayerSkinPPTVideoProtocol <NSObject>
+
+@optional
+
+- (void)tapSubScreenButton:(PLVVodPlayerSkin *)skin;
+
+- (void)tapPPTCatalogButton:(PLVVodPlayerSkin *)skin;
+
+- (UIImage *)tapSnapshotButton:(PLVVodPlayerSkin *)skin;
+
+@end
 
 @interface PLVVodPlayerSkin : UIViewController<PLVVodPlayerSkinProtocol>
+
+//支持三分屏功能时才需要设置 pptVideoDelegate
+@property (nonatomic, weak) id<PLVVodPlayerSkinPPTVideoProtocol> pptVideoDelegate;
 
 #pragma mark - PLVVodPlayerSkinProtocol 重新声明
 
@@ -82,8 +99,20 @@
 /// 载入指示器
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
+/// 视频加载进度容器
+@property (weak, nonatomic) IBOutlet UIView *loadingContainerView;
+
+/// 视频加载速度
+@property (weak, nonatomic) IBOutlet UILabel *loadSpeed;
+
 /// 皮肤覆盖层，显示弹幕
 @property (nonatomic, strong) UIView *skinMaskView;
+
+/// 皮肤音频模式动画
+@property (strong, nonatomic, readonly) PLVVodAudioCoverPanelView *audioCoverPanelView;
+/// 音视频封面
+@property (strong, nonatomic, readonly) PLVVodCoverView *coverView;
+
 
 /// 是否是锁屏状态
 @property (nonatomic, assign, readonly) BOOL isLockScreen;

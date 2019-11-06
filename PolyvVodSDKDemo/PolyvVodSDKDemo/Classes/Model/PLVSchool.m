@@ -40,17 +40,18 @@ static id _sharedInstance = nil;
 
 - (void)commonInit {
 	// 网校信息
-	_host = @"sdk.dewx.net";
-	_schoolKey = @"989BCBAD980580763EC113D3602C985C";
+	self.host = @"sdk.dewx.net";
+	self.schoolKey = @"989BCBAD980580763EC113D3602C985C";
 	
 	// 对应的点播账号信息
     BOOL userDefault = YES;
     if (userDefault){
         
         // 网校
-        _vodKey = @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
-        _vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
-        _vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
+        self.vodKey = @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
+
+        self.vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
+        self.vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
 
     }
     else{
