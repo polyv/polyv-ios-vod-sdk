@@ -11,10 +11,12 @@
 
 @interface PLVVodAudioCoverPanelView ()
 
-@property (weak, nonatomic) IBOutlet UIView *audioCoverContainerView;
+@property (weak, nonatomic) IBOutlet UIView *audioCoverContainerView; // 最外层容器
 @property (weak, nonatomic) IBOutlet UIImageView *audioCoverContainerBackgroundImageView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *audioCoverImage;
+@property (weak, nonatomic) IBOutlet UIImageView *audioCoverImage; // 封面图
+@property (weak, nonatomic) IBOutlet UIImageView *audioCoverBackImg; // 封面底图
+@property (weak, nonatomic) IBOutlet UIView *audioCoverImgContainer; // 封面图容器
 
 @end
 
@@ -23,8 +25,15 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    self.clipsToBounds = YES;
+    
     self.audioCoverImage.layer.cornerRadius = 60;
     self.audioCoverImage.layer.masksToBounds = YES;
+    
+    self.audioCoverBackImg.contentMode = UIViewContentModeScaleAspectFill;
+    
+    self.audioCoverImage.contentMode = UIViewContentModeScaleAspectFill;
+    self.audioCoverContainerBackgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (void)setCoverUrl:(NSString *)url {
@@ -38,6 +47,21 @@
     } else {
         self.audioCoverContainerView.hidden = YES;
     }
+}
+
+- (void)hiddenContainerView:(BOOL)hidden {
+    self.audioCoverContainerView.hidden = hidden;
+}
+
+- (void)setAniViewCornerRadius:(CGFloat)cornerRadius{
+    self.audioCoverImage.layer.cornerRadius = cornerRadius;
+    
+    self.audioCoverImage.frame = CGRectMake(0, 0, 2 * cornerRadius, 2 * cornerRadius);
+    self.audioCoverImage.center = CGPointMake(80, 80);
+    
+    CGFloat backImgWidth = 2 * cornerRadius + (cornerRadius <= 30 ? 20 : 40);
+    self.audioCoverBackImg.frame = CGRectMake(0, 0, backImgWidth, backImgWidth);
+    self.audioCoverBackImg.center = CGPointMake(80, 80);
 }
 
 - (void)startRotate {

@@ -15,6 +15,14 @@
 
 @implementation PLVVodCoverView
 
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    
+//    self.clipsToBounds = YES;
+//    self.coverImgV.clipsToBounds = YES;
+    self.coverImgV.contentMode = UIViewContentModeScaleToFill;
+}
+
 - (void)setCoverImageWithUrl:(NSString *)coverUrl{
     [self.coverImgV yy_setImageWithURL:[NSURL URLWithString:coverUrl] options:0];
 }

@@ -13,6 +13,7 @@
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "UIColor+PLVVod.h"
 #import "PLVSimpleDetailController.h"
+#import "PLVPPTSimpleDetailController.h"
 #import "PLVPlayQueueBackgroundController.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 
@@ -111,13 +112,18 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 		NSString *vid = accountVideo.vid;
 		if (!vid.length) return;
         
+#ifndef PLVSupportPPTScreen
+        // 普通视频播放页面入口
         weakSelf.vidShouldPlay = vid;
         [weakSelf performSegueWithIdentifier:PLVSimplePlaySegueKey sender:sender];
-        
-//        PLVPlayQueueBackgroundController *queueVC = [[PLVPlayQueueBackgroundController alloc] init];
-//        queueVC.videoArray = weakSelf.accountVideos;
-//        [weakSelf.navigationController pushViewController:queueVC animated:YES];
-        
+#else
+        // 三分屏模式视频播放页面入口
+        PLVPPTSimpleDetailController *vctrl = [[PLVPPTSimpleDetailController alloc] init];
+        vctrl.vid = accountVideo.vid;
+        vctrl.isOffline = NO;
+        [weakSelf.navigationController pushViewController:vctrl animated:YES];
+#endif
+    
 	};
     
 	cell.downloadButtonAction = ^(PLVVideoCell *cell, UIButton *sender) {

@@ -147,6 +147,8 @@
 	//[self.delegatePlayer.doNotReceiveGestureViews addObject:self.shrinkscreenView];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[weakSelf.fullscreenView.backButton setTitle:delegatePlayer.video.title forState:UIControlStateNormal];
+        // 根据 video 的 hasPPT 属性和 player.enablePPT 确定是否要显示【关闭副屏】【显示课件目录】按钮
+        [weakSelf enablePPTMode:delegatePlayer.video.hasPPT && delegatePlayer.enablePPT];
 	});
 }
 
@@ -217,7 +219,7 @@
 }
 
 - (void)setQuality:(PLVVodQuality)quality {
-	self.definitionPanelView.quality = quality;
+	self.definitionPanelView.quality = (int)quality;
 	NSString *definition = NSStringFromPLVVodQuality(quality);
 	dispatch_async(dispatch_get_main_queue(), ^{
 		UIButton *definitionButton = self.fullscreenView.definitionButton;
@@ -301,20 +303,22 @@
 
 #pragma mark 音视频切换（PlaybackMode）
 - (void)setUpPlaybackMode:(PLVVodVideo *)video {
-    if ([video canSwithPlaybackMode]) {
-        self.shrinkscreenView.playModeContainerView.hidden = NO;
-        self.fullscreenView.playModeContainerView.hidden = NO;
-        
-        [self.audioCoverPanelView setCoverUrl:video.snapshot];
+    BOOL canSwithPlaybackMode = [video canSwithPlaybackMode];
+    self.shrinkscreenView.playModeContainerView.hidden = !canSwithPlaybackMode;
+    self.fullscreenView.playModeContainerView.hidden = !canSwithPlaybackMode;
+    
+    [self.audioCoverPanelView setCoverUrl:video.snapshot];
+    if ([self.audioCoverPanelView superview] == nil) {
         [self.view addSubview:self.audioCoverPanelView];
         [self constrainSubview:self.audioCoverPanelView toMatchWithSuperview:self.view];
         [self.view sendSubviewToBack:self.audioCoverPanelView];
-        
-        [self updatePlayModeContainView:video];
-    } else {
-        self.shrinkscreenView.playModeContainerView.hidden = YES;
-        self.fullscreenView.playModeContainerView.hidden = YES;
     }
+    
+    if (![video canSwithPlaybackMode]) {
+        [self.audioCoverPanelView hiddenContainerView:YES];
+    }
+    
+    [self updatePlayModeContainView:video];
 }
 
 - (void)updatePlayModeContainView:(PLVVodVideo *)video {
@@ -324,6 +328,15 @@
         [self.fullscreenView switchToPlayMode:playbackMode];
         [self.audioCoverPanelView switchToPlayMode:playbackMode];
     }
+    
+    // 根据 video 的 hasPPT 属性和 player.enablePPT 确定是否要显示【关闭副屏】【显示课件目录】按钮
+    [self enablePPTMode:video.hasPPT && self.delegatePlayer.enablePPT];
+}
+
+- (void)enablePPTMode:(BOOL)enable {
+    // 是否要显示【关闭副屏】【显示课件目录】按钮
+    [self.shrinkscreenView enablePPTMode:enable];
+    [self.fullscreenView enablePPTMode:enable];
 }
 
 - (void)updateAudioCoverAnimation:(BOOL)isPlaying {
@@ -359,27 +372,18 @@
     
     // 判断链接是否存在
     if (fileUrl && [fileUrl isKindOfClass:[NSString class]] && fileUrl.length != 0) {
-        // 判断是否为音频，且是源文件
+        // 判断是否为音频
         if ([fileUrl hasSuffix:@".mp3"]) {
-            if (video.keepSource) {
-                self.isVideoCover = NO;
-                self.coverView.hidden = NO;
-                [self.coverView setCoverImageWithUrl:video.snapshot];
-                [self.view addSubview:self.coverView];
-                [self constrainSubview:self.coverView toMatchWithSuperview:self.view];
-                [self.view sendSubviewToBack:self.coverView];
-            }else{
-                // 音频非源文件不添加封面图
-                return;
-            }
+            self.isVideoCover = NO;
         }else{
             self.isVideoCover = YES;
-            self.coverView.hidden = NO;
-            [self.coverView setCoverImageWithUrl:video.snapshot];
-            [self.view addSubview:self.coverView];
-            [self constrainSubview:self.coverView toMatchWithSuperview:self.view];
-            [self.view sendSubviewToBack:self.coverView];
         }
+        
+        self.coverView.hidden = NO;
+        [self.coverView setCoverImageWithUrl:video.snapshot];
+        [self.view addSubview:self.coverView];
+        [self constrainSubview:self.coverView toMatchWithSuperview:self.view];
+        [self.view sendSubviewToBack:self.coverView];
     }
 }
 
@@ -514,9 +518,13 @@
             weakSelf.routeLineDidChangeBlock(routeIndex);
         }
     };
+    
 	// 链接属性
 	self.brightnessSlider = self.settingsPanelView.brightnessSlider;
 	self.volumeSlider = self.settingsPanelView.volumeSlider;
+    
+    // 在线视频网络加载速度
+    self.loadSpeed.hidden = YES;
     
     // 视频打点信息，点击播放回调，UI层触发
     self.fullscreenView.plvVideoTipsSelectedBlock = ^(NSUInteger selIndex) {
@@ -624,7 +632,15 @@
 
 // 截图按钮
 - (IBAction)snapshotAction:(UIButton *)sender {
-	UIImage *snapshot = [self.delegatePlayer snapshot];
+    UIImage *snapshot;
+    if (self.pptVideoDelegate && [self.pptVideoDelegate respondsToSelector:@selector(tapSnapshotButton:)]) {
+        snapshot = [self.pptVideoDelegate tapSnapshotButton:self];
+    }
+    
+    if (snapshot == nil) {
+        snapshot = [self.delegatePlayer snapshot];
+    }
+	
 	NSLog(@"snapshot: %@", snapshot);
 	// 请求图库权限
 	__weak typeof(self) weakSelf = self;
@@ -720,6 +736,18 @@
 - (IBAction)castAction:(UIButton *)sender {    
     sender.selected = !sender.selected;
     if (self.castButtonTouchHandler) self.castButtonTouchHandler(sender);
+}
+
+- (IBAction)subScreenButtonAction:(id)sender {
+    if (self.pptVideoDelegate && [self.pptVideoDelegate respondsToSelector:@selector(tapSubScreenButton:)]) {
+        [self.pptVideoDelegate tapSubScreenButton:self];
+    }
+}
+
+- (IBAction)pptCatalogButtonnAction:(id)sender {
+    if (self.pptVideoDelegate && [self.pptVideoDelegate respondsToSelector:@selector(tapPPTCatalogButton:)]) {
+        [self.pptVideoDelegate tapPPTCatalogButton:self];
+    }
 }
 
 #pragma mark - UITextFieldDelegate

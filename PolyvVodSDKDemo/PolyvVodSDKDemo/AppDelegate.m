@@ -119,7 +119,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 - (void)settingConfig {
     
     NSError *error = nil;
-    
+
     PLVSchool *school = [PLVSchool sharedInstance];
     NSString *vodKey = school.vodKey;
     NSString *decodeKey = school.vodKeyDecodeKey;

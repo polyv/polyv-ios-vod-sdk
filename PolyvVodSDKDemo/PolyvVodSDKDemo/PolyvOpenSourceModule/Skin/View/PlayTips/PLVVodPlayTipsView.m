@@ -7,7 +7,7 @@
 //
 
 #import "PLVVodPlayTipsView.h"
-#import <Masonry.h>
+#import <PLVMasonry/PLVMasonry.h>
 
 @implementation PLVVodPlayTipsView
 
@@ -35,16 +35,16 @@
     
     [self addSubview:self.playBtn];
     
-    [self.showDescribe mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.showDescribe plv_makeConstraints:^(PLVMASConstraintMaker *make) {
         make.left.offset (10);
         make.centerY.offset (0);
-        make.right.equalTo (self.playBtn.mas_left).offset (-10);
+        make.right.equalTo (self.playBtn.plv_left).offset (-10);
     }];
     
-    [self.playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.playBtn plv_makeConstraints:^(PLVMASConstraintMaker *make) {
         make.right.offset (-10);
         make.centerY.offset (0);
-        make.size.mas_equalTo (CGSizeMake(20, 20));
+        make.size.plv_equalTo (CGSizeMake(20, 20));
     }];
 }
 

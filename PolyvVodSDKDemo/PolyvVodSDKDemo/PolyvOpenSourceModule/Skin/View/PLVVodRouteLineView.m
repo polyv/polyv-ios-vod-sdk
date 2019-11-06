@@ -45,7 +45,7 @@
         return;
     }
     NSUInteger processedRouteLineCount = routeLineCount;
-    if (processedRouteLineCount > 3){
+    if (processedRouteLineCount > 3) {
         processedRouteLineCount = 3;
     }
     

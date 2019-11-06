@@ -52,13 +52,18 @@
 #ifndef PLVSupportSubAccount
 //#define PLVSupportSubAccount
 
-// 主帐号加密key，用于请求帐号视频列表
-#define PLV_MastSecretKey @"设置主帐号加密key"
+// 主帐号加密key
+#define PLV_MastSecretKey @""
 #endif
 
 // 支持自定义问答功能
 #ifndef PLVSupportCustomQuestion
 //#define PLVSupportCustomQuestion
+#endif
+
+// 支持三分屏播放
+#ifndef PLVSupportPPTScreen
+//#define PLVSupportPPTScreen
 #endif
 
 #endif /* PolyvVodSDKDemo_Prefix_pch */
