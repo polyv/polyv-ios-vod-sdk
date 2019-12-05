@@ -11,7 +11,7 @@ target 'PolyvVodSDKDemo' do
 	pod 'XRCarouselView', '~> 2.6.1'
 	pod 'YYWebImage', '~> 1.0.5'
 	pod 'FDStackView', '~> 1.0.1'
-    pod 'PLVMasonry'
+    pod 'PLVMasonry', '~> 1.1.2'
     pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
