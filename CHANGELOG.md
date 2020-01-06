@@ -10,6 +10,30 @@
 ### Removed
 ### Fixed -->
 
+## [2.6.6] - 2020-01-06
+
+### Added
+
+- 增加视频内容观看时长的接口
+- iOS 增加视频播放软硬解设置接口
+- 增加seek 的elog 统计事件
+- 基于appId 维度的流量数据统计
+
+- `PLVVodPlayerViewController` ,  
+    + `@property (nonatomic, assign, readonly) NSTimeInterval videoContentPlayedTime;`  观看的视频内容时长
+    + `@property (nonatomic, assign) BOOL isVideoToolBox;` 默认硬解
+    
+### Changed
+
+- 统一 viewlog params 的传值方式
+- 支持动态设置是否允许后台播放
+- 子帐号签名规则修改
+
+### Fixed
+- [demo] iOS 13下所有输入框联想提示无法选择
+- [demo] 解决与云课堂sdk 的冲突
+- 确保播放器主线程播放，避免部分场景下iOS 13 系统上崩溃
+
 ## [2.6.5] - 2019-10-28
 
 ### Added
