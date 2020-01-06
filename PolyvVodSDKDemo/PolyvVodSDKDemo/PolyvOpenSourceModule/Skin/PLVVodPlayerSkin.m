@@ -12,7 +12,6 @@
 #import "PLVVodShrinkscreenView.h"
 #import "PLVVodSettingPanelView.h"
 #import "PLVVodAudioCoverPanelView.h"
-#import "UIView+PLVVod.h"
 #import "PLVVodDanmuSendView.h"
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodDefinitionPanelView.h"

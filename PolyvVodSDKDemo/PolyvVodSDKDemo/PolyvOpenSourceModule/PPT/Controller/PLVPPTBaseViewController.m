@@ -8,7 +8,7 @@
 
 #import "PLVPPTBaseViewController.h"
 #import "PLVPPTVideoViewController.h"
-#import "PLVPPTViewController.h"
+#import "PLVVodPPTViewController.h"
 #import "PLVFloatingView.h"
 #import "PLVPPTActionView.h"
 #import "PLVPPTLoadFailAlertView.h"
@@ -35,7 +35,7 @@ PLVFloatingViewProtocol
 @property (nonatomic, strong) PLVFloatingView *floatingView;
 
 @property (nonatomic, strong) PLVPPTVideoViewController *videoController;
-@property (nonatomic, strong) PLVPPTViewController *pptController;
+@property (nonatomic, strong) PLVVodPPTViewController *pptController;
 @property (nonatomic, strong) PLVPPTActionView *actionView;
 
 @property (nonatomic, assign) CGRect lastSafeFrame;
@@ -145,9 +145,9 @@ PLVFloatingViewProtocol
     return _videoController;
 }
 
-- (PLVPPTViewController *)pptController {
+- (PLVVodPPTViewController *)pptController {
     if (!_pptController){
-        _pptController = [[PLVPPTViewController alloc] init];
+        _pptController = [[PLVVodPPTViewController alloc] init];
     }
     return _pptController;
 }

@@ -7,7 +7,7 @@
 //
 
 #import "PLVVodDanmu+PLVVod.h"
-#import "PLVNetworkUtil.h"
+#import "PLVVodNetworkUtil.h"
 
 @implementation PLVVodDanmu (PLVVod)
 
@@ -102,7 +102,7 @@
 	NSInteger timeInterval = [NSDate date].timeIntervalSince1970 * 1000;
 	params[@"timestamp"] = @(timeInterval).description;
     
-//    url = [NSString stringWithFormat:@"%@?%@", url, [PLVNetworkUtil convertDictionaryToSortedString:params]];
+//    url = [NSString stringWithFormat:@"%@?%@", url, [PLVVodNetworkUtil convertDictionaryToSortedString:params]];
 //    url = [self urlEncode:url];
 //    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSMutableURLRequest *request = [self requestWithUrl:url method:@"POST" params:params];
@@ -136,9 +136,9 @@
     if (maxCount > 0) {
         params[@"limit"] = @(maxCount);
     }
-	url = [NSString stringWithFormat:@"%@?%@", url, [PLVNetworkUtil convertDictionaryToSortedString:params]];
+	url = [NSString stringWithFormat:@"%@?%@", url, [PLVVodNetworkUtil convertDictionaryToSortedString:params]];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [PLVNetworkUtil requestData:request completion:^(NSData * _Nullable data, NSError * _Nullable error) {
+    [PLVVodNetworkUtil requestData:request completion:^(NSData * _Nullable data, NSError * _Nullable error) {
         if (error == nil) {
             NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
             if (error){
@@ -165,7 +165,7 @@
     NSString *urlString = url.copy;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     if (paramDic.count) {
-        NSString *parameters = [PLVNetworkUtil convertDictionaryToSortedString:paramDic];
+        NSString *parameters = [PLVVodNetworkUtil convertDictionaryToSortedString:paramDic];
         NSData *bodyData = [parameters dataUsingEncoding:NSUTF8StringEncoding];
         request.HTTPBody = bodyData;
     }

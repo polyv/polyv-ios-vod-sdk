@@ -13,7 +13,6 @@
 #import "PLVCourseSection.h"
 #import "DLTabedSlideView.h"
 #import "PLVVodSkinPlayerController.h"
-#import "UIView+PLVVod.h"
 
 #import "PLVCastBusinessManager.h"
 

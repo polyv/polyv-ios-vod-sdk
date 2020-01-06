@@ -1,23 +1,23 @@
 //
-//  PLVNetworkUtil.m
+//  PLVVodNetworkUtil.m
 //  PolyvVodSDKDemo
 //
 //  Created by MissYasiky on 2019/6/13.
 //  Copyright © 2019 POLYV. All rights reserved.
 //
 
-#import "PLVNetworkUtil.h"
+#import "PLVVodNetworkUtil.h"
 #import "NSString+PLVVod.h"
 #import <PLVVodSDK/PLVVodSettings.h>
 
 NSString *PLVVodNetworkingErrorDomain = @"net.polyv.vod.error.networking";
 
-@implementation PLVNetworkUtil
+@implementation PLVVodNetworkUtil
 
 + (void)requestData:(NSURLRequest *)request
             success:(void (^)(NSDictionary *dic))successHandler
             failure:(void (^)(NSError *error))failureHandler {
-    [PLVNetworkUtil requestData:request completion:^(NSData * _Nullable data, NSError * _Nullable error) {
+    [PLVVodNetworkUtil requestData:request completion:^(NSData * _Nullable data, NSError * _Nullable error) {
         if (error) {
             !failureHandler ?: failureHandler(error);
             return;

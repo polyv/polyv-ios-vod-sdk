@@ -11,7 +11,7 @@
 
 #import "PLVPPTBaseViewController.h"
 #import "PLVPPTVideoViewController.h"
-#import "PLVPPTViewController.h"
+#import "PLVVodPPTViewController.h"
 #import "PLVFloatingView.h"
 #import <PLVVodSDK/PLVVodPPT.h>
 
@@ -22,7 +22,7 @@
 @property (nonatomic, strong) PLVFloatingView *floatingView;
 
 @property (nonatomic, strong) PLVPPTVideoViewController *videoController;
-@property (nonatomic, strong) PLVPPTViewController *pptController;
+@property (nonatomic, strong) PLVVodPPTViewController *pptController;
 
 @property (nonatomic, assign) CGRect lastSafeFrame;
 

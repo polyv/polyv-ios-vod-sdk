@@ -677,6 +677,8 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 }
 
 - (void)setupPlaybackInfoWithCover:(UIImage *)cover {
+    if (!cover) return;
+    
 	NSMutableDictionary *playbackInfo = [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo.mutableCopy;
 	if (!playbackInfo.count) playbackInfo = [NSMutableDictionary dictionary];
 	playbackInfo[MPMediaItemPropertyTitle] = self.video.title;

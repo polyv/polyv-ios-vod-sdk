@@ -142,18 +142,21 @@
         playMode = PLVVodPlaybackModeVideo;
     }
     
-    /* 普通视频播放页面入口
+#ifndef PLVSupportPPTScreen
+     //普通视频播放页面入口
      PLVSimpleDetailController *detailVC = [[PLVSimpleDetailController alloc] init];
      detailVC.vid = info.vid;            // vid
      detailVC.isOffline = YES;           // 离线播放
      detailVC.playMode = playMode;       // 根据本地资源类型设置播放模式
-    */
+#else
     
     // 三分屏模式视频播放页面入口
     PLVPPTSimpleDetailController *detailVC = [[PLVPPTSimpleDetailController alloc] init];
     detailVC.vid = info.vid;
     detailVC.isOffline = YES;           // 离线播放
     detailVC.playbackMode = playMode;       // 根据本地资源类型设置播放模式
+    
+#endif
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.navigationController pushViewController:detailVC animated:YES];

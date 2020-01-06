@@ -1,5 +1,5 @@
 //
-//  PLVPPTViewController.h
+//  PLVVodPPTViewController.h
 //  PolyvVodSDKDemo
 //
 //  Created by MissYasiky on 2019/7/25.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PLVPPTViewController : UIViewController
+@interface PLVVodPPTViewController : UIViewController
 
 @property (nonatomic, strong) PLVVodPPT * _Nullable ppt;
 
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface PLVPPTViewController (PLVPPTSkin)
+@interface PLVVodPPTViewController (PLVPPTSkin)
 
 /**
  开始加载 ppt

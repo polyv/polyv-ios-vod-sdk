@@ -40,7 +40,6 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	[self becomeFirstResponder];
 	[self updateSettingsBundle];
     
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
     [PLVCastBusinessManager getCastAuthorization];
     
 	return YES;
@@ -128,12 +127,14 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
                                                                     key:decodeKey
                                                                      iv:decodeIv
                                                                   error:&error];
-    NSLog(@"-- %@ ", settings.secretkey);
-    
     settings.logLevel = PLVVodLogLevelAll;
-    settings.viewerId = @"观看用户ID";
-    settings.viewerName = @"观看用户名称";
-    settings.viewerAvatar = @"观看用户头像";
+    settings.viewerInfos.viewerId = @"观看用户ID";
+    settings.viewerInfos.viewerName = @"观看用户名称";
+    settings.viewerInfos.viewerAvatar = @"观看用户头像";
+    settings.viewerInfos.viewerExtraInfo1 = @"自定义参数param3";
+    settings.viewerInfos.viewerExtraInfo2 = @"自定义参数param4";
+    settings.viewerInfos.viewerExtraInfo3 = @"自定义参数param5";
+
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:PLVApplySettingKey]) {
         // 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。

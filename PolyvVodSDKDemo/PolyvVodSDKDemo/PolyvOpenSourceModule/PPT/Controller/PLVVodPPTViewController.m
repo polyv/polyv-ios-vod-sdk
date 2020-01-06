@@ -1,17 +1,17 @@
 //
-//  PLVPPTViewController.m
+//  PLVVodPPTViewController.m
 //  PolyvVodSDKDemo
 //
 //  Created by MissYasiky on 2019/7/25.
 //  Copyright © 2019 POLYV. All rights reserved.
 //
 
-#import "PLVPPTViewController.h"
+#import "PLVVodPPTViewController.h"
 #import "PLVPPTControllerSkinView.h"
 #import <PLVVodSDK/PLVVodPPT.h>
 #import <YYWebImage/YYWebImage.h>
 
-@interface PLVPPTViewController ()
+@interface PLVVodPPTViewController ()
 
 @property (nonatomic, strong) UIImageView *pptImageView;
 @property (nonatomic, assign) NSInteger currentIndex;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation PLVPPTViewController
+@implementation PLVVodPPTViewController
 
 #pragma mark - Life Cycle
 
@@ -126,7 +126,7 @@
 
 @end
 
-@implementation PLVPPTViewController (PLVPPTSkin)
+@implementation PLVVodPPTViewController (PLVPPTSkin)
 
 - (void)startLoading {
     [self.skinView startLoading];

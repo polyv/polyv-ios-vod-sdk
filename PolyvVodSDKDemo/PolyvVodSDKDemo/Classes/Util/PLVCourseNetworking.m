@@ -7,7 +7,7 @@
 //
 
 #import "PLVCourseNetworking.h"
-#import "PLVNetworkUtil.h"
+#import "PLVVodNetworkUtil.h"
 #import "NSString+PLVVod.h"
 
 #import "PLVSchool.h"
@@ -34,7 +34,7 @@
 	NSString *urlString = url.copy;
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	if (paramDic.count) {
-        NSString *parameters = [PLVNetworkUtil convertDictionaryToSortedString:paramDic];
+        NSString *parameters = [PLVVodNetworkUtil convertDictionaryToSortedString:paramDic];
 		if ([PLV_HM_GET isEqualToString:HTTPMethod]) {
 			urlString = [NSString stringWithFormat:@"%@?%@", urlString, parameters];
 		}else if ([PLV_HM_POST isEqualToString:HTTPMethod]){
@@ -80,7 +80,7 @@
 	params[@"timestamp"] = [self timestamp];
 	params[@"sign"] = [self signWithParams:params secretKey:secretKey];
 	NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:params];
-    [PLVNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
+    [PLVVodNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
         NSArray *data = dic[@"data"];
         NSArray *videoSections = [PLVCourseSection sectionsWithArray:data];
         !completion ?: completion(videoSections);
@@ -103,7 +103,7 @@
 	params[@"timestamp"] = [self timestamp];
 	params[@"sign"] = [self signWithParams:params secretKey:secretKey];
 	NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:params];
-    [PLVNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
+    [PLVVodNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
         NSArray *data = dic[@"data"][@"contents"];
         NSMutableArray *courses = [NSMutableArray array];
         for (NSDictionary *courseDic in data) {
@@ -124,8 +124,8 @@
 	params[@"numPerPage"] = @(pageCount);
 	params[@"pageNum"] = @(page);
 	
-	NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:[PLVNetworkUtil addSign:params]];
-    [PLVNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
+	NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HM_GET params:[PLVVodNetworkUtil addSign:params]];
+    [PLVVodNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
         NSArray *videos = dic[@"data"];
         NSMutableArray *accountVideos = [NSMutableArray array];
         for (NSDictionary *videoDic in videos) {

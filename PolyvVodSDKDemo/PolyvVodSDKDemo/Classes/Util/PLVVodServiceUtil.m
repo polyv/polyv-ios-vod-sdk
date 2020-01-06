@@ -7,7 +7,7 @@
 //
 
 #import "PLVVodServiceUtil.h"
-#import "PLVNetworkUtil.h"
+#import "PLVVodNetworkUtil.h"
 #import <PLVVodSDK/PLVVodSettings.h>
 #import "NSString+PLVVod.h"
 
@@ -36,8 +36,8 @@
     if (orderType && orderType.length) params[@"orderType"] = orderType;
     if (pageIndex && pageIndex.length) params[@"page"] = pageIndex;
     
-    NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HTTP_GET params:[PLVNetworkUtil addSign:params]];
-    [PLVNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
+    NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HTTP_GET params:[PLVVodNetworkUtil addSign:params]];
+    [PLVVodNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
         NSDictionary *respData = [dic objectForKey:@"data"];
         PLVUserVideoListResult *videoList = respData ? [[PLVUserVideoListResult alloc] initWithDic:respData] : nil;
         !success ?: success(videoList);
@@ -64,8 +64,8 @@
     params[@"realTime"] = ([realTime integerValue] > 0) ? @"1" : @"0";
     params[@"vids"] = [self stringWithVids:vids];
     
-    NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HTTP_GET params:[PLVNetworkUtil addSign:params]];
-    [PLVNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
+    NSMutableURLRequest *request = [self requestWithUrl:url method:PLV_HTTP_GET params:[PLVVodNetworkUtil addSign:params]];
+    [PLVVodNetworkUtil requestData:request success:^(NSDictionary * _Nonnull dic) {
         id respData = [dic objectForKey:@"data"];
         if ([respData isKindOfClass:[NSArray class]]){
             NSMutableArray *list = [NSMutableArray arrayWithCapacity:0];
@@ -94,7 +94,7 @@
     NSString *urlString = url.copy;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     if (paramDic.count) {
-        NSString *parameters = [PLVNetworkUtil convertDictionaryToSortedString:paramDic];
+        NSString *parameters = [PLVVodNetworkUtil convertDictionaryToSortedString:paramDic];
         if ([PLV_HTTP_GET isEqualToString:HTTPMethod]) {
             urlString = [NSString stringWithFormat:@"%@?%@", urlString, parameters];
         }else if ([PLV_HTTP_POST isEqualToString:HTTPMethod]){

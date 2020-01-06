@@ -1,5 +1,5 @@
 //
-//  PLVNetworkUtil.h
+//  PLVVodNetworkUtil.h
 //  PolyvVodSDKDemo
 //
 //  Created by MissYasiky on 2019/6/13.
@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *PLVVodNetworkingErrorDomain;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PLVNetworkUtil : NSObject
+extern NSString *PLVVodNetworkingErrorDomain;
+
+@interface PLVVodNetworkUtil : NSObject
 
 + (void)requestData:(NSURLRequest *)request
             success:(void (^)(NSDictionary *dic))successHandler
