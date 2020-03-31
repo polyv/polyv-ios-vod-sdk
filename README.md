@@ -10,7 +10,7 @@
 
 安装密码：polyv
 
-试用的内测 App 使用企业签名，若运行中遇到问题，可参见 [在 iOS 9 及以上版本中运行企业版应用](https://github.com/polyv/polyv-ios-vod-sdk/wiki/RunEnterpriseApp)。
+试用的内测 App 使用企业签名，若运行中遇到问题，可参见 [wiki-12.FAQ](https://github.com/polyv/polyv-ios-vod-sdk/wiki/12.FAQ)。
 
 ## 快速开始
 
@@ -20,8 +20,6 @@
 ## 文档
 
 详细文档请参见 [本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
-
-POLYV iOS VOD SDK 各版本接口文档，可参见 [各版本 API 文档](https://github.com/polyv/polyv-ios-vod-sdk/wiki/API)。
 
 ## 更新日志
 
