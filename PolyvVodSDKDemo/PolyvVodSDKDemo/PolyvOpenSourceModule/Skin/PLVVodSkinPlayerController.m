@@ -27,6 +27,9 @@
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotification";
+NSString *PLVVodADAndTeasersPlayFinishNotification = @"PLVVodADAndTeasersPlayFinishNotification";
+
+static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
 @interface PLVVodSkinPlayerController ()
 
@@ -64,6 +67,17 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 
 // 上次执行播放进度回调 playbackTimeHandler 的播放进度
 @property (nonatomic, assign) NSTimeInterval lastPlaybackTime;
+
+/// 是否处于长按快进的状态中，默认为 NO
+@property (nonatomic, assign) BOOL longPressForward;
+// 长按快进之前播放的倍速，默认为 1.0
+@property (nonatomic, assign) double originPlaybackRate;
+
+/// 当前视频在当前设备播放达到的最长进度，用于属性 partlyDragging 对用户未观看部分进行限制拖拽
+@property (nonatomic, assign) NSTimeInterval maxPosition;
+
+/// 记录最长播放进度使用的计时器
+@property (nonatomic, strong) NSTimer *markMaxPositionTimer;
 
 @end
 
@@ -134,6 +148,42 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 	_examViewController = examViewController;
 }
 
+- (NSTimeInterval)maxPosition {
+    NSTimeInterval maxPosition = 0.0;
+    NSDictionary *maxPositionDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:PLVVodMaxPositionKey];
+    if (maxPositionDict.count) {
+        maxPosition = [maxPositionDict[self.video.vid] doubleValue];
+        if (isnan(maxPosition))
+            maxPosition = 0.0;
+    }
+    return maxPosition;
+}
+
+- (void)setMaxPosition:(NSTimeInterval)maxPosition {
+    if (self.restrictedDragging == NO) {
+        return;
+    }
+    
+    if (maxPosition <= 0 || maxPosition <= self.maxPosition) {
+        NSLog(@"当前进度小于0，或低于历史记录最长播放进度，不保存");
+        return;
+    }
+    
+    NSString * vidStr = self.video.vid;
+    if (vidStr == nil || ![vidStr isKindOfClass: [NSString class]] || vidStr.length == 0) {
+        NSLog(@"vid为空,无法保存播放进度");
+        return;
+    }
+    
+    NSMutableDictionary *maxPositionDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:PLVVodMaxPositionKey].mutableCopy;
+    if (maxPositionDict == nil) {
+        maxPositionDict = [[NSMutableDictionary alloc] init];
+    }
+    maxPositionDict[vidStr] = @(maxPosition);
+    [[NSUserDefaults standardUserDefaults] setObject:maxPositionDict forKey:PLVVodMaxPositionKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 #pragma mark - view controller
 
 - (void)dealloc {
@@ -142,24 +192,35 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self removeTimer];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 	
 	self.automaticallyAdjustsScrollViewInsets = NO;
 	
+    self.longPressPlaybackRate = 2.0;
+    self.originPlaybackRate = self.playbackRate;
+    
 	[self setupSkin];
 	
 	[self addObserver];
-	
+    [self addTimer];
+    
 	__weak typeof(self) weakSelf = self;
     __block NSInteger repeatCount = 0;
 	self.playbackTimer = [PLVTimer repeatWithInterval:0.2 repeatBlock:^{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			// 同步显示弹幕
-			weakSelf.danmuManager.currentTime = weakSelf.currentPlaybackTime;
-			//NSLog(@"danmu time: %f", weakSelf.danmuManager.currentTime);
-			[weakSelf.danmuManager synchronouslyShowDanmu];
+            PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
+            if (skin.enableDanmu){
+                weakSelf.danmuManager.currentTime = weakSelf.currentPlaybackTime;
+                [weakSelf.danmuManager synchronouslyShowDanmu];
+            }
 
 			/// 同步显示问答
 			weakSelf.examViewController.currentTime = weakSelf.currentPlaybackTime;
@@ -238,7 +299,24 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 //    }
 }
 
-#pragma mark -- 播放网络状态判断
+#pragma mark - Timer Related
+
+- (void)addTimer {
+    if (self.restrictedDragging) {
+        self.markMaxPositionTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(rememberMaxPosition) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)removeTimer {
+    [_markMaxPositionTimer invalidate];
+    _markMaxPositionTimer = nil;
+}
+
+- (void)rememberMaxPosition {
+    self.maxPosition = self.currentPlaybackTime;
+}
+
+#pragma mark - 播放网络状态判断
 - (void)networkStatusDidChange:(NSNotification *)notification {
     if (notification) {
         if ([self.video isKindOfClass:[PLVVodLocalVideo class]]) {
@@ -385,6 +463,7 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 
 - (void)setupSkin {
 	PLVVodPlayerSkin *skin = [[PLVVodPlayerSkin alloc] initWithNibName:nil bundle:nil];
+    skin.enableFloating = self.enableFloating;
 	__weak typeof(skin) _skin = skin;
 	[self addChildViewController:skin];
 	UIView *skinView = skin.view;
@@ -410,6 +489,9 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 			isLoading ? [_skin.loadingIndicator startAnimating] : [_skin.loadingIndicator stopAnimating];
             if (!weakSelf.localPlayback){
                 _skin.loadSpeed.hidden = !isLoading;
+            }
+            if (weakSelf.longPressForward) { // 更改快进UI文本（"快进x2" -> "Loading"）
+                [skin.fastForwardView setLoading:isLoading];
             }
 		});
 	};
@@ -742,6 +824,24 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
     };
 }
 
+- (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime {
+    BOOL allow = NO;
+    
+    if (self.restrictedDragging &&
+        self.allForbidDragging == NO) { // 对进度拖拽进行部分限制
+        NSTimeInterval max = MAX(self.maxPosition, self.currentPlaybackTime);
+        if (currentPlaybackTime <= max) { // 符合允许拖拽的条件
+            allow = YES;
+        }
+    } else if (self.restrictedDragging == NO) { // 不限制进度拖拽
+        allow = YES;
+    }
+    
+    if (allow) {
+        [super setCurrentPlaybackTime:currentPlaybackTime];
+    }
+}
+
 #pragma mark gesture
 
 - (void)handleGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
@@ -766,6 +866,12 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 		case PLVVodGestureTypeRightPan:{
 			[self changeProgressWithGesture:recognizer gestureType:gestureType];
 		}break;
+        case PLVVodGestureTypeLongPress:{
+            [self forwardWithGesture:recognizer];
+        }break;
+        case PLVVodGestureTypeLongPressEnd:{
+            [self stopForwardWithGesture:recognizer];
+        }break;
 		default:{}break;
 	}
 }
@@ -875,6 +981,10 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 }
 
 - (void)changeProgressWithGesture:(UIGestureRecognizer *)recognizer gestureType:(PLVVodGestureType)gestureType {
+    if (self.restrictedDragging) { // restrictedDragging 为 YES 时不允许使用手势对进度拖动
+        return;
+    }
+    
 	UIPanGestureRecognizer *pan = nil;
 	if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
 		pan = (UIPanGestureRecognizer *)recognizer;
@@ -916,6 +1026,57 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 		} break;
 		default: {} break;
 	}
+}
+
+- (void)forwardWithGesture:(UIGestureRecognizer *)recognizer {
+    if (self.disableLongPressGesture || self.playbackState != PLVVodPlaybackStatePlaying) {
+        return;
+    }
+    
+    if (recognizer.state == UIGestureRecognizerStateBegan && self.playbackRate >= self.longPressPlaybackRate) {
+        recognizer.state = UIGestureRecognizerStateCancelled;
+        return;
+    }
+    
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        self.originPlaybackRate = self.playbackRate;
+    }
+    
+    self.longPressForward = YES;
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    if (skin.selectedPlaybackRateDidChangeBlock) skin.selectedPlaybackRateDidChangeBlock(self.longPressPlaybackRate);
+   
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        PLVVodFastForwardView *forwardView = skin.fastForwardView;
+        forwardView.rate = weakSelf.longPressPlaybackRate;
+        BOOL isLoading = skin.loadingIndicator.animating;
+        if (isLoading) { // 更改快进UI文本（"快进x2" -> "Loading"）
+            [skin.fastForwardView setLoading:YES];
+        }
+        [forwardView show];
+    });
+}
+
+- (void)stopForwardWithGesture:(UIGestureRecognizer *)recognizer {
+    UILongPressGestureRecognizer *longPress = nil;
+    if ([recognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+       longPress = (UILongPressGestureRecognizer *)recognizer;
+    } else {
+       return;
+    }
+    
+    if (self.longPressForward) {
+        self.longPressForward = NO;
+        PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+        if (skin.selectedPlaybackRateDidChangeBlock) skin.selectedPlaybackRateDidChangeBlock(self.originPlaybackRate);
+    }
+    
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        PLVVodFastForwardView *forwardView = skin.fastForwardView;
+        [forwardView hide];
+    });
 }
 
 #pragma mark - tool
@@ -971,6 +1132,7 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 			dispatch_async(dispatch_get_main_queue(), ^{
 				self.skinView.hidden = NO;
 			});
+            [[NSNotificationCenter defaultCenter] postNotificationName:PLVVodADAndTeasersPlayFinishNotification object:nil];
 		}break;
 		default:{}break;
 	}
@@ -994,6 +1156,7 @@ NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotificat
 			dispatch_async(dispatch_get_main_queue(), ^{
 				self.skinView.hidden = NO;
 			});
+            [[NSNotificationCenter defaultCenter] postNotificationName:PLVVodADAndTeasersPlayFinishNotification object:nil];
 		}break;
 		default:{}break;
 	}

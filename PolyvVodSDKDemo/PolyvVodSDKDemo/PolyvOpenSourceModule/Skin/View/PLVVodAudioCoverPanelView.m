@@ -69,7 +69,7 @@
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
         animation.beginTime = CACurrentMediaTime();
         animation.duration = 15;
-        animation.repeatCount = UIViewAnimationOptionRepeat;
+        animation.repeatCount = HUGE_VALF;
         animation.fromValue = @(0.0);
         animation.toValue = @(2 * M_PI);
         animation.removedOnCompletion = NO;

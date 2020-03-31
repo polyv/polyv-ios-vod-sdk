@@ -13,7 +13,7 @@
 #import "PLVSchool.h"
 #import "PLVVodAccountVideo.h"
 #import <PLVVodSDK/PLVVodSDK.h>
-#import <IJKMediaFramework/IJKMediaFramework.h>
+#import <PolyvIJKMediaFramework/PolyvIJKMediaFramework.h>
 #import "PLVVodDownloadHelper.h"
 #import "PLVVodDBManager.h"
 
@@ -119,6 +119,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
     
     NSError *error = nil;
 
+#ifndef PLVSupportSubAccount
     PLVSchool *school = [PLVSchool sharedInstance];
     NSString *vodKey = school.vodKey;
     NSString *decodeKey = school.vodKeyDecodeKey;
@@ -127,6 +128,18 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
                                                                     key:decodeKey
                                                                      iv:decodeIv
                                                                   error:&error];
+    NSLog(@"-- %@ ", settings.secretkey);
+    
+#else
+    
+    NSString *appId = @"";
+    NSString *secretKey = @"";
+    NSString *userId = @"";
+    
+    PLVVodSettings *settings = [PLVVodSettings settingsWithAppId:appId secretKey:secretKey userId:userId];
+    
+#endif
+    
     settings.logLevel = PLVVodLogLevelAll;
     settings.viewerInfos.viewerId = @"观看用户ID";
     settings.viewerInfos.viewerName = @"观看用户名称";

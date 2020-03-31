@@ -39,16 +39,6 @@
 		self.statusBarHeight.constant = 12;
 	}
     
-    if (PLV_iPhoneXSeries){
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunguarded-availability"
-        [self.constraints enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.firstItem isKindOfClass:[UIStackView class]] && obj.firstAttribute == NSLayoutAttributeLeading && obj.secondAttribute == NSLayoutAttributeLeading){
-                obj.constant = PLV_Landscape_Left_And_Right_Safe_Side_Margin;
-            }
-        }];
-#pragma clang diagnostic pop
-    }
     
     // 添加点击后的展示视图
     [self addSubview:self.playTipsView];
@@ -100,6 +90,10 @@
     _supportPPT = enable;
     self.subScreenButton.hidden = !_supportPPT;
     self.pptCatalogButton.hidden = !_supportPPT;
+}
+
+- (void)enableFloating:(BOOL)enable {
+    self.floatingButton.hidden = !enable;
 }
 
 - (void)addPlayTipsWithVideo:(PLVVodVideo *)video{

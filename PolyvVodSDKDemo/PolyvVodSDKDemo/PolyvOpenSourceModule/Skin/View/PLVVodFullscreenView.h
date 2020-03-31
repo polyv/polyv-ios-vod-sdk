@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *routeButton; // 线路切换
 @property (weak, nonatomic) IBOutlet UIButton *subScreenButton; // 关闭三分屏按钮
 @property (weak, nonatomic) IBOutlet UIButton *pptCatalogButton; // 显示课件目录按钮
+@property (weak, nonatomic) IBOutlet UIButton *floatingButton; // 悬浮窗播放按钮
 
 //音视频切换
 @property (weak, nonatomic) IBOutlet UIView *playModeContainerView;
@@ -57,5 +58,8 @@
 - (void)showPlayTipsWithIndex:(NSUInteger )index;
 // 隐藏浮动信息
 - (void)hidePlayTipsView;
+
+// 是否支持悬浮窗播放，不调用时默认不支持
+- (void)enableFloating:(BOOL)enable;
 
 @end

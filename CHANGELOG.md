@@ -10,6 +10,52 @@
 ### Removed
 ### Fixed -->
 
+## [2.8.0] - 2020-03-31
+
+### Added
+
+- 增加长按屏幕快进手势
+
+  `PLVVodPlayerViewController` 的属性 `gestureType` 增加枚举值长按`PLVVodGestureTypeLongPress` 和长按取消`PLVVodGestureTypeLongPressEnd` 
+
+  `PLVVodSkinPlayerController`
+
+  `@property (nonatomic, assign) BOOL disableLongPressGesture;` 是否屏蔽长按倍速快进手势，默认为 NO
+
+  `@property (nonatomic, assign) double longPressPlaybackRate;` 长按快进时的倍速，默认为 2.0
+
+- 增加全屏播放时视频方向设置
+
+  `PLVVodPlayerViewController`
+
+  `@property (nonatomic, assign) PLVVodFullScreenOrientation fullScreenOrientation;`
+
+- [demo]增加禁止拖拽进度条的开关
+
+  `PLVVodSkinPlayerController`
+
+  `@property (nonatomic, assign) BOOL restrictedDragging;` 是否限制拖拽进度功能，默认为 NO，可随意拖拽进度
+
+  `@property (nonatomic, assign) BOOL allForbidDragging;` 在属性 restrictedDragging 为 YES 的基础上，是否允许对已播放的进度进行拖拽
+
+- [demo]增加支持悬浮窗播放的功能
+
+  `PLVVodSkinPlayerController`
+
+  `@property (nonatomic, assign) BOOL enableFloating;` 是否启动悬浮窗功能，默认为 NO
+
+### Changed
+
+- 支持播放离线视频时弹出问答题目
+- 请求视频资源时区分下载和播放行为
+- httpdns 库冲突集成优化，解决阿里云相关公共库冲突
+
+### Fixed
+
+- 子线程中销毁播放器导致的崩溃问题
+- 子线程中播放可能导致的崩溃问题
+- [demo] 关闭弹幕开关失效问题
+
 ## [2.6.6] - 2020-01-06
 
 ### Added

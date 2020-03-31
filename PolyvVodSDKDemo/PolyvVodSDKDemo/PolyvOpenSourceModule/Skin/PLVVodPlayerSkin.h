@@ -11,6 +11,7 @@
 #import <PLVVodSDK/PLVVodVideo.h>
 #import "PLVVodGestureIndicatorView.h"
 #import "PLVVodNetworkTipsView.h"
+#import "PLVVodFastForwardView.h"
 
 @class PLVVodAudioCoverPanelView;
 @class PLVVodCoverView;
@@ -85,6 +86,12 @@
 /// 半屏全屏按钮点击事件
 @property (nonatomic, strong) void (^castButtonTouchHandler)(UIButton * button);
 
+/// 是否启动悬浮窗功能，默认为 NO
+@property (nonatomic, assign) BOOL enableFloating;
+
+/// "悬浮窗"按钮点击事件
+@property (nonatomic, strong) void (^floatingButtonTouchHandler)(void);
+
 #pragma mark - 额外
 
 /// 字幕标签
@@ -113,6 +120,8 @@
 /// 音视频封面
 @property (strong, nonatomic, readonly) PLVVodCoverView *coverView;
 
+/// 手势快进提示视图
+@property (nonatomic, strong, readonly) PLVVodFastForwardView *fastForwardView;
 
 /// 是否是锁屏状态
 @property (nonatomic, assign, readonly) BOOL isLockScreen;

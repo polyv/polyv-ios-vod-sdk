@@ -82,6 +82,10 @@
     self.subScreenButton.hidden = !_supportPPT;
 }
 
+- (void)enableFloating:(BOOL)enable {
+    self.floatingButton.hidden = !enable;
+}
+
 - (void)setEnableQualityBtn:(BOOL)enableQualityBtn{
     self.definitionButton.enabled = enableQualityBtn;
     if (enableQualityBtn){

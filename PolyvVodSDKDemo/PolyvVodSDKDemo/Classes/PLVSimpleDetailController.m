@@ -55,6 +55,9 @@
 	PLVVodSkinPlayerController *player = [[PLVVodSkinPlayerController alloc] initWithNibName:nil bundle:nil];
     // 因播放器皮肤的部分控件，需根据'防录屏'开关决定是否显示，因此若需打开，请在addPlayerOnPlaceholderView前设置
     // player.videoCaptureProtect = YES;
+    // 对进度拖拽的限制属性 restrictedDragging 和 allForbidDragging，也请在 addPlayerOnPlaceholderView 前设置
+    player.restrictedDragging = YES;
+//    player.allForbidDragging = YES;
     [player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
 	self.player = player;
     self.player.rememberLastPosition = YES;

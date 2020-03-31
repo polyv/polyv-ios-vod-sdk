@@ -85,6 +85,9 @@
 /// 播放错误提示视图
 @property (nonatomic, strong) PLVVodNetworkTipsView *playErrorTipsView;
 
+/// 手势快进提示视图
+@property (nonatomic, strong) PLVVodFastForwardView *fastForwardView;
+
 @end
 
 @implementation PLVVodPlayerSkin
@@ -126,15 +129,6 @@
 		if (![topView.gestureRecognizers containsObject:self.panelTap]) {
 			[topView addGestureRecognizer:self.panelTap];
 		}
-        
-        if (self.mainControl == self.fullscreenView){
-            self.shouldHideStatusBar = YES;
-        }
-        else{
-            self.shouldHideStatusBar = NO;
-        }
-	} else {
-		self.shouldHideStatusBar = NO;
 	}
 	_topView = topView;
 }
@@ -149,6 +143,11 @@
         // 根据 video 的 hasPPT 属性和 player.enablePPT 确定是否要显示【关闭副屏】【显示课件目录】按钮
         [weakSelf enablePPTMode:delegatePlayer.video.hasPPT && delegatePlayer.enablePPT];
 	});
+    
+    _delegatePlayer.didFullScreenSwitch = ^(BOOL fullScreen) {
+        weakSelf.shrinkscreenView.switchScreenButton.selected = fullScreen;
+        [weakSelf updateUIForOrientation];
+    };
 }
 
 - (void)setLocalPlayback:(BOOL)localPlayback {
@@ -338,6 +337,12 @@
     [self.fullscreenView enablePPTMode:enable];
 }
 
+- (void)enableFloating:(BOOL)enable {
+    // 是否要显示【悬浮窗播放】按钮
+    [self.shrinkscreenView enableFloating:enable];
+    [self.fullscreenView enableFloating:enable];
+}
+
 - (void)updateAudioCoverAnimation:(BOOL)isPlaying {
     if (isPlaying) {
         [self.audioCoverPanelView startRotate];
@@ -459,7 +464,15 @@
     return _playErrorTipsView;
 }
 
-
+- (PLVVodFastForwardView *)fastForwardView {
+    if (!_fastForwardView) {
+        _fastForwardView = [[PLVVodFastForwardView alloc] init];
+        [self.view addSubview:_fastForwardView];
+        [self constrainSubview:_fastForwardView toMatchWithSuperview:self.view];
+        [self.view bringSubviewToFront:_fastForwardView];
+    }
+    return _fastForwardView;
+}
 
 #pragma mark - view controller
 
@@ -481,7 +494,7 @@
 }
 
 - (void)setupUI {
-	[self updateUIForTraitCollection:self.traitCollection];
+	[self updateUIForOrientation];
 	
 	self.topView = self.mainControl;
 	[self.controlContainerView addSubview:self.mainControl];
@@ -542,35 +555,36 @@
     [self.view addSubview:self.skinMaskView];
     [self constrainSubview:self.skinMaskView toMatchWithSuperview:self.view];
     [self.view sendSubviewToBack:self.skinMaskView];
+    
+    [self enableFloating:self.enableFloating];
 }
 
 #pragma mark - observe
 
 - (void)interfaceOrientationDidChange:(NSNotification *)notification {
     if (self.isLockScreen) return;
-	[self updateUIForTraitCollection:self.traitCollection];
+	[self updateUIForOrientation];
 }
 
-- (void)updateUIForTraitCollection:(UITraitCollection *)collection {
-    
-    BOOL fullScreen = NO;
+- (void)updateUIForOrientation {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (UIInterfaceOrientationIsLandscape(orientation)){
-        fullScreen = YES;
-    }
-    else{
-        fullScreen = NO;
-    }
-    
-    if (fullScreen) { // 横屏
+    if (!UIInterfaceOrientationIsPortrait(orientation)) {
         self.mainControl = self.fullscreenView;
-        self.statusBarStyle = UIStatusBarStyleLightContent;
+        self.shouldHideStatusBar = YES;
         self.shouldHideNavigationBar = YES;
     } else {
-        self.mainControl = self.shrinkscreenView;
-        self.statusBarStyle = UIStatusBarStyleDefault;
-        self.shouldHideNavigationBar = NO;
+        if (self.delegatePlayer.fullscreen) {
+            self.mainControl = self.fullscreenView;
+            self.shouldHideStatusBar = YES;
+            self.shouldHideNavigationBar = YES;
+        } else {
+            self.mainControl = self.shrinkscreenView;
+            self.shouldHideStatusBar = self.delegatePlayer.fullscreen;
+            self.shouldHideNavigationBar = self.delegatePlayer.fullscreen;
+        }
     }
+    
+    self.statusBarStyle = self.delegatePlayer.fullscreen ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
 
 #pragma mark - 皮肤按钮事件
@@ -584,12 +598,12 @@
 
 // 横竖屏切换
 - (IBAction)switchScreenAction:(UIButton *)sender {
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (interfaceOrientation == UIInterfaceOrientationPortrait) {
-        [PLVVodPlayerViewController rotateOrientation:UIInterfaceOrientationLandscapeRight];
-    } else {
-        [PLVVodPlayerViewController rotateOrientation:UIInterfaceOrientationPortrait];
+    if (self.mainControl == self.fullscreenView) {
+        [self.delegatePlayer setPlayerFullScreen:NO];
+        return;
     }
+    
+    [self.delegatePlayer setPlayerFullScreen:!self.delegatePlayer.fullscreen];
 }
 
 // 弹幕发送
@@ -611,11 +625,7 @@
 
 //  切换到竖屏
 - (IBAction)backAction:(UIButton *)sender {
-	// 切换到竖屏
-	UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-	if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-		[PLVVodPlayerViewController rotateOrientation:UIInterfaceOrientationPortrait];
-	}
+    [self.delegatePlayer setPlayerFullScreen:NO];
 }
 
 // 分享设置
@@ -746,6 +756,20 @@
 - (IBAction)pptCatalogButtonnAction:(id)sender {
     if (self.pptVideoDelegate && [self.pptVideoDelegate respondsToSelector:@selector(tapPPTCatalogButton:)]) {
         [self.pptVideoDelegate tapPPTCatalogButton:self];
+    }
+}
+
+// 【悬浮窗播放】按钮点击事件
+- (IBAction)floatingButtonAction:(id)sender {
+    // 首先切换到竖屏
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        [PLVVodPlayerViewController rotateOrientation:UIInterfaceOrientationPortrait];
+    }
+    
+    // 接着，执行对应的 block
+    if (self.floatingButtonTouchHandler) {
+        self.floatingButtonTouchHandler();
     }
 }
 
