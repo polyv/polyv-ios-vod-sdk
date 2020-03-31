@@ -17,6 +17,7 @@
 #import "PLVVFloatingPlayerViewController.h"
 #import "PLVPlayQueueBackgroundController.h"
 #import "PLVVFloatingWindow.h"
+#import "PLVDemoViewController.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 
 static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
@@ -141,8 +142,8 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
             }
         } else {
             // 普通视频播放页面入口
-            weakSelf.vidShouldPlay = vid;
-            [weakSelf performSegueWithIdentifier:PLVSimplePlaySegueKey sender:sender];
+            PLVDemoViewController *vctrl = [[PLVDemoViewController alloc] initWithVid:vid];
+            [weakSelf.navigationController pushViewController:vctrl animated:YES];
         }
 #else
         // 三分屏模式视频播放页面入口
