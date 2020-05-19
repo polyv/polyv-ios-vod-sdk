@@ -9,16 +9,17 @@
 #import "PLVSimpleDetailController.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "PLVVodSkinPlayerController.h"
-
+#ifdef PLVCastFeature
 #import "PLVCastBusinessManager.h"
+#endif
 
 @interface PLVSimpleDetailController ()
 
 @property (weak, nonatomic) IBOutlet UIView *playerPlaceholder;
 @property (nonatomic, strong) PLVVodSkinPlayerController *player;
-
+#ifdef PLVCastFeature
 @property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
-
+#endif
 @end
 
 @implementation PLVSimpleDetailController
@@ -26,15 +27,23 @@
 // 获取导航栏高度
 #define NavHight (self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height)
 
+#pragma mark - Life Cycle
+
 - (void)dealloc {
+#ifdef PLVCastFeature
     [self.castBM quitAllFuntionc];
 	//NSLog(@"%s", __FUNCTION__);
+#endif
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
     [self setupPlayer];
+    /*
+    // 需要添加播放器 logo 解开这段注释
+    [self addLogo];
+     */
     
     // 兼容Demo的下载视频观看页，一般集成时无需添加此段代码
     if (self.playerPlaceholder == nil) {
@@ -44,11 +53,36 @@
     }
     
     // 若需投屏功能，则需以下代码来启用投屏
+#ifdef PLVCastFeature
     if ([PLVCastBusinessManager authorizationInfoIsLegal]) {
         self.castBM = [[PLVCastBusinessManager alloc] initCastBusinessWithListPlaceholderView:self.view player:self.player];
         [self.castBM setup];
     }
+#endif
 }
+
+#pragma mark - Override
+
+- (BOOL)prefersStatusBarHidden {
+	return self.player.prefersStatusBarHidden;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return self.player.preferredStatusBarStyle;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (BOOL)shouldAutorotate{
+    if (self.player.isLockScreen){
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - Private
 
 - (void)setupPlayer {
 	// 初始化播放器
@@ -56,7 +90,7 @@
     // 因播放器皮肤的部分控件，需根据'防录屏'开关决定是否显示，因此若需打开，请在addPlayerOnPlaceholderView前设置
     // player.videoCaptureProtect = YES;
     // 对进度拖拽的限制属性 restrictedDragging 和 allForbidDragging，也请在 addPlayerOnPlaceholderView 前设置
-    player.restrictedDragging = YES;
+//    player.restrictedDragging = YES;
 //    player.allForbidDragging = YES;
     [player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
 	self.player = player;
@@ -103,23 +137,26 @@
     }
 }
 
-- (BOOL)prefersStatusBarHidden {
-	return self.player.prefersStatusBarHidden;
+/*
+// 需要添加播放器 logo 解开这段注释，在这里自定义需要的logo
+- (void)addLogo {
+    PLVVodPlayerLogo *playerLogo = [[PLVVodPlayerLogo alloc] init];
+    
+    PLVVodPlayerLogoParam *vodLogoParam = [[PLVVodPlayerLogoParam alloc] init];
+    vodLogoParam.logoWidthScale = 0.2;
+    vodLogoParam.logoHeightScale = 0.2;
+    vodLogoParam.logoUrl = @"https://wwwimg.polyv.net/assets/dist/images/web3.0/doc-home/logo-vod.png";
+    [playerLogo insertLogoWithParam:vodLogoParam];
+    
+    PLVVodPlayerLogoParam *polyvLogoParam = [[PLVVodPlayerLogoParam alloc] init];
+    polyvLogoParam.logoWidthScale = 0.1;
+    polyvLogoParam.logoHeightScale = 0.1;
+    polyvLogoParam.logoAlpha = 0.5;
+    polyvLogoParam.position = PLVVodPlayerLogoPositionLeftDown;
+    polyvLogoParam.logoUrl = @"https://wwwimg.polyv.net/assets/certificate/polyv-logo.jpeg";
+    [playerLogo insertLogoWithParam:polyvLogoParam];
+    
+    [self.player addPlayerLogo:playerLogo];
 }
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return self.player.preferredStatusBarStyle;
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
-- (BOOL)shouldAutorotate{
-    if (self.player.isLockScreen){
-        return NO;
-    }
-    return YES;
-}
-
+*/
 @end

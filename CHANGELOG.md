@@ -10,6 +10,41 @@
 ### Removed
 ### Fixed -->
 
+## [2.9.0] - 2020-05-19
+
+### Added
+
+- 提供参数控制视频预加载视频的时长及大小
+`PLVVodSkinPlayerController`
+`@property (nonatomic, assign) NSInteger maxCacheSize;` 预加载缓冲大小，单位字节
+`@property (nonatomic, assign) NSInteger maxCacheDuration;` 预加载缓冲时长，单位秒
+`@property (nonatomic, assign) NSInteger minCacheFrame;` 预加载最小缓冲帧数
+- 支持延迟启动 HttpDNS，默认配置加密串时启动，延迟启动需在配置加密串之前设置
+`PLVVodSettings`
+`@property (class, nonatomic, assign) BOOL delayHttpDNS;` 延迟启动 HttpDNS，enableHttpDNS 为 YES 时生效，默认 NO
+`@property (class, nonatomic, assign) NSInteger delayHttpDNSTime;` 延迟启动 HttpDNS 的时间，delayHttpDNS 为 YES 时生效，默认 2，单位秒
+- 支持对播放器设置最多两个 logo，代码示例参考 demo 中的 `- (void)addLogo` 方法
+`PLVVodPlayerViewController`
+`- (void)addPlayerLogo:(PLVVodPlayerLogo *)logo;` 为播放器增加 logo 显示图层
+`PLVVodPlayerLogo`
+`- (void)insertLogoWithParam:(PLVVodPlayerLogoParam *)param;` 为 logo 图层添加 logo 图片
+logo 图片配置参数类 `PLVVodPlayerLogoParam`
+
+### Changed
+
+- 移除依赖库 PLVNetworkDiagnosisTool
+
+### Fixed
+
+- 支持播放 wav 格式的音频文件
+- 修复手势滑动播放器改变音量会不准确的问题
+- 修复线上崩溃
+
+## [2.8.1] - 2020-05-08
+
+### Fixed
+移除 UIWebView
+
 ## [2.8.0] - 2020-03-31
 
 ### Added
@@ -89,6 +124,7 @@
 - 增加当前播放进度回调
 
 - `PLVVodPlayerViewController` ,  
+	
 	+ `@property (nonatomic, assign) BOOL pptEnable;` 三分屏功能开关
 	+ `@property (nonatomic, copy) void (^playbackProgressHandler)(PLVVodPlayerViewController *player, NSTimeInterval curPlayTime);`播放进度回调
 - `PLVPPTSimpleDetailController`：三分屏功能播放页(DEMO)

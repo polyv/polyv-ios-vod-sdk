@@ -157,6 +157,17 @@ PLVVodPlayerSkinPPTVideoProtocol
     [self.player setCurrentPlaybackTime:currentPlaybackTime];
 }
 
+- (void)addLogoWithParam:(NSArray <PLVVodPlayerLogoParam *> *)paramArray {
+    PLVVodPlayerLogo *playerLogo = self.player.logoView;
+    if (!playerLogo) {
+        playerLogo = [[PLVVodPlayerLogo alloc] init];
+        [self.player addPlayerLogo:playerLogo];
+    }
+    for (PLVVodPlayerLogoParam *param in paramArray) {
+        [playerLogo insertLogoWithParam:param];
+    }
+}
+
 #pragma mark - Private
 
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {

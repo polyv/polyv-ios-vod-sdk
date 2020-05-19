@@ -28,6 +28,7 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 @property (nonatomic, strong) UIButton *switchAccount;
 
 // 点击前三个视频进入悬浮窗展示页面
+@property (nonatomic, assign) NSInteger floatingDemoIndex;
 @property (nonatomic, strong) NSMutableArray *floatingVideoIds;
 
 @end
@@ -78,8 +79,9 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 	[PLVCourseNetworking requestAccountVideoWithPageCount:99 page:1 completion:^(NSArray<PLVVodAccountVideo *> *accountVideos) {
 		weakSelf.accountVideos = accountVideos;
         if ([accountVideos count] > 0) {// 记录前三个视频的 vid，点击前三个视频进入悬浮窗展示页面
-            self.floatingVideoIds = [NSMutableArray new];
-            for (int i = 0; i < ([accountVideos count] < 3 ? [accountVideos count] : 3); i++) {
+            weakSelf.floatingDemoIndex = 3;
+            weakSelf.floatingVideoIds = [NSMutableArray new];
+            for (int i = 0; i < ([accountVideos count] < weakSelf.floatingDemoIndex ? [accountVideos count] : weakSelf.floatingDemoIndex); i++) {
                 [weakSelf.floatingVideoIds addObject:accountVideos[i].vid];
             }
         }
@@ -128,7 +130,6 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 		NSString *vid = accountVideo.vid;
 		if (!vid.length) return;
         
-#ifndef PLVSupportPPTScreen
         if ([weakSelf.floatingVideoIds containsObject:vid]) {
             PLVVodSkinPlayerController *player = [PLVVFloatingWindow sharedInstance].contentVctrl.player;
             NSString *playingVid = [PLVVFloatingWindow sharedInstance].contentVctrl.vid;
@@ -140,18 +141,18 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
                 [weakSelf.navigationController pushViewController:vctrl animated:YES];
             }
         } else {
+#ifndef PLVSupportPPTScreen
             // 普通视频播放页面入口
             weakSelf.vidShouldPlay = vid;
             [weakSelf performSegueWithIdentifier:PLVSimplePlaySegueKey sender:sender];
-        }
 #else
-        // 三分屏模式视频播放页面入口
-        PLVPPTSimpleDetailController *vctrl = [[PLVPPTSimpleDetailController alloc] init];
-        vctrl.vid = accountVideo.vid;
-        vctrl.isOffline = NO;
-        [weakSelf.navigationController pushViewController:vctrl animated:YES];
+            // 三分屏模式视频播放页面入口
+            PLVPPTSimpleDetailController *vctrl = [[PLVPPTSimpleDetailController alloc] init];
+            vctrl.vid = accountVideo.vid;
+            vctrl.isOffline = NO;
+            [weakSelf.navigationController pushViewController:vctrl animated:YES];
 #endif
-    
+        }
 	};
     
 	cell.downloadButtonAction = ^(PLVVideoCell *cell, UIButton *sender) {

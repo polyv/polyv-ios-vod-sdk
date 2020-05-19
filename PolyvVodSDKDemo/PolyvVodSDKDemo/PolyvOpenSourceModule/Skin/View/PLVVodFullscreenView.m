@@ -9,8 +9,12 @@
 #import "PLVVodFullscreenView.h"
 #import "PLVVodPlayTipsView.h"
 
-#import <FDStackView.h>
 #import <PLVMasonry/PLVMasonry.h>
+#if __has_include(<FDStackView/FDStackView.h>)
+#import <FDStackView/FDStackView.h>
+#else
+#import "FDStackView.h"
+#endif
 
 @interface PLVVodFullscreenView ()
 

@@ -6,7 +6,11 @@
 //  Copyright © 2017年 POLYV. All rights reserved.
 //
 
+#if __has_include(<PLVVodDanmu/PLVVodDanmu.h>)
+#import <PLVVodDanmu/PLVVodDanmu.h>
+#else
 #import "PLVVodDanmu.h"
+#endif
 
 @interface PLVVodDanmu (PLVVod)
 

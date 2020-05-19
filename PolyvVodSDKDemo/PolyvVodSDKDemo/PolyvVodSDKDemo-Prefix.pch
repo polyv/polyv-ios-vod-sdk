@@ -67,4 +67,9 @@
 //#define PLVSupportPPTScreen
 #endif
 
+// 投屏功能
+#ifndef PLVCastFeature
+//#define PLVCastFeature
+#endif
+
 #endif /* PolyvVodSDKDemo_Prefix_pch */

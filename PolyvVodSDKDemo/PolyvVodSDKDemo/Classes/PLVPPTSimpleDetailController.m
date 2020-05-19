@@ -33,6 +33,10 @@ UITableViewDelegate
     // Do any additional setup after loading the view.
     
     [self.view addSubview:self.tableView];
+    /*
+    // 需要添加播放器 logo 解开这段注释
+    [self addLogo];
+     */
 }
 
 - (void)viewWillLayoutSubviews {
@@ -149,4 +153,27 @@ UITableViewDelegate
     }
 }
 
+#pragma mark - Private
+/*
+// 需要添加播放器 logo 解开这段注释，在这里自定义需要的logo
+- (void)addLogo {
+    PLVVodPlayerLogo *playerLogo = [[PLVVodPlayerLogo alloc] init];
+    
+    PLVVodPlayerLogoParam *vodLogoParam = [[PLVVodPlayerLogoParam alloc] init];
+    vodLogoParam.logoWidthScale = 0.2;
+    vodLogoParam.logoHeightScale = 0.2;
+    vodLogoParam.logoUrl = @"https://wwwimg.polyv.net/assets/dist/images/web3.0/doc-home/logo-vod.png";
+    [playerLogo insertLogoWithParam:vodLogoParam];
+    
+    PLVVodPlayerLogoParam *polyvLogoParam = [[PLVVodPlayerLogoParam alloc] init];
+    polyvLogoParam.logoWidthScale = 0.1;
+    polyvLogoParam.logoHeightScale = 0.1;
+    polyvLogoParam.logoAlpha = 0.5;
+    polyvLogoParam.position = PLVVodPlayerLogoPositionLeftDown;
+    polyvLogoParam.logoUrl = @"https://wwwimg.polyv.net/assets/certificate/polyv-logo.jpeg";
+    [playerLogo insertLogoWithParam:polyvLogoParam];
+    
+    [self addLogoWithParam:@[vodLogoParam, polyvLogoParam]];
+}
+*/
 @end

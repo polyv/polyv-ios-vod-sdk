@@ -41,6 +41,10 @@
 #pragma mark - init & dealloc
 
 - (void)dealloc {
+    if (self.cellHeights != NULL){
+        free(self.cellHeights);
+        self.cellHeights = NULL;
+    }
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -177,6 +181,10 @@
     
     // 计算cell的高度
     int count = (int)_question.options.count;
+    if (self.cellHeights != NULL){
+        free(self.cellHeights);
+        self.cellHeights = NULL;
+    }
     self.cellHeights = malloc(sizeof(CGFloat) * count);
     for (int i=0; i<count; i++) { // 根据每个cell的文字计算每个cell适合的高度
         NSString *optionText = [NSString stringWithFormat:@"%@ %@", [self optionOrderWithIndex:i], self.question.options[i]];

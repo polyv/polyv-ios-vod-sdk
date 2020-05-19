@@ -11,6 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class PLVVodPlayerLogoParam;
+
 @protocol PLVPPTVideoViewControllerProtocol <NSObject>
 
 - (void)videoWithVid:(NSString *)vid title:(NSString *)title hasPPT:(BOOL)hasPPT localPlay:(BOOL)localPlay;
@@ -51,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAudioAniViewCornerRadius:(CGFloat)cornerRadius;
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime;
+
+- (void)addLogoWithParam:(NSArray <PLVVodPlayerLogoParam *> *)paramArray;
 
 @end
 

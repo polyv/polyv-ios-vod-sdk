@@ -10,7 +10,9 @@
 #import "PLVVodPlayerSkin.h"
 #import "PLVVodSkinPlayerController.h"
 #import "PLVVFloatingWindow.h"
-//#import "PLVCastBusinessManager.h" // 投屏功能管理器
+#ifdef PLVCastFeature
+#import "PLVCastBusinessManager.h" // 投屏功能管理器
+#endif
 
 // 获取导航栏高度
 #define NavHight (self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height)
@@ -30,9 +32,10 @@ PLVVFloatingWindowProtocol
 
 @property (nonatomic, assign) BOOL playInFloatingView;
 
-/*
+#ifdef PLVCastFeature
 @property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
-*/
+#endif
+
 @end
 
 
@@ -41,10 +44,10 @@ PLVVFloatingWindowProtocol
 #pragma mark - Life Cycle
 
 - (void)dealloc {
-    /*
+#ifdef PLVCastFeature
     // 若需投屏功能，则需以下代码
     [self.castBM quitAllFuntionc];
-     */
+#endif
     
     [[NSNotificationCenter defaultCenter] postNotificationName:PLVVFloatingPlayerVCLeaveNotification object:nil];
 }
@@ -71,6 +74,10 @@ PLVVFloatingWindowProtocol
     }
 
     [self.player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
+    /*
+    // 需要添加播放器 logo 解开这段注释
+    [self addLogo];
+     */
     
     // self.player.playerControl 要在调用完 '-addPlayerOnPlaceholderView:rootViewController:' 后才有值
     self.skinView = (PLVVodPlayerSkin *)self.player.playerControl;
@@ -83,12 +90,12 @@ PLVVFloatingWindowProtocol
     };
     
     // 若需投屏功能，则需以下代码来启用投屏
-    /*
+#ifdef PLVCastFeature
     if ([PLVCastBusinessManager authorizationInfoIsLegal]) {
         self.castBM = [[PLVCastBusinessManager alloc] initCastBusinessWithListPlaceholderView:self.view player:self.player];
         [self.castBM setup];
     }
-     */
+#endif
 }
 
 #pragma mark - Override
@@ -164,6 +171,29 @@ PLVVFloatingWindowProtocol
         }
     }];
 }
+
+/*
+// 需要添加播放器 logo 解开这段注释，在这里自定义需要的logo
+- (void)addLogo {
+    PLVVodPlayerLogo *playerLogo = [[PLVVodPlayerLogo alloc] init];
+    
+    PLVVodPlayerLogoParam *vodLogoParam = [[PLVVodPlayerLogoParam alloc] init];
+    vodLogoParam.logoWidthScale = 0.2;
+    vodLogoParam.logoHeightScale = 0.2;
+    vodLogoParam.logoUrl = @"https://wwwimg.polyv.net/assets/dist/images/web3.0/doc-home/logo-vod.png";
+    [playerLogo insertLogoWithParam:vodLogoParam];
+    
+    PLVVodPlayerLogoParam *polyvLogoParam = [[PLVVodPlayerLogoParam alloc] init];
+    polyvLogoParam.logoWidthScale = 0.1;
+    polyvLogoParam.logoHeightScale = 0.1;
+    polyvLogoParam.logoAlpha = 0.5;
+    polyvLogoParam.position = PLVVodPlayerLogoPositionLeftDown;
+    polyvLogoParam.logoUrl = @"https://wwwimg.polyv.net/assets/certificate/polyv-logo.jpeg";
+    [playerLogo insertLogoWithParam:polyvLogoParam];
+    
+    [self.player addPlayerLogo:playerLogo];
+}
+*/
 
 #pragma mark - UIScrollView Delegate
 

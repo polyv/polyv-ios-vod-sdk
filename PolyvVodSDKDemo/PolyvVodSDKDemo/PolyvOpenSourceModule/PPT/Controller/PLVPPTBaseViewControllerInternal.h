@@ -42,6 +42,9 @@
 // 加载 ppt 失败时可使用该方法进行再次获取
 - (void)reGetPPTData;
 
+// 添加播放器 logo
+- (void)addLogoWithParam:(NSArray <PLVVodPlayerLogoParam *> *)paramArray;
+
 @end
 
 #else

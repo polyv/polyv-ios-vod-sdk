@@ -14,7 +14,9 @@
 #import "DLTabedSlideView.h"
 #import "PLVVodSkinPlayerController.h"
 
+#ifdef PLVCastFeature
 #import "PLVCastBusinessManager.h"
+#endif
 
 @interface PLVCourseDetailController ()<DLTabedSlideViewDelegate>
 
@@ -25,14 +27,18 @@
 
 @property (weak, nonatomic) IBOutlet DLTabedSlideView *tabedSlideView;
 
+#ifdef PLVCastFeature
 @property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
+#endif
 
 @end
 
 @implementation PLVCourseDetailController
 
 - (void)dealloc {
+#ifdef PLVCastFeature
     [self.castBM quitAllFuntionc];
+#endif
 	NSLog(@"%s - %@", __FUNCTION__, [NSThread currentThread]);
 }
 
@@ -87,19 +93,25 @@
 	courseVideoList.videoDidSelect = ^(PLVVodVideo *video) {
 		//NSLog(@"video: %@", video.title);
         
+#ifdef PLVCastFeature
         if (weakSelf.castBM.castManager.connected) {
             [weakSelf showMessage:@"请先退出投屏再切换"];
         }else{
             weakSelf.player.video = video;
         }
+#else
+        weakSelf.player.video = video;
+#endif
         
 	};
     
     // 若需投屏功能，则需以下代码来启用投屏
+#ifdef PLVCastFeature
     if ([PLVCastBusinessManager authorizationInfoIsLegal]) {
         self.castBM = [[PLVCastBusinessManager alloc]initCastBusinessWithListPlaceholderView:self.view player:self.player];
         [self.castBM setup];
     }
+#endif
 }
 
 - (void)setupUI {

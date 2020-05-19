@@ -8,8 +8,6 @@
 
 #import "PLVVodSkinPlayerController.h"
 #import "PLVVodPlayerSkin.h"
-#import "PLVVodDanmuManager.h"
-#import "PLVTimer.h"
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodExamViewController.h"
 #import <PLVVodSDK/PLVVodExam.h>
@@ -17,11 +15,24 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <PLVMarquee/PLVMarquee.h>
 #import <MediaPlayer/MPVolumeView.h>
-//#import "PLVCastBusinessManager.h" // 若需投屏功能，请解开此注释
 #import <AlicloudUtils/AlicloudReachabilityManager.h>
 #import <PLVVodSDK/PLVVodDownloadManager.h>
 #import <PLVVodSDK/PLVVodLocalVideo.h>
+#import <AVFoundation/AVFoundation.h>
 
+#if __has_include(<PLVVodDanmu/PLVVodDanmuManager.h>)
+#import <PLVVodDanmu/PLVVodDanmuManager.h>
+#else
+#import "PLVVodDanmuManager.h"
+#endif
+#if __has_include(<PLVTimer/PLVTimer.h>)
+#import <PLVTimer/PLVTimer.h>
+#else
+#import "PLVTimer.h"
+#endif
+#ifdef PLVCastFeature
+#import "PLVCastBusinessManager.h" // 若需投屏功能，请解开此注释
+#endif
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -55,6 +66,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
 /// 修改系统音量
 @property (nonatomic, strong) MPVolumeView *volumeView;
+@property (nonatomic, assign) double currentVolume;
 
 /// 视频播放判断网络类型功能所需的延迟操作事件
 @property (nonatomic, copy) void (^networkTipsConfirmBlock) (void);
@@ -165,7 +177,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     }
     
     if (maxPosition <= 0 || maxPosition <= self.maxPosition) {
-        NSLog(@"当前进度小于0，或低于历史记录最长播放进度，不保存");
+//        NSLog(@"当前进度小于0，或低于历史记录最长播放进度，不保存");
         return;
     }
     
@@ -292,17 +304,19 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     
     // 若需投屏功能，请解开以下注释
     // 仅在投屏信息设置有效 及 ‘防录屏’开关为NO 时投屏按钮会显示
-//    if ([PLVCastBusinessManager authorizationInfoIsLegal] && self.videoCaptureProtect == NO) {
-//        PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
-//        skin.castButton.hidden = NO;
-//        skin.castButtonInFullScreen.hidden = NO;
-//    }
+#ifdef PLVCastFeature
+    if ([PLVCastBusinessManager authorizationInfoIsLegal] && self.videoCaptureProtect == NO) {
+        PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+        skin.castButton.hidden = NO;
+        skin.castButtonInFullScreen.hidden = NO;
+    }
+#endif
 }
 
 #pragma mark - Timer Related
 
 - (void)addTimer {
-    if (self.restrictedDragging) {
+    if (self.restrictedDragging && _markMaxPositionTimer == nil) {
         self.markMaxPositionTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(rememberMaxPosition) userInfo:nil repeats:YES];
     }
 }
@@ -310,6 +324,14 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 - (void)removeTimer {
     [_markMaxPositionTimer invalidate];
     _markMaxPositionTimer = nil;
+}
+
+- (void)stopAndRestartTimer:(BOOL)stop {
+    if (stop) {
+        [self removeTimer];
+    } else {
+        [self addTimer];
+    }
 }
 
 - (void)rememberMaxPosition {
@@ -462,6 +484,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 #pragma mark - private
 
 - (void)setupSkin {
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    self.currentVolume = audioSession.outputVolume;
+    
 	PLVVodPlayerSkin *skin = [[PLVVodPlayerSkin alloc] initWithNibName:nil bundle:nil];
     skin.enableFloating = self.enableFloating;
 	__weak typeof(skin) _skin = skin;
@@ -818,6 +843,8 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         if (player.playbackState == PLVVodPlaybackStatePlaying) {
             [weakSelf removeCover];
         }
+        BOOL stop = (player.playbackState == PLVVodPlaybackStateStopped) || (player.playbackState == PLVVodPlaybackStatePaused) || (player.playbackState == PLVVodPlaybackStateInterrupted);
+        [weakSelf stopAndRestartTimer:stop];
         if (playbackStateHandler) {
             playbackStateHandler(player);
         }
@@ -932,9 +959,8 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
             case UIGestureRecognizerStateBegan: {
             } break;
             case UIGestureRecognizerStateChanged: {
-                self.playbackVolume -= veloctyPoint.y/10000;
-                
-                [self changeVolume:self.playbackVolume];
+                self.currentVolume -= veloctyPoint.y/10000;
+                [self changeVolume:self.currentVolume];
             } break;
             case UIGestureRecognizerStateEnded: {
             } break;
@@ -965,6 +991,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 }
 
 - (void)changeVolume:(CGFloat)distance {
+    if (distance > 1) { distance = 1; }
+    else if (distance < 0) { distance = 0; }
+    
     if (self.volumeView == nil) {
         self.volumeView = [[MPVolumeView alloc] init];
         self.volumeView.showsVolumeSlider = YES;
@@ -1059,11 +1088,8 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 }
 
 - (void)stopForwardWithGesture:(UIGestureRecognizer *)recognizer {
-    UILongPressGestureRecognizer *longPress = nil;
-    if ([recognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
-       longPress = (UILongPressGestureRecognizer *)recognizer;
-    } else {
-       return;
+    if (![recognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+        return;
     }
     
     if (self.longPressForward) {

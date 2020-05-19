@@ -13,9 +13,9 @@
 #import "PLVPPTActionView.h"
 #import "PLVPPTLoadFailAlertView.h"
 #import <PLVVodSDK/PLVVodSDK.h>
-
+#ifdef PLVCastFeature
 #import "PLVCastBusinessManager.h"
-
+#endif
 @interface PLVPPTBaseViewController (PPT)
 
 - (void)getPPT;
@@ -52,9 +52,9 @@ PLVFloatingViewProtocol
 
 // 是否播放本地缓存
 @property (nonatomic, assign) BOOL localPlay;
-
+#ifdef PLVCastFeature
 @property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
-
+#endif
 @end
 
 @implementation PLVPPTBaseViewController
@@ -71,10 +71,12 @@ PLVFloatingViewProtocol
     [self.videoController playWithVid:self.vid offline:self.isOffline];
     
     // 若需投屏功能，则需以下代码来启用投屏
+#ifdef PLVCastFeature
     if ([PLVCastBusinessManager authorizationInfoIsLegal]) {
         self.castBM = [[PLVCastBusinessManager alloc] initCastBusinessWithListPlaceholderView:self.view player:self.videoController.player];
         [self.castBM setup];
     }
+#endif
 }
 
 - (void)viewWillLayoutSubviews {
@@ -105,7 +107,10 @@ PLVFloatingViewProtocol
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     _videoController.delegate = nil;
     _floatingView.delegate = nil;
+    
+#ifdef PLVCastFeature
     [self.castBM quitAllFuntionc];
+#endif
 }
 
 #pragma mark - Getter & Setter
@@ -595,6 +600,10 @@ PLVFloatingViewProtocol
 
 - (void)getPPTFailCallback {
     [self getPPTDataSuccess:NO ppt:nil];
+}
+
+- (void)addLogoWithParam:(NSArray <PLVVodPlayerLogoParam *> *)paramArray {
+    [self.videoController addLogoWithParam:paramArray];
 }
 
 #pragma mark - Private

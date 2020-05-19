@@ -28,7 +28,9 @@
 			// 维护变量
 			if (videos.count) {
 				section.videos = videos;
-				[sections addObject:section];
+                if (section){
+                    [sections addObject:section];
+                }
 				videos = [NSMutableArray array];
 			}
 			

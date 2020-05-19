@@ -8,7 +8,11 @@
 
 #import "PLVVodDanmuSendView.h"
 #import "UIColor+PLVVod.h"
+#if __has_include(<PLVVodDanmu/PLVVodDanmu.h>)
+#import <PLVVodDanmu/PLVVodDanmu.h>
+#else
 #import "PLVVodDanmu.h"
+#endif
 
 @interface PLVVodDanmuSendView ()
 
