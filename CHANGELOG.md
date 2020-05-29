@@ -14,82 +14,150 @@
 
 ### Added
 
-- 提供参数控制视频预加载视频的时长及大小
-`PLVVodSkinPlayerController`
-`@property (nonatomic, assign) NSInteger maxCacheSize;` 预加载缓冲大小，单位字节
-`@property (nonatomic, assign) NSInteger maxCacheDuration;` 预加载缓冲时长，单位秒
-`@property (nonatomic, assign) NSInteger minCacheFrame;` 预加载最小缓冲帧数
-- 支持延迟启动 HttpDNS，默认配置加密串时启动，延迟启动需在配置加密串之前设置
-`PLVVodSettings`
-`@property (class, nonatomic, assign) BOOL delayHttpDNS;` 延迟启动 HttpDNS，enableHttpDNS 为 YES 时生效，默认 NO
-`@property (class, nonatomic, assign) NSInteger delayHttpDNSTime;` 延迟启动 HttpDNS 的时间，delayHttpDNS 为 YES 时生效，默认 2，单位秒
-- 支持对播放器设置最多两个 logo，代码示例参考 demo 中的 `- (void)addLogo` 方法
-`PLVVodPlayerViewController`
-`- (void)addPlayerLogo:(PLVVodPlayerLogo *)logo;` 为播放器增加 logo 显示图层
-`PLVVodPlayerLogo`
-`- (void)insertLogoWithParam:(PLVVodPlayerLogoParam *)param;` 为 logo 图层添加 logo 图片
-logo 图片配置参数类 `PLVVodPlayerLogoParam`
+- 【SDK】提供参数控制视频预加载视频的时长及大小
+
+```Objective-C
+@interface PLVVodPlayerViewController : UIViewController
+@property (nonatomic, assign) NSInteger maxCacheSize; // 预加载缓冲大小，单位字节
+@property (nonatomic, assign) NSInteger maxCacheDuration; // 预加载缓冲时长，单位秒
+@property (nonatomic, assign) NSInteger minCacheFrame; // 预加载最小缓冲帧数
+@end
+```
+
+- 【SDK】支持延迟启动 HttpDNS，默认配置加密串时启动，延迟启动需在配置加密串之前设置
+
+```Objective-C
+@interface PLVVodSettings : NSObject
+@property (class, nonatomic, assign) BOOL delayHttpDNS; // 延迟启动 HttpDNS，enableHttpDNS 为 YES 时生效，默认 NO
+@property (class, nonatomic, assign) NSInteger delayHttpDNSTime; // 延迟启动 HttpDNS 的时间，delayHttpDNS 为 YES 时生效，默认 2，单位秒
+```
+
+- 【SDK】支持对播放器设置最多两个 logo，代码示例参考 demo 中的 `- (void)addLogo` 方法
+
+```Objective-C
+@class PLVVodPlayerLogoParam // logo 配置参数类
+
+/// logo 图层 UIView 子类
+@interface PLVVodPlayerLogo : UIView
+- (void)insertLogoWithParam:(PLVVodPlayerLogoParam *)param; // 为 logo 图层添加 logo 图片
+@end
+
+@interface PLVVodPlayerViewController  : UIViewController
+- (void)addPlayerLogo:(PLVVodPlayerLogo *)logo; // 为播放器增加 logo 显示图层
+@end
+```
 
 ### Changed
 
-- 移除依赖库 PLVNetworkDiagnosisTool
+- 【Demo】增加投屏功能宏定义 `PLVCastFeature`
+- 【SDK】移除依赖库 PLVNetworkDiagnosisTool
 
 ### Fixed
 
-- 支持播放 wav 格式的音频文件
-- 修复手势滑动播放器改变音量会不准确的问题
-- 修复线上崩溃
+- 【Demo】修复手势滑动播放器改变音量会不准确的问题
+- 【SDK】支持播放 wav 格式的音频文件
+- 【SDK】修复线上崩溃
+
+
 
 ## [2.8.1] - 2020-05-08
 
 ### Fixed
-移除 UIWebView
+【SDK】移除 UIWebView 相关内容
+
+
 
 ## [2.8.0] - 2020-03-31
 
 ### Added
 
-- 增加长按屏幕快进手势
+- 【SDK, Demo】支持长按屏幕快进
 
-  `PLVVodPlayerViewController` 的属性 `gestureType` 增加枚举值长按`PLVVodGestureTypeLongPress` 和长按取消`PLVVodGestureTypeLongPressEnd` 
+```Objective-C
+@interface PLVVodSkinPlayerController : PLVVodPlayerViewController
+@property (nonatomic, assign) BOOL disableLongPressGesture; // 是否屏蔽长按倍速快进手势，默认为 NO
+@property (nonatomic, assign) double longPressPlaybackRate; // 长按快进时的倍速，默认为 2.0
+@end
+```
 
-  `PLVVodSkinPlayerController`
+- 【SDK, Demo】增加全屏播放时视频方向设置，需同步更新播放器皮肤（路径 PolyvOpenSourceModule/Skin）
 
-  `@property (nonatomic, assign) BOOL disableLongPressGesture;` 是否屏蔽长按倍速快进手势，默认为 NO
+```Objective-C
+typedef NS_ENUM(NSInteger, PLVVodFullScreenOrientation) {
+    PLVVodFullScreenOrientationAuto = 0, // 根据视频宽高比自动判断，当宽高比 >=1 时，横向全屏；当宽高比 <1 时，竖向全屏
+    PLVVodFullScreenOrientationPortrait, // 竖向全屏
+    PLVVodFullScreenOrientationLandscape, // 横向全屏
+};
 
-  `@property (nonatomic, assign) double longPressPlaybackRate;` 长按快进时的倍速，默认为 2.0
+@interface PLVVodPlayerViewController : UIViewController
+@property (nonatomic, assign) PLVVodFullScreenOrientation fullScreenOrientation; // 设置全屏方向
+@property (nonatomic, copy) void (^didFullScreenSwitch)(BOOL fullScreen); // 全屏状态变化回调
+- (void)setPlayerFullScreen:(BOOL)full; // 设置播放器是否处于全屏模式
+@end
+```
 
-- 增加全屏播放时视频方向设置
+- 【Demo】增加禁止拖拽进度条的开关，应在调用方法 `-addPlayerOnPlaceholderView:rootViewController` 之前设置
 
-  `PLVVodPlayerViewController`
+```Objective-C
+@interface PLVVodSkinPlayerController : PLVVodPlayerViewController
+@property (nonatomic, assign) BOOL restrictedDragging; // 是否限制拖拽进度功能，默认为 NO，可随意拖拽进度
+@property (nonatomic, assign) BOOL allForbidDragging; // 在属性 restrictedDragging 为 YES 的基础上，是否允许对已播放的进度进行拖拽
+@end
+```
 
-  `@property (nonatomic, assign) PLVVodFullScreenOrientation fullScreenOrientation;`
-
-- [demo]增加禁止拖拽进度条的开关
-
-  `PLVVodSkinPlayerController`
-
-  `@property (nonatomic, assign) BOOL restrictedDragging;` 是否限制拖拽进度功能，默认为 NO，可随意拖拽进度
-
-  `@property (nonatomic, assign) BOOL allForbidDragging;` 在属性 restrictedDragging 为 YES 的基础上，是否允许对已播放的进度进行拖拽
-
-- [demo]增加支持悬浮窗播放的功能
-
-  `PLVVodSkinPlayerController`
-
-  `@property (nonatomic, assign) BOOL enableFloating;` 是否启动悬浮窗功能，默认为 NO
+- 【Demo】增加支持悬浮窗播放的功能，需引入 demo 中路径 PolyvOpenSourceModule/Floating 下的开源代码到项目中
 
 ### Changed
 
-- 支持播放离线视频时弹出问答题目
-- 请求视频资源时区分下载和播放行为
-- httpdns 库冲突集成优化，解决阿里云相关公共库冲突
+- 【SDK】支持播放离线视频时弹出问答题目
+- 【SDK】请求视频资源时区分下载和播放行为
 
 ### Fixed
 
-- 子线程中销毁播放器导致的崩溃问题
-- 子线程中播放可能导致的崩溃问题
-- [demo] 关闭弹幕开关失效问题
+- 【Demo】关闭弹幕开关失效问题
+- 【SDK】子线程中播放可能导致的崩溃问题
+
+
+
+## [2.7.1] - 2020-03-22
+
+### Added
+
+- 【SDK】`PLVVodDownloadManager` 增加以下方法：
+
+  ```objective-c
+  /// 迁移已经缓存的视频数据
+  - (BOOL)moveDownloadVideoFromSourceDir:(NSString *)sourceDir toDestDir:(NSString *)destDir;
+  /// 开始指定vid视频下载，根据priority 参数执行不同的下载策略
+  - (void)startDownloadWithVid:(NSString *)vid highPriority:(BOOL)priority; 
+  /// 停止下载指定视频，可选择是否自动开启下一个视频的下载
+  - (void)stopDownloadWithVid:(NSString *)vid autoNext:(BOOL)autoNext; 
+  ```
+
+- 【SDK】`PLVVodPlayerViewController` 新增 `-leavePlayerWithPause` 方法
+
+  ```objective-c
+  /// 离开播放器并暂停
+  - (void)leavePlayerWithPause;
+  ```
+
+### Changed
+
+- 【SDK】支持 pod subspec 方式集成，可解决依赖库冲突问题
+
+### Fixed
+
+- 【SDK】子线程中销毁播放器导致的崩溃问题
+
+
+
+## [2.7.0] - 2020-01-06
+
+### Changed
+
+- 【SDK】更改依赖库 PolyvIJKPlayer 为动态库，同时，PolyvIJKPlayer 的 framework 包名从 IJKMediaFramework 改为 PolyvIJKMediaFramework
+
+
 
 ## [2.6.6] - 2020-01-06
 
@@ -138,6 +206,8 @@ logo 图片配置参数类 `PLVVodPlayerLogoParam`
 ### Fixed
 - 清除下载目录所有视频时，同时清除数据库记录
 - 自动播放参数在setURL 方法不生效问题修复
+
+
 
 ## [2.6.4] - 2019-08-13
 
