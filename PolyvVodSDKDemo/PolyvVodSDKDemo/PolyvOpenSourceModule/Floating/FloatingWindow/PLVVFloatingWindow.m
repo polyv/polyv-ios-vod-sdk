@@ -35,6 +35,8 @@
 
 @property (nonatomic, strong) NSTimer *timer;
 
+@property (nonatomic, assign) BOOL orientationChanged;
+
 @end
 
 @implementation PLVVFloatingWindow
@@ -45,11 +47,6 @@
     if (self = [super init]) {
         self.hidden = YES;
         self.windowLevel = UIWindowLevelNormal + 1;
-        
-        // 如需修改悬浮窗尺寸、宽高比及初始化位置，可在此修改这三个属性
-        self.windowWidth = PLV_ScreenWidth / 2.0;
-        self.sizeScale = 16.0 / 9.0;
-        self.originPoint = CGPointMake(PLV_ScreenWidth - self.windowWidth - 10, PLV_ScreenHeight - self.windowWidth / self.sizeScale - 100);
         
         [self reset];
         
@@ -66,8 +63,20 @@
                                                  selector:@selector(ijkPlayerCreate:)
                                                      name:kNotificationIJKPlayerCreateKey
                                                    object:nil];
+        // 横竖屏切换通知
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(interfaceOrientationDidChange:)
+                                                     name:UIApplicationDidChangeStatusBarOrientationNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    if (self.orientationChanged) {
+        [self reset];
+        self.orientationChanged = NO;
+    }
 }
 
 - (void)dealloc {
@@ -117,6 +126,11 @@
 
 /// 恢复悬浮窗大小与位置
 - (void)reset {
+    // 如需修改悬浮窗尺寸、宽高比及初始化位置，可在此修改这三个属性
+    self.windowWidth = MIN(PLV_ScreenWidth, PLV_ScreenHeight) / 2.0;
+    self.sizeScale = 16.0 / 9.0;
+    self.originPoint = CGPointMake(PLV_ScreenWidth - self.windowWidth - 10, PLV_ScreenHeight - self.windowWidth / self.sizeScale - 100);
+    
     CGFloat width = self.windowWidth;
     CGFloat height = width / self.sizeScale;
     self.frame = CGRectMake(self.originPoint.x, self.originPoint.y, width, height);
@@ -232,6 +246,12 @@
 - (void)invalidTimer {
     [self.timer invalidate];
     self.timer = nil;
+}
+
+#pragma mark - NSNotification related
+
+- (void)interfaceOrientationDidChange:(NSNotification *)notification {
+    self.orientationChanged = YES;
 }
 
 @end

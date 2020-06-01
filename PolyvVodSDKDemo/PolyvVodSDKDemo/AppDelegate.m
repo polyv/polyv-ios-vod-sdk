@@ -13,7 +13,6 @@
 #import "PLVSchool.h"
 #import "PLVVodAccountVideo.h"
 #import <PLVVodSDK/PLVVodSDK.h>
-#import <PolyvIJKMediaFramework/PolyvIJKMediaFramework.h>
 #import "PLVVodDownloadHelper.h"
 #import "PLVVodDBManager.h"
 

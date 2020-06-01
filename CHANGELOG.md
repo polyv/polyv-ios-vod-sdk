@@ -10,6 +10,28 @@
 ### Removed
 ### Fixed -->
 
+## [2.9.1] - 2020-06-01
+
+### Added
+
+- 【SDK】新增获取当前播放视频 pid 方法和获取实时播放状态的方法：
+
+  ```Objective-C
+  @interface PLVVodPlayerViewController : UIViewController
+  - (NSString *)getPlayId;// 返回当前播放视频的 pid
+  - (NSDictionary *)getRealPlayStatus; // 返回播放器实时状态
+  @end
+  ```
+
+- 【SDK】根据后台设置控制 Viewlog 发送频率，默认 10 秒发送一次。
+
+### Fixed
+
+- 【SDK】启动 app 时 iOS 13.4 部分机型偶发性崩溃问题修复
+- 【Demo】悬浮窗示例代码在横竖屏切换时，悬浮窗比例发生变化问题修复，需同步更新悬浮窗开源代码（PolyvOpenSourceModule/Floating）
+
+
+
 ## [2.9.0] - 2020-05-19
 
 ### Added

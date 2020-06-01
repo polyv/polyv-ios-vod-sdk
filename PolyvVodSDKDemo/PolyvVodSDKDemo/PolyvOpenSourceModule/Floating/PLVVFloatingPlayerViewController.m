@@ -71,6 +71,9 @@ PLVVFloatingWindowProtocol
         [self setupPlayer];
     } else { // 使用 player 初始化时
         self.vid = self.player.video.vid;
+        if (self.navigationController) {
+            [self.navigationController setNavigationBarHidden:self.player.playerControl.shouldHideNavigationBar animated:NO];
+        }
     }
 
     [self.player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
@@ -120,7 +123,9 @@ PLVVFloatingWindowProtocol
 
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, NavHight, PLV_ScreenWidth, PLV_ScreenHeight - NavHight)];
+        CGFloat screenWidth = MIN(PLV_ScreenWidth, PLV_ScreenHeight);
+        CGFloat screenHeight = MAX(PLV_ScreenWidth, PLV_ScreenHeight);
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, NavHight, screenWidth, screenHeight - NavHight)];
         _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, _scrollView.frame.size.height * 2);
         _scrollView.delegate = self;
     }
