@@ -89,8 +89,4 @@
 	[downloadManager startDownload];
 }
 
-- (IBAction)testAction:(UIBarButtonItem *)sender {
-	NSLog(@"%s", __FUNCTION__);
-}
-
 @end

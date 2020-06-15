@@ -10,7 +10,7 @@
 #import "PLVCourseNetworking.h"
 #import "PLVCourse.h"
 #import <PLVVodSDK/PLVVodSDK.h>
-#import "PLVSchool.h"
+#import "PLVVodAccount.h"
 #import "PLVVodAccountVideo.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "PLVVodDownloadHelper.h"
@@ -123,24 +123,12 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
     NSError *error = nil;
 
 #ifndef PLVSupportSubAccount
-    PLVSchool *school = [PLVSchool sharedInstance];
-    NSString *vodKey = school.vodKey;
-    NSString *decodeKey = school.vodKeyDecodeKey;
-    NSString *decodeIv = school.vodKeyDecodeIv;
-    PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:vodKey
-                                                                    key:decodeKey
-                                                                     iv:decodeIv
+    PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:PLVVodConfigString
+                                                                    key:PLVVodDecodeKey
+                                                                     iv:PLVVodDecodeIv
                                                                   error:&error];
-    NSLog(@"-- %@ ", settings.secretkey);
-    
 #else
-    
-    NSString *appId = @"";
-    NSString *secretKey = @"";
-    NSString *userId = @"";
-    
-    PLVVodSettings *settings = [PLVVodSettings settingsWithAppId:appId secretKey:secretKey userId:userId];
-    
+    PLVVodSettings *settings = [PLVVodSettings settingsWithAppId:PLVVodSubAccountAppId secretKey:PLVVodSubAccountSecretKey userId:PLVVodUserId];
 #endif
     
     settings.logLevel = PLVVodLogLevelAll;
@@ -151,7 +139,6 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
     settings.viewerInfos.viewerExtraInfo2 = @"自定义参数param4";
     settings.viewerInfos.viewerExtraInfo3 = @"自定义参数param5";
 
-    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:PLVApplySettingKey]) {
         // 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
         NSString *userVodKey = [[NSUserDefaults standardUserDefaults] stringForKey:PLVVodKeySettingKey];

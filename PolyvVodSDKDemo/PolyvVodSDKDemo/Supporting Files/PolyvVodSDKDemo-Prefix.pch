@@ -51,10 +51,6 @@
 // 支持子账号配置,默认不支持
 #ifndef PLVSupportSubAccount
 //#define PLVSupportSubAccount
-
-// 主帐号加密key
-#define PLV_MastSecretKey @""
-
 #endif
 
 // 支持自定义问答功能

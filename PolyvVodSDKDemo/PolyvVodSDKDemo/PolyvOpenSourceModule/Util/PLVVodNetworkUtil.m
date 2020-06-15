@@ -8,6 +8,7 @@
 
 #import "PLVVodNetworkUtil.h"
 #import "NSString+PLVVod.h"
+#import "PLVVodAccount.h"
 #import <PLVVodSDK/PLVVodSettings.h>
 
 NSString *PLVVodNetworkingErrorDomain = @"net.polyv.vod.error.networking";
@@ -68,7 +69,7 @@ NSString *PLVVodNetworkingErrorDomain = @"net.polyv.vod.error.networking";
     
     NSString *paramString = [self convertDictionaryToSortedString:params];
 #ifdef PLVSupportSubAccount
-    NSMutableString *plainSign = [NSMutableString stringWithFormat:@"%@%@", paramString, PLV_MastSecretKey];
+    NSMutableString *plainSign = [NSMutableString stringWithFormat:@"%@%@", paramString, PLVVodSecretKey];
 #else
     NSMutableString *plainSign = [NSMutableString stringWithFormat:@"%@%@", paramString, [PLVVodSettings sharedSettings].secretkey];
 

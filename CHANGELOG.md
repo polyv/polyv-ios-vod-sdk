@@ -4,11 +4,21 @@
 
 > 该项目已发布在 CocoaPods 中，查看各版本可使用 `pod trunk info PolyvVodSDK` 命令。
 
-<!-- ## [Unreleased]
-### Added
+<!--  Added Changed Removed Fixed -->
+
+## [2.10.0] - 2020-06-15
+
 ### Changed
-### Removed
-### Fixed -->
+
+- 【Demo】SDK 账号加密串等统一定义在 `PLVVodAccount` 中
+
+### Fixed
+
+- 【Demo】修复vid测试播放页面输入框被键盘挡住的bug
+- 【SDK】修复播放器全屏时偶发的崩溃
+- 【SDK】修复记住上一次播放位置有时没生效的bug
+
+
 
 ## [2.9.1] - 2020-06-01
 

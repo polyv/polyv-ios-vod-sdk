@@ -42,24 +42,6 @@ static id _sharedInstance = nil;
 	// 网校信息
 	self.host = @"sdk.dewx.net";
 	self.schoolKey = @"989BCBAD980580763EC113D3602C985C";
-	
-	// 对应的点播账号信息
-    BOOL userDefault = YES;
-    if (userDefault){
-        
-        // 网校
-        // polyv
-        self.vodKey = @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
-        
-        self.vodKeyDecodeKey = @"VXtlHmwfS2oYm0CZ";
-        self.vodKeyDecodeIv = @"2u9gDPKdX6GyQJKU";
-
-    }
-    else{
-        
-        // TODO： 配置个人账号信息，方便测试
-       
-    }
 }
 
 @end
