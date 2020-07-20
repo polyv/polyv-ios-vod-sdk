@@ -6,9 +6,7 @@
 
 [点击安装](https://www.pgyer.com/yDqA)，或扫描下方二维码使用 Safari 安装。
 
-![](https://www.pgyer.com/app/qrcode/yDqA)
-
-安装密码：polyv
+![](https://www.pgyer.com/app/qrcode/Li0i)
 
 试用的内测 App 使用企业签名，若运行中遇到问题，可参见 [wiki-12.FAQ](https://github.com/polyv/polyv-ios-vod-sdk/wiki/12.FAQ)。
 
