@@ -39,4 +39,7 @@ extern NSString *PLVVodADAndTeasersPlayFinishNotification;
 /// 是否启动悬浮窗功能，默认为 NO，若需打开，请在调用方法 ‘-addPlayerOnPlaceholderView:rootViewController:’ 之前设置
 @property (nonatomic, assign) BOOL enableFloating;
 
+/// 当前视频在当前设备播放达到的最长进度，用于属性 partlyDragging 对用户未观看部分进行限制拖拽
+@property (nonatomic, assign) NSTimeInterval maxPosition;
+
 @end

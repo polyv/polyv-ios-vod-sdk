@@ -8,6 +8,7 @@
 
 #import "PLVCastManager.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
+#import <AlicloudUtils/AlicloudReachabilityManager.h>
 
 // 定时器时间
 // 两者不能一样 否则任务无法区分
@@ -141,13 +142,15 @@ static PLVCastManager * manager = nil;
             ssid = info[@"SSID"];
         }
     }
+    if (!ssid && [self wifiCanUse]) {
+        ssid = @"获取 WIFI 名称失败";
+    }
     return ssid;
 }
 
 + (BOOL)wifiCanUse{
-    NSString * wifiName = [self getWifiName];
-    if (wifiName == nil || [wifiName isKindOfClass: [NSString class]] == NO || wifiName.length == 0) return NO;
-    return YES;
+    AlicloudReachabilityManager *reachability = [AlicloudReachabilityManager shareInstance];
+    return [reachability isReachableViaWifi];
 }
 
 - (void)quitAllFuntionc{

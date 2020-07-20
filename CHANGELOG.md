@@ -6,6 +6,21 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.11.0] - 2020-07-20
+
+### Changed
+
+- 【Demo】开放 PLVVodSkinPlayerController 的属性 maxPosition 为公有属性
+
+
+### Fixed
+
+- 【Demo】修复部分机型无法投屏的问题
+- 【SDK】修复播放速率变为 0 的问题
+- 【SDK】安全性升级
+
+
+
 ## [2.10.0] - 2020-06-15
 
 ### Changed

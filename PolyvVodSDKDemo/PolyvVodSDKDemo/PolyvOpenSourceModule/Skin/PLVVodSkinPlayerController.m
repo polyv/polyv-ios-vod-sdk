@@ -85,9 +85,6 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 // 长按快进之前播放的倍速，默认为 1.0
 @property (nonatomic, assign) double originPlaybackRate;
 
-/// 当前视频在当前设备播放达到的最长进度，用于属性 partlyDragging 对用户未观看部分进行限制拖拽
-@property (nonatomic, assign) NSTimeInterval maxPosition;
-
 /// 记录最长播放进度使用的计时器
 @property (nonatomic, strong) NSTimer *markMaxPositionTimer;
 
