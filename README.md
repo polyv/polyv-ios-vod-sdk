@@ -4,7 +4,7 @@
 
 ## 试用
 
-[点击安装](https://www.pgyer.com/yDqA)，或扫描下方二维码使用 Safari 安装。
+[点击安装](https://www.pgyer.com/Li0i)，或扫描下方二维码使用 Safari 安装。
 
 ![](https://www.pgyer.com/app/qrcode/Li0i)
 
