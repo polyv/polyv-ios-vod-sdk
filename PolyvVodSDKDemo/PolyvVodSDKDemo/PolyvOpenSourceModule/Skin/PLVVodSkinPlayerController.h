@@ -42,4 +42,6 @@ extern NSString *PLVVodADAndTeasersPlayFinishNotification;
 /// 当前视频在当前设备播放达到的最长进度，用于属性 partlyDragging 对用户未观看部分进行限制拖拽
 @property (nonatomic, assign) NSTimeInterval maxPosition;
 
+- (void)playInFullscreen:(BOOL)full;
+
 @end

@@ -1,65 +1,50 @@
 {
   "images" : [
     {
-      "resizing" : {
-        "mode" : "9-part",
-        "center" : {
-          "mode" : "tile",
-          "width" : 1,
-          "height" : 1
-        },
-        "cap-insets" : {
-          "bottom" : 14,
-          "top" : 13,
-          "right" : 14,
-          "left" : 14
-        }
-      },
       "idiom" : "universal",
-      "filename" : "plv_vod_input_dm_click.png",
       "scale" : "1x"
     },
     {
+      "filename" : "plv_vod_input_dm_click@2x.png",
+      "idiom" : "universal",
       "resizing" : {
-        "mode" : "9-part",
-        "center" : {
-          "mode" : "tile",
-          "width" : 1,
-          "height" : 1
-        },
         "cap-insets" : {
           "bottom" : 28,
-          "top" : 27,
+          "left" : 27,
           "right" : 28,
-          "left" : 27
-        }
+          "top" : 27
+        },
+        "center" : {
+          "height" : 1,
+          "mode" : "tile",
+          "width" : 1
+        },
+        "mode" : "9-part"
       },
-      "idiom" : "universal",
-      "filename" : "plv_vod_input_dm_click@2x.png",
       "scale" : "2x"
     },
     {
+      "filename" : "plv_vod_input_dm_click@3x.png",
+      "idiom" : "universal",
       "resizing" : {
-        "mode" : "9-part",
-        "center" : {
-          "mode" : "tile",
-          "width" : 1,
-          "height" : 1
-        },
         "cap-insets" : {
           "bottom" : 42,
-          "top" : 41,
+          "left" : 41,
           "right" : 42,
-          "left" : 41
-        }
+          "top" : 41
+        },
+        "center" : {
+          "height" : 1,
+          "mode" : "tile",
+          "width" : 1
+        },
+        "mode" : "9-part"
       },
-      "idiom" : "universal",
-      "filename" : "plv_vod_input_dm_click@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

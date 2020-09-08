@@ -15,6 +15,7 @@
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "PLVVodDownloadHelper.h"
 #import "PLVVodDBManager.h"
+#import "PLVUploadUtil.h"
 
 #import "PLVCastBusinessManager.h"
 
@@ -44,6 +45,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 	[self updateSettingsBundle];
     
     [PLVCastBusinessManager getCastAuthorization];
+    [[PLVUploadUtil sharedUtil] loginUploadClient];
     
 	return YES;
 }

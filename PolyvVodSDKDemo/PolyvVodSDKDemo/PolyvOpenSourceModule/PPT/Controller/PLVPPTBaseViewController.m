@@ -354,11 +354,14 @@ PLVFloatingViewProtocol
     if (isLandscape){ // 横屏
         self.mainView.frame = CGRectMake(0, 0, PLV_ScreenWidth, PLV_ScreenHeight);
     } else {
-        CGRect viewFrame = self.view.frame;
         if (@available(iOS 11.0, *)) {
-            viewFrame = self.view.safeAreaLayoutGuide.layoutFrame;
+            CGRect viewFrame = self.view.safeAreaLayoutGuide.layoutFrame;
+            self.mainView.frame = CGRectMake(0, viewFrame.origin.y, PLV_ScreenWidth, PLV_ScreenWidth * 9 / 16);
+        } else {
+            CGFloat navigationHeight = [[UIApplication sharedApplication] statusBarFrame].size.height + 44;
+            self.mainView.frame = CGRectMake(0, navigationHeight, PLV_ScreenWidth, PLV_ScreenWidth * 9 / 16);
         }
-        self.mainView.frame = CGRectMake(0, viewFrame.origin.y, PLV_ScreenWidth, PLV_ScreenWidth * 9 / 16);
+        
     }
 }
 

@@ -42,10 +42,6 @@
 	if ([UIDevice currentDevice].systemVersion.integerValue < 11) {
 		self.statusBarHeight.constant = 12;
 	}
-    
-    
-    // 添加点击后的展示视图
-    [self addSubview:self.playTipsView];
 }
 
 #pragma mark -- getter
@@ -54,6 +50,7 @@
         _playTipsView = [[PLVVodPlayTipsView alloc] init];
         [_playTipsView.playBtn addTarget:self action:@selector(tipsViewPlayBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         _playTipsView.hidden = YES;
+        [self addSubview:self.playTipsView];
     }
     
     return _playTipsView;
@@ -196,7 +193,7 @@
 }
 
 - (void)hidePlayTipsView{
-    self.playTipsView.hidden = YES;
+    _playTipsView.hidden = YES;
 }
 
 // 清晰度按钮是否响应事件

@@ -6,6 +6,21 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.12.0] - 2020-09-08
+
+### Changed
+
+- 【Demo】开源点播播放器`PLVVodSkinPlayerController` 的布局代码到 Demo 层
+
+- 【Demo】png 图片大小压缩
+
+**注意：**
+
+1. 本次升级内容主要是 Demo 层的更新，如果想获得本次升级内容，除了升级 SDK 到 2.12.0 版本，还需同步更新 2.12.0 版本的 Demo 层代码。
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.11.0...v2.12.0) 查看 Demo 层的变动，手动更新Demo层源码
+
+
+
 ## [2.11.0] - 2020-07-20
 
 ### Changed

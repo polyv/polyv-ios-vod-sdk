@@ -12,6 +12,7 @@
 #import "PLVVodGestureIndicatorView.h"
 #import "PLVVodNetworkTipsView.h"
 #import "PLVVodFastForwardView.h"
+#import "PLVVodSkinPlayerController.h"
 
 @class PLVVodAudioCoverPanelView;
 @class PLVVodCoverView;
@@ -37,7 +38,7 @@
 #pragma mark - PLVVodPlayerSkinProtocol 重新声明
 
 /// 弱引用的播放器
-@property (nonatomic, weak) IBOutlet PLVVodPlayerViewController *delegatePlayer;
+@property (nonatomic, weak) IBOutlet PLVVodSkinPlayerController *delegatePlayer;
 
 /// 指导页面隐藏导航栏
 @property (nonatomic, assign) BOOL shouldHideNavigationBar;

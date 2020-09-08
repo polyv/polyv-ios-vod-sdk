@@ -64,7 +64,7 @@
                                         <constraint firstItem="xaK-Pi-qLa" firstAttribute="leading" secondItem="7vs-xS-Kqg" secondAttribute="leading" id="3BC-YG-wya"/>
                                         <constraint firstAttribute="width" constant="224" id="LzV-S4-0V8"/>
                                         <constraint firstAttribute="bottom" secondItem="xaK-Pi-qLa" secondAttribute="bottom" id="ctL-AR-ae4"/>
-                                        <constraint firstAttribute="trailing" secondItem="xaK-Pi-qLa" secondAttribute="trailing" constant="6" id="ttQ-zL-MJt"/>
+                                        <constraint firstAttribute="trailing" secondItem="xaK-Pi-qLa" secondAttribute="trailing" id="ttQ-zL-MJt"/>
                                     </constraints>
                                 </view>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="cZY-Bx-3f4">
@@ -215,13 +215,13 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstItem="TLS-gQ-8jc" firstAttribute="top" secondItem="ffe-xd-e3h" secondAttribute="bottom" constant="10" id="Bdd-FQ-uIl"/>
                                 <constraint firstItem="TLS-gQ-8jc" firstAttribute="leading" secondItem="3ap-UH-CMR" secondAttribute="leading" id="DOO-nf-3Tv"/>
                                 <constraint firstItem="ffe-xd-e3h" firstAttribute="top" secondItem="3ap-UH-CMR" secondAttribute="top" id="G35-J8-hgN"/>
                                 <constraint firstAttribute="trailing" secondItem="ffe-xd-e3h" secondAttribute="trailing" constant="16" id="TSr-ZA-62G"/>
                                 <constraint firstItem="ffe-xd-e3h" firstAttribute="leading" secondItem="3ap-UH-CMR" secondAttribute="leading" constant="16" id="V7v-EW-d1E"/>
                                 <constraint firstAttribute="trailing" secondItem="TLS-gQ-8jc" secondAttribute="trailing" id="qYr-aS-M0k"/>
                                 <constraint firstAttribute="bottom" secondItem="TLS-gQ-8jc" secondAttribute="bottom" id="uLn-07-a5U"/>
-                                <constraint firstAttribute="bottom" secondItem="ffe-xd-e3h" secondAttribute="bottom" constant="54" id="yCe-1b-rTm"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X5U-uo-nNb" userLabel="没有解析内容的容器">

@@ -39,13 +39,19 @@ UITableViewDelegate
      */
 }
 
-- (void)viewWillLayoutSubviews {
+- (void)viewDidLayoutSubviews {
     // 若覆写 “-viewWillLayoutSubviews” 必须执行 [super viewWillLayoutSubviews]; 否则影响父类布局
-    [super viewWillLayoutSubviews];
-    
-    CGFloat originY = self.mainView.frame.origin.y + self.mainView.frame.size.height;
-    self.tableView.frame = CGRectMake(0, originY, PLV_ScreenWidth, PLV_ScreenHeight - originY);
+    [super viewDidLayoutSubviews];
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(orientation);
+    if (isPortrait) {
+        CGFloat originY = self.mainView.frame.origin.y + self.mainView.frame.size.height;
+        self.tableView.frame = CGRectMake(0, originY, PLV_ScreenWidth, PLV_ScreenHeight - originY);
+    } else {
+        self.tableView.frame = self.view.bounds;
+    }
     [self.view sendSubviewToBack:self.tableView];
+    self.tableView.contentOffset = CGPointZero;
 }
 
 #pragma mark - Override

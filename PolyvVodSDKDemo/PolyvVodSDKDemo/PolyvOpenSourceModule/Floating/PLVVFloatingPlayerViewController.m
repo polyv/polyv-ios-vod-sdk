@@ -10,6 +10,7 @@
 #import "PLVVodPlayerSkin.h"
 #import "PLVVodSkinPlayerController.h"
 #import "PLVVFloatingWindow.h"
+#import "PLVVodUtils.h"
 #ifdef PLVCastFeature
 #import "PLVCastBusinessManager.h" // 投屏功能管理器
 #endif
@@ -88,6 +89,12 @@ PLVVFloatingWindowProtocol
     
     __weak typeof (self) weakSelf = self;
     self.skinView.floatingButtonTouchHandler = ^{
+        // 首先切换到竖屏
+        UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+            [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationPortrait];
+        }
+        
         [[PLVVFloatingWindow sharedInstance].contentVctrl addPlayer:weakSelf.player partnerViewController:nil];
         [weakSelf.navigationController popViewControllerAnimated:YES];
     };

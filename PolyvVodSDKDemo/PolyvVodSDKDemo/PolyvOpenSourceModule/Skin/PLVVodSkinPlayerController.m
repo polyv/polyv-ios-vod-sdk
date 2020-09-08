@@ -7,6 +7,7 @@
 //
 
 #import "PLVVodSkinPlayerController.h"
+#import "PLVVodUtils.h"
 #import "PLVVodPlayerSkin.h"
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodExamViewController.h"
@@ -19,6 +20,7 @@
 #import <PLVVodSDK/PLVVodDownloadManager.h>
 #import <PLVVodSDK/PLVVodLocalVideo.h>
 #import <AVFoundation/AVFoundation.h>
+#import <PLVMasonry/PLVMasonry.h>
 
 #if __has_include(<PLVVodDanmu/PLVVodDanmuManager.h>)
 #import <PLVVodDanmu/PLVVodDanmuManager.h>
@@ -33,9 +35,6 @@
 #ifdef PLVCastFeature
 #import "PLVCastBusinessManager.h" // 若需投屏功能，请解开此注释
 #endif
-
-#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 NSString *PLVVodPlaybackRecoveryNotification = @"PLVVodPlaybackRecoveryNotification";
 NSString *PLVVodADAndTeasersPlayFinishNotification = @"PLVVodADAndTeasersPlayFinishNotification";
@@ -1242,6 +1241,76 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 - (BOOL)isLockScreen{
     PLVVodPlayerSkin *skinController = (PLVVodPlayerSkin *)self.playerControl;
     return skinController.isLockScreen;
+}
+
+#pragma mark - Override：override 的方法请不要删除，如不需要，清空里面的代码也不能删除
+
+- (void)addPlayerOnPlaceholderView:(UIView *)placeholderView rootViewController:(UIViewController *)rootViewController {
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+    self.rootViewController = rootViewController;
+    [rootViewController addChildViewController:self];
+    self.placeholderView = placeholderView;
+    [rootViewController.view addSubview:self.view];
+    
+    [self updatePlayerConstraints];
+}
+
+- (void)interfaceOrientationDidChange:(NSNotification *)notification {
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    if ([self fullscreenMustBeLandscape]) {
+        [self playInFullscreen:(interfaceOrientation != UIInterfaceOrientationPortrait)];
+    }
+    
+    [self updatePlayerConstraints];
+}
+
+#pragma mark - Override Related Private Method
+
+- (void)playInFullscreen:(BOOL)full {
+    self.fullscreen = full;
+    
+    if (self.fullscreen == NO) {// 非全屏时一定是竖屏状态
+        [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationPortrait];
+    } else if ([self fullscreenMustBeLandscape]) {// 必须旋转屏幕才能实现全屏
+        UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+            [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationLandscapeLeft];
+        } else {
+            [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
+        }
+    }
+    
+    if (self.didFullScreenSwitch) {
+        self.didFullScreenSwitch(self.fullscreen);
+    }
+
+    [self updatePlayerConstraints];
+}
+
+- (void)updatePlayerConstraints {
+    [self.adPlayer viewDidLayoutSubviews];
+    if (self.placeholderView == nil) {
+        return;
+    }
+    
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(orientation);
+    if (isPortrait && !self.fullscreen) {
+        [self.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
+            make.edges.plv_equalTo(self.placeholderView);
+        }];
+    } else {
+        [self.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
+            make.edges.plv_equalTo(self.rootViewController.view);
+        }];
+    }
+}
+
+- (BOOL)fullscreenMustBeLandscape {
+    CGSize videoSize = [self getVideoSize];
+    BOOL must = (self.fullScreenOrientation == PLVVodFullScreenOrientationLandscape ||
+            (self.fullScreenOrientation == PLVVodFullScreenOrientationAuto && videoSize.width >= videoSize.height));
+    return !self.placeholderView || must;
 }
 
 @end

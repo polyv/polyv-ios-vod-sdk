@@ -7,6 +7,7 @@
 //
 
 #import "PLVVodPlayerSkin.h"
+#import "PLVVodUtils.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 #import "PLVVodFullscreenView.h"
 #import "PLVVodShrinkscreenView.h"
@@ -22,8 +23,6 @@
 #import "UIButton+EnlargeTouchArea.h"
 #import <Photos/Photos.h>
 
-#define isIpad(newCollection) (newCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular \
-&& newCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
 
 @interface PLVVodPlayerSkin ()<UITextFieldDelegate>
 
@@ -133,7 +132,7 @@
 	_topView = topView;
 }
 
-- (void)setDelegatePlayer:(PLVVodPlayerViewController *)delegatePlayer {
+- (void)setDelegatePlayer:(PLVVodSkinPlayerController *)delegatePlayer {
 	_delegatePlayer = delegatePlayer;
 	if (!delegatePlayer) return;
 	__weak typeof(self) weakSelf = self;
@@ -579,8 +578,8 @@
             self.shouldHideNavigationBar = YES;
         } else {
             self.mainControl = self.shrinkscreenView;
-            self.shouldHideStatusBar = self.delegatePlayer.fullscreen;
-            self.shouldHideNavigationBar = self.delegatePlayer.fullscreen;
+            self.shouldHideStatusBar = NO;
+            self.shouldHideNavigationBar = NO;
         }
     }
     
@@ -599,11 +598,11 @@
 // 横竖屏切换
 - (IBAction)switchScreenAction:(UIButton *)sender {
     if (self.mainControl == self.fullscreenView) {
-        [self.delegatePlayer setPlayerFullScreen:NO];
+        [self.delegatePlayer playInFullscreen:NO];
         return;
     }
     
-    [self.delegatePlayer setPlayerFullScreen:!self.delegatePlayer.fullscreen];
+    [self.delegatePlayer playInFullscreen:!self.delegatePlayer.fullscreen];
 }
 
 // 弹幕发送
@@ -625,7 +624,7 @@
 
 //  切换到竖屏
 - (IBAction)backAction:(UIButton *)sender {
-    [self.delegatePlayer setPlayerFullScreen:NO];
+    [self.delegatePlayer playInFullscreen:NO];
 }
 
 // 分享设置
@@ -761,11 +760,6 @@
 
 // 【悬浮窗播放】按钮点击事件
 - (IBAction)floatingButtonAction:(id)sender {
-    // 首先切换到竖屏
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-        [PLVVodPlayerViewController rotateOrientation:UIInterfaceOrientationPortrait];
-    }
     
     // 接着，执行对应的 block
     if (self.floatingButtonTouchHandler) {

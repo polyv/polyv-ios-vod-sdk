@@ -13,7 +13,6 @@
 #import "PLVCourseNetworking.h"
 #import "PLVCourseDetailController.h"
 #import "UIColor+PLVVod.h"
-#import "PLVUploadUtil.h"
 #import <PLVVodSDK/PLVVodSDK.h>
 
 @interface PLVCourseListController ()<UICollectionViewDelegateFlowLayout>
@@ -41,7 +40,6 @@ static NSString * const detialSegueId = @"course_detail";
 	[self.collectionView registerClass:[PLVTitleHeaderReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:titleHeaderId];
     
 	[self requestData];
-    [[PLVUploadUtil sharedUtil] loginUploadClient];
 	
 	// UI
 	if (@available(iOS 11.0, *)) {
