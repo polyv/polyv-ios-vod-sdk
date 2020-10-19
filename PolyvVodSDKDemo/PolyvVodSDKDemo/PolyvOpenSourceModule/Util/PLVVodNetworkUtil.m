@@ -8,7 +8,6 @@
 
 #import "PLVVodNetworkUtil.h"
 #import "NSString+PLVVod.h"
-#import "PLVVodAccount.h"
 #import <PLVVodSDK/PLVVodSettings.h>
 
 NSString *PLVVodNetworkingErrorDomain = @"net.polyv.vod.error.networking";
