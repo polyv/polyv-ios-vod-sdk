@@ -711,7 +711,7 @@
 // 视频模式按钮
 - (IBAction)videoPlaybackModeAction:(id)sender {
     self.delegatePlayer.playbackMode = PLVVodPlaybackModeVideo;
-    
+    self.delegatePlayer.allowShowToast = NO;
     // add by libl [更新线路面板] 2019-02-14 start
     [self setRouteLineCount:self.delegatePlayer.video.availableRouteLines.count];
     // add end
@@ -720,7 +720,7 @@
 // 音频模式按钮
 - (IBAction)audioPlaybackModeAction:(id)sender {
     self.delegatePlayer.playbackMode = PLVVodPlaybackModeAudio;
-    
+    self.delegatePlayer.allowShowToast = NO;
     // add by libl [更新线路面板] 2019-02-14 start
     [self setRouteLineCount:self.delegatePlayer.video.availableAudioRouteLines.count];
     // add end

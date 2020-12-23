@@ -6,6 +6,19 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.14.0] - 2020-12-23
+
+### Changed
+
+- 【SDK】添加IPV6开关
+- 【SDK】片头逻辑优化
+- 【Demo】增加禁止拖拽的提示信息
+- 【Demo】投屏开始/结束时，起播位置优化
+
+**注意：**
+
+1. 旧版本升级至 2.14.0 版本的点播 SDK，建议同步更新 2.14.0 版本的 Demo 层代码。
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.13.1...v2.14.0) 查看 Demo 层的变动，手动更新Demo层源码
 
 
 ## [2.13.1] - 2020-11-20

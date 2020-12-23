@@ -93,5 +93,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>此App将可发现和连接到您所用网络上的设备</string>
+    <key>NSBonjourServices</key>
+    <array>
+        <string>_leboremote._tcp</string>
+    </array>
 </dict>
 </plist>

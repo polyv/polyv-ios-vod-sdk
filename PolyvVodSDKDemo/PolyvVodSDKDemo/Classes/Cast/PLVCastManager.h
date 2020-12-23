@@ -110,7 +110,7 @@ typedef NS_ENUM(NSUInteger, PLVCastPlayStatus) {
 
 #pragma mark 设备播放操作
 // 使用视频模型、所选码率，来开始新的视频播放
-- (void)startPlayWithVideo:(PLVVodVideo *)video quality:(NSInteger)quality;
+- (void)startPlayWithVideo:(PLVVodVideo *)video quality:(NSInteger)quality startPosition:(NSTimeInterval)startPosition;
 
 // 暂停播放
 - (void)pause;
@@ -146,6 +146,9 @@ typedef NS_ENUM(NSUInteger, PLVCastPlayStatus) {
 
 // 是否当前连接中的设备
 @property (nonatomic, assign) BOOL isConnecting;
+
+// 当前视频的播放进度
+@property (nonatomic, assign) NSTimeInterval currentTime;
 
 @end
 

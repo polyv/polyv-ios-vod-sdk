@@ -39,6 +39,11 @@
 }
 
 - (void)commonInit{
+    if(@available(iOS 13.0, *)) {
+        self.backgroundColor = [UIColor tertiarySystemBackgroundColor];
+    } else {
+        self.backgroundColor = [UIColor whiteColor];
+    }
     self.tabbarHeight = kDefaultTabbarHeight;
     self.tabbarBottomSpacing = kDefaultTabbarBottomSpacing;
     

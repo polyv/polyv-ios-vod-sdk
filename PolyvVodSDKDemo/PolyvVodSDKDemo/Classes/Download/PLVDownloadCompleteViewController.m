@@ -44,7 +44,11 @@
    
     [self initVideoList];
     
-    self.tableView.backgroundColor = [UIColor themeBackgroundColor];
+    if(@available(iOS 13.0, *)) {
+        self.tableView.backgroundColor = [UIColor tertiarySystemBackgroundColor];
+    } else {
+        self.tableView.backgroundColor = [UIColor themeBackgroundColor];
+    }
     self.tableView.tableFooterView = [UIView new];
     self.tableView.allowsSelection = YES;
     self.tableView.delegate = self;

@@ -48,7 +48,11 @@
     self.tabedSlideView.baseViewController = self;
     UIColor *themeColor = [UIColor colorWithHue:0.574 saturation:0.864 brightness:0.953 alpha:1.000];
     self.tabedSlideView.tabbarHeight = 44;
-    self.tabedSlideView.tabItemNormalColor = [UIColor blackColor];
+    if(@available(iOS 13.0, *)) {
+        self.tabedSlideView.tabItemNormalColor = [UIColor labelColor];
+    } else {
+        self.tabedSlideView.tabItemNormalColor = [UIColor blackColor];
+    }
     self.tabedSlideView.tabItemSelectedColor = themeColor;
     self.tabedSlideView.tabbarTrackColor = themeColor;
     DLTabedbarItem *item0 = [DLTabedbarItem itemWithTitle:@"已缓存" image:nil selectedImage:nil];

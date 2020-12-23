@@ -59,7 +59,11 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 	
 	[self requestData];
 	
-	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
+    if(@available(iOS 13.0, *)) {
+        self.tableView.backgroundColor = [UIColor secondarySystemBackgroundColor];
+    } else {
+        self.tableView.backgroundColor = [UIColor themeBackgroundColor];
+    }
 	self.tableView.tableFooterView = [UIView new];
     
 #ifdef PLVSupportMultiAccount

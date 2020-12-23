@@ -256,7 +256,7 @@ static PLVCastManager * manager = nil;
 }
 
 #pragma mark 设备播放操作
-- (void)startPlayWithVideo:(PLVVodVideo *)video quality:(NSInteger)quality{
+- (void)startPlayWithVideo:(PLVVodVideo *)video quality:(NSInteger)quality startPosition:(NSTimeInterval)startPosition { 
     
     NSString * urlString;
     if (video.keepSource) {
@@ -283,6 +283,7 @@ static PLVCastManager * manager = nil;
     LBLelinkPlayerItem * item = [[LBLelinkPlayerItem alloc] init];
     item.mediaType = LBLelinkMediaTypeVideoOnline;
     item.mediaURLString = urlString;
+    item.startPosition = startPosition;
     NSString * versionInfo = [NSString stringWithFormat:@"PolyviOSScreencast%@",PLVVodSdkVersion];
     item.headerInfo = @{@"user-agent":versionInfo};
 
@@ -578,6 +579,7 @@ didFindLelinkServices:(NSArray<LBLelinkService *> *)services {
 // 播放进度信息回调
 - (void)lelinkPlayer:(LBLelinkPlayer *)player progressInfo:(LBLelinkProgressInfo *)progressInfo {
     if ([self.delegate respondsToSelector:@selector(plvCastManager_playTimeChangedWithCurrentTime:duration:)]) {
+        self.currentServiceModel.currentTime = progressInfo.currentTime;
         [self.delegate plvCastManager_playTimeChangedWithCurrentTime:progressInfo.currentTime duration:progressInfo.duration];
     }
 }

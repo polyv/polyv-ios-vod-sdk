@@ -87,6 +87,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 /// 记录最长播放进度使用的计时器
 @property (nonatomic, strong) NSTimer *markMaxPositionTimer;
 
+/// 禁止拖动提示
+@property (nonatomic, strong) UILabel *toastLable;
+
 @end
 
 @implementation PLVVodSkinPlayerController
@@ -213,9 +216,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	
     self.longPressPlaybackRate = 2.0;
     self.originPlaybackRate = self.playbackRate;
+    self.allowShowToast = NO;
     
 	[self setupSkin];
-	
 	[self addObserver];
     [self addTimer];
     
@@ -817,6 +820,35 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     }
 }
 
+// 禁止拖动提示
+- (void)showToastWithMessage:(NSString *)message inView:(UIView *)view {
+    if (!view || !self.allowShowToast) return;
+
+    if (!self.toastLable) {
+        self.toastLable = [[UILabel alloc]init];
+        self.toastLable.text = message;
+        self.toastLable.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        self.toastLable.layer.cornerRadius = 20;
+        self.toastLable.layer.masksToBounds = YES;
+        self.toastLable.font = [UIFont systemFontOfSize:14.0];
+        self.toastLable.textColor = [UIColor whiteColor];
+        self.toastLable.textAlignment = NSTextAlignmentCenter;
+        [view addSubview:self.toastLable];
+        CGFloat width = [self.toastLable sizeThatFits:CGSizeMake(MAXFLOAT, 40.0)].width + 20;
+        [self.toastLable plv_makeConstraints:^(PLVMASConstraintMaker *make) {
+            make.centerX.plv_offset(0);
+            make.bottom.plv_offset(-40);
+            make.size.plv_equalTo(CGSizeMake(width, 40));
+        }];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.toastLable removeFromSuperview];
+            self.toastLable = nil;
+        });
+    }
+}
+
+
 #pragma mark override -- 播放模式切换回调
 // 更新播放模式更新成功回调
 - (void)playbackModeDidChange {
@@ -855,11 +887,14 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         NSTimeInterval max = MAX(self.maxPosition, self.currentPlaybackTime);
         if (currentPlaybackTime <= max) { // 符合允许拖拽的条件
             allow = YES;
+        } else {
+            [self showToastWithMessage:@"只能拖拽到已播放过的进度" inView:[UIApplication sharedApplication].keyWindow];
         }
+    } else if (self.restrictedDragging && self.allForbidDragging) {
+        [self showToastWithMessage:@"已设置禁止拖拽" inView:[UIApplication sharedApplication].keyWindow];
     } else if (self.restrictedDragging == NO) { // 不限制进度拖拽
         allow = YES;
     }
-    
     if (allow) {
         [super setCurrentPlaybackTime:currentPlaybackTime];
     }

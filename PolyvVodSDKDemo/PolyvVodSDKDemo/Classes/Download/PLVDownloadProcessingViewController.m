@@ -82,7 +82,6 @@
     };
     self.queueDownloadButton.selected = [PLVVodDownloadManager sharedManager].isDownloading;
     
-    self.tableView.backgroundColor = [UIColor themeBackgroundColor];
     self.tableView.tableFooterView = [UIView new];
     self.tableView.allowsSelection = YES;
     self.tableView.delegate = self;
@@ -92,7 +91,13 @@
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
     
     self.toolbar.buttons = @[self.queueDownloadButton, self.cleanDownloadButton];
-    self.toolbar.barTintColor = [UIColor whiteColor];
+    if(@available(iOS 13.0, *)) {
+        self.tableView.backgroundColor = [UIColor secondarySystemBackgroundColor];
+        self.toolbar.barTintColor = [UIColor systemBackgroundColor];
+    } else {
+        self.tableView.backgroundColor = [UIColor themeBackgroundColor];
+        self.toolbar.barTintColor = [UIColor whiteColor];
+    }
     
     UILabel *emptyLabel = [[UILabel alloc] init];
     emptyLabel.text = @"暂无缓存视频";

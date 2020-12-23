@@ -23,7 +23,16 @@
 #define PLV_iPhoneXR2 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1624), [[UIScreen mainScreen] currentMode].size) : NO)
 #define PLV_iPhoneXS ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 #define PLV_iPhoneXsMax ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2688), [[UIScreen mainScreen] currentMode].size) : NO)
-#define PLV_iPhoneXSeries ((PLV_iPhoneX || PLV_iPhoneXR1 || PLV_iPhoneXR2 || PLV_iPhoneXS || PLV_iPhoneXsMax))
+
+#define PLV_iPhoneXSeries ({\
+BOOL isPhoneX = NO;\
+if (@available(iOS 11.0, *)) {\
+    if ([UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom > 0) {\
+    isPhoneX = YES;\
+    }\
+}\
+isPhoneX;\
+})
 
 // 横屏时左右安全区域
 #define PLV_Landscape_Left_And_Right_Safe_Side_Margin  44
@@ -60,12 +69,12 @@
 
 // 支持三分屏播放，默认不支持
 #ifndef PLVSupportPPTScreen
-//#define PLVSupportPPTScreen
+#define PLVSupportPPTScreen
 #endif
 
 // 投屏功能
 #ifndef PLVCastFeature
-//#define PLVCastFeature
+#define PLVCastFeature
 #endif
 
 #endif /* PolyvVodSDKDemo_Prefix_pch */

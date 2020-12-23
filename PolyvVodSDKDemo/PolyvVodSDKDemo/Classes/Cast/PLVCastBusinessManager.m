@@ -227,15 +227,15 @@
             __weak typeof(self) weakSelf = self;
             [PLVVodVideo requestVideoPriorityCacheWithVid:video.vid completion:^(PLVVodVideo *video, NSError *error) {
                 // 开始投屏
-                [weakSelf.castManager startPlayWithVideo:video quality:quality];
-                
+                [self.castManager startPlayWithVideo:video quality:quality startPosition:self.player.currentPlaybackTime];
+
                 // 设置清晰度数量 初始所选清晰度
                 weakSelf.castControllView.qualityOptionCount =  video.hlsVideos.count;
                 weakSelf.castControllView.currentQualityIndex = quality;
             }];
         }else{ // 无需读取video模型缓存
             // 开始投屏
-            [self.castManager startPlayWithVideo:video quality:quality];
+            [self.castManager startPlayWithVideo:video quality:quality startPosition:self.player.currentPlaybackTime];
             
             // 设置清晰度数量 初始所选清晰度
             self.castControllView.qualityOptionCount = self.player.video.hlsVideos.count;
@@ -335,6 +335,7 @@
     [self.castControllView hide];
     
     [self.player play];
+    self.player.currentPlaybackTime = self.castManager.currentServiceModel.currentTime;
     
     [self.castListV dismiss];
     
@@ -379,7 +380,7 @@
     quality = quality == 0 ? (quality + 1) : quality; // 若自动档则+1流畅
     
     // 投屏新视频
-    [self.castManager startPlayWithVideo:self.player.video quality:quality];
+    [self.castManager startPlayWithVideo:self.player.video quality:quality startPosition:self.player.currentPlaybackTime];
 }
 
 

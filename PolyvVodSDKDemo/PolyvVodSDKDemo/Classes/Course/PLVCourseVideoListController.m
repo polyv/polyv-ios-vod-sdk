@@ -56,8 +56,13 @@
 	self.automaticallyAdjustsScrollViewInsets = NO;
 	self.tableView.tableFooterView = [UIView new];
 	self.tableView.tableHeaderView = [UIView new];
-	
-	self.tableView.backgroundColor = [UIColor themeBackgroundColor];
+    if(@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor secondarySystemBackgroundColor];
+        self.tableView.backgroundColor = [UIColor tertiarySystemBackgroundColor];
+    } else {
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.tableView.backgroundColor = [UIColor themeBackgroundColor];
+    }
 	self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
 	
 	self.toolbar.buttons = @[self.downloadButton];
