@@ -227,7 +227,7 @@
             __weak typeof(self) weakSelf = self;
             [PLVVodVideo requestVideoPriorityCacheWithVid:video.vid completion:^(PLVVodVideo *video, NSError *error) {
                 // 开始投屏
-                [self.castManager startPlayWithVideo:video quality:quality startPosition:self.player.currentPlaybackTime];
+                [weakSelf.castManager startPlayWithVideo:video quality:quality startPosition:self.player.currentPlaybackTime];
 
                 // 设置清晰度数量 初始所选清晰度
                 weakSelf.castControllView.qualityOptionCount =  video.hlsVideos.count;
