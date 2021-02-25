@@ -26,10 +26,10 @@
 
 #define PLV_iPhoneXSeries ({\
 BOOL isPhoneX = NO;\
-if (@available(iOS 11.0, *)) {\
-    if ([UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom > 0) {\
+CGSize size = [UIScreen mainScreen].bounds.size;\
+NSInteger notchValue = size.width / size.height * 100;\
+if (notchValue == 216 || notchValue == 46) {\
     isPhoneX = YES;\
-    }\
 }\
 isPhoneX;\
 })

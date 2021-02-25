@@ -100,10 +100,10 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	// !!!: 这部分的功能的控制，由于与每次设置的 video 有关，因此必须在设置 PLVVodVideo 对象之前，或在这里设置。
 	{
 		// 开启广告
-		//self.enableAd = YES;
+		self.enableAd = YES;
 		
 		// 开启片头
-		//self.enableTeaser = YES;
+		self.enableTeaser = YES;
 		
 		// 记忆播放位置
 		//self.rememberLastPosition = YES;
