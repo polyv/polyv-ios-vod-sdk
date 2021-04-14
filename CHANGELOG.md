@@ -19,7 +19,7 @@
 **注意：**
 
 1. 旧版本升级至 2.15.0 版本的点播 SDK，建议同步更新 2.15.0 版本的 Demo 层代码，以获得最新的问答功能和投屏观看统计
-2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.14.1...v2.15.0) 查看 Demo 层的变动，手动更新Demo层源码
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.14.1...2.15.0) 查看 Demo 层的变动，手动更新Demo层源码
 
 ## [2.14.1] - 2021-02-25
 
@@ -33,7 +33,7 @@
 **注意：**
 
 1. 旧版本升级至 2.14.1 版本的点播 SDK，建议同步更新 2.14.1 版本的 Demo 层代码。
-2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.14.0...v2.14.1) 查看 Demo 层的变动，手动更新Demo层源码
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.14.0...2.14.1) 查看 Demo 层的变动，手动更新Demo层源码
 
 ## [2.14.0] - 2020-12-23
 
@@ -47,7 +47,7 @@
 **注意：**
 
 1. 旧版本升级至 2.14.0 版本的点播 SDK，建议同步更新 2.14.0 版本的 Demo 层代码。
-2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.13.1...v2.14.0) 查看 Demo 层的变动，手动更新Demo层源码
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.13.1...2.14.0) 查看 Demo 层的变动，手动更新Demo层源码
 
 
 ## [2.13.1] - 2020-11-20
