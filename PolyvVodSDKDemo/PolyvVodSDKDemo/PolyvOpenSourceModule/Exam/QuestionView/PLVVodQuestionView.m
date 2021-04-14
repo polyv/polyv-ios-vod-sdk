@@ -7,32 +7,36 @@
 //
 
 #import "PLVVodQuestionView.h"
-#import "PLVVodOptionCell.h"
 #import <YYWebImage/YYWebImage.h>
+#import "PLVOptionView.h"
 
-@interface PLVVodQuestionView ()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface PLVVodQuestionView ()
 
+//容器约束
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *outerContainerLeadingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *outerContainerBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *outerContainerTailingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *outerContainerTopConstraint;
 @property CGFloat outerContanerWeidht;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *paddingTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *paddingLeftConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *paddingRightConstraint;
 
-//@property (weak, nonatomic) IBOutlet UILabel *questionLabel;
-@property (weak, nonatomic) IBOutlet UITextView *questionLabel;
-
-@property (weak, nonatomic) IBOutlet UILabel *questionTypeLb;
-
+//UI控件
+@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UILabel *questionLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *illustrationImageView;
+@property (weak, nonatomic) IBOutlet UIView *optionsContainerView;
+@property (weak, nonatomic) IBOutlet UIButton *skipButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *submitBtnWidthConstraint;
+
+//插图约束
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *illustrationContainerWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *illustrationContainerRightConstraint;
 
-@property (weak, nonatomic) IBOutlet UICollectionView *optionCollectionView;
-@property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *collectionLayout;
-@property CGFloat cellwidth;
-@property CGFloat *cellHeights;
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *skipButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *submitButton;
+@property (nonatomic, strong) NSMutableArray<PLVOptionView *> *optionViewArray;
 
 @end
 
@@ -41,10 +45,6 @@
 #pragma mark - init & dealloc
 
 - (void)dealloc {
-    if (self.cellHeights != NULL){
-        free(self.cellHeights);
-        self.cellHeights = NULL;
-    }
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -62,6 +62,8 @@
 }
 
 - (void)commonInit {
+    self.optionViewArray = [NSMutableArray arrayWithCapacity:4];
+    
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interfaceOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
@@ -73,156 +75,127 @@
 
 - (void)awakeFromNib {
 	[super awakeFromNib];
-	[self.optionCollectionView registerNib:[UINib nibWithNibName:[PLVVodOptionCell identifier] bundle:nil] forCellWithReuseIdentifier:[PLVVodOptionCell identifier]];
-	self.optionCollectionView.allowsMultipleSelection = YES;
-	self.optionCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.questionLabel.textContainerInset = UIEdgeInsetsMake(5, 0, 0, 0);
-    self.questionLabel.editable = NO;
     self.illustrationImageView.clipsToBounds = YES;
     self.illustrationImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.containerView.layer.masksToBounds = YES;
+}
+
+
+/// 生成选项，设置问卷
+-(void)createOptionsView
+{
+    // 设置问题
+    NSString *questionType = _question.isMultipleChoice ? @"【多选题】" : @"【单选题】";
+    
+    self.questionLabel.text = [NSString stringWithFormat:@"%@%@", questionType, _question.question];
+    
+    // 设置插图
+    if (_question.illustration.length > 0) {
+        [self.illustrationImageView yy_setImageWithURL:[NSURL URLWithString:_question.illustration] placeholder:nil];
+    }
+    
+    //设置选项
+    [self.optionViewArray removeAllObjects];
+    [[self.optionsContainerView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    __weak typeof(self) weakSelf = self;
+    for (NSInteger i = 0; i < _question.options.count; i++) {
+        NSString *question = _question.options[i];
+        PLVOptionView *optionView = [[PLVOptionView alloc]init];
+        optionView.optionString = [NSString stringWithFormat:@"%@%@", [self optionOrderWithIndex:i], question];
+        optionView.multipleChoiceType = _question.isMultipleChoice;
+        optionView.isSelect = NO;
+        [optionView setSelectActionHandler:^(BOOL isSelect) {
+            [weakSelf selectAnswerWithIndex:i andSelect:isSelect];
+        }];
+        [self.optionsContainerView addSubview:optionView];
+        [self.optionViewArray addObject:optionView];
+        
+        
+        NSMutableArray<NSLayoutConstraint *> *constrainsArray = [NSMutableArray array];
+        
+        [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:optionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.optionsContainerView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
+        [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:optionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.optionsContainerView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
+        
+        if (i > 0) {
+            PLVOptionView *lastView = self.optionViewArray[i - 1];
+            [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:optionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:lastView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:16]];
+            if (i == _question.options.count - 1) {
+                [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:optionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.optionsContainerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+            }
+        }
+        else {
+            [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:optionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.optionsContainerView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+        }
+        
+        [self.optionsContainerView addConstraints:constrainsArray];
+    }
 }
 
 - (void)layoutSubviews{
-    [self updateOuterContainerSize];
+    if (self.question) {
+        [self updateOuterContainerSize];
+    }
 }
 
-- (void)clear {
-    self.question = nil;
-    self.cellwidth = 0;
-    self.cellHeights = NULL;
-    self.outerContanerWeidht = 0;
-}
 
-#pragma mark - property
+#pragma mark - Setter
 - (void)setQuestion:(PLVVodQuestion *)question {
 	_question = question;
-    self.optionCollectionView.allowsMultipleSelection = _question.isMultipleChoice;
+    
 	dispatch_async(dispatch_get_main_queue(), ^{
+        [self createOptionsView];
         [self updateOuterContainerSize];
 	});
 }
 
-#pragma mark - action
-- (IBAction)skipButtonAction:(UIBarButtonItem *)sender {
-	if (self.skipActionHandler) self.skipActionHandler();
-}
-- (IBAction)submitButtonAction:(UIBarButtonItem *)sender {
-	if (self.submitActionHandler) self.submitActionHandler(self.optionCollectionView.indexPathsForSelectedItems);
+#pragma mark - Action
+
+-(void)selectAnswerWithIndex:(NSInteger)index andSelect:(BOOL)select
+{
+    if (_question.isMultipleChoice) {
+        if (index < self.optionViewArray.count) {
+            PLVOptionView *optionView = self.optionViewArray[index];
+            optionView.isSelect = !optionView.isSelect;
+        }
+    }else {
+        for (NSInteger i = 0; i < self.optionViewArray.count; i++) {
+            PLVOptionView *optionView = self.optionViewArray[i];
+            optionView.isSelect = index == i;
+        }
+    }
 }
 
-#pragma mark - UICollectionView
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-	return 1;
+- (IBAction)skipButtonAction:(UIButton *)sender {
+    if (self.skipActionHandler) {
+        self.skipActionHandler();
+    }
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return self.question.options.count;
+- (IBAction)submitButtonAction:(UIButton *)sender {
+    if (self.submitActionHandler) {
+        NSMutableArray *array = [NSMutableArray arrayWithCapacity:1];
+        for (NSInteger i = 0; i < self.optionViewArray.count; i++) {
+            PLVOptionView *optionView = self.optionViewArray[i];
+            if (optionView.isSelect) {
+                [array addObject:@(i)];
+            }
+        }
+        self.submitActionHandler(array);
+    }
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	PLVVodOptionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[PLVVodOptionCell identifier] forIndexPath:indexPath];
-//    cell.text = self.question.options[indexPath.item];
-    NSString *optionText = [NSString stringWithFormat:@"%@ %@", [self optionOrderWithIndex:indexPath.row], self.question.options[indexPath.item]];
-    cell.text = optionText;
-    cell.multipleChoiceType = self.question.isMultipleChoice;
-	return cell;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	
-}
-
-#pragma mark - UICollectionViewDelegateFlowLayout
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat w = self.cellwidth;
-    CGFloat h = self.cellHeights[indexPath.row];
-    return CGSizeMake(w, h);
-}
 
 #pragma mark - public method
 - (void)scrollToTop {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.optionCollectionView setContentOffset:CGPointZero animated:YES];
+        [self.scrollView scrollsToTop];
     });
 }
 
 #pragma mark - private method
-- (void)updateUI {    
-    CGFloat padding = 16;
-    
-    // 是否有插图
-    BOOL hasIllustration = _question.illustration.length > 0;
-    
-    // 设置插图
-    if (hasIllustration) {
-        self.illustrationContainerWidthConstraint.constant = self.outerContanerWeidht / 2 - padding;
-        [self.illustrationImageView yy_setImageWithURL:[NSURL URLWithString:_question.illustration] placeholder:nil];
-    } else {
-        self.illustrationContainerWidthConstraint.constant = 0;
-    }
-    
-    // 计算cell的宽度
-    CGFloat cellW = self.outerContanerWeidht / 2 - padding - 10;
-    if ([self isLandscape] && !hasIllustration){
-        // 无图且处于横屏状态，显示一行，重新计算cell 宽度，
-       cellW = self.outerContanerWeidht - 2*padding -10;
-    }
-    
-    if (cellW <= 0) { cellW = 1; }
-    self.cellwidth = cellW;
-    
-    // 计算cell的高度
-    int count = (int)_question.options.count;
-    if (self.cellHeights != NULL){
-        free(self.cellHeights);
-        self.cellHeights = NULL;
-    }
-    self.cellHeights = malloc(sizeof(CGFloat) * count);
-    for (int i=0; i<count; i++) { // 根据每个cell的文字计算每个cell适合的高度
-        NSString *optionText = [NSString stringWithFormat:@"%@ %@", [self optionOrderWithIndex:i], self.question.options[i]];
-        CGFloat h = [PLVVodOptionCell calculateCellWithHeight:optionText andWidth:self.cellwidth];
-        self.cellHeights[i] = h;
-    }
-    if (!hasIllustration && ![self isLandscape]) { // 没有插图时，一行显示两个cell，两个cell的高度要保持一致
-        for (int i=0; i<count/2; i++) {
-            int leftCellIndex = i * 2;
-            int rightCellIndex = i * 2 + 1;
-            if (self.cellHeights[leftCellIndex] > self.cellHeights[rightCellIndex]) {
-                self.cellHeights[rightCellIndex] = self.cellHeights[leftCellIndex];
-            } else {
-                self.cellHeights[leftCellIndex] = self.cellHeights[rightCellIndex];
-            }
-        }
-    }
-    
-    [self.optionCollectionView reloadData];
-    
-    // 设置问题
-    self.questionLabel.text = _question.question;
 
-    // 设置题型
-    self.questionTypeLb.text = _question.isMultipleChoice ? @"【多选题】" : @"【单选题】";
-    
-    // 设置跳过按钮
-    self.skipButton.enabled = _question.skippable;
-    
-    if ([self isLandscape]){
-        self.questionLabel.textAlignment = NSTextAlignmentCenter;
-    }else{
-        self.questionLabel.textAlignment = NSTextAlignmentLeft;
-    }
-    
-    [self layoutIfNeeded];
-}
-
+/// 更新视图
 - (void)updateOuterContainerSize {
     UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
     
@@ -230,7 +203,6 @@
     float height = self.superview.bounds.size.height;
     
     if (interfaceOrientation == UIInterfaceOrientationPortrait) { // 竖屏
-        
         if (width >= height) {
             self.outerContainerTopConstraint.constant = 0;
             self.outerContainerBottomConstraint.constant = 0;
@@ -245,9 +217,22 @@
         self.outerContainerLeadingConstraint.constant = 0;
         self.outerContainerTailingConstraint.constant = 0;
         self.outerContanerWeidht = [UIScreen mainScreen].bounds.size.width;
-
+        self.paddingTopConstraint.constant = 20;
+        self.paddingLeftConstraint.constant = 16;
+        self.paddingRightConstraint.constant = 16;
+        
+        // 设置插图
+        if (_question.illustration.length > 0) {
+            self.illustrationContainerRightConstraint.constant = 8;
+            self.illustrationContainerWidthConstraint.constant = 150;
+        }else {
+            self.illustrationContainerRightConstraint.constant = 0;
+            self.illustrationContainerWidthConstraint.constant = 0;
+        }
+        
+        self.containerView.layer.cornerRadius = 0;
     } else { // 横屏
-        CGFloat verticalPadding = 60;
+        CGFloat verticalPadding = 67;
         CGFloat horzontalPadding;
         
         CGFloat scale = verticalPadding / 375.0;
@@ -258,22 +243,43 @@
         
         horzontalPadding = (width - self.outerContanerWeidht) / 2.0 ;
         
-        // NSLog(@"outerContanerHeight = %f", outerContanerHeight);
-        
         self.outerContainerLeadingConstraint.constant = horzontalPadding;
         self.outerContainerTailingConstraint.constant = horzontalPadding;
         self.outerContainerTopConstraint.constant = verticalPadding;
         self.outerContainerBottomConstraint.constant = verticalPadding;
+        
+        self.paddingTopConstraint.constant = 24;
+        self.paddingLeftConstraint.constant = 24;
+        self.paddingRightConstraint.constant = 24;
+        
+        // 设置插图
+        if (_question.illustration.length > 0) {
+            self.illustrationContainerRightConstraint.constant = 8;
+            self.illustrationContainerWidthConstraint.constant = 160;
+        }else {
+            self.illustrationContainerRightConstraint.constant = 0;
+            self.illustrationContainerWidthConstraint.constant = 0;
+        }
+        
+        self.containerView.layer.cornerRadius = 8;
     }
     
-    [self updateUI];
+    [self.containerView layoutIfNeeded];
+    [self.scrollView setContentSize:CGSizeMake(self.containerView.frame.size.width, self.scrollView.contentSize.height)];
+    
+    // 设置跳过按钮
+    if (_question.skippable) {
+        self.skipButton.hidden = NO;
+        self.submitBtnWidthConstraint.constant = 0;
+    }else {
+        self.skipButton.hidden = YES;
+        self.submitBtnWidthConstraint.constant = self.outerContanerWeidht * 0.5;
+    }
 }
 
-- (BOOL)isLandscape{
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    return UIDeviceOrientationIsLandscape((UIDeviceOrientation)interfaceOrientation);
-}
 
+/// 获取答案序号
+/// @param index 第几个答案
 - (NSString *)optionOrderWithIndex:(NSInteger )index{
     NSDictionary *dict = @{@"0":@"A.",
                            @"1":@"B.",
@@ -283,7 +289,6 @@
                            };
     
     NSString *keyStr = [NSString stringWithFormat:@"%d", (int)index];
-    
     return dict[keyStr];
 }
 

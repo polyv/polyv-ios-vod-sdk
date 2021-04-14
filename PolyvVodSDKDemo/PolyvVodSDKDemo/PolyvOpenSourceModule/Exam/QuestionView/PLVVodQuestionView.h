@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "PLVVodQuestion.h"
 
+/// 选择题问题view
 @interface PLVVodQuestionView : UIView
 
-@property (nonatomic, copy) void (^submitActionHandler)(NSArray<NSIndexPath *> *indexPathsForSelectedItems);
+/// 选择题的提交回调
+@property (nonatomic, copy) void (^submitActionHandler)(NSArray<NSNumber *> *indexForSelectedItems);
+
+/// 跳过回调
 @property (nonatomic, copy) void (^skipActionHandler)(void);
 
 @property (nonatomic, strong) PLVVodQuestion *question;

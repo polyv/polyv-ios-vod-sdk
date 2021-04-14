@@ -19,6 +19,7 @@
     @(video_unmatch_account):@"视频与账号不匹配，请向管理员反馈",
     @(account_encode_key_illegal):@"播放秘钥不合法，请向管理员反馈",
     @(account_encode_iv_illegal):@"播放加密向量不合法，请向管理员反馈",
+    @(video_universally_illegal):@"视频状态不合法，请向管理员反馈",
     @(video_status_illegal):@"视频状态不合法，请向管理员反馈",
     @(playback_token_fetch_error):@"播放令牌请求失败,请尝试重新播放，或向管理员反馈",
     @(video_type_unknown):@"视频播放参数类型错误，请尝试重新播放，或向管理员反馈",

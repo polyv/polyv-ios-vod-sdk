@@ -9,6 +9,7 @@
 #import "PLVCastManager.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <AlicloudUtils/AlicloudReachabilityManager.h>
+#import "PLVVodUtils.h"
 
 // 定时器时间
 // 两者不能一样 否则任务无法区分
@@ -279,6 +280,19 @@ static PLVCastManager * manager = nil;
         return;
     }
     
+    PLVVodSettings *settings = [PLVVodSettings sharedSettings];
+    NSString *viewerId = settings.viewerId.length ? [PLVVodUtils urlSafeBase64String:settings.viewerId] : @"";
+    NSString *viewerName = settings.viewerName.length ? [PLVVodUtils urlSafeBase64String:settings.viewerName] : @"";
+    NSString *param3 = settings.viewerInfos.viewerExtraInfo1 ? [PLVVodUtils urlSafeBase64String:settings.viewerInfos.viewerExtraInfo1] : @"";
+    NSString *param4 = settings.viewerInfos.viewerExtraInfo2 ? [PLVVodUtils urlSafeBase64String:settings.viewerInfos.viewerExtraInfo2] : @"";
+    NSString *param5 = settings.viewerInfos.viewerExtraInfo3 ? [PLVVodUtils urlSafeBase64String:settings.viewerInfos.viewerExtraInfo3] : @"";
+    NSString *pv = PLVVodSdkVersion;
+    NSString *pid = [PLVVodUtils pid];
+    NSString *v1 = viewerId;
+    NSString *d1 = @"1";
+    NSString *pn = @"polyv-ios-vod-sdk";
+    urlString  = [NSString stringWithFormat:@"%@?p1=%@&p2=%@&p3=%@&p4=%@&p5=%@&pv=%@&pid=%@&v1=%@&d1=%@&pn=%@", urlString,viewerId, viewerName, param3, param4, param5, pv, pid, v1, d1, pn];
+        
     // 创建播放内容对象
     LBLelinkPlayerItem * item = [[LBLelinkPlayerItem alloc] init];
     item.mediaType = LBLelinkMediaTypeVideoOnline;

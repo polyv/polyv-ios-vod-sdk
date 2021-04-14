@@ -12,14 +12,15 @@
 #import <PLVVodSDK/PLVVodExam.h>
 #import <PLVVodSDK/PLVVodConstans.h>
 #import "NSString+PLVVod.h"
+#import "PLVFillBlankQuestionView.h"
+#import "PLVToast.h"
 
 @interface PLVVodExamViewController ()
 
 @property (nonatomic, strong) IBOutlet PLVVodQuestionView *questionView;
 @property (nonatomic, strong) IBOutlet PLVVodExplanationView *explanationView;
 
-/// 之前的约束
-@property (nonatomic, strong) NSArray *priorConstraints;
+@property (nonatomic, strong) PLVFillBlankQuestionView *fillBlankQuestionView;//!< 填空题问题view
 
 @property (nonatomic, strong) NSMutableArray<PLVVodExam *> *tempExams;
 @property (nonatomic, strong) PLVVodExam *currentExam;
@@ -30,29 +31,63 @@
 
 @implementation PLVVodExamViewController
 
+#pragma mark - Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.view.clipsToBounds = YES;
-	self.automaticallyAdjustsScrollViewInsets = NO;
-	[self.view addSubview:self.questionView];
-	self.priorConstraints = [self constrainSubview:self.questionView toMatchWithSuperview:self.view];
+	
+    [self setupUI];
 	
 	__weak typeof(self) weakSelf = self;
-	self.questionView.submitActionHandler = ^(NSArray<NSIndexPath *> *indexPathsForSelectedItems) {
-		// 判断正误
-		PLVVodExam *exam = weakSelf.currentExam;
-		NSSet *referenceAnswer = [NSSet setWithArray:exam.correctIndex];
-		NSMutableSet *userAnswer = [NSMutableSet set];
-		for (NSIndexPath *indexPath in indexPathsForSelectedItems) {
-			[userAnswer addObject:@(indexPath.row)];
-		}
-		BOOL correct = [referenceAnswer isEqualToSet:userAnswer];
-		[weakSelf showExplanationIfCorrect:correct];
-	};
+    
+    // 选择题的提交回调
+    self.questionView.submitActionHandler = ^(NSArray<NSNumber *> *indexForSelectedItems) {
+        
+        if (indexForSelectedItems.count == 0) {
+            [PLVToast showMessage:@"您还未选择任何答案"];
+            return;
+        }
+        
+        // 判断正误
+        PLVVodExam *exam = weakSelf.currentExam;
+        NSSet *referenceAnswer = [NSSet setWithArray:exam.correctIndex];
+        NSSet *userAnswer = [NSSet setWithArray:indexForSelectedItems];
+        BOOL correct = [referenceAnswer isEqualToSet:userAnswer];
+        [weakSelf showExplanationIfCorrect:correct];
+    };
+    
+    // 选择题的跳过回调
 	self.questionView.skipActionHandler = ^{
 		PLVVodExam *exam = [weakSelf hideExam];
 		if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, -1);
 	};
+    
+    // 填空题的提交回调
+    self.fillBlankQuestionView.submitFillBlankTopicActionHandler = ^(NSArray<NSString *> * _Nonnull answerItems) {
+        BOOL allEmpty = YES;
+        for (NSString *answer in answerItems) {
+            if (answer.length > 0) {
+                allEmpty = NO;
+                break;
+            }
+        }
+        
+        if (allEmpty) {
+            [PLVToast showMessage:@"请填写答案后提交"];
+            return;
+        }
+        
+        // 判断正误
+        BOOL correct = [weakSelf judgeFillBlankTrueOrFalse:answerItems];
+        [weakSelf showExplanationIfCorrect:correct];
+    };
+    
+    //填空题的跳过回调
+    self.fillBlankQuestionView.skipActionHandler = ^{
+        PLVVodExam *exam = [weakSelf hideExam];
+        if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, -1);
+    };
+    
 	self.explanationView.confirmActionHandler = ^(BOOL correct) {
 		PLVVodExam *exam = [weakSelf hideExam];
 		NSTimeInterval backTime = correct ? -1 : exam.backTime;
@@ -67,7 +102,42 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - property
+
+#pragma mark - UI
+
+-(void)setupUI
+{
+    self.view.clipsToBounds = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.explanationView.hidden = YES;
+    self.questionView.hidden = YES;
+    self.fillBlankQuestionView.hidden = YES;
+    [self.view addSubview:self.explanationView];
+    [self.view addSubview:self.questionView];
+    [self.view addSubview:self.fillBlankQuestionView];
+    
+    self.explanationView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.questionView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.fillBlankQuestionView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSMutableArray<NSLayoutConstraint *> *constrainsArray = [NSMutableArray array];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.explanationView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.explanationView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.explanationView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.explanationView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.questionView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.questionView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.questionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.questionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.fillBlankQuestionView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.fillBlankQuestionView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.fillBlankQuestionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    [constrainsArray addObject:[NSLayoutConstraint constraintWithItem:self.fillBlankQuestionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
+    
+    [self.view addConstraints:constrainsArray];
+}
+
+#pragma mark - Setter
 
 - (void)setExams:(NSArray<PLVVodExam *> *)exams {
 	NSArray *sortedExams = [exams sortedArrayUsingComparator:^NSComparisonResult(PLVVodExam *obj1, PLVVodExam *obj2) {
@@ -87,14 +157,22 @@
 	_currentTime = currentTime;
 }
 
+
 #pragma mark - public method
 
+/// 同步显示问答
 - (void)synchronouslyShowExam {
 	if (self.showing) {
 		return;
 	}
 	
 	PLVVodExam *exam = [self examAtTime:self.currentTime];
+    
+    //用于兼容以后题型增加，但是客户demo没有升级的情况
+    if (exam.examType > 2) {
+        NSLog(@"PLVVodExamViewController - 问题展示错误，exam.examType非法，请检查更新demo");
+        return;
+    }
     
 	if (!exam || exam.correct) {
 		return;
@@ -111,25 +189,40 @@
         return;
     }
     
-    if (exam.correctIndex.count == 0) {
+    if (exam.correctIndex.count == 0
+        && exam.examType < 2) {
         NSLog(@"PLVVodExamViewController - 问题展示错误，exam.correctIndex非法，请检查");
         return;
     }
 	
 	if (self.examWillShowHandler) self.examWillShowHandler(exam);
-	[self resetIfNeedWithCompletion:^{
-		// 显示问答
-		[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
-			self.view.alpha = 1;
-			self.showing = YES;
-		}];
-		PLVVodQuestion *question = [self questionForExam:exam];
-		
-		self.questionView.question = question;
-		self.currentExam = exam;
-	}];
+    
+    if (exam.examType == 2) {
+        //填空题
+        self.fillBlankQuestionView.hidden = NO;
+    }else {
+        //选择题
+        self.questionView.hidden = NO;
+    }
+    
+    // 显示问答
+    [UIView animateWithDuration:PLVVodAnimationDuration animations:^{
+        self.view.alpha = 1;
+        self.showing = YES;
+    } completion:^(BOOL finished) {
+        PLVVodQuestion *question = [self questionForExam:exam];
+        if (exam.examType == 2) {
+            self.fillBlankQuestionView.question = question;
+            [self.fillBlankQuestionView scrollToTop];
+        }else {
+            self.questionView.question = question;
+            [self.questionView scrollToTop];
+        }
+        self.currentExam = exam;
+    }];
 }
 
+/// 更新问题
 - (void)changeExams:(NSArray<PLVVodExam *> *)arrExam showTime:(NSTimeInterval)showTime{
     NSArray *tmpArr = [self updateExamArray:self.tempExams changeArray:arrExam showTime:showTime];
     _tempExams = [NSMutableArray arrayWithArray:tmpArr];
@@ -156,11 +249,28 @@
     }];
     
     NSArray *retArr = [NSMutableArray arrayWithArray:tmpArray];
-    
     return retArr;
 }
 
 #pragma mark - private method
+
+/// 判断填空题回答正确还是错误
+/// @param answerArray 答案数组
+-(BOOL)judgeFillBlankTrueOrFalse:(NSArray *)answerArray
+{
+    if (answerArray.count <= 0
+        || answerArray.count != self.currentExam.options.count) {
+        return NO;
+    }
+    for (NSInteger i = 0; i < self.currentExam.options.count; i++) {
+        NSString *rightAnswer = self.currentExam.options[i];
+        NSString *answer = answerArray[i];
+        if (![rightAnswer isEqualToString:answer]) {
+            return NO;
+        }
+    }
+    return YES;
+}
 
 - (PLVVodQuestion *)questionForExam:(PLVVodExam *)exam {
 	if (!exam) {
@@ -172,6 +282,7 @@
 	question.skippable = exam.skippable;
     question.illustration = exam.illustration;
     question.isMultipleChoice = exam.correctIndex.count > 1 ? YES : NO;
+    question.isFillBlankTopic = exam.examType == 2 ? YES : NO;
 	return question;
 }
 
@@ -194,9 +305,14 @@
 	return nil;
 }
 
+
+/// 隐藏问卷
 - (PLVVodExam *)hideExam {
 	[UIView animateWithDuration:PLVVodAnimationDuration animations:^{
 		self.view.alpha = 0;
+        self.explanationView.hidden = YES;
+        self.questionView.hidden = YES;
+        self.fillBlankQuestionView.hidden = YES;
 		self.showing = NO;
 	}];
 	PLVVodExam *exam = self.currentExam;
@@ -204,24 +320,9 @@
 	return exam;
 }
 
-- (void)resetIfNeedWithCompletion:(void (^)(void))completion {
-	if ([self.view.subviews containsObject:self.explanationView]) {
-		NSArray *priorConstraints = self.priorConstraints;
-		UIView *fromView = self.explanationView;
-		UIView *toView = self.questionView;
-		[UIView transitionFromView:fromView toView:toView duration:0 options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
-			if (priorConstraints != nil) {
-				[self.view removeConstraints:priorConstraints];
-			}
-			[self.questionView scrollToTop];
-			if (completion) completion();
-		}];
-		self.priorConstraints = [self constrainSubview:toView toMatchWithSuperview:self.view];
-	} else {
-		if (completion) completion();
-	}
-}
 
+/// 展示问答结果view
+/// @param correct 回答正确还是错误
 - (void)showExplanationIfCorrect:(BOOL)correct {
 	PLVVodExam *exam = self.currentExam;
 	if (!exam) {
@@ -229,41 +330,21 @@
 	}
 	self.currentExam.correct = correct;
 	[self.explanationView setExplanation:[exam explanation] correct:correct];
-	[self transitFromView:self.questionView toView:self.explanationView completion:^{
-		[self.explanationView scrollToTop];
-	}];
+    UIView *fromView = exam.examType == 2 ? self.fillBlankQuestionView : self.questionView;
+    fromView.hidden = YES;
+    self.explanationView.hidden = NO;
+    [self.explanationView scrollToTop];
 }
 
-#pragma mark tool
 
-// 执行动画视图转场
-- (void)transitFromView:(UIView *)fromView toView:(UIView *)toView completion:(void (^)(void))completion {
-	if (fromView == toView || !fromView || !toView) {
-		return;
-	}
-	[self transitFromView:fromView toView:toView options:UIViewAnimationOptionTransitionCrossDissolve completion:completion];
-}
-- (void)transitFromView:(UIView *)fromView toView:(UIView *)toView options:(UIViewAnimationOptions)options completion:(void (^)(void))completion {
-	NSArray *priorConstraints = self.priorConstraints;
-	[UIView transitionFromView:fromView toView:toView duration:PLVVodAnimationDuration options:options completion:^(BOOL finished) {
-		if (priorConstraints != nil) {
-			[self.view removeConstraints:priorConstraints];
-		}
-		if (completion) completion();
-	}];
-	self.priorConstraints = [self constrainSubview:toView toMatchWithSuperview:self.view];
-}
+#pragma mark - Loadlazy
 
-// makes "subview" match the width and height of "superview" by adding the proper auto layout constraints
-- (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {
-	subview.translatesAutoresizingMaskIntoConstraints = NO;
-	NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
-	
-	NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|" options:0 metrics:nil views:viewsDictionary];
-	constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|" options:0 metrics:nil views:viewsDictionary]];
-	[superview addConstraints:constraints];
-	
-	return constraints;
+-(PLVFillBlankQuestionView *)fillBlankQuestionView
+{
+    if (_fillBlankQuestionView == nil) {
+        _fillBlankQuestionView = [[PLVFillBlankQuestionView alloc]init];
+    }
+    return _fillBlankQuestionView;
 }
 
 @end

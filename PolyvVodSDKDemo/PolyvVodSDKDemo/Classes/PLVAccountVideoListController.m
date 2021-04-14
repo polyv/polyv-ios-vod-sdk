@@ -204,9 +204,11 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 		}
 	}]];
 	[self presentViewController:alertController animated:YES completion:^{
-		
+
 	}];
 }
+
+
 
 // 帐号切换
 - (void)switchBtnClick:(UIButton *)btn{

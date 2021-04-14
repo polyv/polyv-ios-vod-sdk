@@ -56,7 +56,7 @@ PLVVFloatingWindowProtocol
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor lightGrayColor];
     self.title = @"视频悬浮小窗播放Demo页";
     
     [self.view addSubview:self.scrollView];
@@ -64,7 +64,7 @@ PLVVFloatingWindowProtocol
     
     if (_player == nil) { // 使用 vid 初始化时
         self.player = [[PLVVodSkinPlayerController alloc] init];
-        self.player.rememberLastPosition = YES;
+        self.player.rememberLastPosition = NO;
         self.player.enableBackgroundPlayback = YES;
         self.player.autoplay = YES;
         self.player.enableFloating = YES;

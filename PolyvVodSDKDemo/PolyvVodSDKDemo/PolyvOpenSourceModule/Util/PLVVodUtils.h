@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)changeDeviceOrientation:(UIInterfaceOrientation)orientation;
 
+/// url safe Base64 编码
++ (NSString *)urlSafeBase64String:(NSString *)inputString;
+
++ (NSString *)pid;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -6,6 +6,21 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.15.0] - 2021-04-14
+
+### Changed
+
+- 【SDK】添加视频禁播功能
+- 【SDK】sdk中的http请求更换为https请求
+- 【SDK】解决部分直播转存视频seek卡住的问题
+- 【Demo】问答功能中选择题的显示优化、新增填空题型
+- 【Demo】支持投屏的观看统计
+
+**注意：**
+
+1. 旧版本升级至 2.15.0 版本的点播 SDK，建议同步更新 2.15.0 版本的 Demo 层代码，以获得最新的问答功能和投屏观看统计
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.14.0...v2.14.1) 查看 Demo 层的变动，手动更新Demo层源码
+
 ## [2.14.1] - 2021-02-25
 
 ### Changed
@@ -14,7 +29,11 @@
 - 【SDK】修复前后台切换视频播放黑屏问题
 - 【SDK】修复切换视频会从上一个视频播放时间开始的问题
 - 【SDK】直播转存视频Seek优化
-- 【Demo】提高判断刘海屏的宏定义的兼容性
+
+**注意：**
+
+1. 旧版本升级至 2.14.1 版本的点播 SDK，建议同步更新 2.14.1 版本的 Demo 层代码。
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.14.0...v2.14.1) 查看 Demo 层的变动，手动更新Demo层源码
 
 ## [2.14.0] - 2020-12-23
 
@@ -28,7 +47,7 @@
 **注意：**
 
 1. 旧版本升级至 2.14.0 版本的点播 SDK，建议同步更新 2.14.0 版本的 Demo 层代码。
-2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.14.0...v2.14.1) 查看 Demo 层的变动，手动更新Demo层源码
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.13.1...v2.14.0) 查看 Demo 层的变动，手动更新Demo层源码
 
 
 ## [2.13.1] - 2020-11-20

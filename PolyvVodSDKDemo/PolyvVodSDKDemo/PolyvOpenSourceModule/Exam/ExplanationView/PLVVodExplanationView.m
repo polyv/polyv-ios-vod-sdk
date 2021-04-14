@@ -49,10 +49,15 @@
 - (void)awakeFromNib {
 	[super awakeFromNib];
 	
-	self.explanationTextView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+	self.explanationTextView.contentInset = UIEdgeInsetsMake(0, 28, 44, 27);
     
     self.containerWithoutExplanation.layer.cornerRadius = 8;
     self.containerWithoutExplanation.layer.masksToBounds = YES;
+    
+    self.containerWithExplanation.layer.cornerRadius = 0;
+    self.containerWithExplanation.layer.masksToBounds = YES;
+    
+    
     
     self.alpha = 0;
     
@@ -84,7 +89,7 @@
         UIColor *titleColor  = correct ? [UIColor colorWithHex:0x6FAB32] : [UIColor colorWithHex:0xF95652];
         NSDictionary *titleAttributes =
         @{
-          NSFontAttributeName: [UIFont systemFontOfSize:17],
+          NSFontAttributeName: [UIFont systemFontOfSize:16],
           NSForegroundColorAttributeName: titleColor,
           NSParagraphStyleAttributeName: titleParagraphStyle
           };
@@ -93,7 +98,7 @@
         NSDictionary *contentAttributes =
         @{
           NSFontAttributeName: [UIFont systemFontOfSize:14],
-          NSForegroundColorAttributeName: [UIColor colorWithHex:0x455A64]
+          NSForegroundColorAttributeName: [UIColor colorWithHex:0x333333]
           };
         NSAttributedString *content = [[NSAttributedString alloc] initWithString:explanation attributes:contentAttributes];
         
@@ -113,7 +118,7 @@
         NSString *labelString = correct ? @"回答正确" : @"回答错误";
         [self.answerCorrectLabel setText:labelString];
         
-        UIColor *labelColor  = correct ? [UIColor colorWithHex:0x6FAB32] : [UIColor colorWithHex:0xF95652];
+        UIColor *labelColor  = correct ? [UIColor colorWithHex:0x4A90E2] : [UIColor colorWithHex:0xF95652];
         [self.answerCorrectLabel setTextColor:labelColor];
         
         [self performSelector:@selector(disappear) withObject:nil afterDelay:3];
@@ -135,7 +140,7 @@
     }
     
     if (interfaceOrientation == UIInterfaceOrientationPortrait) { // 竖屏
-        
+        self.containerWithExplanation.layer.cornerRadius = 0;
         if (width >= height) {
             self.outerContainerTopConstraint.constant = 0;
             self.outerContainerBottomConstraint.constant = 0;
@@ -151,14 +156,15 @@
         self.outerContainerTailingConstraint.constant = 0;
         
     } else { // 横屏
-        CGFloat verticalPadding = 60;
+        self.containerWithExplanation.layer.cornerRadius = 8;
+        
+        CGFloat verticalPadding = 67;
         CGFloat horzontalPadding;
         
         CGFloat scale = verticalPadding / 375.0;
         verticalPadding = scale * height;
         
         CGFloat outerContanerHeight = height - verticalPadding * 2;
-        NSLog(@"outerContanerHeight = %f", outerContanerHeight);
         CGFloat outerContanerWeidht = outerContanerHeight / 9.0 * 16;
         
         horzontalPadding = (width - outerContanerWeidht) / 2.0 ;
@@ -179,7 +185,7 @@
 #pragma mark - public mehtod
 
 - (void)scrollToTop {
-	[self.explanationTextView setContentOffset:CGPointZero animated:YES];
+    [self.explanationTextView scrollsToTop];
 }
 
 #pragma mark - private method

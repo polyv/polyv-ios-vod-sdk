@@ -19,7 +19,6 @@
 		0030335E22B1E5660087E76A /* PLVVodNetworkUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0030335D22B1E5660087E76A /* PLVVodNetworkUtil.m */; };
 		0046DF4B24E63E6500592F62 /* PLVVodUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0046DF4A24E63E6500592F62 /* PLVVodUtils.m */; };
 		009869BE230BF4FB00AA32E3 /* PLVPPTSkinProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 009869BD230BF4FB00AA32E3 /* PLVPPTSkinProgressView.m */; };
-		00A3BBD222811F02005C3E07 /* PLVVodUploadSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A3BBD122811F02005C3E07 /* PLVVodUploadSDK.framework */; };
 		00A582DA22642E8700207B4B /* PLVUploadTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A582D922642E8700207B4B /* PLVUploadTableViewController.m */; };
 		00A582DD2265DB0500207B4B /* PLVUploadingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A582DC2265DB0500207B4B /* PLVUploadingCell.m */; };
 		00A582E02265DB1900207B4B /* PLVUploadedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A582DF2265DB1900207B4B /* PLVUploadedCell.m */; };
@@ -67,8 +66,6 @@
 		0356CD081FCC387400B522A1 /* PLVCourseIntroductionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356CD071FCC387400B522A1 /* PLVCourseIntroductionController.m */; };
 		03722E2F1FEB65DC00031180 /* PLVVodExamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03722E2D1FEB65DC00031180 /* PLVVodExamViewController.m */; };
 		03722E311FEB664700031180 /* PLVVodExamViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03722E301FEB664700031180 /* PLVVodExamViewController.xib */; };
-		03722E361FEB8BDE00031180 /* PLVVodOptionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03722E341FEB8BDE00031180 /* PLVVodOptionCell.m */; };
-		03722E371FEB8BDE00031180 /* PLVVodOptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03722E351FEB8BDE00031180 /* PLVVodOptionCell.xib */; };
 		03722E3B1FEB90DB00031180 /* PLVVodQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03722E3A1FEB90DB00031180 /* PLVVodQuestionView.m */; };
 		03722E3E1FEB910300031180 /* PLVVodExplanationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03722E3D1FEB910300031180 /* PLVVodExplanationView.m */; };
 		037C21121FECB56D008CD03C /* PLVVodQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C21111FECB56D008CD03C /* PLVVodQuestion.m */; };
@@ -109,7 +106,6 @@
 		043D44742194098400C2F776 /* PLVUserVideoListResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D44732194098400C2F776 /* PLVUserVideoListResult.m */; };
 		0463BAE821A52FBB0010A5EC /* PLVVodDBManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0463BAE421A52FBB0010A5EC /* PLVVodDBManager.mm */; };
 		0463BAE921A52FBB0010A5EC /* PLVVodExtendVideoInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0463BAE621A52FBB0010A5EC /* PLVVodExtendVideoInfo.mm */; };
-		0464671A228137D000275AD6 /* PLVVodSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04646719228137D000275AD6 /* PLVVodSDK.framework */; };
 		04851978219995A1008058A6 /* PLVVideoPlayTimesResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 04851977219995A1008058A6 /* PLVVideoPlayTimesResult.m */; };
 		0489AFDD21077559004A26A4 /* PLVDownloadProcessingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0489AFDC21077559004A26A4 /* PLVDownloadProcessingCell.m */; };
 		0489AFE02107757E004A26A4 /* PLVDownloadComleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0489AFDF2107757E004A26A4 /* PLVDownloadComleteCell.m */; };
@@ -120,6 +116,11 @@
 		04E5BE75221577C600A8BCC9 /* PLVVodRouteLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E5BE73221577C500A8BCC9 /* PLVVodRouteLineView.m */; };
 		04F57DB92136827D001AD451 /* PLVPlayQueueBackgroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */; };
 		04F9F0F020EF51D000D204EA /* UIButton+EnlargeTouchArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F9F0EF20EF51D000D204EA /* UIButton+EnlargeTouchArea.m */; };
+		125873F025C295030040B87A /* PLVFillBlankQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 125873EF25C295030040B87A /* PLVFillBlankQuestionView.m */; };
+		1258745025C2C3DF0040B87A /* PLVFillBlankView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1258744F25C2C3DF0040B87A /* PLVFillBlankView.m */; };
+		125AC98225C7B0300043AB55 /* PLVOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 125AC98125C7B0300043AB55 /* PLVOptionView.m */; };
+		126690CE26244A8100DE371D /* PLVToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 126690CD26244A8100DE371D /* PLVToast.m */; };
+		2F81AB8B20358B516AED69A3 /* libPods-PolyvVodSDKDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 014A9D233F73FC45F36D0BED /* libPods-PolyvVodSDKDemoUITests.a */; };
 		6307223B21C35CBC003B2526 /* PLVCastManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307223A21C35CBC003B2526 /* PLVCastManager.m */; };
 		6307224521C79917003B2526 /* PLVCastServiceListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307224421C79917003B2526 /* PLVCastServiceListView.m */; };
 		6307224821C8DFC8003B2526 /* PLVCastControllView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307224721C8DFC8003B2526 /* PLVCastControllView.m */; };
@@ -127,10 +128,9 @@
 		636AAB07223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 636AAB06223A6E7A00EFC3E4 /* PLVVodNetworkTipsView.m */; };
 		63745ACA21D1D606007408C1 /* PLVVodCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63745AC921D1D606007408C1 /* PLVVodCoverView.m */; };
 		639D17E421E3579B005E00F3 /* PLVCastBusinessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 639D17E321E3579B005E00F3 /* PLVCastBusinessManager.m */; };
-		7EF7954617955048A6FDB321 /* libPods-PolyvVodSDKDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEBDABF08C034C88459FC568 /* libPods-PolyvVodSDKDemoTests.a */; };
-		A624BBEF32B3DD5B3F0E9070 /* libPods-PolyvVodSDKDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC865E1928EF59756ECF501E /* libPods-PolyvVodSDKDemo.a */; };
-		CF56C4CE81FA394DFF164588 /* libPods-PolyvVodSDKDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A112B9BB76909C0D8E93FB1 /* libPods-PolyvVodSDKDemoUITests.a */; };
 		DA00893D20BC0F44006CEBBE /* PLVVodAudioCoverPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA00893C20BC0F44006CEBBE /* PLVVodAudioCoverPanelView.m */; };
+		FC857D55614EAED82C65A17A /* libPods-PolyvVodSDKDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3653865A7A54ED3977E5B0AF /* libPods-PolyvVodSDKDemoTests.a */; };
+		FF7FD1408250FCB016129515 /* libPods-PolyvVodSDKDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 583B13F6754332087E2D3E35 /* libPods-PolyvVodSDKDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,7 +175,6 @@
 		0046DF4A24E63E6500592F62 /* PLVVodUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodUtils.m; sourceTree = "<group>"; };
 		009869BC230BF4FB00AA32E3 /* PLVPPTSkinProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVPPTSkinProgressView.h; sourceTree = "<group>"; };
 		009869BD230BF4FB00AA32E3 /* PLVPPTSkinProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVPPTSkinProgressView.m; sourceTree = "<group>"; };
-		00A3BBD122811F02005C3E07 /* PLVVodUploadSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PLVVodUploadSDK.framework; sourceTree = "<group>"; };
 		00A582D822642E8700207B4B /* PLVUploadTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVUploadTableViewController.h; sourceTree = "<group>"; };
 		00A582D922642E8700207B4B /* PLVUploadTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVUploadTableViewController.m; sourceTree = "<group>"; };
 		00A582DB2265DB0500207B4B /* PLVUploadingCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVUploadingCell.h; sourceTree = "<group>"; };
@@ -229,6 +228,8 @@
 		00EAB3132407737F0083C0E7 /* PLVVFloatingWindowSkin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVFloatingWindowSkin.m; sourceTree = "<group>"; };
 		00EAB32E2407B8C80083C0E7 /* PLVVFloatingWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVFloatingWindowViewController.h; sourceTree = "<group>"; };
 		00EAB32F2407B8C80083C0E7 /* PLVVFloatingWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVFloatingWindowViewController.m; sourceTree = "<group>"; };
+		014A9D233F73FC45F36D0BED /* libPods-PolyvVodSDKDemoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PolyvVodSDKDemoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		01FD8463D89DC62FC49A7E64 /* Pods-PolyvVodSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 		030DF02A1FB590560035D0B0 /* PLVCourseListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseListController.h; sourceTree = "<group>"; };
 		030DF02B1FB590560035D0B0 /* PLVCourseListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCourseListController.m; sourceTree = "<group>"; };
 		030DF02D1FB590910035D0B0 /* PLVCourseDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCourseDetailController.h; sourceTree = "<group>"; };
@@ -269,9 +270,6 @@
 		03722E2D1FEB65DC00031180 /* PLVVodExamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVVodExamViewController.m; sourceTree = "<group>"; };
 		03722E2E1FEB65DC00031180 /* PLVVodExamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodExamViewController.h; sourceTree = "<group>"; };
 		03722E301FEB664700031180 /* PLVVodExamViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PLVVodExamViewController.xib; sourceTree = "<group>"; };
-		03722E331FEB8BDE00031180 /* PLVVodOptionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodOptionCell.h; sourceTree = "<group>"; };
-		03722E341FEB8BDE00031180 /* PLVVodOptionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodOptionCell.m; sourceTree = "<group>"; };
-		03722E351FEB8BDE00031180 /* PLVVodOptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PLVVodOptionCell.xib; sourceTree = "<group>"; };
 		03722E391FEB90DB00031180 /* PLVVodQuestionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodQuestionView.h; sourceTree = "<group>"; };
 		03722E3A1FEB90DB00031180 /* PLVVodQuestionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodQuestionView.m; sourceTree = "<group>"; };
 		03722E3C1FEB910300031180 /* PLVVodExplanationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodExplanationView.h; sourceTree = "<group>"; };
@@ -356,7 +354,6 @@
 		0463BAE521A52FBB0010A5EC /* PLVVodDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVVodDBManager.h; sourceTree = "<group>"; };
 		0463BAE621A52FBB0010A5EC /* PLVVodExtendVideoInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PLVVodExtendVideoInfo.mm; sourceTree = "<group>"; };
 		0463BAE721A52FBB0010A5EC /* PLVVodExtendVideoInfo+WCTTableCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PLVVodExtendVideoInfo+WCTTableCoding.h"; sourceTree = "<group>"; };
-		04646719228137D000275AD6 /* PLVVodSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PLVVodSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04851976219995A1008058A6 /* PLVVideoPlayTimesResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVideoPlayTimesResult.h; sourceTree = "<group>"; };
 		04851977219995A1008058A6 /* PLVVideoPlayTimesResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVideoPlayTimesResult.m; sourceTree = "<group>"; };
 		0489AFDB21077559004A26A4 /* PLVDownloadProcessingCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadProcessingCell.h; sourceTree = "<group>"; };
@@ -378,8 +375,16 @@
 		04F57DB82136827D001AD451 /* PLVPlayQueueBackgroundController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVPlayQueueBackgroundController.m; sourceTree = "<group>"; };
 		04F9F0EE20EF51D000D204EA /* UIButton+EnlargeTouchArea.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+EnlargeTouchArea.h"; sourceTree = "<group>"; };
 		04F9F0EF20EF51D000D204EA /* UIButton+EnlargeTouchArea.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+EnlargeTouchArea.m"; sourceTree = "<group>"; };
-		1DEB24A969A9951F93808A80 /* Pods-PolyvVodSDKDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests.release.xcconfig"; sourceTree = "<group>"; };
-		4A112B9BB76909C0D8E93FB1 /* libPods-PolyvVodSDKDemoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PolyvVodSDKDemoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		125873EE25C295030040B87A /* PLVFillBlankQuestionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVFillBlankQuestionView.h; sourceTree = "<group>"; };
+		125873EF25C295030040B87A /* PLVFillBlankQuestionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVFillBlankQuestionView.m; sourceTree = "<group>"; };
+		1258744E25C2C3DF0040B87A /* PLVFillBlankView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVFillBlankView.h; sourceTree = "<group>"; };
+		1258744F25C2C3DF0040B87A /* PLVFillBlankView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVFillBlankView.m; sourceTree = "<group>"; };
+		125AC98025C7B0300043AB55 /* PLVOptionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVOptionView.h; sourceTree = "<group>"; };
+		125AC98125C7B0300043AB55 /* PLVOptionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVOptionView.m; sourceTree = "<group>"; };
+		126690CC26244A8100DE371D /* PLVToast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVToast.h; sourceTree = "<group>"; };
+		126690CD26244A8100DE371D /* PLVToast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVToast.m; sourceTree = "<group>"; };
+		3653865A7A54ED3977E5B0AF /* libPods-PolyvVodSDKDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PolyvVodSDKDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		583B13F6754332087E2D3E35 /* libPods-PolyvVodSDKDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PolyvVodSDKDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6307223921C35CBC003B2526 /* PLVCastManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCastManager.h; sourceTree = "<group>"; };
 		6307223A21C35CBC003B2526 /* PLVCastManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVCastManager.m; sourceTree = "<group>"; };
 		6307224321C79917003B2526 /* PLVCastServiceListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVCastServiceListView.h; sourceTree = "<group>"; };
@@ -393,15 +398,13 @@
 		63745AC921D1D606007408C1 /* PLVVodCoverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodCoverView.m; sourceTree = "<group>"; };
 		639D17E221E3579B005E00F3 /* PLVCastBusinessManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVCastBusinessManager.h; sourceTree = "<group>"; };
 		639D17E321E3579B005E00F3 /* PLVCastBusinessManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVCastBusinessManager.m; sourceTree = "<group>"; };
-		76C2F6A0BCB7667BB284FBF7 /* Pods-PolyvVodSDKDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		7967BC48B2C797973B538F35 /* Pods-PolyvVodSDKDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoUITests/Pods-PolyvVodSDKDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
-		BEBDABF08C034C88459FC568 /* libPods-PolyvVodSDKDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PolyvVodSDKDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CBA030EBE203C136F2C2CA84 /* Pods-PolyvVodSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		D9AEF8D43E09CFE37BBAFC92 /* Pods-PolyvVodSDKDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoUITests/Pods-PolyvVodSDKDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		69D209238B5791C378CF7775 /* Pods-PolyvVodSDKDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AF64AA8C20651B58A58A7802 /* Pods-PolyvVodSDKDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoUITests/Pods-PolyvVodSDKDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DA00893B20BC0F44006CEBBE /* PLVVodAudioCoverPanelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodAudioCoverPanelView.h; sourceTree = "<group>"; };
 		DA00893C20BC0F44006CEBBE /* PLVVodAudioCoverPanelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodAudioCoverPanelView.m; sourceTree = "<group>"; };
-		DC865E1928EF59756ECF501E /* libPods-PolyvVodSDKDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PolyvVodSDKDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DFD3FCBD171202086E5C92A2 /* Pods-PolyvVodSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
+		DBC6EE49D4D19B2D40756FCA /* Pods-PolyvVodSDKDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoTests/Pods-PolyvVodSDKDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		DD9312FB89B404652046FD44 /* Pods-PolyvVodSDKDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemoUITests/Pods-PolyvVodSDKDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E0BA0F2B5BB04230C1D9027B /* Pods-PolyvVodSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyvVodSDKDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,9 +412,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0464671A228137D000275AD6 /* PLVVodSDK.framework in Frameworks */,
-				00A3BBD222811F02005C3E07 /* PLVVodUploadSDK.framework in Frameworks */,
-				A624BBEF32B3DD5B3F0E9070 /* libPods-PolyvVodSDKDemo.a in Frameworks */,
+				FF7FD1408250FCB016129515 /* libPods-PolyvVodSDKDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +420,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EF7954617955048A6FDB321 /* libPods-PolyvVodSDKDemoTests.a in Frameworks */,
+				FC857D55614EAED82C65A17A /* libPods-PolyvVodSDKDemoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +428,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF56C4CE81FA394DFF164588 /* libPods-PolyvVodSDKDemoUITests.a in Frameworks */,
+				2F81AB8B20358B516AED69A3 /* libPods-PolyvVodSDKDemoUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,6 +649,7 @@
 		03722E321FEB66CC00031180 /* PolyvOpenSourceModule */ = {
 			isa = PBXGroup;
 			children = (
+				126690CB26244A2B00DE371D /* Toast */,
 				04C85F792473790B00F3493B /* Util */,
 				03856C4B1FE21C8A0038DEB2 /* PLVVodResources.xcassets */,
 				03856C5C1FE21C990038DEB2 /* Category */,
@@ -664,11 +666,14 @@
 			children = (
 				037C21101FECB56D008CD03C /* PLVVodQuestion.h */,
 				037C21111FECB56D008CD03C /* PLVVodQuestion.m */,
-				03722E331FEB8BDE00031180 /* PLVVodOptionCell.h */,
-				03722E341FEB8BDE00031180 /* PLVVodOptionCell.m */,
-				03722E351FEB8BDE00031180 /* PLVVodOptionCell.xib */,
 				03722E391FEB90DB00031180 /* PLVVodQuestionView.h */,
 				03722E3A1FEB90DB00031180 /* PLVVodQuestionView.m */,
+				125AC98025C7B0300043AB55 /* PLVOptionView.h */,
+				125AC98125C7B0300043AB55 /* PLVOptionView.m */,
+				125873EE25C295030040B87A /* PLVFillBlankQuestionView.h */,
+				125873EF25C295030040B87A /* PLVFillBlankQuestionView.m */,
+				1258744E25C2C3DF0040B87A /* PLVFillBlankView.h */,
+				1258744F25C2C3DF0040B87A /* PLVFillBlankView.m */,
 			);
 			path = QuestionView;
 			sourceTree = "<group>";
@@ -995,6 +1000,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		126690CB26244A2B00DE371D /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				126690CC26244A8100DE371D /* PLVToast.h */,
+				126690CD26244A8100DE371D /* PLVToast.m */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		639D17E121E35760005E00F3 /* Cast */ = {
 			isa = PBXGroup;
 			children = (
@@ -1013,12 +1027,12 @@
 		91802A2F05429B7AFC2D9AC7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CBA030EBE203C136F2C2CA84 /* Pods-PolyvVodSDKDemo.debug.xcconfig */,
-				DFD3FCBD171202086E5C92A2 /* Pods-PolyvVodSDKDemo.release.xcconfig */,
-				76C2F6A0BCB7667BB284FBF7 /* Pods-PolyvVodSDKDemoTests.debug.xcconfig */,
-				1DEB24A969A9951F93808A80 /* Pods-PolyvVodSDKDemoTests.release.xcconfig */,
-				D9AEF8D43E09CFE37BBAFC92 /* Pods-PolyvVodSDKDemoUITests.debug.xcconfig */,
-				7967BC48B2C797973B538F35 /* Pods-PolyvVodSDKDemoUITests.release.xcconfig */,
+				E0BA0F2B5BB04230C1D9027B /* Pods-PolyvVodSDKDemo.debug.xcconfig */,
+				01FD8463D89DC62FC49A7E64 /* Pods-PolyvVodSDKDemo.release.xcconfig */,
+				69D209238B5791C378CF7775 /* Pods-PolyvVodSDKDemoTests.debug.xcconfig */,
+				DBC6EE49D4D19B2D40756FCA /* Pods-PolyvVodSDKDemoTests.release.xcconfig */,
+				DD9312FB89B404652046FD44 /* Pods-PolyvVodSDKDemoUITests.debug.xcconfig */,
+				AF64AA8C20651B58A58A7802 /* Pods-PolyvVodSDKDemoUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1026,12 +1040,10 @@
 		94204A1D4CA80F6165C1D2E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				04646719228137D000275AD6 /* PLVVodSDK.framework */,
-				00A3BBD122811F02005C3E07 /* PLVVodUploadSDK.framework */,
 				04B051D82106EC4C00F6C791 /* GLKit.framework */,
-				BEBDABF08C034C88459FC568 /* libPods-PolyvVodSDKDemoTests.a */,
-				4A112B9BB76909C0D8E93FB1 /* libPods-PolyvVodSDKDemoUITests.a */,
-				DC865E1928EF59756ECF501E /* libPods-PolyvVodSDKDemo.a */,
+				583B13F6754332087E2D3E35 /* libPods-PolyvVodSDKDemo.a */,
+				3653865A7A54ED3977E5B0AF /* libPods-PolyvVodSDKDemoTests.a */,
+				014A9D233F73FC45F36D0BED /* libPods-PolyvVodSDKDemoUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1063,7 +1075,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 03CB8C8A1FB3EB220048D9FC /* Build configuration list for PBXNativeTarget "PolyvVodSDKDemoTests" */;
 			buildPhases = (
-				FA3686DDE25EC11868957A52 /* [CP] Check Pods Manifest.lock */,
+				68D784735FB714A91E33F871 /* [CP] Check Pods Manifest.lock */,
 				03CB8C6F1FB3EB220048D9FC /* Sources */,
 				03CB8C701FB3EB220048D9FC /* Frameworks */,
 				03CB8C711FB3EB220048D9FC /* Resources */,
@@ -1082,7 +1094,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 03CB8C8D1FB3EB220048D9FC /* Build configuration list for PBXNativeTarget "PolyvVodSDKDemoUITests" */;
 			buildPhases = (
-				01256FB6EAFCEAC7234ACCDA /* [CP] Check Pods Manifest.lock */,
+				F5855215DD9B6224A71C4889 /* [CP] Check Pods Manifest.lock */,
 				03CB8C7A1FB3EB220048D9FC /* Sources */,
 				03CB8C7B1FB3EB220048D9FC /* Frameworks */,
 				03CB8C7C1FB3EB220048D9FC /* Resources */,
@@ -1164,7 +1176,6 @@
 				00B2187E2481144700ABDCCD /* Settings.bundle in Resources */,
 				03722E311FEB664700031180 /* PLVVodExamViewController.xib in Resources */,
 				03856C691FE21C990038DEB2 /* PLVVodPlayerSkin.xib in Resources */,
-				03722E371FEB8BDE00031180 /* PLVVodOptionCell.xib in Resources */,
 				6342327B224DF13A00AB856D /* PLVVodExamTestData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1186,28 +1197,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		01256FB6EAFCEAC7234ACCDA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PolyvVodSDKDemoUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		0A537BCCD71804471CFBCD1F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1264,7 +1253,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FA3686DDE25EC11868957A52 /* [CP] Check Pods Manifest.lock */ = {
+		68D784735FB714A91E33F871 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1280,6 +1269,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-PolyvVodSDKDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5855215DD9B6224A71C4889 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PolyvVodSDKDemoUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1337,7 +1348,6 @@
 				0463BAE821A52FBB0010A5EC /* PLVVodDBManager.mm in Sources */,
 				03F04E2A204D4A8700CA0A4F /* PLVVodVidTestController.m in Sources */,
 				00A8166E230BE19D00EB61E5 /* PLVPPTControllerSkinView.m in Sources */,
-				03722E361FEB8BDE00031180 /* PLVVodOptionCell.m in Sources */,
 				00B57EA7228C0C25002E56C7 /* PLVUploadToast.m in Sources */,
 				0356CD051FCC383700B522A1 /* PLVCourseVideoListController.m in Sources */,
 				04B051D32106CEC000F6C791 /* PLVDownloadCompleteViewController.m in Sources */,
@@ -1349,7 +1359,9 @@
 				031408601FB9806100D1424A /* PLVTeacher.m in Sources */,
 				0489AFDD21077559004A26A4 /* PLVDownloadProcessingCell.m in Sources */,
 				03722E3E1FEB910300031180 /* PLVVodExplanationView.m in Sources */,
+				1258745025C2C3DF0040B87A /* PLVFillBlankView.m in Sources */,
 				0030335722B1047E0087E76A /* PLVUploadCell.m in Sources */,
+				125AC98225C7B0300043AB55 /* PLVOptionView.m in Sources */,
 				040FD1A4218ADFA000F6460B /* PLVVodErrorUtil.m in Sources */,
 				000935DA22EAA48800933F66 /* PLVPPTVideoViewController.m in Sources */,
 				033153041FCD103F00CAE849 /* PLVCourseSection.m in Sources */,
@@ -1386,6 +1398,7 @@
 				00AADCD022F2F1400037A843 /* PLVPPTActionView.m in Sources */,
 				03856C701FE21C990038DEB2 /* UIColor+PLVVod.m in Sources */,
 				030DF03A1FB5BA9D0035D0B0 /* PLVSchool.m in Sources */,
+				126690CE26244A8100DE371D /* PLVToast.m in Sources */,
 				0030335E22B1E5660087E76A /* PLVVodNetworkUtil.m in Sources */,
 				0430A41321EC4237001B8942 /* PLVVodPlayTipsView.m in Sources */,
 				00154ED5226979B2009E36D7 /* PLVUploadTableViewModel.mm in Sources */,
@@ -1395,6 +1408,7 @@
 				03856C741FE21C990038DEB2 /* PLVVodDanmu+PLVVod.m in Sources */,
 				03DDF4CE1FE763BB00F63630 /* DLSlideView.m in Sources */,
 				03EA41C91FBD36F500BA68AD /* PLVCourseCell.m in Sources */,
+				125873F025C295030040B87A /* PLVFillBlankQuestionView.m in Sources */,
 				0046DF4B24E63E6500592F62 /* PLVVodUtils.m in Sources */,
 				00B0B4962405080D0089495C /* PLVVFloatingPlayerViewController.m in Sources */,
 				00E111F122F91DA1005A8575 /* PLVEmptyPPTViewCell.m in Sources */,
@@ -1545,7 +1559,7 @@
 		};
 		03CB8C881FB3EB220048D9FC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBA030EBE203C136F2C2CA84 /* Pods-PolyvVodSDKDemo.debug.xcconfig */;
+			baseConfigurationReference = E0BA0F2B5BB04230C1D9027B /* Pods-PolyvVodSDKDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -1562,9 +1576,9 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PolyvVodSDkDemo/Supporting Files/PolyvVodSDKDemo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/PolyvVodSDKDemo/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.14.1;
+				MARKETING_VERSION = 2.15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.polyv.vod.sdk.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1573,7 +1587,7 @@
 		};
 		03CB8C891FB3EB220048D9FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DFD3FCBD171202086E5C92A2 /* Pods-PolyvVodSDKDemo.release.xcconfig */;
+			baseConfigurationReference = 01FD8463D89DC62FC49A7E64 /* Pods-PolyvVodSDKDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -1590,9 +1604,9 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PolyvVodSDkDemo/Supporting Files/PolyvVodSDKDemo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/PolyvVodSDKDemo/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.14.1;
+				MARKETING_VERSION = 2.15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.polyv.vod.sdk.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1601,7 +1615,7 @@
 		};
 		03CB8C8B1FB3EB220048D9FC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 76C2F6A0BCB7667BB284FBF7 /* Pods-PolyvVodSDKDemoTests.debug.xcconfig */;
+			baseConfigurationReference = 69D209238B5791C378CF7775 /* Pods-PolyvVodSDKDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1617,7 +1631,7 @@
 		};
 		03CB8C8C1FB3EB220048D9FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1DEB24A969A9951F93808A80 /* Pods-PolyvVodSDKDemoTests.release.xcconfig */;
+			baseConfigurationReference = DBC6EE49D4D19B2D40756FCA /* Pods-PolyvVodSDKDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1633,7 +1647,7 @@
 		};
 		03CB8C8E1FB3EB220048D9FC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D9AEF8D43E09CFE37BBAFC92 /* Pods-PolyvVodSDKDemoUITests.debug.xcconfig */;
+			baseConfigurationReference = DD9312FB89B404652046FD44 /* Pods-PolyvVodSDKDemoUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ETRBR9HA5V;
@@ -1648,7 +1662,7 @@
 		};
 		03CB8C8F1FB3EB220048D9FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7967BC48B2C797973B538F35 /* Pods-PolyvVodSDKDemoUITests.release.xcconfig */;
+			baseConfigurationReference = AF64AA8C20651B58A58A7802 /* Pods-PolyvVodSDKDemoUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ETRBR9HA5V;

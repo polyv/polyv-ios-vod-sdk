@@ -58,7 +58,7 @@
                                          userInfo:@{NSLocalizedFailureReasonErrorKey:@"vids 参数错误"}];
         fail (error);
     }
-    NSString *url = [NSString stringWithFormat:@"http://api.polyv.net/v2/data/%@/play-times", [PLVVodSettings sharedSettings].userid];
+    NSString *url = [NSString stringWithFormat:@"https://api.polyv.net/v2/data/%@/play-times", [PLVVodSettings sharedSettings].userid];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"ptime"] = [self timestamp];
     params[@"realTime"] = ([realTime integerValue] > 0) ? @"1" : @"0";

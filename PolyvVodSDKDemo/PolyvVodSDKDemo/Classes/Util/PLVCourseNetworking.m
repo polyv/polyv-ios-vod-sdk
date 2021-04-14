@@ -74,7 +74,7 @@
 + (void)requestCourseVideosWithCourseId:(NSString *)courseId completion:(void (^)(NSArray *videoSections))completion {
 	PLVSchool *school = [PLVSchool sharedInstance];
 	NSString *secretKey = school.schoolKey;
-	NSString *url = [NSString stringWithFormat:@"http://%@/api/curriculum/vod-open-curriculum", school.host];
+	NSString *url = [NSString stringWithFormat:@"https://%@/api/curriculum/vod-open-curriculum", school.host];
 	NSMutableDictionary *params = [NSMutableDictionary dictionary];
 	params[@"courseId"] = courseId;
 	params[@"timestamp"] = [self timestamp];
@@ -97,7 +97,7 @@
 + (void)requestCoursesWithOptionalParams:(NSDictionary *)optionalParams completion:(void (^)(NSArray<PLVCourse *> *courses))completion {
 	PLVSchool *school = [PLVSchool sharedInstance];
 	NSString *secretKey = school.schoolKey;
-	NSString *url = [NSString stringWithFormat:@"http://%@/api/course/vod-open-courses", school.host];
+	NSString *url = [NSString stringWithFormat:@"https://%@/api/course/vod-open-courses", school.host];
 	__block NSMutableDictionary *params = [NSMutableDictionary dictionary];
 	[params addEntriesFromDictionary:optionalParams];
 	params[@"timestamp"] = [self timestamp];
@@ -117,7 +117,7 @@
 /// 请求账户下的视频列表
 + (void)requestAccountVideoWithPageCount:(NSInteger)pageCount page:(NSInteger)page completion:(void (^)(NSArray<PLVVodAccountVideo *> *accountVideos))completion; {
 	PLVVodSettings *settings = [PLVVodSettings sharedSettings];
-	NSString *url = [NSString stringWithFormat:@"http://api.polyv.net/v2/video/%@/list", settings.userid];
+	NSString *url = [NSString stringWithFormat:@"https://api.polyv.net/v2/video/%@/list", settings.userid];
 	NSMutableDictionary *params = [NSMutableDictionary dictionary];
 	params[@"userid"] = settings.userid;
 	params[@"ptime"] = [self timestamp];
