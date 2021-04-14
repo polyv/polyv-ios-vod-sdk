@@ -13,6 +13,7 @@
 - 【SDK】添加视频禁播功能
 - 【SDK】sdk中的http请求更换为https请求
 - 【SDK】解决部分直播转存视频seek卡住的问题
+- 【SDK】IJKPlayer播放器设置user-agent 参数对齐安卓端
 - 【Demo】问答功能中选择题的显示优化、新增填空题型
 - 【Demo】支持投屏的观看统计
 
