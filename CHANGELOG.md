@@ -6,6 +6,25 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.15.1] - 2021-05-12
+
+### Changed
+
+- 【SDK】投屏URL的拼接移动到sdk层
+- 【SDK】投屏URL参数添加base64处理优化
+- 【SDK】FFMpeg打包瘦身
+- 【SDK】修复视频片头播放黑屏的问题
+- 【SDK】修复切换视频时，上一个视频的片头会继续播放的问题
+- 【SDK】修复某些m3u8视频，无法seek到0、无法重播的问题
+- 【SDK】修复后台状态下，无网络恢复为4g网络情况引起崩溃的问题
+- 【SDK】对齐安卓sdk，修改sdk中网络请求的user-agent
+- 【Demo】投屏URL的获取由demo层拼接改为从SDK获取
+
+**注意：**
+
+1. 旧版本升级至 2.15.1 版本的点播 SDK，建议同步更新 2.15.1 版本的 Demo 层代码，以获得投屏播放时的观看统计能力。
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.15.0...2.15.1) 查看 Demo 层的变动，手动更新Demo层源码
+
 ## [2.15.0] - 2021-04-14
 
 ### Changed
@@ -13,7 +32,6 @@
 - 【SDK】添加视频禁播功能
 - 【SDK】sdk中的http请求更换为https请求
 - 【SDK】解决部分直播转存视频seek卡住的问题
-- 【SDK】IJKPlayer播放器设置user-agent 参数对齐安卓端
 - 【Demo】问答功能中选择题的显示优化、新增填空题型
 - 【Demo】支持投屏的观看统计
 
@@ -34,7 +52,7 @@
 **注意：**
 
 1. 旧版本升级至 2.14.1 版本的点播 SDK，建议同步更新 2.14.1 版本的 Demo 层代码。
-2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.14.0...2.14.1) 查看 Demo 层的变动，手动更新Demo层源码
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.14.0...2.14.1) 查看 Demo 层的变动，手动更新Demo层源码
 
 ## [2.14.0] - 2020-12-23
 
@@ -48,7 +66,7 @@
 **注意：**
 
 1. 旧版本升级至 2.14.0 版本的点播 SDK，建议同步更新 2.14.0 版本的 Demo 层代码。
-2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.13.1...2.14.0) 查看 Demo 层的变动，手动更新Demo层源码
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/v2.13.1...v2.14.0) 查看 Demo 层的变动，手动更新Demo层源码
 
 
 ## [2.13.1] - 2020-11-20

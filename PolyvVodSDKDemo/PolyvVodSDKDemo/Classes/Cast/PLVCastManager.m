@@ -259,46 +259,18 @@ static PLVCastManager * manager = nil;
 #pragma mark 设备播放操作
 - (void)startPlayWithVideo:(PLVVodVideo *)video quality:(NSInteger)quality startPosition:(NSTimeInterval)startPosition { 
     
-    NSString * urlString;
-    if (video.keepSource) {
-        urlString = video.play_source_url;
-    }else{
-        
-        NSArray * urlArr;
-        if(video.isPlain == YES && video.isHls == NO){
-            urlArr = video.plainVideos;
-        }else{
-            urlArr = video.hlsVideos;
-        }
-        NSInteger idx = quality - 1;
-        urlString = (urlArr.count > idx && idx >= 0) ? urlArr[idx] : @"";
-        
-    }
-    
+    NSString *urlString = [video transformCastMediaURLStringWithQuality:quality];
     if (urlString == nil || [urlString isKindOfClass: [NSString class]] == NO || urlString.length == 0) {
         NSLog(@"PLVCastManager - 播放链接非法 链接：%@",urlString);
         return;
     }
-    
-    PLVVodSettings *settings = [PLVVodSettings sharedSettings];
-    NSString *viewerId = settings.viewerId.length ? [PLVVodUtils urlSafeBase64String:settings.viewerId] : @"";
-    NSString *viewerName = settings.viewerName.length ? [PLVVodUtils urlSafeBase64String:settings.viewerName] : @"";
-    NSString *param3 = settings.viewerInfos.viewerExtraInfo1 ? [PLVVodUtils urlSafeBase64String:settings.viewerInfos.viewerExtraInfo1] : @"";
-    NSString *param4 = settings.viewerInfos.viewerExtraInfo2 ? [PLVVodUtils urlSafeBase64String:settings.viewerInfos.viewerExtraInfo2] : @"";
-    NSString *param5 = settings.viewerInfos.viewerExtraInfo3 ? [PLVVodUtils urlSafeBase64String:settings.viewerInfos.viewerExtraInfo3] : @"";
-    NSString *pv = PLVVodSdkVersion;
-    NSString *pid = [PLVVodUtils pid];
-    NSString *v1 = viewerId;
-    NSString *d1 = @"1";
-    NSString *pn = @"polyv-ios-vod-sdk";
-    urlString  = [NSString stringWithFormat:@"%@?p1=%@&p2=%@&p3=%@&p4=%@&p5=%@&pv=%@&pid=%@&v1=%@&d1=%@&pn=%@", urlString,viewerId, viewerName, param3, param4, param5, pv, pid, v1, d1, pn];
         
     // 创建播放内容对象
-    LBLelinkPlayerItem * item = [[LBLelinkPlayerItem alloc] init];
+    LBLelinkPlayerItem *item = [[LBLelinkPlayerItem alloc] init];
     item.mediaType = LBLelinkMediaTypeVideoOnline;
     item.mediaURLString = urlString;
     item.startPosition = startPosition;
-    NSString * versionInfo = [NSString stringWithFormat:@"PolyviOSScreencast%@",PLVVodSdkVersion];
+    NSString *versionInfo = [NSString stringWithFormat:@"PolyviOSScreencast%@",PLVVodSdkVersion];
     item.headerInfo = @{@"user-agent":versionInfo};
 
     if (video.keepSource || video.isPlain) {

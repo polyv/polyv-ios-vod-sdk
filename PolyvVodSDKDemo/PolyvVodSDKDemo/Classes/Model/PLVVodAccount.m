@@ -15,6 +15,8 @@ NSString *PLVVodConfigString = PLV_VOD_KEY;
 #else
 // 网校
 NSString *PLVVodConfigString =   @"yQRmgnzPyCUYDx6weXRATIN8gkp7BYGAl3ATjE/jHZunrULx8CoKa1WGMjfHftVChhIQlCA9bFeDDX+ThiuBHLjsNRjotqxhiz97ZjYaCQH/MhUrbEURv58317PwPuGEf3rbLVPOa4c9jliBcO+22A==";
+
+
 #endif
 
 NSString *PLVVodDecodeKey = @"VXtlHmwfS2oYm0CZ";
@@ -22,9 +24,7 @@ NSString *PLVVodDecodeIv = @"2u9gDPKdX6GyQJKU";
 
 #pragma mark - 子账号登陆
 
-// 主帐号加密key
 NSString *PLVVodSecretKey = @"";
-
 NSString *PLVVodUserId = @"";
 NSString *PLVVodSubAccountAppId = @"";
 NSString *PLVVodSubAccountSecretKey = @"";
