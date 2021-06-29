@@ -52,7 +52,9 @@
     @(server_error):@"服务器响应错误，请向管理员返反馈",
     @(fetch_error):@"网络请求错误，请稍后重试，或向管理员反馈",
     @(json_read_error):@"JSON 解析错误，请稍后再试，或向管理员反馈",
-    @(video_not_support_play_audio):@"当前视频不支持音频播放模式，请向管理员反馈"
+    @(video_not_support_play_audio):@"当前视频不支持音频播放模式，请向管理员反馈",
+    @(player_decrypt_not_support):@"播放器不支持播放该视频，请升级播放器版本",
+    @(player_nkv_not_support):@"播放器不支持播放该视频，请升级播放器版本"
     };
     return errorDict;
 }
