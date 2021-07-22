@@ -488,6 +488,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     
 	PLVVodPlayerSkin *skin = [[PLVVodPlayerSkin alloc] initWithNibName:nil bundle:nil];
     skin.enableFloating = self.enableFloating;
+    skin.deviceOrientationChangedNotSwitchFullscreen = self.deviceOrientationChangedNotSwitchFullscreen;
 	__weak typeof(skin) _skin = skin;
 	[self addChildViewController:skin];
 	UIView *skinView = skin.view;
@@ -1291,12 +1292,16 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 }
 
 - (void)interfaceOrientationDidChange:(NSNotification *)notification {
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    if ([self fullscreenMustBeLandscape]) {
-        [self playInFullscreen:(interfaceOrientation != UIInterfaceOrientationPortrait)];
+    if (self.deviceOrientationChangedNotSwitchFullscreen) {
+        //设备旋转，不影响全半屏状态
+    }else {
+        UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        if ([self fullscreenMustBeLandscape]) {
+            [self playInFullscreen:(interfaceOrientation != UIInterfaceOrientationPortrait)];
+        }
+        
+        [self updatePlayerConstraints];
     }
-    
-    [self updatePlayerConstraints];
 }
 
 #pragma mark - Override Related Private Method
@@ -1304,14 +1309,18 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 - (void)playInFullscreen:(BOOL)full {
     self.fullscreen = full;
     
-    if (self.fullscreen == NO) {// 非全屏时一定是竖屏状态
-        [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationPortrait];
-    } else if ([self fullscreenMustBeLandscape]) {// 必须旋转屏幕才能实现全屏
-        UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-        if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
-            [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationLandscapeLeft];
-        } else {
-            [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
+    if (self.deviceOrientationChangedNotSwitchFullscreen) {
+        // 点击全半屏切换，不旋转屏幕方向
+    }else {
+        if (self.fullscreen == NO) {// 非全屏时一定是竖屏状态
+            [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationPortrait];
+        } else if ([self fullscreenMustBeLandscape]) {// 必须旋转屏幕才能实现全屏
+            UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+            if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+                [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationLandscapeLeft];
+            } else {
+                [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationLandscapeRight];
+            }
         }
     }
     
@@ -1328,16 +1337,29 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         return;
     }
     
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    BOOL isPortrait = UIInterfaceOrientationIsPortrait(orientation);
-    if (isPortrait && !self.fullscreen) {
-        [self.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
-            make.edges.plv_equalTo(self.placeholderView);
-        }];
-    } else {
-        [self.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
-            make.edges.plv_equalTo(self.rootViewController.view);
-        }];
+    if (self.deviceOrientationChangedNotSwitchFullscreen) {
+        if (self.fullscreen) {
+            [self.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
+                make.edges.plv_equalTo(self.rootViewController.view);
+            }];
+        }else {
+            [self.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
+                make.edges.plv_equalTo(self.placeholderView);
+            }];
+        }
+        
+    }else {
+        UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+        BOOL isPortrait = UIInterfaceOrientationIsPortrait(orientation);
+        if (isPortrait && !self.fullscreen) {
+            [self.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
+                make.edges.plv_equalTo(self.placeholderView);
+            }];
+        } else {
+            [self.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
+                make.edges.plv_equalTo(self.rootViewController.view);
+            }];
+        }
     }
 }
 

@@ -566,12 +566,7 @@
 }
 
 - (void)updateUIForOrientation {
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (!UIInterfaceOrientationIsPortrait(orientation)) {
-        self.mainControl = self.fullscreenView;
-        self.shouldHideStatusBar = YES;
-        self.shouldHideNavigationBar = YES;
-    } else {
+    if (self.deviceOrientationChangedNotSwitchFullscreen) {
         if (self.delegatePlayer.fullscreen) {
             self.mainControl = self.fullscreenView;
             self.shouldHideStatusBar = YES;
@@ -580,6 +575,23 @@
             self.mainControl = self.shrinkscreenView;
             self.shouldHideStatusBar = NO;
             self.shouldHideNavigationBar = NO;
+        }
+    }else {
+        UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+        if (!UIInterfaceOrientationIsPortrait(orientation)) {
+            self.mainControl = self.fullscreenView;
+            self.shouldHideStatusBar = YES;
+            self.shouldHideNavigationBar = YES;
+        } else {
+            if (self.delegatePlayer.fullscreen) {
+                self.mainControl = self.fullscreenView;
+                self.shouldHideStatusBar = YES;
+                self.shouldHideNavigationBar = YES;
+            } else {
+                self.mainControl = self.shrinkscreenView;
+                self.shouldHideStatusBar = NO;
+                self.shouldHideNavigationBar = NO;
+            }
         }
     }
     

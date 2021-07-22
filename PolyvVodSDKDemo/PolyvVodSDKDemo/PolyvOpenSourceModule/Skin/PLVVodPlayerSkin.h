@@ -55,6 +55,9 @@
 /// 是否播放本地视频
 @property (nonatomic, assign) BOOL localPlayback;
 
+/// 设备旋转的时候不影响全/半屏状态 (设备旋转是否与全/半屏状态无关)，默认NO
+@property (nonatomic, assign) BOOL deviceOrientationChangedNotSwitchFullscreen;
+
 #pragma mark 控件
 
 /// 播放/暂停按钮
