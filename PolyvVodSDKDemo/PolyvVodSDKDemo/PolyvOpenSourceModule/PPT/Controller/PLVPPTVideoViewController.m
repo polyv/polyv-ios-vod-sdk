@@ -24,9 +24,18 @@ PLVVodPlayerSkinPPTVideoProtocol
 
 #pragma mark - Life Cycle
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.player viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.player viewWillDisappear:animated];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self.view addSubview:self.player.view];
     self.skinView = (PLVVodPlayerSkin *)self.player.playerControl;
     self.skinView.pptVideoDelegate = self;

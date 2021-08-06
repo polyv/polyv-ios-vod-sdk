@@ -79,6 +79,16 @@ PLVFloatingViewProtocol
 #endif
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.videoController viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.videoController viewWillDisappear:animated];
+}
+
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
 

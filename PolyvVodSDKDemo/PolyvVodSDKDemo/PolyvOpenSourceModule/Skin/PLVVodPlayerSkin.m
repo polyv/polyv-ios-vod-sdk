@@ -87,6 +87,9 @@
 /// 手势快进提示视图
 @property (nonatomic, strong) PLVVodFastForwardView *fastForwardView;
 
+/// 切换清晰度的提示视图
+@property (nonatomic, strong) PLVVodDefinitionTipsView *definitionTipsView;
+
 @end
 
 @implementation PLVVodPlayerSkin
@@ -144,8 +147,29 @@
 	});
     
     _delegatePlayer.didFullScreenSwitch = ^(BOOL fullScreen) {
-        weakSelf.shrinkscreenView.switchScreenButton.selected = fullScreen;
-        [weakSelf updateUIForOrientation];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.shrinkscreenView.switchScreenButton.selected = fullScreen;
+            [weakSelf updateUIForOrientation];
+        });
+    };
+    
+    // 切换清晰度成功回调
+    _delegatePlayer.switchQualitySuccessHandler = ^(PLVVodQuality quality) {
+        if (self->_delegatePlayer.fullscreen) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.definitionTipsView showSwitchSuccess:quality];
+            });
+        }
+    };
+    
+    //差网络回调
+    _delegatePlayer.poorNetWorkHandler = ^{
+        if (self->_delegatePlayer.quality > PLVVodQualityStandard &&
+            self->_delegatePlayer.fullscreen) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.definitionTipsView showSwitchQuality:self->_delegatePlayer.quality - 1];
+            });
+        }
     };
 }
 
@@ -160,6 +184,10 @@
 		} else {
 			definitionButton.selected = YES;
 			definitionButton.enabled = YES;
+            
+            if (self.delegatePlayer.video.keepSource){
+                definitionButton.enabled = NO;
+            }
 		}
         
         UIButton *shrinkDefiBtn = self.shrinkscreenView.definitionButton;
@@ -168,6 +196,10 @@
             shrinkDefiBtn.enabled = NO;
         } else {
             shrinkDefiBtn.enabled = YES;
+            
+            if (self.delegatePlayer.video.keepSource){
+                shrinkDefiBtn.enabled = NO;
+            }
         }
 	});
 }
@@ -473,6 +505,24 @@
     return _fastForwardView;
 }
 
+-(PLVVodDefinitionTipsView *)definitionTipsView {
+    if (!_definitionTipsView) {
+        _definitionTipsView = [[PLVVodDefinitionTipsView alloc] init];
+        __weak typeof(self) weakSelf = self;
+        [_definitionTipsView setClickSwitchQualityBlock:^(PLVVodQuality quality) {
+            weakSelf.quality = quality;
+            if (weakSelf.definitionPanelView.qualityDidChangeBlock) {
+                weakSelf.definitionPanelView.qualityDidChangeBlock(quality);
+            }
+        }];
+        [self.view addSubview:_definitionTipsView];
+        [self constrainSubview:_definitionTipsView toMatchWithSuperview:self.view];
+        [self.view bringSubviewToFront:_definitionTipsView];
+    }
+    return _definitionTipsView;
+}
+
+
 #pragma mark - view controller
 
 - (void)dealloc {
@@ -648,6 +698,7 @@
 - (IBAction)settingAction:(UIButton *)sender {
 	[self transitToView:self.settingsPanelView];
     [self.settingsPanelView switchToPlayMode:self.delegatePlayer.playbackMode];
+    self.settingsPanelView.volumeSlider.value = self.delegatePlayer.playbackVolume;
 }
 
 // 截图按钮

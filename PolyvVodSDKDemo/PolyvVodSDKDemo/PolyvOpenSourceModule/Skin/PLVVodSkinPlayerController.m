@@ -15,7 +15,6 @@
 #import <PLVSubtitle/PLVSubtitleManager.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <PLVMarquee/PLVMarquee.h>
-#import <MediaPlayer/MPVolumeView.h>
 #import <AlicloudUtils/AlicloudReachabilityManager.h>
 #import <PLVVodSDK/PLVVodDownloadManager.h>
 #import <PLVVodSDK/PLVVodLocalVideo.h>
@@ -62,10 +61,6 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
 /// 滑动进度
 @property (nonatomic, assign) NSTimeInterval scrubTime;
-
-/// 修改系统音量
-@property (nonatomic, strong) MPVolumeView *volumeView;
-@property (nonatomic, assign) double currentVolume;
 
 /// 视频播放判断网络类型功能所需的延迟操作事件
 @property (nonatomic, copy) void (^networkTipsConfirmBlock) (void);
@@ -201,6 +196,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	[self.playbackTimer cancel];
 	self.playbackTimer = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[AVAudioSession sharedInstance] removeObserver:self forKeyPath:@"outputVolume" context:(void *)[AVAudioSession sharedInstance]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -244,9 +240,12 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
             
             /// 隐藏播放错误提示
             if (weakSelf.hidePlayError && PLVVodPlaybackStatePlaying == weakSelf.playbackState){
-                PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
-                [skin hidePlayErrorTips];
-                weakSelf.hidePlayError = NO;
+                AlicloudReachabilityManager *netMgr = [AlicloudReachabilityManager shareInstance];
+                if (AlicloudNotReachable != netMgr.currentNetworkStatus){
+                    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
+                    [skin hidePlayErrorTips];
+                    weakSelf.hidePlayError = NO;
+                }
             }
             
             // 回调现在播放到第几秒
@@ -483,8 +482,6 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 #pragma mark - private
 
 - (void)setupSkin {
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    self.currentVolume = audioSession.outputVolume;
     
 	PLVVodPlayerSkin *skin = [[PLVVodPlayerSkin alloc] initWithNibName:nil bundle:nil];
     skin.enableFloating = self.enableFloating;
@@ -984,15 +981,14 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     // 皮肤
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
     
-    BOOL isSystemVolume = YES;
+    BOOL isSystemVolume = self.adjustSystemVolume;
     if (isSystemVolume){
         // 系统音量调节
         switch (pan.state) {
             case UIGestureRecognizerStateBegan: {
             } break;
             case UIGestureRecognizerStateChanged: {
-                self.currentVolume -= veloctyPoint.y/10000;
-                [self changeVolume:self.currentVolume];
+                self.playbackVolume -= veloctyPoint.y/10000;
             } break;
             case UIGestureRecognizerStateEnded: {
             } break;
@@ -1018,25 +1014,6 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
                 [skin showGestureIndicator:NO];
             } break;
             default: {} break;
-        }
-    }
-}
-
-- (void)changeVolume:(CGFloat)distance {
-    if (distance > 1) { distance = 1; }
-    else if (distance < 0) { distance = 0; }
-    
-    if (self.volumeView == nil) {
-        self.volumeView = [[MPVolumeView alloc] init];
-        self.volumeView.showsVolumeSlider = YES;
-    }
-    
-    for (UIView *v in self.volumeView.subviews) {
-        if ([v.class.description isEqualToString:@"MPVolumeSlider"]) {
-            UISlider *volumeSlider = (UISlider *)v;
-            [volumeSlider setValue:distance];
-            [volumeSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
-            break;
         }
     }
 }
@@ -1176,6 +1153,16 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
                                              selector:@selector(networkStatusDidChange:)
                                                  name:ALICLOUD_NETWOEK_STATUS_NOTIFY
                                                object:nil];
+    
+    [[AVAudioSession sharedInstance] addObserver:self forKeyPath:@"outputVolume" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:(void *)[AVAudioSession sharedInstance]];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if(context == (__bridge void *)[AVAudioSession sharedInstance] &&
+       [keyPath isEqualToString:@"outputVolume"]){
+        float newValue = [[change objectForKey:@"new"] floatValue];
+        self.playbackVolume = newValue;
+    }
 }
 
 - (void)teaserStateDidChange {

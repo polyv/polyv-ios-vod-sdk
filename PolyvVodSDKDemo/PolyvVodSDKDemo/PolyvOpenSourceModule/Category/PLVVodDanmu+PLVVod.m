@@ -27,6 +27,7 @@
 		if (![scanner scanHexInt:&colorHex]) colorHex = 0xFFFFFF;
 		danmu.colorHex = colorHex;
 	}
+    danmu.mode = [self danmuModeWithDescription:dic[@"fontMode"]];
 	return danmu;
 }
 

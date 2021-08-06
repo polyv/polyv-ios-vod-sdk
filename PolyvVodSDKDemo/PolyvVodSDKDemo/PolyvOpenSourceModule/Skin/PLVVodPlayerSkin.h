@@ -13,6 +13,7 @@
 #import "PLVVodNetworkTipsView.h"
 #import "PLVVodFastForwardView.h"
 #import "PLVVodSkinPlayerController.h"
+#import "PLVVodDefinitionTipsView.h"
 
 @class PLVVodAudioCoverPanelView;
 @class PLVVodCoverView;
@@ -126,6 +127,9 @@
 
 /// 手势快进提示视图
 @property (nonatomic, strong, readonly) PLVVodFastForwardView *fastForwardView;
+
+/// 切换清晰度的提示视图
+@property (nonatomic, strong, readonly) PLVVodDefinitionTipsView *definitionTipsView;
 
 /// 是否是锁屏状态
 @property (nonatomic, assign, readonly) BOOL isLockScreen;
