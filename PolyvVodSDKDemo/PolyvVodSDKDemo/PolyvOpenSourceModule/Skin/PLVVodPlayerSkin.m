@@ -374,6 +374,19 @@
     [self.fullscreenView enableFloating:enable];
 }
 
+- (void)setEnableKnowledge:(BOOL)enableKnowledge {
+    _enableKnowledge = enableKnowledge;
+    [self.fullscreenView enableKnowledge:enableKnowledge];
+}
+
+- (void)setKnowledgeButtonTitle:(NSString *)knowledgeButtonTitle {
+    [self.fullscreenView.knowledgeButton setTitle:knowledgeButtonTitle forState:0];
+}
+
+- (NSString *)knowledgeButtonTitle {
+    return self.fullscreenView.knowledgeButton.titleLabel.text;
+}
+
 - (void)updateAudioCoverAnimation:(BOOL)isPlaying {
     if (isPlaying) {
         [self.audioCoverPanelView startRotate];
@@ -827,6 +840,13 @@
     // 接着，执行对应的 block
     if (self.floatingButtonTouchHandler) {
         self.floatingButtonTouchHandler();
+    }
+}
+
+// 【知识点】按钮点击事件
+- (IBAction)knowledgeButtonAction:(id)sender {
+    if (self.knowledgeButtonTouchHandler) {
+        self.knowledgeButtonTouchHandler();
     }
 }
 

@@ -7,6 +7,8 @@
 //
 
 #import <PLVVodSDK/PLVVodPlayerViewController.h>
+#import "PLVKnowledgeListViewController.h"
+#import "PLVKnowledgeModel.h"
 
 extern NSString *PLVVodPlaybackRecoveryNotification;
 extern NSString *PLVVodADAndTeasersPlayFinishNotification;
@@ -22,6 +24,12 @@ extern NSString *PLVVodADAndTeasersPlayFinishNotification;
 
 // 问答控制器
 @property (nonatomic, strong, readonly) PLVVodExamViewController *examViewController;
+
+/// 知识清单控制器
+@property (nonatomic, strong, readonly) PLVKnowledgeListViewController *knowledgeListViewController;
+
+/// 知识清单model, 设置此mode即为开启知识清单功能，请在调用方法 ‘-addPlayerOnPlaceholderView:rootViewController:’ 之后设置
+@property (nonatomic, strong) PLVKnowledgeModel *knowledgeModel;
 
 // 是否屏蔽长按倍速快进手势，默认为 NO
 @property (nonatomic, assign) BOOL disableLongPressGesture;

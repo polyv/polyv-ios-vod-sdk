@@ -97,6 +97,15 @@
 /// "悬浮窗"按钮点击事件
 @property (nonatomic, strong) void (^floatingButtonTouchHandler)(void);
 
+/// 是否开启知识点功能，默认为 NO
+@property (nonatomic, assign) BOOL enableKnowledge;
+
+/// 知识点按钮的title
+@property (nonatomic, copy) NSString *knowledgeButtonTitle;
+
+/// "知识点"按钮点击事件
+@property (nonatomic, strong) void (^knowledgeButtonTouchHandler)(void);
+
 #pragma mark - 额外
 
 /// 字幕标签

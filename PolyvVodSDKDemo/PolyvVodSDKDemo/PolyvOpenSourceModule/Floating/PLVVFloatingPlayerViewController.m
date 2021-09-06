@@ -106,6 +106,46 @@ PLVVFloatingWindowProtocol
         [self.castBM setup];
     }
 #endif
+    
+    // 加载知识清单测试数据
+    [self reloadKnowledgeListData];
+    
+}
+
+/// 加载知识清单测试数据
+- (void)reloadKnowledgeListData {
+    NSMutableArray *typeList = [NSMutableArray arrayWithCapacity:10];
+    for (int k = 0; k < 5; k++) {
+        
+        NSMutableArray *keyList = [NSMutableArray arrayWithCapacity:10];
+        for (int j = 0; j < 10; j++) {
+            NSMutableArray *pointList = [NSMutableArray arrayWithCapacity:10];
+            for (int i = 0; i < 10; i++) {
+                PLVKnowledgePoint *point = [[PLVKnowledgePoint alloc]init];
+                point.name = [NSString stringWithFormat:@"%d_%d_%d_知识点知识点知识点", k, j, i];
+                point.time = i * 10;
+                [pointList addObject:point];
+            }
+            
+            PLVKnowledgeWorkKey *key = [[PLVKnowledgeWorkKey alloc]init];
+            key.name = [NSString stringWithFormat:@"%d_%d_二级分类", k, j];
+            key.knowledgePoints = pointList;
+            [keyList addObject:key];
+        }
+        
+        PLVKnowledgeWorkType *type = [[PLVKnowledgeWorkType alloc]init];
+        type.name = [NSString stringWithFormat:@"%d_一级分类", k];
+        type.knowledgeWorkKeys = keyList;
+        [typeList addObject:type];
+    }
+    
+    PLVKnowledgeModel *knowledgeModel = [[PLVKnowledgeModel alloc]init];
+    knowledgeModel.knowledgeWorkTypes = typeList;
+    knowledgeModel.fullScreenStyle = YES;
+    knowledgeModel.buttonName = @"知识点";
+    
+    // 给播放器设置知识点数据
+    self.player.knowledgeModel = knowledgeModel;
 }
 
 #pragma mark - Override

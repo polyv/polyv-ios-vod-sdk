@@ -53,6 +53,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 /// 问答控制器
 @property (nonatomic, strong) PLVVodExamViewController *examViewController;
 
+/// 知识清单控制器
+@property (nonatomic, strong) PLVKnowledgeListViewController *knowledgeListViewController;
+
 /// 字幕管理器
 @property (nonatomic, strong) PLVSubtitleManager *subtitleManager;
 
@@ -154,6 +157,14 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	_examViewController = examViewController;
 }
 
+- (void)setKnowledgeListViewController:(PLVKnowledgeListViewController *)knowledgeListViewController {
+    if (_knowledgeListViewController) {
+        [_knowledgeListViewController.view removeFromSuperview];
+        [_knowledgeListViewController removeFromParentViewController];
+    }
+    _knowledgeListViewController = knowledgeListViewController;
+}
+
 - (NSTimeInterval)maxPosition {
     NSTimeInterval maxPosition = 0.0;
     NSDictionary *maxPositionDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:PLVVodMaxPositionKey];
@@ -190,6 +201,62 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+
+/// 设置知识清单
+/// @param knowledgeModel 知识清单model
+- (void)setKnowledgeModel:(PLVKnowledgeModel *)knowledgeModel {
+    _knowledgeModel = [self dealKnowledgeListData:knowledgeModel];
+    
+    // 显示 “知识点” 按钮
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    if (_knowledgeModel.buttonName.length > 0 && _knowledgeModel.knowledgeWorkTypes.count > 0) {
+        skin.enableKnowledge = YES;
+        skin.knowledgeButtonTitle = knowledgeModel.buttonName;
+    }else {
+        skin.enableKnowledge = NO;
+    }
+    
+    
+    if (knowledgeModel.fullScreenStyle) {
+        [self.knowledgeListViewController.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(self.view);
+        }];
+    }else {
+        [self.knowledgeListViewController.view plv_remakeConstraints:^(PLVMASConstraintMaker *make) {
+            make.right.top.bottom.equalTo(self.view);
+            make.width.equalTo(self.view).multipliedBy(0.59);
+        }];
+    }
+    
+    // 填充知识点数据到控制器
+    self.knowledgeListViewController.knowledgeModel = knowledgeModel;
+}
+
+
+/// 处理知识清单数据
+- (PLVKnowledgeModel *)dealKnowledgeListData:(PLVKnowledgeModel *)knowledgeModel {
+    
+    NSMutableArray *workTypeList = [NSMutableArray arrayWithCapacity:1];
+    for (PLVKnowledgeWorkType *workTypeModel in knowledgeModel.knowledgeWorkTypes) {
+        //过滤空 知识点 的workkey
+        NSMutableArray *workKeyList = [NSMutableArray arrayWithCapacity:1];
+        for (PLVKnowledgeWorkKey *workkeyModel in workTypeModel.knowledgeWorkKeys) {
+            if (workkeyModel.knowledgePoints.count != 0) {
+                [workKeyList addObject:workkeyModel];
+            }
+        }
+        workTypeModel.knowledgeWorkKeys = workKeyList;
+        
+        // 过滤空 workkey的worktype
+        if (workTypeModel.knowledgeWorkKeys.count != 0) {
+            [workTypeList addObject:workTypeModel];
+        }
+    }
+    knowledgeModel.knowledgeWorkTypes = workTypeList;
+    
+    return knowledgeModel;
+}
+
 #pragma mark - view controller
 
 - (void)dealloc {
@@ -215,6 +282,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     self.allowShowToast = NO;
     
 	[self setupSkin];
+    [self setupKnowledgeList];
 	[self addObserver];
     [self addTimer];
     
@@ -541,6 +609,11 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     self.playbackStateHandler = ^(PLVVodPlayerViewController *player) {
     
     };
+    
+    // 点击 “知识点” 按钮
+    skin.knowledgeButtonTouchHandler = ^{
+        [weakSelf.knowledgeListViewController showKnowledgeListView];
+    };
 }
 
 - (void)updateSkin{
@@ -644,7 +717,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	self.examViewController = examViewController;
 	__weak typeof(self) weakSelf = self;
 	self.examViewController.examWillShowHandler = ^(PLVVodExam *exam) {
-		[weakSelf pause];
+        [weakSelf pauseWithoutAd];
 	};
 	self.examViewController.examDidCompleteHandler = ^(PLVVodExam *exam, NSTimeInterval backTime) {
 		if (backTime >= 0) {
@@ -700,6 +773,23 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         //    self.examViewController.exams = examModelArr;
     }
 }
+
+- (void)setupKnowledgeList {
+    PLVKnowledgeListViewController *knowledgeController = [[PLVKnowledgeListViewController alloc] init];
+    [self.view addSubview:knowledgeController.view];
+    [knowledgeController.view plv_makeConstraints:^(PLVMASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(self.view);
+    }];
+    [self addChildViewController:knowledgeController];
+    self.knowledgeListViewController = knowledgeController;
+    __weak typeof(self) weakSelf = self;
+    self.knowledgeListViewController.selectKnowledgePointBlock = ^(PLVKnowledgePoint * _Nonnull point) {
+        if (point.time >= 0) {
+            weakSelf.currentPlaybackTime = point.time;
+        }
+    };
+}
+
 
 - (void)setupSubtitle {
 	PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
@@ -906,6 +996,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 		case PLVVodGestureTypeTap:{
 			PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
 			[skin hideOrShowPlaybackControl];
+            if (self.knowledgeListViewController && self.knowledgeListViewController.showing) {
+                [self.knowledgeListViewController hideKnowledgeListView];
+            }
 		}break;
 		case PLVVodGestureTypeDoubleTap:{
 			[self playPauseAction:nil];
@@ -1214,7 +1307,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 }
 
 - (void)danmuWillSend:(NSNotification *)notification {
-	[self pause];
+    [self pauseWithoutAd];
 	[self.danmuManager pause];
 }
 
@@ -1347,6 +1440,12 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
                 make.edges.plv_equalTo(self.rootViewController.view);
             }];
         }
+    }
+    
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(orientation);
+    if (isPortrait && self.knowledgeListViewController.showing) {
+        [self.knowledgeListViewController hideKnowledgeListView];
     }
 }
 

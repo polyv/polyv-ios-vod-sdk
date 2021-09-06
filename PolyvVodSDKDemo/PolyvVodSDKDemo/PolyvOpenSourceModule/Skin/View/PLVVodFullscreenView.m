@@ -97,6 +97,11 @@
     self.floatingButton.hidden = !enable;
 }
 
+// 是否支持知识点功能，不调用时默认不支持
+- (void)enableKnowledge:(BOOL)enable {
+    self.knowledgeButton.hidden = !enable;
+}
+
 - (void)addPlayTipsWithVideo:(PLVVodVideo *)video{
     [self.sliderBackView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[UIButton class]]){

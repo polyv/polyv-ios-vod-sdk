@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -83,6 +83,7 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="wTJ-iI-t4B"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Gkg-Yo-h8S" secondAttribute="trailing" constant="8" id="3Da-Rd-IRz"/>
@@ -98,7 +99,6 @@
                 <constraint firstAttribute="trailing" secondItem="37T-Vn-sBr" secondAttribute="trailing" constant="8" id="nC1-3R-oy1"/>
                 <constraint firstItem="mwx-JJ-GUb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sg0-EM-7Dz"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="wTJ-iI-t4B"/>
             <point key="canvasLocation" x="25.637181409295355" y="58.399999999999999"/>
         </view>
         <view contentMode="scaleToFill" id="xdj-6z-3JE" userLabel="半屏皮肤" customClass="PLVVodShrinkscreenView">
@@ -184,7 +184,7 @@
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="8uy-pg-t24" userLabel="右侧控件容器">
                             <rect key="frame" x="493" y="13.5" width="154" height="27"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1e-Fs-ZW8" userLabel="清晰度">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1e-Fs-ZW8" userLabel="清晰度">
                                     <rect key="frame" x="0.0" y="0.0" width="30" height="27"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <state key="normal" title="高清">
@@ -194,7 +194,7 @@
                                         <action selector="definitionAction:" destination="-1" eventType="touchUpInside" id="9ca-n2-TbJ"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPq-UF-Gw2" userLabel="倍速">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPq-UF-Gw2" userLabel="倍速">
                                     <rect key="frame" x="45" y="0.0" width="30" height="27"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <state key="normal" title="1x">
@@ -204,7 +204,7 @@
                                         <action selector="playbackRateAction:" destination="-1" eventType="touchUpInside" id="YI4-vK-cd1"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4b7-v8-6dn" userLabel="线路">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4b7-v8-6dn" userLabel="线路">
                                     <rect key="frame" x="90" y="0.0" width="30" height="27"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <state key="normal" title="线路">
@@ -251,7 +251,7 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="9IC-aY-C7s" userLabel="左侧控件容器">
-                            <rect key="frame" x="20" y="16" width="136.5" height="22"/>
+                            <rect key="frame" x="20" y="16" width="135.5" height="22"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHS-iO-d00" userLabel="播放/暂停">
                                     <rect key="frame" x="0.0" y="0.0" width="14" height="22"/>
@@ -263,7 +263,7 @@
                                     <state key="selected" image="plv_vod_btn_pause"/>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00 / 20:03" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4r8-7b-Uty" userLabel="时间标签">
-                                    <rect key="frame" x="31" y="0.0" width="105.5" height="22"/>
+                                    <rect key="frame" x="31" y="0.0" width="104.5" height="22"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -308,6 +308,7 @@
                     </connections>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="CXC-Hk-0EM"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="obs-qM-9Wh" secondAttribute="trailing" constant="10" id="0c6-A6-Rq2"/>
@@ -324,7 +325,6 @@
                 <constraint firstItem="TzY-zP-vqR" firstAttribute="centerY" secondItem="H0g-LX-qZk" secondAttribute="centerY" constant="-1" id="pbZ-WM-oZc"/>
                 <constraint firstItem="TOF-OZ-kbk" firstAttribute="leading" secondItem="xdj-6z-3JE" secondAttribute="leading" id="yfg-vh-HXO"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="CXC-Hk-0EM"/>
             <connections>
                 <outlet property="audioModeLabel" destination="IcR-MM-Uhx" id="I5C-aU-VMu"/>
                 <outlet property="audioModeSelectedImageView" destination="GGq-HH-1qx" id="6cq-zi-1kk"/>
@@ -483,7 +483,7 @@
                                         <action selector="playbackRateAction:" destination="-1" eventType="touchUpInside" id="kau-mP-SKQ"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XtI-Mj-Vii" userLabel="线路">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XtI-Mj-Vii" userLabel="线路">
                                     <rect key="frame" x="142" y="0.0" width="32" height="27"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="32" id="aGd-Wu-5Qt"/>
@@ -496,8 +496,21 @@
                                         <action selector="routeLineAction:" destination="-1" eventType="touchUpInside" id="K6i-9i-3Th"/>
                                     </connections>
                                 </button>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKf-s6-nIj" userLabel="知识点">
+                                    <rect key="frame" x="181.5" y="0.0" width="10" height="27"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="UGc-uC-Mz4"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <state key="normal" title="知识点">
+                                        <color key="titleColor" red="0.13725490200000001" green="0.66274509800000003" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="knowledgeButtonAction:" destination="-1" eventType="touchUpInside" id="UJ8-CP-zEK"/>
+                                    </connections>
+                                </button>
                                 <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EpI-TO-oqU" userLabel="小窗播放">
-                                    <rect key="frame" x="244" y="0.0" width="19" height="27"/>
+                                    <rect key="frame" x="181.5" y="0.0" width="19" height="27"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="19" id="1af-Xr-lPI"/>
                                     </constraints>
@@ -507,7 +520,7 @@
                                         <action selector="floatingButtonAction:" destination="-1" eventType="touchUpInside" id="Yhs-Mc-UoQ"/>
                                     </connections>
                                 </button>
-                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MeN-Dc-0Hd" userLabel="目录">
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MeN-Dc-0Hd" userLabel="目录">
                                     <rect key="frame" x="181.5" y="0.0" width="32" height="27"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="32" id="xXJ-bW-hB2"/>
@@ -612,7 +625,7 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Eay-Sz-PzG">
                     <rect key="frame" x="10" y="127.5" width="75" height="120"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FVm-eL-fOM">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FVm-eL-fOM">
                             <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="32" id="ZZ9-Hi-86n"/>
@@ -701,6 +714,7 @@
                     </constraints>
                 </stackView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="8mb-VS-b1r"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="top" secondItem="BuY-ou-2r2" secondAttribute="bottom" id="05a-ZY-Aon"/>
@@ -726,7 +740,6 @@
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="bottom" secondItem="w04-rs-iMM" secondAttribute="topMargin" priority="750" constant="-8" id="v2b-Vv-ggE"/>
                 <constraint firstItem="rSx-dm-mU2" firstAttribute="centerY" secondItem="w04-rs-iMM" secondAttribute="centerY" id="ywk-6J-sYF"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="8mb-VS-b1r"/>
             <connections>
                 <outlet property="audioModeLabel" destination="Qe2-sb-peP" id="UhC-0H-uJG"/>
                 <outlet property="audioModeSelectedImageView" destination="yFk-Eh-S1F" id="knz-dh-Bwb"/>
@@ -737,6 +750,7 @@
                 <outlet property="danmuSendButton" destination="h89-Es-caU" id="LW8-1T-Sxr"/>
                 <outlet property="definitionButton" destination="vun-eN-a4o" id="o8H-XJ-3Nq"/>
                 <outlet property="floatingButton" destination="EpI-TO-oqU" id="DKO-r7-V0n"/>
+                <outlet property="knowledgeButton" destination="MKf-s6-nIj" id="AeV-Ay-6hT"/>
                 <outlet property="lockScreenButton" destination="FVm-eL-fOM" id="kqR-YQ-VCc"/>
                 <outlet property="playModeContainerView" destination="hTL-qF-dKU" id="bgm-L0-XxR"/>
                 <outlet property="playPauseButton" destination="s1w-XP-Fw3" id="ZZv-xl-UcC"/>
@@ -934,13 +948,13 @@
                     </connections>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="3cu-fT-JeW"/>
             <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
             <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="rVR-D6-8jg" firstAttribute="centerY" secondItem="WML-5j-ft2" secondAttribute="centerY" id="DyA-JS-kPD"/>
                 <constraint firstItem="rVR-D6-8jg" firstAttribute="centerX" secondItem="WML-5j-ft2" secondAttribute="centerX" id="mo8-gK-92M"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="3cu-fT-JeW"/>
             <connections>
                 <outlet property="brightnessSlider" destination="OVG-eh-nAB" id="fba-jl-3pA"/>
                 <outlet property="containerStackView" destination="rVR-D6-8jg" id="aPY-WN-xiR"/>
@@ -970,12 +984,12 @@
                     </subviews>
                 </stackView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="t1I-gZ-RQi"/>
             <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="kjX-nj-aOb" firstAttribute="centerX" secondItem="inz-cI-pDt" secondAttribute="centerX" id="Ddx-64-QuU"/>
                 <constraint firstItem="kjX-nj-aOb" firstAttribute="centerY" secondItem="inz-cI-pDt" secondAttribute="centerY" id="SAk-du-6nu"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="t1I-gZ-RQi"/>
             <connections>
                 <outlet property="qualityStackView" destination="kjX-nj-aOb" id="Skm-up-Ncx"/>
             </connections>
@@ -1000,6 +1014,7 @@
                     </subviews>
                 </stackView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="lxo-sE-N4i"/>
             <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="CrX-Ob-dsy" firstAttribute="centerX" secondItem="MZT-mj-7ks" secondAttribute="centerX" id="Cda-Cm-S4L"/>
@@ -1007,7 +1022,6 @@
                 <constraint firstItem="CrX-Ob-dsy" firstAttribute="centerY" secondItem="MZT-mj-7ks" secondAttribute="centerY" id="X9c-yv-J8o"/>
                 <constraint firstAttribute="trailing" secondItem="CrX-Ob-dsy" secondAttribute="trailing" constant="20" id="eVZ-2O-5iM"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="lxo-sE-N4i"/>
             <connections>
                 <outlet property="playbackRateStackView" destination="CrX-Ob-dsy" id="gRR-aa-msc"/>
             </connections>
@@ -1073,12 +1087,12 @@
                     </subviews>
                 </stackView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="aKB-eW-Z1c"/>
             <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="SMa-Vu-mCr" firstAttribute="centerY" secondItem="BZZ-yq-7JA" secondAttribute="centerY" id="BgF-We-zhs"/>
                 <constraint firstItem="SMa-Vu-mCr" firstAttribute="centerX" secondItem="BZZ-yq-7JA" secondAttribute="centerX" id="Rmx-zH-s1u"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="aKB-eW-Z1c"/>
             <point key="canvasLocation" x="26" y="2581"/>
         </view>
         <view contentMode="scaleToFill" id="ggj-qD-OqT" userLabel="手势指示器" customClass="PLVVodGestureIndicatorView">
@@ -1095,7 +1109,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="57" height="57"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="5pg-cX-Fpy">
-                            <rect key="frame" x="8.5" y="61" width="40" height="19.5"/>
+                            <rect key="frame" x="8" y="61" width="41.5" height="19.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -1106,6 +1120,7 @@
                     </constraints>
                 </stackView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="2YL-y2-NMY"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="e6b-OP-RwO" firstAttribute="centerX" secondItem="ggj-qD-OqT" secondAttribute="centerX" id="5aR-98-PXC"/>
@@ -1113,7 +1128,6 @@
                 <constraint firstItem="e6b-OP-RwO" firstAttribute="centerY" secondItem="ggj-qD-OqT" secondAttribute="centerY" id="M85-dk-PgC"/>
                 <constraint firstItem="BTQ-Du-8T5" firstAttribute="centerX" secondItem="ggj-qD-OqT" secondAttribute="centerX" id="nie-ll-EGh"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="2YL-y2-NMY"/>
             <connections>
                 <outlet property="indicatorImageView" destination="hEZ-Qz-XpK" id="ZzY-Ae-nhT"/>
                 <outlet property="indicatorLabel" destination="5pg-cX-Fpy" id="lP1-BR-QeK"/>
@@ -1344,6 +1358,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="nXJ-zi-4GQ"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <gestureRecognizers/>
             <constraints>
@@ -1351,7 +1366,6 @@
                 <constraint firstAttribute="bottom" secondItem="bkd-fA-fQD" secondAttribute="bottom" id="NJ5-6J-H0W"/>
                 <constraint firstItem="bkd-fA-fQD" firstAttribute="leading" secondItem="qa0-Rh-gAf" secondAttribute="leading" id="wka-BP-uim"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="nXJ-zi-4GQ"/>
             <connections>
                 <outlet property="colorButtonStackView" destination="hxu-mA-h92" id="aAZ-pb-04f"/>
                 <outlet property="danmuTextField" destination="GPc-ot-JIj" id="REV-pI-xOn"/>
@@ -1404,6 +1418,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="Lf0-Ad-Mcr"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="weX-TX-Ddq" firstAttribute="leading" secondItem="fBS-tL-F6W" secondAttribute="leading" id="Awb-JZ-eAl"/>
@@ -1411,7 +1426,6 @@
                 <constraint firstAttribute="trailing" secondItem="weX-TX-Ddq" secondAttribute="trailing" id="m1w-sN-sge"/>
                 <constraint firstItem="weX-TX-Ddq" firstAttribute="top" secondItem="fBS-tL-F6W" secondAttribute="top" id="nFQ-pB-3pe"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="Lf0-Ad-Mcr"/>
             <connections>
                 <outlet property="audioCoverBackImg" destination="v2p-5q-8wI" id="832-Kd-GfB"/>
                 <outlet property="audioCoverContainerBackgroundImageView" destination="77I-9W-afn" id="voN-I9-Tbk"/>
@@ -1425,7 +1439,7 @@
             <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tcY-Bk-qtT">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tcY-Bk-qtT">
                     <rect key="frame" x="17" y="171.5" width="32" height="32"/>
                     <state key="normal" backgroundImage="plv_btn_lockscreen"/>
                     <connections>
@@ -1433,12 +1447,12 @@
                     </connections>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="7Lb-h4-q6F"/>
             <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="tcY-Bk-qtT" firstAttribute="leading" secondItem="tL0-Ye-Q1a" secondAttribute="leading" constant="17" id="dEH-jA-MIQ"/>
                 <constraint firstItem="tcY-Bk-qtT" firstAttribute="centerY" secondItem="tL0-Ye-Q1a" secondAttribute="centerY" id="uBu-lF-OHS"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="7Lb-h4-q6F"/>
             <connections>
                 <outlet property="unlockScreenBtn" destination="tcY-Bk-qtT" id="oGd-k4-G5K"/>
             </connections>
@@ -1464,7 +1478,8 @@
                     </variation>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+            <viewLayoutGuide key="safeArea" id="soF-Wy-7RC"/>
+            <color key="backgroundColor" systemColor="darkTextColor"/>
             <constraints>
                 <constraint firstItem="4Jb-Mo-ShD" firstAttribute="centerX" secondItem="fRj-tD-e9G" secondAttribute="centerX" id="9gd-HE-YYq"/>
                 <constraint firstItem="4Jb-Mo-ShD" firstAttribute="width" secondItem="fRj-tD-e9G" secondAttribute="width" id="B26-RS-Nc1"/>
@@ -1474,7 +1489,6 @@
                 <constraint firstItem="4Jb-Mo-ShD" firstAttribute="height" secondItem="fRj-tD-e9G" secondAttribute="height" id="jcN-Lr-MFP"/>
                 <constraint firstItem="4Jb-Mo-ShD" firstAttribute="height" secondItem="fRj-tD-e9G" secondAttribute="height" id="vpQ-Kt-dP4"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="soF-Wy-7RC"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="Fhk-7c-a4P"/>
@@ -1494,7 +1508,7 @@
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="SMI-bl-C7x">
                     <rect key="frame" x="298.5" y="167.5" width="70" height="40"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEp-1s-nPx">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEp-1s-nPx">
                             <rect key="frame" x="0.0" y="0.0" width="70" height="40"/>
                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
                             <state key="normal" title="不可用">
@@ -1504,12 +1518,12 @@
                     </subviews>
                 </stackView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="AzZ-Uo-zlJ"/>
             <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="SMI-bl-C7x" firstAttribute="centerX" secondItem="yEK-9l-tK8" secondAttribute="centerX" id="IyS-GT-f87"/>
                 <constraint firstItem="SMI-bl-C7x" firstAttribute="centerY" secondItem="yEK-9l-tK8" secondAttribute="centerY" id="ic8-Fy-ODZ"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="AzZ-Uo-zlJ"/>
             <connections>
                 <outlet property="routeStackView" destination="SMI-bl-C7x" id="Ylq-ZY-MMk"/>
             </connections>
@@ -1555,5 +1569,8 @@
         <image name="plv_vod_input_dm_click" width="28" height="28"/>
         <image name="plv_vod_input_dm_def" width="28" height="28"/>
         <image name="plv_void_audio_cover" width="160" height="160"/>
+        <systemColor name="darkTextColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
