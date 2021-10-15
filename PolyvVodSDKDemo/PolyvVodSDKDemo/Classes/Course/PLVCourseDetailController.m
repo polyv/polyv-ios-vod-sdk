@@ -103,6 +103,13 @@
         weakSelf.player.video = video;
 #endif
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            /// 设置默认跑马灯，移除旧版本跑马灯
+            PLVMarqueeModel *marqueeModel = [[PLVMarqueeModel alloc]init];
+            [weakSelf.player.marqueeView setPLVMarqueeModel:marqueeModel];
+            weakSelf.player.marquee = nil;
+        });
+        
 	};
     
     // 若需投屏功能，则需以下代码来启用投屏
@@ -124,6 +131,17 @@
 	player.reachEndHandler = ^(PLVVodPlayerViewController *player) {
 		NSLog(@"%@ finish handler.", player.video.vid);
 	};
+    __weak typeof (self) weakSelf = self;
+    player.playbackStateHandler = ^(PLVVodPlayerViewController *player) {
+        //新版跑马灯的启动暂停控制
+        if (player.playbackState == PLVVodPlaybackStatePlaying) {
+            [weakSelf.player.marqueeView start];
+        }else if (player.playbackState == PLVVodPlaybackStatePaused) {
+            [weakSelf.player.marqueeView pause];
+        }else if (player.playbackState == PLVVodPlaybackStateStopped) {
+            [weakSelf.player.marqueeView stop];
+        }
+    };
 	self.player = player;
 }
 

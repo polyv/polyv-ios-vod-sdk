@@ -1,4 +1,5 @@
-
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://gitee.com/polyv_ef/plvspecs.git'
 project 'PolyvVodSDKDemo.xcodeproj'
 
 platform :ios, '8.0'
@@ -16,7 +17,7 @@ target 'PolyvVodSDKDemo' do
     pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-    pod 'PolyvVodSDK', '~> 2.16.3'
+    pod 'PolyvVodSDK', '~> 2.16.4'
     
     # 使用投屏功能的客户需要集成
     pod 'LBLelinkKit', '~> 30503'

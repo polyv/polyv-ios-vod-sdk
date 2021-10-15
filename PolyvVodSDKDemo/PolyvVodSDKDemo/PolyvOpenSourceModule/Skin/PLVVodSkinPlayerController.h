@@ -9,6 +9,7 @@
 #import <PLVVodSDK/PLVVodPlayerViewController.h>
 #import "PLVKnowledgeListViewController.h"
 #import "PLVKnowledgeModel.h"
+#import "PLVMarqueeView.h"
 
 extern NSString *PLVVodPlaybackRecoveryNotification;
 extern NSString *PLVVodADAndTeasersPlayFinishNotification;
@@ -30,6 +31,8 @@ extern NSString *PLVVodADAndTeasersPlayFinishNotification;
 
 /// 知识清单model, 设置此mode即为开启知识清单功能，请在调用方法 ‘-addPlayerOnPlaceholderView:rootViewController:’ 之后设置
 @property (nonatomic, strong) PLVKnowledgeModel *knowledgeModel;
+/// 跑马灯2.0 View
+@property (nonatomic, strong) PLVMarqueeView *marqueeView;
 
 // 是否屏蔽长按倍速快进手势，默认为 NO
 @property (nonatomic, assign) BOOL disableLongPressGesture;

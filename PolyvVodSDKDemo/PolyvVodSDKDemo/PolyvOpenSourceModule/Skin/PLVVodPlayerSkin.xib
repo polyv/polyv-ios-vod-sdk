@@ -728,7 +728,7 @@
                 <constraint firstItem="Yl1-Wc-fv6" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="N8Q-ZJ-sYg"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="top" secondItem="w04-rs-iMM" secondAttribute="top" id="Nbs-rL-q02"/>
                 <constraint firstItem="pEp-Xe-LQj" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="P1z-ht-qbH"/>
-                <constraint firstItem="Eay-Sz-PzG" firstAttribute="leading" secondItem="8mb-VS-b1r" secondAttribute="leading" constant="10" id="PhZ-OI-njl"/>
+                <constraint firstItem="Eay-Sz-PzG" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" constant="10" id="PhZ-OI-njl"/>
                 <constraint firstItem="F6C-pN-1tf" firstAttribute="centerY" secondItem="egy-dp-xa1" secondAttribute="centerY" constant="1" id="Y5h-FJ-s6e"/>
                 <constraint firstItem="BuY-ou-2r2" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="bui-Kl-w8g"/>
                 <constraint firstItem="F6C-pN-1tf" firstAttribute="leading" secondItem="w04-rs-iMM" secondAttribute="leading" id="cwR-0w-clH"/>
@@ -751,6 +751,7 @@
                 <outlet property="definitionButton" destination="vun-eN-a4o" id="o8H-XJ-3Nq"/>
                 <outlet property="floatingButton" destination="EpI-TO-oqU" id="DKO-r7-V0n"/>
                 <outlet property="knowledgeButton" destination="MKf-s6-nIj" id="AeV-Ay-6hT"/>
+                <outlet property="lockButtonLeading" destination="PhZ-OI-njl" id="nwm-XQ-IM3"/>
                 <outlet property="lockScreenButton" destination="FVm-eL-fOM" id="kqR-YQ-VCc"/>
                 <outlet property="playModeContainerView" destination="hTL-qF-dKU" id="bgm-L0-XxR"/>
                 <outlet property="playPauseButton" destination="s1w-XP-Fw3" id="ZZv-xl-UcC"/>

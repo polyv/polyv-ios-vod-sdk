@@ -219,7 +219,10 @@ PLVVFloatingWindowProtocol
                 weakSelf.player.playerErrorHandler(weakSelf.player, error);
             };
         } else {
-            weakSelf.player.video = video;
+            __weak typeof(self) weakSelf = self;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.player.video = video;
+            });
         }
     }];
 }

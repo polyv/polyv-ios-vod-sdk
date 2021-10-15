@@ -19,6 +19,7 @@
 @interface PLVVodFullscreenView ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusBarHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lockButtonLeading;
 
 @property (weak, nonatomic) IBOutlet UIImageView *videoModeSelectedImageView;
 @property (weak, nonatomic) IBOutlet UILabel *videoModeLabel;
@@ -42,6 +43,9 @@
 	if ([UIDevice currentDevice].systemVersion.integerValue < 11) {
 		self.statusBarHeight.constant = 12;
 	}
+    if (PLV_iPhoneXSeries) {
+        self.lockButtonLeading.constant = PLV_Landscape_Left_And_Right_Safe_Side_Margin;
+    }
 }
 
 #pragma mark -- getter

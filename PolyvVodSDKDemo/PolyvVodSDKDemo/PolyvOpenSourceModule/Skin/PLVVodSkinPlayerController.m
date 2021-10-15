@@ -11,6 +11,8 @@
 #import "PLVVodPlayerSkin.h"
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodExamViewController.h"
+#import "PLVVodNetworkUtil.h"
+#import "NSString+PLVVod.h"
 #import <PLVVodSDK/PLVVodExam.h>
 #import <PLVSubtitle/PLVSubtitleManager.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -343,8 +345,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	// 自动播放
 	//self.autoplay = NO;
 	
-	// 设置跑马灯
-    
+	// 设置跑马灯 （旧版）
     PLVMarquee *marquee = [[PLVMarquee alloc] init];
     marquee.type = PLVMarqueeTypeRoll;
     marquee.displayDuration = 10;
@@ -352,7 +353,13 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     marquee.maxRollInterval = 5*60;
 //    marquee.maxFadeInterval = 5;
     self.marquee = marquee;
-	
+    
+    // 设置新版跑马灯（2.0）
+    self.marqueeView = [[PLVMarqueeView alloc]init];
+    self.marqueeView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.marqueeView.frame = self.maskView.bounds;
+    [self.maskView addSubview:self.marqueeView];
+    
 	// 错误回调
 	self.playerErrorHandler = ^(PLVVodPlayerViewController *player, NSError *error) {
 		NSLog(@"player error: %@", error);

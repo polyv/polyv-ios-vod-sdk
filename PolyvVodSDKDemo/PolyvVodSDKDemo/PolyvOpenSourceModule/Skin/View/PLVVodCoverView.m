@@ -20,7 +20,7 @@
     
 //    self.clipsToBounds = YES;
 //    self.coverImgV.clipsToBounds = YES;
-    self.coverImgV.contentMode = UIViewContentModeScaleToFill;
+    self.coverImgV.contentMode = UIViewContentModeScaleAspectFit;
 }
 
 - (void)setCoverImageWithUrl:(NSString *)coverUrl{
