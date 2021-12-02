@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *title;
 
+@property (nonatomic, copy) NSString *originFileName;
+
 @property (nonatomic, assign) NSInteger fileSize;
 
 @property (nonatomic, assign) float progress;

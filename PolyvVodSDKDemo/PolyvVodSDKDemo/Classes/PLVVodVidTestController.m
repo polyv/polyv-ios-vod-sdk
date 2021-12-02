@@ -55,6 +55,7 @@
 		self.player.video = video;
 		self.videoInfoTextView.text = video.description;
 	});
+    
 }
 
 #pragma mark - UITextFieldDelegate

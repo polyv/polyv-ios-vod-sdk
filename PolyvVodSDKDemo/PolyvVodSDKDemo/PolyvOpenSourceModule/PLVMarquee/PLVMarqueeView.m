@@ -15,6 +15,8 @@
 @property (nonatomic, strong) CALayer *mainMarqueeLayer;
 @property (nonatomic, strong) CALayer *secondMarqueeLayer;
 
+@property (nonatomic, assign) BOOL isRunning;   //!< 是否正在运行跑马灯
+
 @end
 
 
@@ -69,7 +71,7 @@
 
             CATextLayer *secondLayer = [CATextLayer layer];
             secondLayer.string = attributedString;
-            secondLayer.opacity = 0.02;
+            secondLayer.opacity = marqueeModel.secondMarqueeAlpha;
             secondLayer.contentsScale = [UIScreen mainScreen].scale;
             secondLayer.frame = layerFrame;
             self.secondMarqueeLayer = secondLayer;
@@ -91,13 +93,14 @@
     }
     
     if (self.mainMarqueeLayer) {
+        self.isRunning = YES;
         self.mainMarqueeLayer.hidden = NO;
         if ([PLVMarqueeAnimationManager checkLayerHaveMarqueeAnimation:self.mainMarqueeLayer]) {
             //当前已经添加动画,启动动画
             [PLVMarqueeAnimationManager startMarqueeAnimation:self.mainMarqueeLayer];
         }else {
             //没有添加动画，则添加
-            [self addAnimationToLayer:self.mainMarqueeLayer];
+            [PLVMarqueeAnimationManager addAnimationForLayer:self.mainMarqueeLayer randomOriginInBounds:self.bounds withModel:self.marqueeModel animationDelegate:self];
             return;
         }
     }
@@ -109,7 +112,7 @@
             [PLVMarqueeAnimationManager startMarqueeAnimation:self.secondMarqueeLayer];
         }else {
             //没有添加动画，则添加
-            [self addAnimationToLayer:self.secondMarqueeLayer];
+            [PLVMarqueeAnimationManager addDoubleFlashAnimationForSecondLayer:self.secondMarqueeLayer randomOriginInBounds:self.bounds withModel:self.marqueeModel animationDelegate:self];
         }
     }
 }
@@ -123,6 +126,7 @@
     }
     
     if (self.mainMarqueeLayer) {
+        self.isRunning = NO;
         self.mainMarqueeLayer.hidden = self.marqueeModel.isHiddenWhenPause;
         if ([PLVMarqueeAnimationManager checkLayerHaveMarqueeAnimation:self.mainMarqueeLayer]) {
             //当前已经添加动画，暂停动画
@@ -149,6 +153,7 @@
     }
     
     if (self.mainMarqueeLayer) {
+        self.isRunning = NO;
         [self.mainMarqueeLayer removeAllAnimations];
     }
     
@@ -174,23 +179,13 @@
     }
 }
 
-/// 给跑马灯添加一次性动画
--(void)addAnimationToLayer:(CALayer *)layer
-{
-    if (!self.marqueeModel) {
-        return;
-    }
-    
-    [PLVMarqueeAnimationManager addAnimationForLayer:layer randomOriginInBounds:self.bounds withModel:self.marqueeModel animationDelegate:self];
-}
-
 
 #pragma mark - CAAnimationDelegate
 
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     // This flag is NO when the application enters background.
-    if (flag) {
+    if (flag && self.isRunning) {
         [self start];
     }
 }
@@ -199,7 +194,9 @@
 #pragma mark - Notifications
 
 - (void)applicationDidBecomeActive {
-    [self start];
+    if (self.isRunning) {
+        [self start];
+    }
 }
 
 @end

@@ -90,6 +90,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 /// 禁止拖动提示
 @property (nonatomic, strong) UILabel *toastLable;
 
+/// 记录播放重试之前的播放进度
+@property (nonatomic, assign) NSTimeInterval retryPlaybackTime;
+
 @end
 
 @implementation PLVVodSkinPlayerController
@@ -432,9 +435,14 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
             [skin hideNetworkTips];
             
             [self play];
+            
+            // 恢复播放重试之前的进度
+            if (self.retryPlaybackTime) {
+                [self setCurrentPlaybackTime:self.retryPlaybackTime];
+                self.retryPlaybackTime = 0;
+            }
 
             if (self.networkTipsConfirmBlock) {
-                
                 self.networkTipsConfirmBlock();
                 self.networkTipsConfirmBlock = nil;
             }
@@ -491,6 +499,11 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
             __weak typeof(PLVVodPlayerSkin *) weakSkin = skin;
             __weak typeof(PLVVodNetworkTipsView*) weakTips = tipsView;
             __weak typeof(self) weakSelf = self;
+            
+            // 记录播放重试之前的进度
+            if (weakSelf.retryPlaybackTime == 0) {
+                weakSelf.retryPlaybackTime = self.currentPlaybackTime;
+            }
             
             // 播放重试事件
             tipsView.playBtnClickBlock = ^{
@@ -990,6 +1003,13 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     } else if (self.restrictedDragging == NO) { // 不限制进度拖拽
         allow = YES;
     }
+    
+    // 断网的情况下不能进行seek操作
+    if (AlicloudNotReachable == [AlicloudReachabilityManager shareInstance].currentNetworkStatus &&
+        !self.localPlayback) {
+        allow = NO;
+    }
+    
     if (allow) {
         [super setCurrentPlaybackTime:currentPlaybackTime];
     }

@@ -66,6 +66,8 @@ typedef NS_ENUM(NSUInteger, PLVMarqueeModelStyle) {
 
 /// 文本透明度（范围：0~1），默认1
 @property (nonatomic, assign) float alpha;
+/// 双跑马灯中，第二个跑马灯的文本透明度（范围：0~1），默认0.02
+@property (nonatomic, assign) float secondMarqueeAlpha;
 /// 文本渐隐渐现时间 (单位：秒)，默认1，有效样式：Flash、PartFlash、DoubleFlash、RollFade
 @property (nonatomic, assign) NSUInteger tweenTime;
 /// 文本隐藏间隔时间 (单位：秒)，默认5，有效样式：Flash、PartFlash、DoubleFlash

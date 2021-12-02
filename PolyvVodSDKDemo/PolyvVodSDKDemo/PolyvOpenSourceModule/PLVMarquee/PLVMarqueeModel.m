@@ -55,6 +55,7 @@ static float FloatValueWithJsonValue(id obj) {
         _shadowOffsetY = 2;
         
         _alpha = 1;
+        _secondMarqueeAlpha = 0.02;
         _tweenTime = 1;
         _interval = 5;
         _lifeTime = 3;

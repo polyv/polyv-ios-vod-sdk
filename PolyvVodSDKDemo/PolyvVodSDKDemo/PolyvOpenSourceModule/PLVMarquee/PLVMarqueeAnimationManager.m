@@ -32,7 +32,7 @@ static NSString * const PLVMarqueeAnimationKey = @"PLVMarqueeAnimationKey";
         }
         case PLVMarqueeModelStyleFlash:
         {
-            [PLVMarqueeAnimationManager addFlashAnimation:layer randomOriginInBounds:bounds withModel:model animationDelegate:delegate];
+            [PLVMarqueeAnimationManager addFlashAnimation:layer randomOriginInBounds:bounds withModel:model animationDelegate:delegate isSecondLayer:NO];
             break;
         }
         case PLVMarqueeModelStyleRollFade:
@@ -57,12 +57,24 @@ static NSString * const PLVMarqueeAnimationKey = @"PLVMarqueeAnimationKey";
         }
         case PLVMarqueeModelStyleDoubleFlash:
         {
-            [PLVMarqueeAnimationManager addFlashAnimation:layer randomOriginInBounds:bounds withModel:model animationDelegate:delegate];
+            [PLVMarqueeAnimationManager addFlashAnimation:layer randomOriginInBounds:bounds withModel:model animationDelegate:delegate isSecondLayer:NO];
             break;
         }
         default:
             break;
     }
+}
+
+/// 给闪烁双跑马灯中第二个跑马灯添加动画
+/// @param layer 要添加动画的layer
+/// @param bounds 随机位置的范围
+/// @param model 描述动画细节的model
+/// @param delegate 动画代理
++ (void)addDoubleFlashAnimationForSecondLayer:(CALayer *)layer
+                         randomOriginInBounds:(CGRect)bounds
+                                    withModel:(PLVMarqueeModel *)model
+                            animationDelegate:(id)delegate {
+    [PLVMarqueeAnimationManager addFlashAnimation:layer randomOriginInBounds:bounds withModel:model animationDelegate:delegate isSecondLayer:YES];
 }
 
 #pragma mark - 检查layer是否包含跑马灯动画
@@ -117,8 +129,8 @@ static NSString * const PLVMarqueeAnimationKey = @"PLVMarqueeAnimationKey";
 +(void)addFlashAnimation:(CALayer *)layer
     randomOriginInBounds:(CGRect)bounds
                withModel:(PLVMarqueeModel *)model
-    animationDelegate:(id)delegate
-{
+       animationDelegate:(id)delegate
+           isSecondLayer:(BOOL)isSecondLayer {
     //获取随机位置
     CGFloat displayWidth = CGRectGetWidth(bounds);
     CGFloat displayHeight = CGRectGetHeight(bounds);
@@ -134,8 +146,14 @@ static NSString * const PLVMarqueeAnimationKey = @"PLVMarqueeAnimationKey";
     [CATransaction commit];
     
     //给layer添加闪烁动画
-    CAKeyframeAnimation *opacityAnimation = [PLVMarqueeAnimationManager createFlashAnimationWithModel:model];
+    CAKeyframeAnimation *opacityAnimation;
+    if (isSecondLayer) {
+        opacityAnimation = [PLVMarqueeAnimationManager createFlashAnimationForSecondMarqueeWithModel:model];
+    }else {
+        opacityAnimation = [PLVMarqueeAnimationManager createFlashAnimationWithModel:model];
+    }
     if (opacityAnimation) {
+        layer.opacity = 0;
         opacityAnimation.delegate = delegate;
         [layer addAnimation:opacityAnimation forKey:PLVMarqueeAnimationKey];
     }
@@ -281,6 +299,7 @@ static NSString * const PLVMarqueeAnimationKey = @"PLVMarqueeAnimationKey";
     //给layer添加闪烁动画
     CAKeyframeAnimation *opacityAnimation = [PLVMarqueeAnimationManager createFlashAnimationWithModel:model];
     if (opacityAnimation) {
+        layer.opacity = 0;
         opacityAnimation.delegate = delegate;
         [layer addAnimation:opacityAnimation forKey:PLVMarqueeAnimationKey];
     }
@@ -303,6 +322,33 @@ static NSString * const PLVMarqueeAnimationKey = @"PLVMarqueeAnimationKey";
     opacityAnimation.values = @[@0
                                 ,@(model.alpha)
                                 ,@(model.alpha)
+                                ,@0
+                                ,@0];
+    opacityAnimation.keyTimes = @[@0
+                                  ,@(model.tweenTime / duration)
+                                  ,@((model.tweenTime + model.lifeTime) / duration)
+                                  ,@((model.tweenTime * 2 + model.lifeTime) / duration)
+                                  ,@1];
+    opacityAnimation.duration = duration;
+    opacityAnimation.fillMode = kCAFillModeForwards;
+    opacityAnimation.removedOnCompletion = YES;
+    
+    return opacityAnimation;
+}
+
+/// 为双跑马灯中第二个跑马灯按照model参数生成闪烁动画
+/// @param model model
++ (CAKeyframeAnimation *)createFlashAnimationForSecondMarqueeWithModel:(PLVMarqueeModel *)model {
+    NSUInteger interval = model.isAlwaysShowWhenRun ? 0 : model.interval;
+    NSTimeInterval duration = model.tweenTime * 2 + model.lifeTime + interval;
+    if (duration <= 0) {
+        return nil;
+    }
+    
+    CAKeyframeAnimation *opacityAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+    opacityAnimation.values = @[@0
+                                ,@(model.secondMarqueeAlpha)
+                                ,@(model.secondMarqueeAlpha)
                                 ,@0
                                 ,@0];
     opacityAnimation.keyTimes = @[@0

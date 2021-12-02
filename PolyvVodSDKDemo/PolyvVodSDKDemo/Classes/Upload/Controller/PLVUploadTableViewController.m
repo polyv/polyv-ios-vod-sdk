@@ -126,7 +126,7 @@ PLVUploadClientDelegate
             [[PLVUploadClient sharedClient] uploadVideoAtFileURL:model.fileURL];
         };
         cell.resumeHandler = ^{
-            [[PLVUploadClient sharedClient] retryUploadWithVid:model.vid fileURL:model.fileURL];
+            [[PLVUploadClient sharedClient] retryUploadWithVid:model.vid fileURL:model.fileURL fileName:model.title];
         };
         [cell setCellModel:model];
         return cell;

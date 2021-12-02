@@ -278,7 +278,8 @@
         NSMutableArray *modelArray = [self videosWithType:PLVUploadListViewModelTypeUncomplete];
         for (PLVUploadUncompleteData *uncompleteData in uncompleteDatas) {
             PLVUploadModel *model = [uncompleteData changeToModel];
-            NSString *cacheFilePath = [NSString stringWithFormat:@"%@/%@", [self cacheDirectory], uncompleteData.title];
+            NSString *originFileName = uncompleteData.originFileName ?: uncompleteData.title;
+            NSString *cacheFilePath = [NSString stringWithFormat:@"%@/%@", [self cacheDirectory], originFileName];
             model.fileURL = [NSURL fileURLWithPath:cacheFilePath];
             if (model.fileURL && [[NSFileManager defaultManager] fileExistsAtPath:[model.fileURL path]]) {
                 PLVUploadVideo *video = [[PLVUploadClient sharedClient] videoWithVid:model.vid];

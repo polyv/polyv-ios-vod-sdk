@@ -17,6 +17,7 @@ WCDB_IMPLEMENTATION(PLVUploadUncompleteData)
 WCDB_SYNTHESIZE(PLVUploadUncompleteData, vid)
 WCDB_SYNTHESIZE(PLVUploadUncompleteData, status)
 WCDB_SYNTHESIZE(PLVUploadUncompleteData, title)
+WCDB_SYNTHESIZE(PLVUploadUncompleteData, originFileName)
 WCDB_SYNTHESIZE(PLVUploadUncompleteData, fileSize)
 WCDB_SYNTHESIZE(PLVUploadUncompleteData, progress)
 WCDB_SYNTHESIZE(PLVUploadUncompleteData, createDate)
@@ -30,6 +31,7 @@ WCDB_INDEX(PLVUploadUncompleteData, "_index", createDate)
     if (self) {
         _vid = video.vid;
         _title = video.fileName;
+        _originFileName = [video.fileURL lastPathComponent];
         _fileSize = video.fileSize;
         _createDate = [NSDate date];
         _status = video.status;
