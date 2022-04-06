@@ -981,6 +981,11 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         }
         BOOL stop = (player.playbackState == PLVVodPlaybackStateStopped) || (player.playbackState == PLVVodPlaybackStatePaused) || (player.playbackState == PLVVodPlaybackStateInterrupted);
         [weakSelf stopAndRestartTimer:stop];
+        
+        if (player.playbackState == PLVVodPlaybackStatePlaying) {
+            [UIApplication sharedApplication].idleTimerDisabled = YES;
+        }
+        
         if (playbackStateHandler) {
             playbackStateHandler(player);
         }

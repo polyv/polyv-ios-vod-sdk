@@ -32,10 +32,6 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
     
-    /* 如果希望延迟启动 HttpDNS，解开注释。必须在调用 PLVVodSettings 配置加密串之前设置
-    //    PLVVodSettings.delayHttpDNS = YES;
-    //    PLVVodSettings.delayHttpDNSTime = 3;
-     */
     [self settingConfig];
     [self downloadSetting];
 	

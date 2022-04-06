@@ -49,6 +49,8 @@
     @(file_move_error):@"文件移动错误，请向管理员反馈",
     @(network_unreachable):@"请检查网络连接设置，或向管理员返反馈",
     @(network_error):@"请检查网络连接设置，或向管理员返反馈",
+    @(player_load_timeout):@"请检查网络连接设置，或向管理员返反馈",
+    @(httpdns_change_Cdn):@"视频播放错误，内部切换线路播放",
     @(server_error):@"服务器响应错误，请向管理员返反馈",
     @(fetch_error):@"网络请求错误，请稍后重试，或向管理员反馈",
     @(json_read_error):@"JSON 解析错误，请稍后再试，或向管理员反馈",

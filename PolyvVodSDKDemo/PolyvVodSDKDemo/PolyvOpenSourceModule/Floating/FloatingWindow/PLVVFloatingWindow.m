@@ -47,6 +47,7 @@
     if (self = [super init]) {
         self.hidden = YES;
         self.windowLevel = UIWindowLevelNormal + 1;
+        [self.layer setMasksToBounds:YES];
         
         [self reset];
         
