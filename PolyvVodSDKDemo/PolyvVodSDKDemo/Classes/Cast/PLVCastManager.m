@@ -16,20 +16,21 @@
 #define searchSustainTime 5 // 搜索持续时间
 #define searchIntervalTime 10 // 搜索间隔时间
 
-@interface PLVCastManager ()<LBLelinkBrowserDelegate,LBLelinkConnectionDelegate,LBLelinkPlayerDelegate>
+@interface PLVCastManager ()<WXDLNASenderServerDelegate, WXDLNASenderResponseDelegate>
 
-@property (nonatomic, strong) LBLelinkBrowser * lelinkBrowser;
-@property (nonatomic, strong) LBLelinkConnection * lelinkConnection;
-@property (nonatomic, strong) LBLelinkPlayer * lbplayer;
+@property (nonatomic,strong) WXDLNASenderRenderer *dlnaRender;
 
-@property (nonatomic, strong) NSArray <LBLelinkService *>* lb_servicesArr;
-@property (nonatomic, strong) NSMutableArray <PLVCastServiceModel *>* plv_servicesArr; // 转化后的投屏设备信息模型数组，仅保留需要的信息，来供给调用方读取
+@property (nonatomic, strong) NSArray <WXDLNASenderDevice *>* dl_serviceArr;
+@property (nonatomic, strong) NSMutableArray <PLVCastServiceModel *>* plv_serviceArr; // 转化后的投屏设备信息模型数组，仅保留需要的信息，来供给调用方读取
 
 @property (nonatomic, copy) NSString * lastWiFiName; // 用于判断wifi是否变更
 
-@property (nonatomic, strong) LBLelinkService * willBeDisconnectedService; // 即将断开的设备，用于判断是主动断开还是被动断开
-
 @property (nonatomic, strong) NSTimer * timer;
+@property (nonatomic, strong) NSTimer * getPositionInfoTimer;
+
+@property (nonatomic, assign) NSTimeInterval startPosition;
+@property (nonatomic, assign) NSInteger currentVolume;
+
 
 @end
 
@@ -42,6 +43,12 @@
         _timer.fireDate = NSDate.distantFuture;
         [_timer invalidate];
         _timer = nil;
+    }
+    
+    if (_getPositionInfoTimer) {
+        _getPositionInfoTimer.fireDate = NSDate.distantFuture;
+        [_getPositionInfoTimer invalidate];
+        _getPositionInfoTimer = nil;
     }
     
     NSLog(@"PLVCastManager - [[[ PLVCastManager Dealloc ]]]");
@@ -71,40 +78,12 @@ static PLVCastManager * manager = nil;
 }
 
 - (void)initData{
-    self.plv_servicesArr = [[NSMutableArray alloc]init];
+    self.plv_serviceArr = [[NSMutableArray alloc]init];
 }
-
-
-#pragma mark - ----------------- < Getter > -----------------
-- (LBLelinkBrowser *)lelinkBrowser{
-    if (_lelinkBrowser == nil) {
-        _lelinkBrowser = [[LBLelinkBrowser alloc]init];
-        _lelinkBrowser.delegate = self;
-    }
-    return _lelinkBrowser;
-}
-
-- (LBLelinkConnection *)lelinkConnection{
-    if (_lelinkConnection == nil) {
-        _lelinkConnection = [[LBLelinkConnection alloc]init];
-        _lelinkConnection.delegate = self;
-    }
-    return _lelinkConnection;
-}
-
-- (LBLelinkPlayer *)lbplayer{
-    if (_lbplayer == nil) {
-        _lbplayer = [[LBLelinkPlayer alloc]init];
-        _lbplayer.delegate = self;
-        _lbplayer.lelinkConnection = self.lelinkConnection;
-    }
-    return _lbplayer;
-}
-
 
 #pragma mark - ----------------- < Open Method > -----------------
 + (BOOL)authorizationInfoIsLegal{
-    if (LBAPPID.length == 0 || LBSECRETKEY.length == 0) return NO;
+    if (DLAPPID.length == 0 || DLSECRETKEY.length == 0) return NO;
     return YES;
 }
 
@@ -114,20 +93,13 @@ static PLVCastManager * manager = nil;
         return;
     }
     
-    [LBLelinkKit enableLog:NO];
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSError * error = nil;
-            BOOL result = [LBLelinkKit authWithAppid:LBAPPID secretKey:LBSECRETKEY error:&error];
-            if (result) {
-                NSLog(@"PLVCastManager - 授权成功");
-            }else{
-                NSLog(@"PLVCastManager - 授权失败：error = %@",error);
-            }
-        });
-    });
+    [WXDLNASenderServer registWithAppId:DLAPPID appSecret:DLSECRETKEY registResult:^(BOOL success) {
+        if (success) {
+            NSLog(@"PLVCastManager - 授权成功");
+        }else{
+            NSLog(@"PLVCastManager - 授权失败");
+        }
+    }];
 }
 
 + (instancetype)shareManager{
@@ -156,38 +128,36 @@ static PLVCastManager * manager = nil;
 
 - (void)quitAllFuntionc{
     [self stopTimer];
+    [self stopGetPositionInfoTimerTimer];
     
-    self.lb_servicesArr = nil;
-    [self.plv_servicesArr removeAllObjects];
-    self.willBeDisconnectedService = nil;
+    self.dl_serviceArr = nil;
+    [self.plv_serviceArr removeAllObjects];
     
-    // [self.lbplayer stop]; 无需停止播放
-    [self.lelinkConnection disConnect];
-    [self.lelinkBrowser stop];
+    self.dlnaRender.device = nil;
+    [[WXDLNASenderServer shared] stop];
     
-    self.lbplayer.delegate = nil;
-    self.lelinkConnection.delegate = nil;
-    self.lelinkBrowser.delegate = nil;
+    self.dlnaRender.delegate = nil;
+    [WXDLNASenderServer shared].delegate = nil;
 
-    self.lbplayer = nil;
-    self.lelinkConnection = nil;
-    self.lelinkBrowser = nil;
+    self.dlnaRender = nil;
 }
 
 - (PLVCastServiceModel *)currentServiceModel{
-    LBLelinkService * lb_s = self.lelinkConnection.lelinkService;
-    PLVCastServiceModel * plv_s = [self getPlvServiceInfoWithOriginalServiceModel:lb_s];
-    return plv_s;
+    WXDLNASenderDevice * dl_Device = self.dlnaRender.device;
+    PLVCastServiceModel * plv_service = [self getPlvServiceInfoWithOriginalDeviceModel:dl_Device];
+    return plv_service;
 }
 
 - (BOOL)connected{
-    if (self.lelinkConnection.lelinkService) return YES;
+    if (self.dlnaRender.device) return YES;
     return NO;
 }
 
 #pragma mark 设备搜索操作
 - (void)startSearchService{
-    [self.lelinkBrowser searchForLelinkService];
+    [WXDLNASenderServer shared].delegate = self;
+    
+    [[WXDLNASenderServer shared] start];
     
     // 回调搜索状态
     if ([self.delegate respondsToSelector:@selector(plvCastManager_searchStateHadChanged:)]) {
@@ -203,20 +173,20 @@ static PLVCastManager * manager = nil;
 
 #pragma mark 设备连接操作
 - (PLVCastServiceModel *)connectServiceWithIndex:(NSInteger)idx{
-    if (idx < self.plv_servicesArr.count) {
-        PLVCastServiceModel * plv_s = self.plv_servicesArr[idx];
-        [self connectServiceWithModel:plv_s];
-        return plv_s;
+    if (idx < self.plv_serviceArr.count) {
+        PLVCastServiceModel * plv_service = self.plv_serviceArr[idx];
+        [self connectServiceWithModel:plv_service];
+        return plv_service;
     }
     return nil;
 }
 
-- (void)connectServiceWithModel:(PLVCastServiceModel *)plv_s{
-    LBLelinkService * lb_s = [self getOriginalServiceInfoWithPlvServiceModel:plv_s];
-    NSLog(@"PLVCastManager - 准备连接的设备 设备名 : %@, 接收端包名 : %@, 服务类型：%lu",lb_s.lelinkServiceName,lb_s.receviverPackageName,(unsigned long)lb_s.serviceType);
+- (void)connectServiceWithModel:(PLVCastServiceModel *)plv_service{
+    WXDLNASenderDevice * dl_device = [self getOriginalDeviceInfoWithPlvServiceModel:plv_service];
+    NSLog(@"PLVCastManager - 准备连接的设备 简短名 : %@, 设备名 :%@",dl_device.friendlyName,dl_device.modelName);
     
     // 若设备为空
-    if (lb_s == nil) {
+    if (dl_device == nil) {
         if ([self.delegate respondsToSelector:@selector(plvCastManager_castError:)]) {
             [self.delegate plvCastManager_castError:nil];
         }
@@ -224,16 +194,13 @@ static PLVCastManager * manager = nil;
     }
     
     // 若所选设备和当前一致
-    if (self.lelinkConnection.lelinkService == lb_s) {
+    if (self.dlnaRender.device == dl_device) {
         return;
     }
     
     // 若已连接其他设备
-    if (self.lelinkConnection.lelinkService != nil) {
-        // 提前保存即将断开的服务
-        self.willBeDisconnectedService = self.lelinkConnection.lelinkService;
+    if (self.dlnaRender.device != nil) {
         
-        [self stop];
         [self stop];
 
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -241,59 +208,61 @@ static PLVCastManager * manager = nil;
         });
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self connectServiceWithModel:plv_s];
+            [self connectServiceWithModel:plv_service];
         });
         return;
     }
+    self.dlnaRender = [[WXDLNASenderRenderer alloc] initWithUPnPDevice:dl_device];
+    self.dlnaRender.delegate = self;
     
-    self.lelinkConnection.lelinkService = lb_s;
-    [self.lelinkConnection connect];
+    NSLog(@"PLVCastManager - 已连接到设备服务 设备%@ 设备名:%@",dl_device,dl_device.friendlyName);
+    
+    if ([self.delegate respondsToSelector:@selector(plvCastManager_connectServicesResult:serviceModel:passiveDisconnect:)]) {
+        [self.delegate plvCastManager_connectServicesResult:YES serviceModel:plv_service passiveDisconnect:NO];
+    }
 }
 
 - (void)disconnect{
-    self.willBeDisconnectedService = self.lelinkConnection.lelinkService;
+    WXDLNASenderDevice *willBeDisconnectedDevice = self.dlnaRender.device;
+    self.dlnaRender.delegate = nil;
+    self.dlnaRender.device = nil;
     
-    [self.lelinkConnection disConnect];
+    NSLog(@"PLVCastManager - 已断开与设备服务的连接 设备名：%@",willBeDisconnectedDevice.friendlyName);
+    
+    PLVCastServiceModel * plv_service = [self getPlvServiceInfoWithOriginalDeviceModel:willBeDisconnectedDevice];
+    
+    if ([self.delegate respondsToSelector:@selector(plvCastManager_connectServicesResult:serviceModel:passiveDisconnect:)]) {
+        [self.delegate plvCastManager_connectServicesResult:NO serviceModel:plv_service passiveDisconnect:NO];
+    }
 }
 
 #pragma mark 设备播放操作
-- (void)startPlayWithVideo:(PLVVodVideo *)video quality:(NSInteger)quality startPosition:(NSTimeInterval)startPosition { 
+- (void)startPlayWithVideo:(PLVVodVideo *)video quality:(NSInteger)quality startPosition:(NSTimeInterval)startPosition {
     
     NSString *urlString = [video transformCastMediaURLStringWithQuality:quality];
     if (urlString == nil || [urlString isKindOfClass: [NSString class]] == NO || urlString.length == 0) {
         NSLog(@"PLVCastManager - 播放链接非法 链接：%@",urlString);
         return;
     }
-        
-    // 创建播放内容对象
-    LBLelinkPlayerItem *item = [[LBLelinkPlayerItem alloc] init];
-    item.mediaType = LBLelinkMediaTypeVideoOnline;
-    item.mediaURLString = urlString;
-    item.startPosition = startPosition;
-    NSString *versionInfo = [NSString stringWithFormat:@"PolyviOSScreencast%@",PLVVodSdkVersion];
-    item.headerInfo = @{@"user-agent":versionInfo};
-
+    self.startPosition = startPosition;
     if (video.keepSource || video.isPlain) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.lbplayer playWithItem:item];
-        });
+        WXDLNASenderMediaInfo *mediaInfo = [[WXDLNASenderMediaInfo alloc] initWithUrlString:urlString];
+        mediaInfo.title = video.title;
+        [self.dlnaRender setAVTransport:mediaInfo];
     }else{
         
         __weak typeof(self) weakSelf = self;
         [PLVVodPlayerUtil requestCastKeyIvWitVideo:video quality:quality completion:^(NSString * _Nullable key, NSString * _Nullable iv, NSError * _Nullable error) {
             if (error == nil) {
-                if ((key == nil && iv == nil) == NO) {
-                    item.aesModel = [LBPlayerAesModel new];
-                    item.aesModel.model = @"1";
-                    item.aesModel.key = key;
-                    item.aesModel.iv = iv;
+                if (key && key.length && iv && iv.length) {
+                    WXDLNASenderMediaInfo *mediaInfo = [[WXDLNASenderMediaInfo alloc] initWithUrlString:urlString];
+                    mediaInfo.title = video.title;
+                    mediaInfo.decryptKey = key;
+                    mediaInfo.decryptIV = iv;
+                    [weakSelf.dlnaRender setAVTransport:mediaInfo];
+                }else {
+                    NSLog(@"PLVCastManager - 投加密视频失败, 没有获取到解密key");
                 }
-                
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    /** 注意，为了适配接收端的bug，播放之前先stop，否则当先推送音乐再推送视频的时候会导致连接被断开 */
-                    [weakSelf.lbplayer stop];
-                    [weakSelf.lbplayer playWithItem:item];
-                });
             }else{
                 NSLog(@"PLVCastManager - 投加密视频失败 ：%@",error);
             }
@@ -302,33 +271,39 @@ static PLVCastManager * manager = nil;
 }
 
 - (void)pause{
-    [self.lbplayer pause];
+    [self.dlnaRender pause];
 }
 
 - (void)resume{
-    [self.lbplayer resumePlay];
+    [self.dlnaRender play];
 }
 
 - (void)seekTo:(NSInteger)seekTime{
-    [self.lbplayer seekTo:seekTime];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.dlnaRender seek:seekTime];
+    });
 }
 
 - (void)stop{
-    [self.lbplayer stop];
+    [self.dlnaRender stop];
+    [self stopGetPositionInfoTimerTimer];
 }
 
 - (void)addVolume{
-    [self.lbplayer addVolume];
+    self.currentVolume += 5;
+    NSString *volumeStr = [NSString stringWithFormat:@"%ld", (long)self.currentVolume];
+    [self.dlnaRender setVolumeWith:volumeStr];
 }
 
 - (void)reduceVolume{
-    [self.lbplayer reduceVolume];
+    self.currentVolume -= 5;
+    NSString *volumeStr = [NSString stringWithFormat:@"%ld", (long)self.currentVolume];
+    [self.dlnaRender setVolumeWith:volumeStr];
 }
 
 - (void)setVolume:(NSInteger)value{
-    [self.lbplayer setVolume:value];
+    [self.dlnaRender setVolumeWith:[NSString stringWithFormat:@"%ld", (long)value]];
 }
-
 
 #pragma mark - ----------------- < Private Method > -----------------
 static void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo){
@@ -361,10 +336,9 @@ static void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFS
 
 // 停止搜索，参数决定是否附带自动启动搜索任务
 - (void)stopSearchServiceWithAutoStartSearch:(BOOL)autoStart{
-    [self.lelinkBrowser stop]; // TODO 调用了stop也仍然会有回调出现
+    [[WXDLNASenderServer shared] stop];
     
     // 回调搜索状态
-    // TODO 若本方法被多次调用，则此处的回调也会被多次回调
     if ([self.delegate respondsToSelector:@selector(plvCastManager_searchStateHadChanged:)]) {
         [self.delegate plvCastManager_searchStateHadChanged:NO];
     }
@@ -399,52 +373,68 @@ static void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFS
     }
 }
 
-// 通过plv设备模型，找到对应的lb设备模型
-- (LBLelinkService *)getOriginalServiceInfoWithPlvServiceModel:(PLVCastServiceModel *)plv_s{
-    NSInteger idx = [self.plv_servicesArr indexOfObject:plv_s];
-    LBLelinkService * lb_s = nil;
-    if (idx < self.lb_servicesArr.count) {
-        lb_s = self.lb_servicesArr[idx];
+- (void)startGetPositionInfoTimerTimer {
+    if (self.getPositionInfoTimer) {
+        [self stopGetPositionInfoTimerTimer];
     }
-    if (lb_s == nil) NSLog(@"PLVCastManager - 警告：无法找到对应乐播设备信息模型 plv_s %@",plv_s);
-    return lb_s;
+    self.getPositionInfoTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(getPositionInfoTimerEvent:) userInfo:nil repeats:YES];
+    [self.getPositionInfoTimer fire];
+    
+}
+
+- (void)stopGetPositionInfoTimerTimer {
+    if (_getPositionInfoTimer) {
+        _getPositionInfoTimer.fireDate = NSDate.distantFuture;
+        [_getPositionInfoTimer invalidate];
+        _getPositionInfoTimer = nil;
+    }
+}
+
+// 通过plv设备模型，找到对应的lb设备模型
+- (WXDLNASenderDevice *)getOriginalDeviceInfoWithPlvServiceModel:(PLVCastServiceModel *)plv_service{
+    NSInteger idx = [self.plv_serviceArr indexOfObject:plv_service];
+    WXDLNASenderDevice * dl_device = nil;
+    if (idx < self.dl_serviceArr.count) {
+        dl_device = self.dl_serviceArr[idx];
+    }
+    if (dl_device == nil) NSLog(@"PLVCastManager - 警告：无法找到对应乐播设备信息模型 plv_s %@",plv_service);
+    return dl_device;
 }
 
 // 通过lb设备模型，找到对应的plv设备模型
-- (PLVCastServiceModel *)getPlvServiceInfoWithOriginalServiceModel:(LBLelinkService *)lb_s{
-    NSInteger idx = [self.lb_servicesArr indexOfObject:lb_s];
-    PLVCastServiceModel * plv_s = nil;
-    if (idx < self.plv_servicesArr.count) {
-        plv_s = self.plv_servicesArr[idx];
+- (PLVCastServiceModel *)getPlvServiceInfoWithOriginalDeviceModel:(WXDLNASenderDevice *)ld_Device {
+    NSInteger idx = [self.dl_serviceArr indexOfObject:ld_Device];
+    PLVCastServiceModel * plv_service = nil;
+    if (idx < self.plv_serviceArr.count) {
+        plv_service = self.plv_serviceArr[idx];
     }
-    if (plv_s == nil) NSLog(@"PLVCastManager - 警告：无法找到对应Plv设备信息模型 lb_s %@",lb_s);
-    return plv_s;
+    if (plv_service == nil) NSLog(@"PLVCastManager - 警告：无法找到对应Plv设备信息模型 lb_s %@",ld_Device);
+    return plv_service;
 }
 
 // 转化设备信息模型
-- (void)setPlvServicesArrWithOriginalServicesArr:(NSArray<LBLelinkService *> *)lbServicesArr{
-    [self.plv_servicesArr removeAllObjects];
+- (void)setPlvServicesArrWithOriginalServicesArr:(NSArray<WXDLNASenderDevice *> *)dlDeviceArr{
+    [self.plv_serviceArr removeAllObjects];
     
-    for (LBLelinkService * lb_s in lbServicesArr) {
+    for (WXDLNASenderDevice * dl_device in dlDeviceArr) {
         // 生成plv的设备信息模型
-        PLVCastServiceModel * plv_s = [[PLVCastServiceModel alloc]init];
-        plv_s.deviceName = lb_s.lelinkServiceName;
-        plv_s.isConnecting = [self.lelinkConnection.lelinkService.tvUID isEqualToString:lb_s.tvUID];
-        [self.plv_servicesArr addObject:plv_s];
+        PLVCastServiceModel * plv_service = [[PLVCastServiceModel alloc]init];
+        plv_service.serviceName = dl_device.friendlyName;
+        plv_service.isConnecting = [self.dlnaRender.device.uuid isEqualToString:dl_device.uuid];
+        [self.plv_serviceArr addObject:plv_service];
     }
     
-    self.lb_servicesArr = lbServicesArr;
-    // NSLog(@"PLVCastManager - 设备信息数组已更新 设备数：%lu",(unsigned long)self.plv_servicesArr.count);
+    self.dl_serviceArr = dlDeviceArr;
 }
 
 // 刷新及回调最新的设备信息
-- (void)refreshAndCallBackServicesInfoWithOriginalServicesInfoArray:(NSArray<LBLelinkService *> *)services{
+- (void)refreshAndCallBackServicesInfoWithOriginalServicesInfoArray:(NSArray<WXDLNASenderDevice *> *)devices{
     // 刷新
-    [self setPlvServicesArrWithOriginalServicesArr:services];
+    [self setPlvServicesArrWithOriginalServicesArr:devices];
     
     // 回调
     if ([self.delegate respondsToSelector:@selector(plvCastManager_findServices:)]) {
-        [self.delegate plvCastManager_findServices:self.plv_servicesArr];
+        [self.delegate plvCastManager_findServices:self.plv_serviceArr];
     }
 }
 
@@ -474,100 +464,111 @@ static void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFS
     [timer invalidate];
 }
 
+- (void)getPositionInfoTimerEvent:(NSTimer *)timer {
+    if (self.delegate == nil) {
+        [self stopGetPositionInfoTimerTimer];
+        return;
+    }
+    if (self.dlnaRender == nil) {
+        return;
+    }
+    [self.dlnaRender getPositionInfo];
+}
+
 #pragma mark - ----------------- < Delegate > -----------------
 #pragma mark 设备搜索回调
-- (void)lelinkBrowser:(LBLelinkBrowser *)browser
-              onError:(NSError *)error {
+- (void)upnpSearchChangeWithResults:(NSArray<WXDLNASenderDevice *> *)devices {
+    [self refreshAndCallBackServicesInfoWithOriginalServicesInfoArray:devices];
+}
+
+- (void)upnpSearchError:(NSError *)error {
     NSLog(@"PLVCastManager - 设备搜索报错 Error : %@",error);
 }
 
-- (void)lelinkBrowser:(LBLelinkBrowser *)browser
-didFindLelinkServices:(NSArray<LBLelinkService *> *)services {
-    /*
-    if (services.count > 0) {
-        NSLog(@"[");
-        NSLog(@"PLVCastManager - 设备搜索回调 设备数 : %lu",(unsigned long)services.count);
-        for (LBLelinkService * ser in services) {
-            NSLog(@"PLVCastManager - 设备名 : %@, 接收端包名 : %@, 服务类型：%lu",ser.lelinkServiceName,ser.receviverPackageName,(unsigned long)ser.serviceType);
-        }
-        NSLog(@"]");
-    }
-    */
-
-    [self refreshAndCallBackServicesInfoWithOriginalServicesInfoArray:services];
-}
-
-#pragma mark 设备连接回调
-- (void)lelinkConnection:(LBLelinkConnection *)connection onError:(NSError *)error {
-    if (error) {
-        NSLog(@"PLVCastManager - 设备连接错误 %@",error);
-        if ([self.delegate respondsToSelector:@selector(plvCastManager_castError:)]) {
-            [self.delegate plvCastManager_castError:error];
-        }
-    }
-}
-
-- (void)lelinkConnection:(LBLelinkConnection *)connection
-     didConnectToService:(LBLelinkService *)service {
-    NSLog(@"PLVCastManager - 已连接到设备服务 设备%@ 设备名:%@",service,service.lelinkServiceName);
-    
-    PLVCastServiceModel * plv_s = [self getPlvServiceInfoWithOriginalServiceModel:service];
-    
-    if ([self.delegate respondsToSelector:@selector(plvCastManager_connectServicesResult:serviceModel:passiveDisconnect:)]) {
-        [self.delegate plvCastManager_connectServicesResult:YES serviceModel:plv_s passiveDisconnect:NO];
-    }
-    
-    if (self.lelinkConnection.lelinkService != service && service != nil) {
-        self.lelinkConnection.lelinkService = service;
-    }
-}
-
-- (void)lelinkConnection:(LBLelinkConnection *)connection
-     disConnectToService:(LBLelinkService *)service {
-    NSLog(@"PLVCastManager - 已断开与设备服务的连接 设备名：%@",service.lelinkServiceName);
-    
-    // 是否被动断开连接（因客观原因断开，非主动点击断开）
-    BOOL isPassiveDisconnect = (self.willBeDisconnectedService == nil || [self.willBeDisconnectedService.tvUID isEqualToString:service.tvUID] == NO);
-    
-    PLVCastServiceModel * plv_s = [self getPlvServiceInfoWithOriginalServiceModel:service];
-    
-    if ([self.delegate respondsToSelector:@selector(plvCastManager_connectServicesResult:serviceModel:passiveDisconnect:)]) {
-        [self.delegate plvCastManager_connectServicesResult:NO serviceModel:plv_s passiveDisconnect:isPassiveDisconnect];
-    }
-    
-    // 清空
-    self.willBeDisconnectedService = nil;
-    if (self.lelinkConnection.lelinkService == service) {
-        self.lelinkConnection.lelinkService = nil;
-    }
+- (void)upnpSearchCloseWithError:(NSError *)error {
+    NSLog(@"PLVCastManager - 设备搜索报错 Error : %@",error);
 }
 
 #pragma mark 设备播放回调
-- (void)lelinkPlayer:(LBLelinkPlayer *)player onError:(NSError *)error {
-    if (error) {
-        NSLog(@"PLVCastManager - 播放错误 %@",error);
-    }
+- (void)upnpSetAVTransportURIResponse {
+    [self.dlnaRender play];
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf startGetPositionInfoTimerTimer];
+    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [weakSelf.dlnaRender getVolume];
+    });
 }
 
-// 播放状态代理回调
-- (void)lelinkPlayer:(LBLelinkPlayer *)player playStatus:(LBLelinkPlayStatus)playStatus {
-    NSLog(@"PLVCastManager - 播放状态回调 %lu",(unsigned long)playStatus);
-    
-    if (self.lelinkConnection.lelinkService == self.willBeDisconnectedService) {
-        return;
-    }
-    
-    if ([self.delegate respondsToSelector:@selector(plvCastManager_playStatusChangedWithStatus:)]) {
-        [self.delegate plvCastManager_playStatusChangedWithStatus:(PLVCastPlayStatus)playStatus];
-    }
+- (void)upnpGetTransportInfoResponse:(WXUPnPTransportInfo *)info {
+    NSLog(@"upnpGetTransportInfoResponse %@ ", info.currentTransportState);
 }
 
-// 播放进度信息回调
-- (void)lelinkPlayer:(LBLelinkPlayer *)player progressInfo:(LBLelinkProgressInfo *)progressInfo {
-    if ([self.delegate respondsToSelector:@selector(plvCastManager_playTimeChangedWithCurrentTime:duration:)]) {
-        self.currentServiceModel.currentTime = progressInfo.currentTime;
-        [self.delegate plvCastManager_playTimeChangedWithCurrentTime:progressInfo.currentTime duration:progressInfo.duration];
-    }
+- (void)upnpPlayResponse {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([weakSelf.delegate respondsToSelector:@selector(plvCastManager_playStatusChangedWithStatus:)]) {
+            [weakSelf.delegate plvCastManager_playStatusChangedWithStatus:PLVCastPlayStatusPlaying];
+        }
+    });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (weakSelf.startPosition != 0) {
+            [weakSelf.dlnaRender seek:weakSelf.startPosition];
+            weakSelf.startPosition = 0;
+        }
+    });
+}
+
+- (void)upnpPauseResponse {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([weakSelf.delegate respondsToSelector:@selector(plvCastManager_playStatusChangedWithStatus:)]) {
+            [weakSelf.delegate plvCastManager_playStatusChangedWithStatus:PLVCastPlayStatusPause];
+        }
+    });
+}
+
+- (void)upnpStopResponse {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([weakSelf.delegate respondsToSelector:@selector(plvCastManager_playStatusChangedWithStatus:)]) {
+            [weakSelf.delegate plvCastManager_playStatusChangedWithStatus:PLVCastPlayStatusStopped];
+        }
+    });
+}
+
+- (void)upnpGetVolumeResponse:(NSString *)volume {
+    self.currentVolume = [volume integerValue];
+}
+
+- (void)upnpUndefinedResponse:(NSString *)resXML postXML:(NSString *)postXML {
+    NSLog(@"PLVCastManager - 未响应的错误 %@",resXML);
+    WXDLNASenderDevice *willBeDisconnectedDevice = self.dlnaRender.device;
+    PLVCastServiceModel * plv_service = [self getPlvServiceInfoWithOriginalDeviceModel:willBeDisconnectedDevice];
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([weakSelf.delegate respondsToSelector:@selector(plvCastManager_playStatusChangedWithStatus:)]) {
+            [weakSelf.delegate plvCastManager_playStatusChangedWithStatus:PLVCastPlayStatusStopped];
+        }
+        if ([weakSelf.delegate respondsToSelector:@selector(plvCastManager_connectServicesResult:serviceModel:passiveDisconnect:)]) {
+            [weakSelf.delegate plvCastManager_connectServicesResult:NO serviceModel:plv_service passiveDisconnect:YES];
+        }
+    });
+    
+    [self stopGetPositionInfoTimerTimer];
+}
+
+- (void)upnpGetPositionInfoResponse:(WXDLNASenderAVPositionInfo *)info {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([weakSelf.delegate respondsToSelector:@selector(plvCastManager_playTimeChangedWithCurrentTime:duration:)]) {
+            weakSelf.currentServiceModel.currentTime = (NSTimeInterval)info.relTime;
+            [weakSelf.delegate plvCastManager_playTimeChangedWithCurrentTime:(NSInteger)info.relTime duration:(NSInteger)info.trackDuration];
+        }
+    });
 }
 
 @end

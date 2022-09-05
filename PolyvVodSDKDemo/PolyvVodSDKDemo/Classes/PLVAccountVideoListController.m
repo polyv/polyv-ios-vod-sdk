@@ -141,8 +141,14 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
                 PLVVFloatingPlayerViewController *vctrl = [[PLVVFloatingPlayerViewController alloc] initWithPlayer:player];
                 [weakSelf.navigationController pushViewController:vctrl animated:YES];
             } else {
-                PLVVFloatingPlayerViewController *vctrl = [[PLVVFloatingPlayerViewController alloc] initWithVid:vid];
-                [weakSelf.navigationController pushViewController:vctrl animated:YES];
+                // 如果当前正在开启系统画中画，且画中画播放的视频是当前需要播放的视频，那么停止画中画，将会回到开启画中画的页面继续播放
+                if ([PLVPictureInPictureManager sharedInstance].pictureInPictureActive &&
+                    [[PLVPictureInPictureManager sharedInstance].currentPlaybackVid isEqualToString:vid]) {
+                    [[PLVPictureInPictureManager sharedInstance] stopPictureInPicture];
+                }else {
+                    PLVVFloatingPlayerViewController *vctrl = [[PLVVFloatingPlayerViewController alloc] initWithVid:vid];
+                    [weakSelf.navigationController pushViewController:vctrl animated:YES];
+                }
             }
         } else {
 #ifndef PLVSupportPPTScreen

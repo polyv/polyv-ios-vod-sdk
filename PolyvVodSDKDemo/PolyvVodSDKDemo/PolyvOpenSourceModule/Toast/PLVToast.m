@@ -62,6 +62,7 @@
         self.lblMessage.text = message;
         self.lblMessage.font = [UIFont systemFontOfSize:15.0];
         self.lblMessage.textAlignment = NSTextAlignmentCenter;
+        self.lblMessage.numberOfLines = 0;
         [self addSubview:self.lblMessage];
     }
     return self;

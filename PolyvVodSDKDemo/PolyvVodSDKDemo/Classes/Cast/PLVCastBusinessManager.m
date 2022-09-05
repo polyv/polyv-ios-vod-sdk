@@ -11,6 +11,7 @@
 #import "PLVVodPlayerSkin.h"
 #import "PLVCastControllView.h"
 #import "PLVCastServiceListView.h"
+#import <AlicloudUtils/AlicloudReachabilityManager.h>
 
 @interface PLVCastBusinessManager () <PLVCastManagerDelegate,PLVCastControllViewDelegate>
 
@@ -21,11 +22,14 @@
 @property (nonatomic, strong) PLVCastServiceListView * castListV;     // 投屏设备列表选择
 @property (nonatomic, strong) PLVCastControllView * castControllView; // 投屏操作界面
 
+@property (nonatomic, assign) BOOL passiveDisconnect; // 被动断开链接
+
 @end
 
 @implementation PLVCastBusinessManager
 
 - (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     NSLog(@"PLVCastBusinessManager - [[[ Had Dealloc ]]]");
 }
 
@@ -44,6 +48,8 @@
     castListV.selectEvent = ^(PLVCastServiceListView * listView, NSInteger index, PLVCastCellType type) {
         
         if (type == PLVCastCellType_Device) {
+            weakSelf.passiveDisconnect = NO;
+            
             [weakSelf.player pause];
             
             [listView refreshBtnClickToSelected:NO];
@@ -58,7 +64,7 @@
             
             [weakSelf.castControllView show];
             
-            weakSelf.castControllView.deviceName = plv_s.deviceName;
+            weakSelf.castControllView.deviceName = plv_s.serviceName;
             weakSelf.castControllView.status = PLVCastCVStatus_Connecting;
             [weakSelf.castControllView reloadControllBtnWithStringArray:@[@"2:退出",@"3:换设备"]];
             
@@ -120,6 +126,10 @@
     if (self = [super init]) {
         self.listPlaceholderView = listPlaceholderView;
         self.player = player;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(networkStatusDidChange:)
+                                                     name:ALICLOUD_NETWOEK_STATUS_NOTIFY
+                                                   object:nil];
     }
     return self;
 }
@@ -171,6 +181,18 @@
     [self.castManager quitAllFuntionc];
 }
 
+- (void)networkStatusDidChange:(NSNotification *)notification {
+    AlicloudReachabilityManager * reachability = [AlicloudReachabilityManager shareInstance];
+    if (reachability.currentNetworkStatus == AlicloudReachableViaWiFi){ // WiFi
+        if (self.passiveDisconnect) {
+            __weak typeof(self) weakSelf = self;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf.player pause];
+            });
+        }
+    }
+}
+
 #pragma mark - ----------------- < Delegate - 投屏管理器 > -----------------
 // 设备搜索发现设备回调
 - (void)plvCastManager_findServices:(NSArray<PLVCastServiceModel *> *)servicesArray{
@@ -181,7 +203,7 @@
     for (PLVCastServiceModel * plv_s in servicesArray) {
         PLVCastCellInfoModel * m = [[PLVCastCellInfoModel alloc]init];
         m.type = PLVCastCellType_Device;
-        m.deviceName = plv_s.deviceName;
+        m.deviceName = plv_s.serviceName;
         m.isConnecting = plv_s.isConnecting;
         [mArr addObject:m];
     }
@@ -248,7 +270,7 @@
             
             // 更新投屏控制界面状态
             self.castControllView.status = PLVCastCVStatus_Disconnect;
-            
+            self.passiveDisconnect = YES;
         }
         
     }
@@ -285,19 +307,20 @@
         
         // 更新投屏控制视图
         self.castControllView.playBtn.selected = YES;
-        self.castControllView.deviceName = [self.castManager currentServiceModel].deviceName;
+        self.castControllView.deviceName = [self.castManager currentServiceModel].serviceName;
         
         [self.castControllView reloadControllBtnWithStringArray:@[@"3:换设备",@"2:退出",@"1:清晰度"]];
     }
     
     if (status == PLVCastPlayStatusPause ||
         status == PLVCastPlayStatusStopped) {
+        plvCastCV_status = PLVCastCVStatus_Casting;
         // 更新投屏控制视图
         self.castControllView.playBtn.selected = NO;
+        [self.player pause];
         
         if (status == PLVCastPlayStatusStopped &&
-            (self.castControllView.status == PLVCastCVStatus_Connecting ||
-             self.castControllView.status == PLVCastCVStatus_Unknown)) {
+            self.castControllView.status == PLVCastCVStatus_Unknown) {
                 // 若回调播放停止，且当前状态处于未知状态、连接中，则状态提示更新为投屏失败
                 plvCastCV_status = PLVCastCVStatus_Disconnect;
                 
@@ -330,12 +353,15 @@
 - (void)plvCastControllView_quitButtonClick {
     [self.castManager stop];
     
+    NSTimeInterval time = self.castManager.currentServiceModel.currentTime;
+    
     [self.castManager disconnect];
     
     [self.castControllView hide];
     
     [self.player play];
-    self.player.currentPlaybackTime = self.castManager.currentServiceModel.currentTime;
+    
+    self.player.currentPlaybackTime = time;
     
     [self.castListV dismiss];
     
@@ -355,6 +381,9 @@
 }
 
 - (void)plvCastControllView_playButtonClick:(UIButton *)button{
+    if (self.passiveDisconnect) {
+        return;
+    }
     if (button.selected) { // 播放
         [self.castManager resume];
     }else{                 // 暂停
@@ -372,9 +401,6 @@
     if ((index - 1) >= self.player.video.hlsVideos.count) {
         return;
     }
-    
-    // 暂停播放
-    [self.castManager stop];
     
     NSInteger quality = index;
     quality = quality == 0 ? (quality + 1) : quality; // 若自动档则+1流畅

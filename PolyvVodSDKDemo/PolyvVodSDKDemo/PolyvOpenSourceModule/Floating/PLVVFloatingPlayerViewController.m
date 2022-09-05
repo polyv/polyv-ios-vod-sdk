@@ -11,6 +11,10 @@
 #import "PLVVodSkinPlayerController.h"
 #import "PLVVFloatingWindow.h"
 #import "PLVVodUtils.h"
+#import "PLVPictureInPictureRestoreManager.h"
+#import "PLVPictureInPicturePlaceholderView.h"
+#import "PLVVodErrorUtil.h"
+#import "PLVToast.h"
 #ifdef PLVCastFeature
 #import "PLVCastBusinessManager.h" // 投屏功能管理器
 #endif
@@ -36,6 +40,8 @@ PLVVFloatingWindowProtocol
 #ifdef PLVCastFeature
 @property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
 #endif
+
+@property (nonatomic, strong) PLVPictureInPicturePlaceholderView *pictureInPicturePlaceholder;
 
 @end
 
@@ -68,6 +74,7 @@ PLVVFloatingWindowProtocol
         self.player.enableBackgroundPlayback = YES;
         self.player.autoplay = YES;
         self.player.enableFloating = YES;
+        self.player.seekType = PLVVodPlaySeekTypePrecise;
 
         [self setupPlayer];
     } else { // 使用 player 初始化时
@@ -89,14 +96,12 @@ PLVVFloatingWindowProtocol
     
     __weak typeof (self) weakSelf = self;
     self.skinView.floatingButtonTouchHandler = ^{
-        // 首先切换到竖屏
         UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
         if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
             [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationPortrait];
         }
-        
-        [[PLVVFloatingWindow sharedInstance].contentVctrl addPlayer:weakSelf.player partnerViewController:nil];
-        [weakSelf.navigationController popViewControllerAnimated:YES];
+        // 打开画中画
+        [weakSelf.player startPictureInPicture];
     };
     
     // 若需投屏功能，则需以下代码来启用投屏
@@ -110,6 +115,65 @@ PLVVFloatingWindowProtocol
     // 加载知识清单测试数据
     [self reloadKnowledgeListData];
     
+    // 画中画状态回调
+    [self.player setPictureInPictureStateHandler:^(PLVVodPlayerViewController *player, PLVPictureInPictureState pictureInPictureState) {
+        [weakSelf dealPictureInPictureStateHandler:pictureInPictureState];
+    }];
+    
+    // 画中画错误回调
+    [self.player setPictureInPictureErrorHandler:^(PLVVodPlayerViewController *player, NSError *error) {
+        [weakSelf dealPictureInPictureErrorHandler:error];
+    }];
+    
+}
+
+/// 画中画状态回调
+- (void)dealPictureInPictureStateHandler:(PLVPictureInPictureState)pictureInPictureState {
+    if (pictureInPictureState == PLVPictureInPictureStateDidStart) {
+        // 画中画已经开启
+        
+        // 添加占位图
+        self.pictureInPicturePlaceholder.frame = self.player.view.bounds;
+        [self.player.view addSubview:self.pictureInPicturePlaceholder];
+        // 设定画中画恢复逻辑的处理者为PLVPictureInPictureRestoreManager
+        [PLVPictureInPictureManager sharedInstance].restoreDelegate = [PLVPictureInPictureRestoreManager sharedInstance];
+        [PLVPictureInPictureRestoreManager sharedInstance].holdingViewController = self;
+    
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else if (pictureInPictureState == PLVPictureInPictureStateDidEnd) {
+        // 画中画已经关闭
+        
+        // 移除占位图
+        [self.pictureInPicturePlaceholder removeFromSuperview];
+        // 清理恢复逻辑的处理者
+        [[PLVPictureInPictureRestoreManager sharedInstance] cleanRestoreManager];
+    }
+}
+
+/// 画中画错误回调
+- (void)dealPictureInPictureErrorHandler:(NSError *)error {
+    if ([error.domain isEqualToString:PLVVodErrorDomain]) {
+        NSString *message = [NSString stringWithFormat:@"%@，已为您自动切换悬浮窗。", [PLVVodErrorUtil getErrorMsgWithCode:error.code]];
+        [PLVToast showMessage:message];
+    }else {
+        NSString *message = [NSString stringWithFormat:@"%@，已为您自动切换悬浮窗。", error.localizedFailureReason];
+        [PLVToast showMessage:message];
+    }
+    
+    dispatch_queue_t queue = dispatch_get_main_queue();
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), queue, ^{
+        [self openFloatingWindow];
+    });
+}
+
+- (void)openFloatingWindow {
+    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        [PLVVodUtils changeDeviceOrientation:UIInterfaceOrientationPortrait];
+    }
+    [[PLVVFloatingWindow sharedInstance].contentVctrl addPlayer:self.player partnerViewController:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 /// 加载知识清单测试数据
@@ -185,6 +249,14 @@ PLVVFloatingWindowProtocol
         _playerPlaceholder = [[UIView alloc] initWithFrame:CGRectMake(0, NavHight, width, width * 9 / 16)];
     }
     return _playerPlaceholder;
+}
+
+- (PLVPictureInPicturePlaceholderView *)pictureInPicturePlaceholder {
+    if (!_pictureInPicturePlaceholder) {
+        _pictureInPicturePlaceholder = [[PLVPictureInPicturePlaceholderView alloc]init];
+        _pictureInPicturePlaceholder.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    }
+    return _pictureInPicturePlaceholder;
 }
 
 #pragma mark - Initialize

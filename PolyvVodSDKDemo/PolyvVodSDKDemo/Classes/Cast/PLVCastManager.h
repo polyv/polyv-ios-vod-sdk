@@ -7,17 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#import <LBLelinkKit/LBLelinkKit.h>
+#import <WXDLNASender/WXDLNASender.h>
 #import <PLVVodSDK/PLVVodVideo.h>
 #import <PLVVodSDK/PLVVodSettings.h>
 #import <PLVVodSDK/PLVVodPlayerUtil.h>
 
-// TODO
-// APPID 和 APPSECRET 需与包名绑定，获取方式请咨询Polyv技术支持
+// APPID 和 APPSECRET 需与包名和 app名绑定，获取方式请咨询Polyv技术支持
 // 若不需投屏功能，可将以下任意一值置为空字符串
-static NSString * const LBAPPID = @"10729";                                    // APP id
-static NSString * const LBSECRETKEY = @"176141b01d6bfa5c40cc7dd2b71bd3c2";     // 密钥
+static NSString * const DLAPPID = @"4K8CTI6GUE630465748648e755320538";
+static NSString * const DLSECRETKEY = @"349A4-E2C3C-37BE3-BC9FA";
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -139,10 +137,7 @@ typedef NS_ENUM(NSUInteger, PLVCastPlayStatus) {
 @interface PLVCastServiceModel : NSObject // 投屏设备信息模型
 
 // 设备名
-@property (nonatomic, copy) NSString * deviceName;
-
-// 接收端App的包名，用于判断是哪个服务
-@property (nonatomic, copy) NSString * receviverPackageName;
+@property (nonatomic, copy) NSString * serviceName;
 
 // 是否当前连接中的设备
 @property (nonatomic, assign) BOOL isConnecting;

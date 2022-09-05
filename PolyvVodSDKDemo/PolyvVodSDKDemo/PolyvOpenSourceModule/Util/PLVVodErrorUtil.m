@@ -56,7 +56,12 @@
     @(json_read_error):@"JSON 解析错误，请稍后再试，或向管理员反馈",
     @(video_not_support_play_audio):@"当前视频不支持音频播放模式，请向管理员反馈",
     @(player_decrypt_not_support):@"播放器不支持播放该视频，请升级播放器版本",
-    @(player_nkv_not_support):@"播放器不支持播放该视频，请升级播放器版本"
+    @(player_nkv_not_support):@"播放器不支持播放该视频，请升级播放器版本",
+    @(pictureinpicture_error):@"画中画开启失败",
+    @(pictureinpicture_private_decrypt_not_support):@"私有加密暂不支持开启系统画中画",
+    @(pictureinpicture_audiomode_not_support):@"音频模式暂不支持开启系统画中画",
+    @(pictureinpicture_external_not_support):@"外部视频暂不支持开启系统画中画",
+    @(pictureinpicture_systemversion_not_support):@"该系统版本不支持开启系统画中画",
     };
     return errorDict;
 }
