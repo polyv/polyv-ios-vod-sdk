@@ -6,6 +6,22 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.18.0] - 2022-09-22
+
+### Changed
+
+- 【SDK】新增支持播放vrm13加密视频
+
+### Fixed
+
+- 【SDK】修复连续切换视频的时候，首帧片头不会消失的问题
+- 【SDK】支持bitcode打包
+
+**注意：**
+
+1. 本次升级内容主要是 SDK 层，无需更新 Demo 层代码也可。
+2. 若需要更新demo源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.17.0...2.18.0) 查看 Demo 层的变动，手动更新Demo层源码
+
 ## [2.17.0] - 2022-09-05
 
 ### Changed
@@ -22,9 +38,8 @@
 
 **注意：**
 
-1. 旧版本升级至 2.17.0 版本的点播 SDK，建议同步更新 2.17.0 版本的 Demo 层代码，以获得本次新增的功能。
+1. 旧版本升级至 2.16.6 版本的点播 SDK，建议同步更新 2.17.0 版本的 Demo 层代码，以获得本次修复的功能。
 2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.16.6...2.17.0) 查看 Demo 层的变动，手动更新Demo层源码
-
 
 ## [2.16.6] - 2022-04-06
 

@@ -653,16 +653,19 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         [skin setRouteLineShrinkScreenBtnHidden:YES];
     }
     else{
-        if ([skin isShowRoutelineInShrinkSreen]){
-            [skin setRouteLineShrinkScreenBtnHidden:NO];
-        }
-        
-        [skin setRouteLineFullScreenBtnHidden:NO];
         if (PLVVodPlaybackModeAudio == self.playbackMode){
             [skin setRouteLineCount:self.video.availableAudioRouteLines.count];
+            [skin setRouteLineFullScreenBtnHidden:self.video.availableAudioRouteLines.count > 1 ? NO : YES];
+            if ([skin isShowRoutelineInShrinkSreen]){
+                [skin setRouteLineShrinkScreenBtnHidden:self.video.availableAudioRouteLines.count > 1 ? NO : YES];
+            }
         }
         else{
             [skin setRouteLineCount:self.video.availableRouteLines.count];
+            [skin setRouteLineFullScreenBtnHidden:self.video.availableRouteLines.count > 1 ? NO : YES];
+            if ([skin isShowRoutelineInShrinkSreen]){
+                [skin setRouteLineShrinkScreenBtnHidden:self.video.availableRouteLines.count > 1 ? NO : YES];
+            }
         }
     }
 }
