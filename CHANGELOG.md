@@ -6,6 +6,19 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.18.1] - 2022-10-12
+
+### Changed
+
+- 【SDK】新增支持系统画中画播放倍速功能
+- 【SDK】新增支持HttpDNS动态开关功能
+- 【SDK、Demo】新增支持软硬解手动切换功能
+
+**注意：**
+
+1. 旧版本升级至 2.18.1 版本的点播 SDK，建议同步更新 2.18.1 版本的 Demo 层代码，以获得本次新增的功能。
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.18.0...2.18.1) 查看 Demo 层的变动，手动更新Demo层源码
+
 ## [2.18.0] - 2022-09-22
 
 ### Changed

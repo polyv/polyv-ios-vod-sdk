@@ -18,18 +18,18 @@ target 'PolyvVodSDKDemo' do
     pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-    pod 'PolyvVodSDK', '~> 2.18.0'
+    pod 'PolyvVodSDK', '~> 2.18.1'
     
     # 使用投屏功能的客户需要集成
     #pod 'LBLelinkKit', '~> 30503'
-    pod 'PLVDLNASender', '~> 1.4.1.1'
+    pod 'PLVDLNASender', '1.4.1'
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'
 	pod 'PLVSubtitle', '~> 0.1.0'
 
     # 上传SDK，不使用上传功能无需集成
-    pod 'PLVVodUploadSDK', '~> 0.1.1'
+    pod 'PLVVodUploadSDK', '~> 0.1.0'
   
 	target 'PolyvVodSDKDemoTests' do
 		inherit! :search_paths

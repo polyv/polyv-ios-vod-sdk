@@ -154,6 +154,12 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	});
 }
 
+- (void)setIsVideoToolBox:(BOOL)isVideoToolBox {
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    skin.isVideoToolBox = isVideoToolBox;
+    [super setIsVideoToolBox:isVideoToolBox];
+}
+
 - (void)setExamViewController:(PLVVodExamViewController *)examViewController {
 	if (_examViewController) {
 		[_examViewController.view removeFromSuperview];
@@ -586,6 +592,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	
 	self.skinView = skinView;
 	self.playerControl = skin;
+    skin.isVideoToolBox = self.isVideoToolBox;
 	
 	__weak typeof(self) weakSelf = self;
 	// 配置皮肤控件事件
@@ -633,6 +640,11 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     // 点击 “知识点” 按钮
     skin.knowledgeButtonTouchHandler = ^{
         [weakSelf.knowledgeListViewController showKnowledgeListView];
+    };
+    
+    skin.videoToolBoxDidChangeBlock = ^(BOOL isVideoToolBox) {
+        weakSelf.isVideoToolBox = isVideoToolBox;
+        [weakSelf switchVideoToolBox:isVideoToolBox];
     };
 }
 

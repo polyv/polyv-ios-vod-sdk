@@ -147,6 +147,10 @@
 @property (nonatomic, assign) BOOL enableDanmu;
 @property (nonatomic, copy) void (^enableDanmuChangeHandler)(PLVVodPlayerSkin *skin, BOOL enableDanmu);
 
+// 皮肤上是否显示硬解
+@property (nonatomic, assign) BOOL isVideoToolBox;
+@property (nonatomic, copy) void (^videoToolBoxDidChangeBlock)(BOOL isVideoToolBox);
+
 /// 视频打点，点击播放回调
 @property (nonatomic, copy) void(^plvVideoTipsPlayerBlock)(NSUInteger playIndex);
 

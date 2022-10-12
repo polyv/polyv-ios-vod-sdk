@@ -16,6 +16,7 @@
 #import "PLVVodDanmuSendView.h"
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodDefinitionPanelView.h"
+#import "PLVVodVideoToolBoxPanelView.h"
 #import "PLVVodPlaybackRatePanelView.h"
 #import "PLVVodLockScreenView.h"
 #import "PLVVodCoverView.h"
@@ -37,6 +38,9 @@
 
 /// 清晰度选择面板
 @property (strong, nonatomic) IBOutlet PLVVodDefinitionPanelView *definitionPanelView;
+
+/// 软硬解选择面板
+@property (strong, nonatomic) IBOutlet PLVVodVideoToolBoxPanelView *videoToolBoxPanelView;
 
 /// 速率选择面板
 @property (strong, nonatomic) IBOutlet PLVVodPlaybackRatePanelView *playbackRatePanelView;
@@ -274,6 +278,29 @@
 - (void)setEnableQualityBtn:(BOOL)enable{
     [self.shrinkscreenView setEnableQualityBtn:enable];
     [self.fullscreenView setEnableQualityBtn:enable];
+}
+
+#pragma mark 软硬解
+
+- (void)setIsVideoToolBox:(BOOL)isVideoToolBox {
+    self.videoToolBoxPanelView.isVideoToolBox = isVideoToolBox;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *title = isVideoToolBox ? @"硬解" : @"软解";
+        UIButton *videoToolBoxButton = self.fullscreenView.videoToolBoxButton;
+        [videoToolBoxButton setTitle:title forState:UIControlStateNormal];
+    });
+}
+
+- (BOOL)isVideoToolBox {
+    return self.videoToolBoxPanelView.isVideoToolBox;
+}
+
+- (void)setVideoToolBoxDidChangeBlock:(void (^)(BOOL))videoToolBoxDidChangeBlock {
+    self.videoToolBoxPanelView.videoToolBoxDidChangeBlock = videoToolBoxDidChangeBlock;
+}
+
+- (void (^)(BOOL))videoToolBoxDidChangeBlock {
+    return self.videoToolBoxPanelView.videoToolBoxDidChangeBlock;
 }
 
 #pragma mark 拉伸方式
@@ -581,6 +608,9 @@
 	self.definitionPanelView.qualityButtonDidClick = ^(UIButton *sender) {
 		[weakSelf backMainControl:sender];
 	};
+    self.videoToolBoxPanelView.videoToolBoxButtonDidClick = ^(UIButton * _Nonnull sender) {
+        [weakSelf backMainControl:sender];
+    };
 	self.playbackRatePanelView.playbackRateButtonDidClick = ^(UIButton *sender) {
 		[weakSelf backMainControl:sender];
 	};
@@ -690,6 +720,10 @@
 // 清晰度设置
 - (IBAction)definitionAction:(UIButton *)sender {
 	[self transitToView:self.definitionPanelView];
+}
+
+- (IBAction)videotoolboxAction:(UIButton *)sender {
+    [self transitToView:self.videoToolBoxPanelView];
 }
 
 // 播放速率设置

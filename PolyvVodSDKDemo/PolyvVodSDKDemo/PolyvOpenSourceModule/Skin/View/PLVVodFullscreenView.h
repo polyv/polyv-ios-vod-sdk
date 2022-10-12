@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *snapshotButton;
 @property (weak, nonatomic) IBOutlet UIButton *danmuSendButton;
 @property (weak, nonatomic) IBOutlet UIButton *definitionButton;
+@property (weak, nonatomic) IBOutlet UIButton *videoToolBoxButton;
 @property (weak, nonatomic) IBOutlet UIButton *playbackRateButton;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
