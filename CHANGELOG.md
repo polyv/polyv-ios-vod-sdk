@@ -5,6 +5,19 @@
 > 该项目已发布在 CocoaPods 中，查看各版本可使用 `pod trunk info PolyvVodSDK` 命令。
 
 <!--  Added Changed Removed Fixed -->
+## [2.18.3] - 2022-11-18
+
+### Changed
+
+- 【SDK】新增vrm13开关，优化播放体验。
+- 【SDK】vrm13默认使用软解。
+- 【Demo】修复弹幕按钮点击无效果问题
+
+**注意：**
+
+1. 旧版本升级至 2.18.3 版本的点播 SDK，建议同步更新 2.18.3 版本的 Demo 层代码，以获得本次新增的功能。
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.18.1...2.18.3) 查看 Demo 层的变动，手动更新Demo层源码
+
 
 ## [2.18.1] - 2022-10-12
 
@@ -18,6 +31,7 @@
 
 1. 旧版本升级至 2.18.1 版本的点播 SDK，建议同步更新 2.18.1 版本的 Demo 层代码，以获得本次新增的功能。
 2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.18.0...2.18.1) 查看 Demo 层的变动，手动更新Demo层源码
+
 
 ## [2.18.0] - 2022-09-22
 

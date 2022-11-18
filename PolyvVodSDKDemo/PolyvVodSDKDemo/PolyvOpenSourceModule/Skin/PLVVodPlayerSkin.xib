@@ -764,6 +764,7 @@
                 <outlet property="audioPlayModeButton" destination="bg9-DH-N1x" id="lBq-Ah-ZGC"/>
                 <outlet property="backButton" destination="BYi-5F-3u5" id="lRK-DM-pCa"/>
                 <outlet property="bufferProgressView" destination="F6C-pN-1tf" id="LMx-xv-KL0"/>
+                <outlet property="danmuButton" destination="FGz-CD-Tfj" id="UuZ-qh-AQ8"/>
                 <outlet property="danmuSendButton" destination="h89-Es-caU" id="LW8-1T-Sxr"/>
                 <outlet property="definitionButton" destination="vun-eN-a4o" id="o8H-XJ-3Nq"/>
                 <outlet property="floatingButton" destination="EpI-TO-oqU" id="DKO-r7-V0n"/>
