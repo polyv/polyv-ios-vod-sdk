@@ -19,7 +19,7 @@
 
 详细文档请参见 [本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
 
-POLYV iOS VOD SDK [API 接口文档](https://polyv-repo.oss-cn-shenzhen.aliyuncs.com/ios/documents/vodsdk/2.18.3-221118/index.html)。
+POLYV iOS VOD SDK [API 接口文档](https://polyv-repo.oss-cn-shenzhen.aliyuncs.com/ios/documents/vodsdk/2.18.4-230315/index.html)。
 
 ## 更新日志
 
