@@ -18,6 +18,7 @@
 #import "PLVPlayQueueBackgroundController.h"
 #import "PLVVFloatingWindow.h"
 #import <PLVVodSDK/PLVVodSDK.h>
+#import "PLVVodServiceUtil.h"
 
 static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 
@@ -184,7 +185,12 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 
 - (void)downloadVideo:(PLVVodVideo *)video {
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
-	PLVVodDownloadInfo *info = [downloadManager downloadVideo:video];
+    PLVVodDownloadInfo *info = nil;
+    PLVVodQuality quality = getUserSettingsDownloadQuality();
+    if (quality)
+        info = [downloadManager downloadVideo:video quality:quality];
+    else
+        info = [downloadManager downloadVideo:video];
     
 #ifdef PLVSupportDownloadAudio
     // 音频下载测试入口，需要音频下载功能客户，放开注释

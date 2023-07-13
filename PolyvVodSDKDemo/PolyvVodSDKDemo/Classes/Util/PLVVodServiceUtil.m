@@ -134,3 +134,49 @@
 }
 
 @end
+
+PLVVodQuality getUserSettingsDownloadQuality(void) {
+    NSString *userSettings = [[NSUserDefaults standardUserDefaults] stringForKey:@"vodQuality_preference"];
+    
+    NSScanner *scanner = [NSScanner scannerWithString:userSettings];
+    NSInteger enumValue;
+    
+    if (![scanner scanInteger:&enumValue] || enumValue < PLVVodQualityAuto || enumValue > PLVVodQualityUltra) {
+        return PLVVodQualityAuto;
+    } else {
+        return (PLVVodQuality)enumValue;
+    }
+}
+
+NSString *getUserSettingsMigrateSecretKey(void) {
+    NSString *userSettings = [[NSUserDefaults standardUserDefaults] stringForKey:@"migrateSecretKey_preference"];
+    return userSettings;
+}
+
+NSInteger getUserSettingsFpsProbeSize(void) {
+    NSString *userSettings = [[NSUserDefaults standardUserDefaults] stringForKey:@"fpsProbeSize_preference"];
+    
+    NSScanner *scanner = [NSScanner scannerWithString:userSettings];
+    NSInteger enumValue;
+    
+    if (![scanner scanInteger:&enumValue]) {
+        return -1; // default
+    } else {
+        return enumValue;
+    }
+}
+
+BOOL getUserSettingsSeekTypeAtStart(void) {
+    BOOL userSettings = [[NSUserDefaults standardUserDefaults] boolForKey:@"seekTypeAtStart_preference"];
+    return userSettings;
+}
+
+BOOL getUserSettingsSeekType(void) {
+    BOOL userSettings = [[NSUserDefaults standardUserDefaults] boolForKey:@"seekType_preference"];
+    return userSettings;
+}
+
+BOOL getUserSettingsEnableDNSOptimize(void) {
+    BOOL userSettings = [[NSUserDefaults standardUserDefaults] boolForKey:@"enableDNSOptimize_preference"];
+    return userSettings;
+}

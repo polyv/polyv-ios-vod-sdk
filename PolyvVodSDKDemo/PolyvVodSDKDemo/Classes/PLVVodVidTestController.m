@@ -9,6 +9,7 @@
 #import "PLVVodVidTestController.h"
 #import "PLVVodSkinPlayerController.h"
 #import <PLVVodSDK/PLVVodSDK.h>
+#import "PLVVodServiceUtil.h"
 
 @interface PLVVodVidTestController ()<UITextFieldDelegate>
 
@@ -88,7 +89,12 @@
 
 - (IBAction)saveAction:(UIBarButtonItem *)sender {
 	PLVVodDownloadManager *downloadManager = [PLVVodDownloadManager sharedManager];
-	PLVVodDownloadInfo *info = [downloadManager downloadVideo:self.video];
+	PLVVodDownloadInfo *info = nil;
+    PLVVodQuality quality = getUserSettingsDownloadQuality();
+    if (quality)
+		info = [downloadManager downloadVideo:self.video quality:quality];
+	else
+		info = [downloadManager downloadVideo:self.video];
 	__weak typeof(self) weakSelf = self;
 	info.progressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
 		NSLog(@"downlaod %@ progress: %@", weakSelf.video.vid, [NSNumberFormatter localizedStringFromNumber:@(info.progress) numberStyle:NSNumberFormatterPercentStyle]);

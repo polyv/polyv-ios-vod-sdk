@@ -18,7 +18,7 @@ target 'PolyvVodSDKDemo' do
     pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-    pod 'PolyvVodSDK', '~> 2.18.4'
+    pod 'PolyvVodSDK', '~> 2.19.0-abn'
     
     # 使用投屏功能的客户需要集成
     #pod 'LBLelinkKit', '~> 30503'

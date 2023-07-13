@@ -16,6 +16,7 @@
 #import "PLVVodDownloadHelper.h"
 #import "PLVVodDBManager.h"
 #import "PLVUploadUtil.h"
+#import "PLVVodServiceUtil.h"
 
 #import "PLVCastBusinessManager.h"
 
@@ -153,6 +154,10 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
 }
 
 - (void)downloadSetting {
+    /// 迁移旧版本2.19.0以下已离线视频
+    NSString *secretKey = getUserSettingsMigrateSecretKey();
+    [[PLVVodDownloadManager sharedManager] migrateLocalVideoPlaylist:secretKey];
+    
     // 下载配置参数
     [PLVVodDownloadManager sharedManager].autoStart = YES;
     [PLVVodDownloadManager sharedManager].maxRuningCount = 3;
