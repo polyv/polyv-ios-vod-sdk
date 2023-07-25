@@ -107,6 +107,15 @@ static PLVCastManager * manager = nil;
 }
 
 + (NSString *)getWifiName{
+/* 如需获取正确的wifi名称，请需要在Info.plist中配置以下对应的键值
+ 
+ NSLocationAlwaysUsageDescription : 允许在前后台获取定位的描述
+ NSLocationWhenInUseDescription : 允许在前台获取定位的描述
+ 
+ 并在此文件新增#import <CoreLocation/CoreLocation.h> 引用，并在此方法中增加以下两行代码，否则以上请求授权的方法不生效
+ CLLocationManager *manager = [[CLLocationManager alloc]init];
+ [manager requestAlwaysAuthorization];
+*/
     NSString *ssid = nil;
     NSArray *ifs = (__bridge_transfer id)CNCopySupportedInterfaces();
     for (NSString *ifnam in ifs) {

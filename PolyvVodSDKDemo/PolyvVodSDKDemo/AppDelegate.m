@@ -16,6 +16,7 @@
 #import "PLVVodDownloadHelper.h"
 #import "PLVVodDBManager.h"
 #import "PLVUploadUtil.h"
+#import "PLVVodServiceUtil.h"
 
 #import "PLVCastBusinessManager.h"
 
@@ -120,13 +121,17 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
     
     NSError *error = nil;
 
-#ifndef PLVSupportSubAccount
+#ifdef PLVSupportSubAccount
+    // 子账号配置
+    PLVVodSettings *settings = [PLVVodSettings settingsWithAppId:PLVVodSubAccountAppId
+                                                       secretKey:PLVVodSubAccountSecretKey
+                                                          userId:PLVVodUserId];
+#else
+    // 主账号配置
     PLVVodSettings *settings = [PLVVodSettings settingsWithConfigString:PLVVodConfigString
                                                                     key:PLVVodDecodeKey
                                                                      iv:PLVVodDecodeIv
                                                                   error:&error];
-#else
-    PLVVodSettings *settings = [PLVVodSettings settingsWithAppId:PLVVodSubAccountAppId secretKey:PLVVodSubAccountSecretKey userId:PLVVodUserId];
 #endif
     
     settings.logLevel = PLVVodLogLevelAll;
@@ -137,6 +142,8 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
     settings.viewerInfos.viewerExtraInfo2 = @"自定义参数param4";
     settings.viewerInfos.viewerExtraInfo3 = @"自定义参数param5";
 
+    // 测试代码，屏蔽
+    /*
     if ([[NSUserDefaults standardUserDefaults] boolForKey:PLVApplySettingKey]) {
         // 读取并替换设置项。出于安全考虑，不建议从 plist 读取加密串，直接在代码中写入加密串更为安全。
         NSString *userVodKey = [[NSUserDefaults standardUserDefaults] stringForKey:PLVVodKeySettingKey];
@@ -144,7 +151,7 @@ static NSString * const PLVApplySettingKey = @"apply_preference";
         if (userVodKey.length) {
             settings = [PLVVodSettings settingsWithConfigString:userVodKey error:&error];
         }
-    }
+    } */
     
     NSLog(@"settings: %@", settings);
     if (error) {

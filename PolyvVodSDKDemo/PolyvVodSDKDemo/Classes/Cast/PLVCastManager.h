@@ -15,8 +15,8 @@
 
 // APPID 和 APPSECRET 需与包名和 app名绑定，获取方式请咨询Polyv技术支持
 // 若不需投屏功能，可将以下任意一值置为空字符串
-static NSString * const DLAPPID = @"4K8CTI6GUE630465748648e755320538";
-static NSString * const DLSECRETKEY = @"349A4-E2C3C-37BE3-BC9FA";
+static NSString * const DLAPPID = @"u6x0FHnsaB649e726516fd3767652837";
+static NSString * const DLSECRETKEY = @"9369D-16FD4-7D6D9-5904";
 
 NS_ASSUME_NONNULL_BEGIN
 

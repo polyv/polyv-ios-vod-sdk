@@ -10,6 +10,7 @@
 #import "PLVVideoCell.h"
 #import "UIColor+PLVVod.h"
 #import "PLVToolbar.h"
+#import "PLVVodServiceUtil.h"
 
 @interface PLVCourseVideoListController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -87,7 +88,11 @@
 	for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
 		NSString *vid = self.videoSections[indexPath.section].videos[indexPath.row].vid;
         [PLVVodVideo requestVideoPriorityCacheWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
-            [[PLVVodDownloadManager sharedManager] downloadVideo:video];
+            PLVVodQuality quality = getUserSettingsDownloadQuality();
+            if (quality)
+            	[[PLVVodDownloadManager sharedManager] downloadVideo:video quality:quality];
+			else
+            	[[PLVVodDownloadManager sharedManager] downloadVideo:video];
         }];
 	}
 	[self.tableView setEditing:NO animated:YES];

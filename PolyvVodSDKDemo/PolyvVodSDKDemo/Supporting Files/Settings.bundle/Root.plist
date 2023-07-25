@@ -10,6 +10,52 @@
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
+			<string>默认下载清晰度</string>
+			<key>Key</key>
+			<string>vodQuality_preference</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>FpsProbeSize</string>
+			<key>Key</key>
+			<string>fpsProbeSize_preference</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>起播精准 seek</string>
+			<key>Key</key>
+			<string>seekTypeAtStart_preference</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>精准 seek</string>
+			<key>Key</key>
+			<string>seekType_preference</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>DNS 优选</string>
+			<key>Key</key>
+			<string>enableDNSOptimize_preference</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
 			<string>加密串</string>
 			<key>Key</key>
 			<string>vodKey_preference</string>
@@ -38,7 +84,7 @@
 			<key>Key</key>
 			<string>sdkVersion_preference</string>
 			<key>Title</key>
-			<string>SDK 版本</string>
+			<string>SDK 版本:2.9.1</string>
 		</dict>
 		<dict>
 			<key>Type</key>
