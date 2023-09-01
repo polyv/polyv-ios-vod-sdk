@@ -16,7 +16,6 @@
 #import <PLVVodSDK/PLVVodExam.h>
 #import <PLVSubtitle/PLVSubtitleManager.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import <PLVMarquee/PLVMarquee.h>
 #import <AlicloudUtils/AlicloudReachabilityManager.h>
 #import <PLVVodSDK/PLVVodDownloadManager.h>
 #import <PLVVodSDK/PLVVodLocalVideo.h>
@@ -353,20 +352,13 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	
 	// 自动播放
 	//self.autoplay = NO;
-	
-	// 设置跑马灯 （旧版）
-    PLVMarquee *marquee = [[PLVMarquee alloc] init];
-    marquee.type = PLVMarqueeTypeRoll;
-    marquee.displayDuration = 10;
-    marquee.maxFadeInterval = 5*60;
-    marquee.maxRollInterval = 5*60;
-//    marquee.maxFadeInterval = 5;
-    self.marquee = marquee;
     
     // 设置新版跑马灯（2.0）
     self.marqueeView = [[PLVMarqueeView alloc]init];
+    PLVMarqueeModel *marqueeModel = [[PLVMarqueeModel alloc]init];
     self.marqueeView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.marqueeView.frame = self.maskView.bounds;
+    [self.marqueeView setPLVMarqueeModel:marqueeModel];
     [self.maskView addSubview:self.marqueeView];
     
 	// 错误回调
@@ -659,7 +651,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 // 线路设置
 - (void)setRouteLineView{
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
-    if (self.video.keepSource){
+    if (self.video.keepSource || self.localPlayback){
         // 屏蔽线路切换
         [skin setRouteLineFullScreenBtnHidden:YES];
         [skin setRouteLineShrinkScreenBtnHidden:YES];
@@ -754,7 +746,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	self.examViewController.examWillShowHandler = ^(PLVVodExam *exam) {
         [weakSelf pauseWithoutAd];
 	};
-	self.examViewController.examDidCompleteHandler = ^(PLVVodExam *exam, NSTimeInterval backTime) {
+	self.examViewController.examDidCompleteHandler = ^(PLVVodExam *exam, NSTimeInterval backTime, NSArray<NSNumber *> *anwserIndexs) {
 		if (backTime >= 0) {
             
 #ifdef PLVSupportCustomQuestion
@@ -765,13 +757,42 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
             [weakSelf.examViewController changeExams:changeArr showTime:exam.showTime];;
 #endif
             
-			weakSelf.currentPlaybackTime = backTime;
+			weakSelf.currentPlaybackTime = backTime;          
 		}
+        // 上报答题统计
+        [weakSelf saveExamStatitics:exam answer:anwserIndexs];
         
 		[weakSelf play];
 	};
     
     [self loadExams];
+}
+
+- (void)saveExamStatitics:(PLVVodExam *)exam answer:(NSArray<NSNumber *> *)answerIndexs{
+    if (answerIndexs.count){
+        NSMutableString *strAnswer = [[NSMutableString alloc] init];
+        for (NSNumber *index in answerIndexs){
+            NSString *answerText = [exam.options objectAtIndex:[index integerValue]];
+            [strAnswer appendString:answerText];
+            [strAnswer appendString:@","];
+        }
+        if (strAnswer.length == 0) return;
+        NSRange range = NSMakeRange(strAnswer.length-1, 1);
+        [strAnswer deleteCharactersInRange:range];
+        NSString *playerId = [self getPlayId];
+        [PLVVodExam saveExamStatisticsWithPid:playerId
+                                          eid:exam.examId
+                                          uid:exam.userId
+                                    quesition:exam.question
+                                          vid:exam.vid
+                                      correct:exam.correct
+                                       anwser:strAnswer
+                                   completion:^(NSError *error) {
+            if (error){
+                NSLog(@"[保存答题记录失败]");
+            }
+        }];
+    }
 }
 
 - (void)loadExams{

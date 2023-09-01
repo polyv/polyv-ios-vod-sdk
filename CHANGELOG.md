@@ -6,6 +6,32 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.20.0] - 2023-09-01
+
+### Changed
+
+- 【SDK、Demo】旧版跑马灯移除
+- 【SDK、Demo】优化问答提交统计
+- 【Demo】优化跑马灯显示样式
+- 【SDK】支持溯源水印
+- 【SDK】支持跨端续播
+
+### Fixed
+
+- 【Demo】修复下载视频出现线路切换问题
+- 【SDK】修复播放第三方URL视频seek失效的问题
+- 【SDK】修复偶发性崩溃问题
+- 【SDK】移除先前版本中未使用的imei字段
+
+### 迁移说明
+
+**由 2.18.x 及以下版本升级到 2.19.0 及以上版本时，需要注意视频下载的迁移**
+
+**自 2.19.0 版本开始，本地播放视频鉴权方式进行了调整，为了在覆盖升级时兼容已下载的旧版本视频，初始换sdk时会自动迁移，必须严格测试本地缓存视频是否迁移成功。**
+
+1. 旧版本升级至 2.20.0 版本的点播 SDK，需要同步更新 2.20.0 版本的 Demo 层代码，以获得本次新增的功能。
+2. 若不便直接更新源码，可根据 [diff 变动内容](https://github.com/polyv/polyv-ios-vod-sdk/compare/2.19.1...2.20.0) 查看 Demo 层的变动，手动更新Demo层源码
+
 ## [2.19.1] - 2023-07-21
 
 ### Changed
@@ -1078,3 +1104,4 @@ typedef NS_ENUM(NSInteger, PLVVodFullScreenOrientation) {
 - 修复音量与播放器值不同步问题；
 - 修复时间显示格式；
 - 修复 `-requestDownloadInfosWithCompletion:` 死循环崩溃问题；
+

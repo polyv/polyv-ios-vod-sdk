@@ -27,6 +27,8 @@
 
 @property (nonatomic, assign) BOOL showing;
 
+@property (nonatomic, strong) NSArray<NSNumber *> *answerIndexs;
+
 @end
 
 @implementation PLVVodExamViewController
@@ -47,19 +49,22 @@
             [PLVToast showMessage:@"您还未选择任何答案"];
             return;
         }
+        // 保存选项
+        weakSelf.answerIndexs = [NSArray arrayWithArray:indexForSelectedItems];
         
         // 判断正误
         PLVVodExam *exam = weakSelf.currentExam;
         NSSet *referenceAnswer = [NSSet setWithArray:exam.correctIndex];
         NSSet *userAnswer = [NSSet setWithArray:indexForSelectedItems];
         BOOL correct = [referenceAnswer isEqualToSet:userAnswer];
+        
         [weakSelf showExplanationIfCorrect:correct];
     };
     
     // 选择题的跳过回调
 	self.questionView.skipActionHandler = ^{
 		PLVVodExam *exam = [weakSelf hideExam];
-		if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, -1);
+		if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, -1, nil);
 	};
     
     // 填空题的提交回调
@@ -85,13 +90,13 @@
     //填空题的跳过回调
     self.fillBlankQuestionView.skipActionHandler = ^{
         PLVVodExam *exam = [weakSelf hideExam];
-        if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, -1);
+        if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, -1, nil);
     };
     
 	self.explanationView.confirmActionHandler = ^(BOOL correct) {
 		PLVVodExam *exam = [weakSelf hideExam];
 		NSTimeInterval backTime = correct ? -1 : exam.backTime;
-		if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, backTime);
+		if (weakSelf.examDidCompleteHandler) weakSelf.examDidCompleteHandler(exam, backTime, weakSelf.answerIndexs);
 	};
 	
 	self.view.alpha = 0;
@@ -219,6 +224,7 @@
             [self.questionView scrollToTop];
         }
         self.currentExam = exam;
+        self.answerIndexs = nil;
     }];
 }
 

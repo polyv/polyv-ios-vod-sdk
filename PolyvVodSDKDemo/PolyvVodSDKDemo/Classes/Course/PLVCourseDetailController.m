@@ -102,14 +102,6 @@
 #else
         weakSelf.player.video = video;
 #endif
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            /// 设置默认跑马灯，移除旧版本跑马灯
-            PLVMarqueeModel *marqueeModel = [[PLVMarqueeModel alloc]init];
-            [weakSelf.player.marqueeView setPLVMarqueeModel:marqueeModel];
-            weakSelf.player.marquee = nil;
-        });
-        
 	};
     
     // 若需投屏功能，则需以下代码来启用投屏

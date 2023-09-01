@@ -125,6 +125,17 @@ PLVVFloatingWindowProtocol
         [weakSelf dealPictureInPictureErrorHandler:error];
     }];
     
+    // 跑马灯控制
+    self.player.playbackStateHandler = ^(PLVVodPlayerViewController *player) {
+        //新版跑马灯的启动暂停控制
+        if (player.playbackState == PLVVodPlaybackStatePlaying) {
+            [weakSelf.player.marqueeView start];
+        }else if (player.playbackState == PLVVodPlaybackStatePaused) {
+            [weakSelf.player.marqueeView pause];
+        }else if (player.playbackState == PLVVodPlaybackStateStopped) {
+            [weakSelf.player.marqueeView stop];
+        }
+    };
 }
 
 /// 画中画状态回调
@@ -333,10 +344,12 @@ PLVVFloatingWindowProtocol
     // 当主播放器移出设备界面时，在小播放器上继续播放
     if (self.playerPlaceholder.frame.origin.y + self.playerPlaceholder.frame.size.height <= NavHight && !self.playInFloatingView) {
         self.playInFloatingView = YES;
+        self.player.marqueeView.hidden = YES;
         
         [[PLVVFloatingWindow sharedInstance].contentVctrl addPlayer:self.player partnerViewController:self];
     } else if (self.playerPlaceholder.frame.origin.y + self.playerPlaceholder.frame.size.height > NavHight && self.playInFloatingView) {
         self.playInFloatingView = NO;
+        self.player.marqueeView.hidden = NO;
         
         [self.player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
         [[PLVVFloatingWindow sharedInstance].contentVctrl removePlayer];

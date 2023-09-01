@@ -438,7 +438,7 @@
         // 非本地文件
         if (video.keepSource == NO) {
             // 非源文件
-            fileUrl = video.hlsIndex;
+            fileUrl = video.isHls302 ? video.hlsIndex2 : video.hlsIndex;
         }else{
             // 源文件
             fileUrl = video.play_source_url;

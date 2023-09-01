@@ -211,7 +211,8 @@ PLVVFloatingWindowSkinProtocol
         PLVVodLocalVideo * localVideoModel = (PLVVodLocalVideo *)video;
         fileUrl = localVideoModel.path;
     } else { // 非本地文件
-        fileUrl = (video.keepSource == NO) ? video.hlsIndex : video.play_source_url;
+        NSString *hlsIndex = video.isHls302 ? video.hlsIndex2 : video.hlsIndex;
+        fileUrl = (video.keepSource == NO) ? hlsIndex : video.play_source_url;
     }
     
     if (fileUrl && [fileUrl isKindOfClass:[NSString class]] && fileUrl.length != 0) { // 判断链接是否存在

@@ -18,7 +18,7 @@
 @property (nonatomic, assign) NSTimeInterval currentTime;
 
 @property (nonatomic, copy) void (^examWillShowHandler)(PLVVodExam *exam);
-@property (nonatomic, copy) void (^examDidCompleteHandler)(PLVVodExam *exam, NSTimeInterval backTime);
+@property (nonatomic, copy) void (^examDidCompleteHandler)(PLVVodExam *exam, NSTimeInterval backTime, NSArray<NSNumber *> *answerIndexs);
 
 @property (nonatomic, assign, readonly) BOOL showing;
 

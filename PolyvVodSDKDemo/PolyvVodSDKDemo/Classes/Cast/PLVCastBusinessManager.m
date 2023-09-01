@@ -252,7 +252,8 @@
                 [weakSelf.castManager startPlayWithVideo:video quality:quality startPosition:self.player.currentPlaybackTime];
 
                 // 设置清晰度数量 初始所选清晰度
-                weakSelf.castControllView.qualityOptionCount =  video.hlsVideos.count;
+                NSArray<NSString *> *hlsVideos = video.isHls302 ? video.hlsVideos2 : video.hlsVideos;
+                weakSelf.castControllView.qualityOptionCount =  hlsVideos.count;
                 weakSelf.castControllView.currentQualityIndex = quality;
             }];
         }else{ // 无需读取video模型缓存
@@ -260,7 +261,8 @@
             [self.castManager startPlayWithVideo:video quality:quality startPosition:self.player.currentPlaybackTime];
             
             // 设置清晰度数量 初始所选清晰度
-            self.castControllView.qualityOptionCount = self.player.video.hlsVideos.count;
+            NSArray<NSString *> *hlsVideos = video.isHls302 ? self.player.video.hlsVideos2 : self.player.video.hlsVideos;
+            self.castControllView.qualityOptionCount = hlsVideos.count;
             self.castControllView.currentQualityIndex = quality;
         }
         

@@ -136,8 +136,8 @@ static NSString * const PLVMarqueeAnimationKey = @"PLVMarqueeAnimationKey";
     CGFloat displayHeight = CGRectGetHeight(bounds);
     CGFloat displayMaxX = displayWidth - layer.frame.size.width;
     CGFloat displayMaxY = displayHeight - layer.frame.size.height;
-    CGFloat randomX = [PLVMarqueeAnimationManager randomDoubleFrom:0.0 to:displayMaxX accuracy:2];
-    CGFloat randomY = [PLVMarqueeAnimationManager randomDoubleFrom:20.0 to:displayMaxY accuracy:2];
+    CGFloat randomX = displayMaxX < 0.0 ? 0.0 : [PLVMarqueeAnimationManager randomDoubleFrom:0.0 to:displayMaxX accuracy:2];
+    CGFloat randomY = displayMaxY < 0.0 ? 0.0 : [PLVMarqueeAnimationManager randomDoubleFrom:20.0 to:displayMaxY accuracy:2];
     
     //给layer设置随机位置
     [CATransaction begin];
@@ -176,6 +176,9 @@ static NSString * const PLVMarqueeAnimationKey = @"PLVMarqueeAnimationKey";
     CGFloat displayMinY = 20.0;
     CGFloat displayMaxY = displayHeight - layer.frame.size.height * 0.5;
     CGFloat randomY = [PLVMarqueeAnimationManager randomDoubleFrom:displayMinY to:displayMaxY accuracy:2];
+    if (displayHeight < layer.frame.size.height) {
+        randomY = 0.0;
+    }
     CGFloat rollFromPsitionX = displayWidth + layer.frame.size.width * 0.5;
     CGFloat rollToPsitionX = -layer.frame.size.width * 0.5;
     if (model.isAlwaysShowWhenRun) {

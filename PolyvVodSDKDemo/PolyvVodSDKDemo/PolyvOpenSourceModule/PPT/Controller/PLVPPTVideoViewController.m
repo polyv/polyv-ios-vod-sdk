@@ -39,6 +39,19 @@ PLVVodPlayerSkinPPTVideoProtocol
     [self.view addSubview:self.player.view];
     self.skinView = (PLVVodPlayerSkin *)self.player.playerControl;
     self.skinView.pptVideoDelegate = self;
+    
+    __weak typeof (self) weakSelf = self;
+    // 跑马灯控制
+    self.player.playbackStateHandler = ^(PLVVodPlayerViewController *player) {
+        //新版跑马灯的启动暂停控制
+        if (player.playbackState == PLVVodPlaybackStatePlaying) {
+            [weakSelf.player.marqueeView start];
+        }else if (player.playbackState == PLVVodPlaybackStatePaused) {
+            [weakSelf.player.marqueeView pause];
+        }else if (player.playbackState == PLVVodPlaybackStateStopped) {
+            [weakSelf.player.marqueeView stop];
+        }
+    };
 }
 
 - (void)viewWillLayoutSubviews {

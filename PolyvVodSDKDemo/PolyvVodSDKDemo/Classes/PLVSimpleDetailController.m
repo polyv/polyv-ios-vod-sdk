@@ -99,12 +99,21 @@
     self.player.autoplay = YES;
     self.player.enableLocalViewLog = YES;
     
+    __weak typeof(self) weakSelf = self;
+    self.player.playbackStateHandler = ^(PLVVodPlayerViewController *player) {
+        //新版跑马灯的启动暂停控制
+        if (player.playbackState == PLVVodPlaybackStatePlaying) {
+            [weakSelf.player.marqueeView start];
+        }else if (player.playbackState == PLVVodPlaybackStatePaused) {
+            [weakSelf.player.marqueeView pause];
+        }else if (player.playbackState == PLVVodPlaybackStateStopped) {
+            [weakSelf.player.marqueeView stop];
+        }
+    };
+    
 	NSString *vid = self.vid;
     if (self.isOffline){
-        
         // 离线视频播放
-        __weak typeof(self) weakSelf = self;
-        
         // 根据资源类型设置默认播放模式。本地音频文件设定音频播放模式，本地视频文件设定视频播放模式
         // 只针对开通视频转音频服务的用户
         self.player.playbackMode = self.playMode;
@@ -118,7 +127,6 @@
     }
     else{
         // 在线视频播放，默认会优先播放本地视频
-        __weak typeof(self) weakSelf = self;
         [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) {
             if (error){
                 // 用于播放重试

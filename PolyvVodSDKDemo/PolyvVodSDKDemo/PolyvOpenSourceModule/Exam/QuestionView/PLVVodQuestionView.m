@@ -292,5 +292,16 @@
     return dict[keyStr];
 }
 
+#pragma mark - Override
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *touchView = [super hitTest:point withEvent:event];
+    if (touchView == self) {
+        return nil;
+    } else {
+        return touchView;
+    }
+}
+
 
 @end
