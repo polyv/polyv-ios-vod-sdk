@@ -485,10 +485,21 @@ PLVFloatingViewProtocol
     
     [self.videoController hiddenSkin:YES];
     
-    UIGraphicsBeginImageContextWithOptions([[UIScreen mainScreen] bounds].size, YES, 0.0);
-    BOOL success = [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
-    UIImage *viewImage = success ? UIGraphicsGetImageFromCurrentImageContext() : nil;
-    UIGraphicsEndImageContext();
+    UIImage *viewImage = nil;
+    if (@available(iOS 17.0, *)) {
+        UIGraphicsImageRendererFormat *format = [UIGraphicsImageRendererFormat preferredFormat];
+        format.opaque = YES;
+        format.scale = 0.0;
+        UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:[[UIScreen mainScreen] bounds].size format:format];
+        viewImage = [renderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull ref) {
+            [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
+        }];
+    } else {
+        UIGraphicsBeginImageContextWithOptions([[UIScreen mainScreen] bounds].size, YES, 0.0);
+        BOOL success = [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
+        viewImage = success ? UIGraphicsGetImageFromCurrentImageContext() : nil;
+        UIGraphicsEndImageContext();
+    }
     
     [self.videoController hiddenSkin:NO];
     

@@ -8,18 +8,25 @@
 
 #import "PLVVodExtendVideoInfo+WCTTableCoding.h"
 #import "PLVVodExtendVideoInfo.h"
-#import <WCDB/WCDB.h>
+
+#if __has_include(<WCDB/WCDBObjc.h>)
+    #import <WCDB/WCDBObjc.h>
+#elif __has_include(<WCDBObjc/WCDBObjc.h>)
+    #import <WCDBObjc/WCDBObjc.h>
+#elif __has_include(<WCDB/WCDB.h>)
+    #import <WCDB/WCDB.h>
+#endif
 
 @implementation PLVVodExtendVideoInfo
 
 WCDB_IMPLEMENTATION(PLVVodExtendVideoInfo)
-WCDB_SYNTHESIZE(PLVVodExtendVideoInfo, CusCatagoryID)
-WCDB_SYNTHESIZE(PLVVodExtendVideoInfo, CusCatagoryName)
-WCDB_SYNTHESIZE(PLVVodExtendVideoInfo, CusCourseID)
-WCDB_SYNTHESIZE(PLVVodExtendVideoInfo, CusCourseName)
-WCDB_SYNTHESIZE(PLVVodExtendVideoInfo, vid)
+WCDB_SYNTHESIZE(CusCatagoryID)
+WCDB_SYNTHESIZE(CusCatagoryName)
+WCDB_SYNTHESIZE(CusCourseID)
+WCDB_SYNTHESIZE(CusCourseName)
+WCDB_SYNTHESIZE(vid)
 
-WCDB_PRIMARY(PLVVodExtendVideoInfo, vid);
+WCDB_PRIMARY(vid);
 
 
 @end

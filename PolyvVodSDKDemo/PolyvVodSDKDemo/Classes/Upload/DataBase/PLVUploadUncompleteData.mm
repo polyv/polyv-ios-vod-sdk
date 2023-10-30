@@ -14,17 +14,17 @@
 @implementation PLVUploadUncompleteData
 
 WCDB_IMPLEMENTATION(PLVUploadUncompleteData)
-WCDB_SYNTHESIZE(PLVUploadUncompleteData, vid)
-WCDB_SYNTHESIZE(PLVUploadUncompleteData, status)
-WCDB_SYNTHESIZE(PLVUploadUncompleteData, title)
-WCDB_SYNTHESIZE(PLVUploadUncompleteData, originFileName)
-WCDB_SYNTHESIZE(PLVUploadUncompleteData, fileSize)
-WCDB_SYNTHESIZE(PLVUploadUncompleteData, progress)
-WCDB_SYNTHESIZE(PLVUploadUncompleteData, createDate)
+WCDB_SYNTHESIZE(vid)
+WCDB_SYNTHESIZE(status)
+WCDB_SYNTHESIZE(title)
+WCDB_SYNTHESIZE(originFileName)
+WCDB_SYNTHESIZE(fileSize)
+WCDB_SYNTHESIZE(progress)
+WCDB_SYNTHESIZE(createDate)
 
-WCDB_PRIMARY(PLVUploadUncompleteData, vid)
+WCDB_PRIMARY(vid)
 
-WCDB_INDEX(PLVUploadUncompleteData, "_index", createDate)
+WCDB_INDEX("_index", createDate)
 
 - (instancetype)initWithVideo:(PLVUploadVideo *)video {
     self = [super init];

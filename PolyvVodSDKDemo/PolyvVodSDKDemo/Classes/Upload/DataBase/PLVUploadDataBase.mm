@@ -35,11 +35,11 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
         NSString *logMessage = [NSString stringWithFormat:@"数据库路径：\n%@", path];
         [self logForMessage:logMessage];
         
-        BOOL completeRresult = [_database createTableAndIndexesOfName:kCompleteUploadTableName withClass:PLVUploadCompleteData.class];
+        BOOL completeRresult = [_database createTable:kCompleteUploadTableName withClass:PLVUploadCompleteData.class];
         logMessage = [NSString stringWithFormat:@"初始化表格 %@ %@", kCompleteUploadTableName, completeRresult ? @"成功" : @"失败"];
         [self logForMessage:logMessage];
         
-        BOOL uncompleteResult = [_database createTableAndIndexesOfName:kUncompleteUploadTableName withClass:PLVUploadUncompleteData.class];
+        BOOL uncompleteResult = [_database createTable:kUncompleteUploadTableName withClass:PLVUploadUncompleteData.class];
         logMessage = [NSString stringWithFormat:@"初始化表格 %@ %@", kUncompleteUploadTableName, uncompleteResult ? @"成功" : @"失败"];
         [self logForMessage:logMessage];
     }
@@ -68,20 +68,20 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
 @implementation PLVUploadDataBase(CompleteData)
 
 - (void)insertCompleteData:(PLVUploadCompleteData *)completeData {
-    BOOL result = [self.database insertObject:completeData into:kCompleteUploadTableName];
+    BOOL result = [self.database insertObject:completeData intoTable:kCompleteUploadTableName];
     NSString *logMessage = [NSString stringWithFormat:@"插入数据 %@ %@", completeData, result ? @"成功" : @"失败"];
     [self logForCompleteDataMessage:logMessage];
 }
 
 - (void)deleteCompleteDataWithVid:(NSString *)vid {
-    BOOL result = [self.database deleteObjectsFromTable:kCompleteUploadTableName where:PLVUploadCompleteData.vid == vid];
+    BOOL result = [self.database deleteFromTable:kCompleteUploadTableName where:PLVUploadCompleteData.vid == vid];
     NSString *logMessage = [NSString stringWithFormat:@"删除 vid = %@ 的数据%@", vid, result ? @"成功" : @"失败"];
     [self logForCompleteDataMessage:logMessage];
 }
 
 - (NSArray<PLVUploadCompleteData *> *)getAllCompleteData {
     WCTTable *table = [self completeDataTable];
-    NSArray<PLVUploadCompleteData *> *completeDatas = [table getObjectsOrderBy:PLVUploadCompleteData.completeDate.order(WCTOrderedDescending)];
+    NSArray<PLVUploadCompleteData *> *completeDatas = [table getObjectsOrders:PLVUploadCompleteData.completeDate.asOrder(WCTOrderedDescending)];
     NSString *logMessage = [NSString stringWithFormat:@"获取所有数据 %@", completeDatas];
     [self logForCompleteDataMessage:logMessage];
     return completeDatas;
@@ -90,7 +90,7 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
 #pragma mark Private
 
 - (WCTTable *)completeDataTable {
-    WCTTable *table = [self.database getTableOfName:kCompleteUploadTableName withClass:PLVUploadCompleteData.class];
+    WCTTable *table = [self.database getTable:kCompleteUploadTableName withClass:PLVUploadCompleteData.class];
     return table;
 }
 
@@ -105,13 +105,13 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
 @implementation PLVUploadDataBase(UncompleteData)
 
 - (void)insertUncompleteData:(PLVUploadUncompleteData *)uncompleteData {
-    BOOL result = [self.database insertObject:uncompleteData into:kUncompleteUploadTableName];
+    BOOL result = [self.database insertObject:uncompleteData intoTable:kUncompleteUploadTableName];
     NSString *logMessage = [NSString stringWithFormat:@"插入数据 %@ %@", uncompleteData, result ? @"成功" : @"失败"];
     [self logForUncompleteDataMessage:logMessage];
 }
 
 - (void)deleteUncompleteDataWithVid:(NSString *)vid {
-    BOOL result = [self.database deleteObjectsFromTable:kUncompleteUploadTableName where:PLVUploadUncompleteData.vid == vid];
+    BOOL result = [self.database deleteFromTable:kUncompleteUploadTableName where:PLVUploadUncompleteData.vid == vid];
     NSString *logMessage = [NSString stringWithFormat:@"删除 vid = %@ 的数据%@", vid, result ? @"成功" : @"失败"];
     [self logForUncompleteDataMessage:logMessage];
 }
@@ -119,10 +119,10 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
 - (void)updateAllUncompleteDataFromUploadingToResumable {
     PLVUploadUncompleteData *uncompleteData = [[PLVUploadUncompleteData alloc] init];
     uncompleteData.status = PLVUploadStatusResumable;
-    BOOL result = [self.database updateRowsInTable:kUncompleteUploadTableName
-                                        onProperty:PLVUploadUncompleteData.status
-                                        withObject:uncompleteData
-                                             where:PLVUploadUncompleteData.status == PLVUploadStatusUploading];
+    BOOL result = [self.database updateTable:kUncompleteUploadTableName
+                               setProperties:PLVUploadUncompleteData.status
+                                    toObject:uncompleteData
+                                       where:PLVUploadUncompleteData.status == PLVUploadStatusUploading];
     NSString *logMessage = [NSString stringWithFormat:@"修改数据状态\"上传中\" -> \"可续传\" %@", result ? @"成功" : @"失败"];
     [self logForUncompleteDataMessage:logMessage];
 }
@@ -130,10 +130,10 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
 - (void)updateAllUncompleteDataFromWaitingToAborted {
     PLVUploadUncompleteData *uncompleteData = [[PLVUploadUncompleteData alloc] init];
     uncompleteData.status = PLVUploadStatusAborted;
-    BOOL result = [self.database updateRowsInTable:kUncompleteUploadTableName
-                                        onProperty:PLVUploadUncompleteData.status
-                                        withObject:uncompleteData
-                                             where:PLVUploadUncompleteData.status == PLVUploadStatusWaiting];
+    BOOL result = [self.database updateTable:kUncompleteUploadTableName
+                               setProperties:PLVUploadUncompleteData.status
+                                    toObject:uncompleteData
+                                       where:PLVUploadUncompleteData.status == PLVUploadStatusWaiting];
     NSString *logMessage = [NSString stringWithFormat:@"修改数据状态\"等待中\" -> \"被中止\" %@", result ? @"成功" : @"失败"];
     [self logForUncompleteDataMessage:logMessage];
 }
@@ -145,10 +145,10 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
     }
     PLVUploadUncompleteData *uncompleteData = [[PLVUploadUncompleteData alloc] init];
     uncompleteData.status = status;
-    BOOL result = [self.database updateRowsInTable:kUncompleteUploadTableName
-                                       onProperty:PLVUploadUncompleteData.status
-                                        withObject:uncompleteData
-                                             where:PLVUploadUncompleteData.vid == vid];
+    BOOL result = [self.database updateTable:kUncompleteUploadTableName
+                               setProperties:PLVUploadUncompleteData.status
+                                    toObject:uncompleteData
+                                       where:PLVUploadUncompleteData.vid == vid];
     NSString *logMessage = [NSString stringWithFormat:@"修改 vid = %@ 的数据的 status 为 %zd %@", vid, status, result ? @"成功" : @"失败"];
     [self logForUncompleteDataMessage:logMessage];
 }
@@ -156,10 +156,10 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
 - (void)updateUncompleteDataProgress:(float)progress withVid:(NSString *)vid {
     PLVUploadUncompleteData *uncompleteData = [[PLVUploadUncompleteData alloc] init];
     uncompleteData.progress = progress;
-    BOOL result = [self.database updateRowsInTable:kUncompleteUploadTableName
-                                        onProperty:PLVUploadUncompleteData.progress
-                                        withObject:uncompleteData
-                                             where:PLVUploadUncompleteData.vid == vid];
+    BOOL result = [self.database updateTable:kUncompleteUploadTableName
+                               setProperties:PLVUploadUncompleteData.progress
+                                    toObject:uncompleteData
+                                       where:PLVUploadUncompleteData.vid == vid];
     NSString *logMessage = [NSString stringWithFormat:@"修改 vid = %@ 的数据的 progress 为 %.2f %@", vid, progress, result ? @"成功" : @"失败"];
     [self logForUncompleteDataMessage:logMessage];
 }
@@ -190,7 +190,7 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
 
 - (NSArray<PLVUploadUncompleteData *> *)getAllUncompleteData {
     WCTTable *table = [self uncompleteDataTable];
-    NSArray<PLVUploadUncompleteData *> *uncompleteDatas = [table getObjectsOrderBy:PLVUploadUncompleteData.createDate.order(WCTOrderedAscending)];
+    NSArray<PLVUploadUncompleteData *> *uncompleteDatas = [table getObjectsOrders:PLVUploadUncompleteData.createDate.asOrder(WCTOrderedAscending)];
     NSString *logMessage = [NSString stringWithFormat:@"获取所有数据 %@", uncompleteDatas];
     [self logForUncompleteDataMessage:logMessage];
     return uncompleteDatas;
@@ -199,7 +199,7 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
 #pragma mark Private
 
 - (WCTTable *)uncompleteDataTable {
-    WCTTable *table = [self.database getTableOfName:kUncompleteUploadTableName withClass:PLVUploadUncompleteData.class];
+    WCTTable *table = [self.database getTable:kUncompleteUploadTableName withClass:PLVUploadUncompleteData.class];
     return table;
 }
 

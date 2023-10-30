@@ -15,14 +15,14 @@
 @implementation PLVUploadCompleteData
 
 WCDB_IMPLEMENTATION(PLVUploadCompleteData)
-WCDB_SYNTHESIZE(PLVUploadCompleteData, vid)
-WCDB_SYNTHESIZE(PLVUploadCompleteData, title)
-WCDB_SYNTHESIZE(PLVUploadCompleteData, fileSize)
-WCDB_SYNTHESIZE(PLVUploadCompleteData, completeDate)
+WCDB_SYNTHESIZE(vid)
+WCDB_SYNTHESIZE(title)
+WCDB_SYNTHESIZE(fileSize)
+WCDB_SYNTHESIZE(completeDate)
 
-WCDB_PRIMARY(PLVUploadCompleteData, vid)
+WCDB_PRIMARY(vid)
 
-WCDB_INDEX(PLVUploadCompleteData, "_index", completeDate)
+WCDB_INDEX("_index", completeDate)
 
 - (instancetype)initWithUncompleteData:(PLVUploadUncompleteData *)uncompleteData {
     self = [super init];

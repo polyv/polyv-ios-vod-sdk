@@ -19,7 +19,7 @@
 
 详细文档请参见 [本项目 wiki](https://github.com/polyv/polyv-ios-vod-sdk/wiki)。
 
-POLYV iOS VOD SDK [API 接口文档](https://polyv-repo.oss-cn-shenzhen.aliyuncs.com/ios/documents/vodsdk/2.20.0-230901/index.html)。
+POLYV iOS VOD SDK [API 接口文档](https://polyv-repo.oss-cn-shenzhen.aliyuncs.com/ios/documents/vodsdk/2.20.1-231030/index.html)。
 
 ## 更新日志
 
@@ -35,7 +35,7 @@ POLYV iOS VOD SDK 所有请求都使用 HTTPS 协议，已全面支持 ATS（App
 
 ## 系统要求
 
-本项目及其点播 SDK 最低支持兼容系统版本为 iOS 8。
+本项目及其点播 SDK 最低支持兼容系统版本为 iOS 11。
 
 ## 部分逻辑说明
 
