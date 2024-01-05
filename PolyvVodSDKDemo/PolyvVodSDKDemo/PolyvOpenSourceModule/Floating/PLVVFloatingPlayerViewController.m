@@ -75,6 +75,7 @@ PLVVFloatingWindowProtocol
         self.player.autoplay = YES;
         self.player.enableFloating = YES;
         self.player.seekType = PLVVodPlaySeekTypePrecise;
+        self.player.enableKeyFrameSeek = YES;
 
         [self setupPlayer];
     } else { // 使用 player 初始化时

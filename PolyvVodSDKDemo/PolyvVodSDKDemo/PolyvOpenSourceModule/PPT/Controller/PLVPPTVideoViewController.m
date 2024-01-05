@@ -72,6 +72,7 @@ PLVVodPlayerSkinPPTVideoProtocol
         _player.enableBackgroundPlayback = YES;
         _player.autoplay = YES;
         _player.enablePPT = YES;
+        _player.enableKeyFrameSeek = YES;
         //_player.enableLocalViewLog = YES;
     }
     return _player;
