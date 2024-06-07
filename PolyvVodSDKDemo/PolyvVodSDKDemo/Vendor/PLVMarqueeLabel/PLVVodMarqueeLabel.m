@@ -52,7 +52,7 @@ typedef void(^MLAnimationCompletionBlock)(BOOL finished);
 // Support
 @property (nonatomic, copy) MLAnimationCompletionBlock scrollCompletionBlock;
 @property (nonatomic, strong) NSArray *gradientColors;
-CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
+CGPoint VodMLOffsetCGPoint(CGPoint point, CGFloat offset);
 
 @end
 
@@ -614,7 +614,7 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
     
     // Create animation for position
     CGPoint homeOrigin = self.homeLabelFrame.origin;
-    CGPoint awayOrigin = MLOffsetCGPoint(self.homeLabelFrame.origin, self.awayOffset);
+    CGPoint awayOrigin = VodMLOffsetCGPoint(self.homeLabelFrame.origin, self.awayOffset);
     
     NSArray *values = nil;
     switch (self.marqueeType) {
@@ -686,7 +686,7 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
     // Create animation for sublabel positions, if needed
     if (!labelAnimation) {
         CGPoint homeOrigin = self.homeLabelFrame.origin;
-        CGPoint awayOrigin = MLOffsetCGPoint(self.homeLabelFrame.origin, self.awayOffset);
+        CGPoint awayOrigin = VodMLOffsetCGPoint(self.homeLabelFrame.origin, self.awayOffset);
         NSArray *values = @[[NSValue valueWithCGPoint:homeOrigin],      // Initial location, home
                             [NSValue valueWithCGPoint:homeOrigin],      // Initial delay, at home
                             [NSValue valueWithCGPoint:awayOrigin]];     // Animation to home
@@ -1539,7 +1539,7 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
 
 #pragma mark - Helpers
 
-CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset) {
+CGPoint VodMLOffsetCGPoint(CGPoint point, CGFloat offset) {
     return CGPointMake(point.x + offset, point.y);
 }
 
