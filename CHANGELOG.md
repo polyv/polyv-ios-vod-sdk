@@ -7,7 +7,7 @@
 <!--  Added Changed Removed Fixed -->
 ## [2.22.0] - 2024-06-07
 
-### ### Added
+### Added
 
 - 【Demo、SDK】支持跳过广告
 
