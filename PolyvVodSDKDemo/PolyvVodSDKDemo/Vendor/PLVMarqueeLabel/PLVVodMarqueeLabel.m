@@ -10,10 +10,10 @@
 #import <QuartzCore/QuartzCore.h>
 
 // Notification strings
-NSString *const kMarqueeLabelControllerRestartNotification = @"MarqueeLabelViewControllerRestart";
-NSString *const kMarqueeLabelShouldLabelizeNotification = @"MarqueeLabelShouldLabelizeNotification";
-NSString *const kMarqueeLabelShouldAnimateNotification = @"MarqueeLabelShouldAnimateNotification";
-NSString *const kMarqueeLabelAnimationCompletionBlock = @"MarqueeLabelAnimationCompletionBlock";
+NSString *const kVodMarqueeLabelControllerRestartNotification = @"MarqueeLabelViewControllerRestart";
+NSString *const kVodMarqueeLabelShouldLabelizeNotification = @"MarqueeLabelShouldLabelizeNotification";
+NSString *const kVodMarqueeLabelShouldAnimateNotification = @"MarqueeLabelShouldAnimateNotification";
+NSString *const kVodMarqueeLabelAnimationCompletionBlock = @"MarqueeLabelAnimationCompletionBlock";
 
 // Animation completion block
 typedef void(^MLAnimationCompletionBlock)(BOOL finished);
@@ -25,7 +25,7 @@ typedef void(^MLAnimationCompletionBlock)(BOOL finished);
 #define CGFLOAT_LONG_DURATION 60*60*24*365 // One year in seconds
 
 // Helpers
-@interface GradientSetupAnimation : CABasicAnimation
+@interface VodGradientSetupAnimation : CABasicAnimation
 @end
 
 @interface UIView (MarqueeLabelHelpers)
@@ -63,7 +63,7 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
 
 + (void)restartLabelsOfController:(UIViewController *)controller {
     [PLVVodMarqueeLabel notifyController:controller
-                       withMessage:kMarqueeLabelControllerRestartNotification];
+                       withMessage:kVodMarqueeLabelControllerRestartNotification];
 }
 
 + (void)controllerViewWillAppear:(UIViewController *)controller {
@@ -80,12 +80,12 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
 
 + (void)controllerLabelsShouldLabelize:(UIViewController *)controller {
     [PLVVodMarqueeLabel notifyController:controller
-                       withMessage:kMarqueeLabelShouldLabelizeNotification];
+                       withMessage:kVodMarqueeLabelShouldLabelizeNotification];
 }
 
 + (void)controllerLabelsShouldAnimate:(UIViewController *)controller {
     [PLVVodMarqueeLabel notifyController:controller
-                       withMessage:kMarqueeLabelShouldAnimateNotification];
+                       withMessage:kVodMarqueeLabelShouldAnimateNotification];
 }
 
 + (void)notifyController:(UIViewController *)controller withMessage:(NSString *)message
@@ -246,9 +246,9 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
     
     // Add notification observers
     // Custom class notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerShouldRestart:) name:kMarqueeLabelControllerRestartNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(labelsShouldLabelize:) name:kMarqueeLabelShouldLabelizeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(labelsShouldAnimate:) name:kMarqueeLabelShouldAnimateNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerShouldRestart:) name:kVodMarqueeLabelControllerRestartNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(labelsShouldLabelize:) name:kVodMarqueeLabelShouldLabelizeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(labelsShouldAnimate:) name:kVodMarqueeLabelShouldAnimateNotification object:nil];
     
     // UIApplication state notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restartLabel) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -640,7 +640,7 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
                                                               interval:interval
                                                                  delay:delayAmount];
     // Add completion block
-    [awayAnim setValue:@(YES) forKey:kMarqueeLabelAnimationCompletionBlock];
+    [awayAnim setValue:@(YES) forKey:kVodMarqueeLabelAnimationCompletionBlock];
     
     // Add animation
     [self.subLabel.layer addAnimation:awayAnim forKey:@"position"];
@@ -723,7 +723,7 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
     
     
     // Attach completion block
-    [labelAnimation setValue:@(YES) forKey:kMarqueeLabelAnimationCompletionBlock];
+    [labelAnimation setValue:@(YES) forKey:kVodMarqueeLabelAnimationCompletionBlock];
     
     // Add animation
     [self.subLabel.layer addAnimation:labelAnimation forKey:@"position"];
@@ -808,7 +808,7 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
         [CATransaction commit];
         
         // Create animation for color change
-        GradientSetupAnimation *colorAnimation = [GradientSetupAnimation animationWithKeyPath:@"colors"];
+        VodGradientSetupAnimation *colorAnimation = [VodGradientSetupAnimation animationWithKeyPath:@"colors"];
         colorAnimation.fromValue = gradientMask.colors;
         colorAnimation.toValue = adjustedColors;
         colorAnimation.duration = 0.25;
@@ -1074,8 +1074,8 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-    if ([anim isMemberOfClass:[GradientSetupAnimation class]]) {
-        GradientSetupAnimation *setupFade = (GradientSetupAnimation *)anim;
+    if ([anim isMemberOfClass:[VodGradientSetupAnimation class]]) {
+        VodGradientSetupAnimation *setupFade = (VodGradientSetupAnimation *)anim;
         NSArray *finalColors = setupFade.toValue;
         if (finalColors) {
             [(CAGradientLayer *)self.layer.mask setColors:finalColors];
@@ -1543,7 +1543,7 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset) {
     return CGPointMake(point.x + offset, point.y);
 }
 
-@implementation GradientSetupAnimation
+@implementation VodGradientSetupAnimation
 
 @end
 
