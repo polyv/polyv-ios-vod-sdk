@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIStackView *subtitleSeparateStackView; // 字幕分割
 @property (weak, nonatomic) IBOutlet UIStackView *containerStackView; // 容器视图
 
+@property (nonatomic, strong) NSMutableArray <UIStackView *> *subtitleRowStackViews; // 字幕多行
+
 #pragma clang diagnostic pop
 
 @end
@@ -84,10 +86,14 @@
 #pragma mark - property
 
 - (void)setSubtitleKeys:(NSArray<NSString *> *)subtitleKeys {
+    [self setupSubtitleKeys:subtitleKeys defaultSrtIndex:-1];
+}
+
+- (void)setupSubtitleKeys:(NSArray<NSString *> *)subtitleKeys defaultSrtIndex:(NSInteger)defaultSrtIndex {
 	_subtitleKeys = subtitleKeys;
 	
 	// 无字幕按钮
-	UIButton *noSubtitleButton = [self.class buttonWithTitle:@"无"];
+	UIButton *noSubtitleButton = [self.class buttonWithTitle:@"不显示"];
 	noSubtitleButton.selected = YES;
 	[noSubtitleButton addTarget:self action:@selector(subtitleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -96,18 +102,52 @@
 		[self.subtitleStackView removeArrangedSubview:subview];
 		[subview removeFromSuperview];
 	}
-	
+    self.subtitleRowStackViews = [NSMutableArray array];
+    self.subtitleStackView.alignment = UIStackViewAlignmentFill;
+    self.subtitleStackView.spacing = 12;
 	if (!subtitleKeys.count) {
 		noSubtitleButton.userInteractionEnabled = NO;
 		[self.subtitleStackView addArrangedSubview:noSubtitleButton];
 		return;
 	}
-	for (NSString *subtitleKey in subtitleKeys) {
-		UIButton *subtitleButton = [self.class buttonWithTitle:subtitleKey];
-		[self.subtitleStackView addArrangedSubview:subtitleButton];
-		[subtitleButton addTarget:self action:@selector(subtitleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-	}
-	[self.subtitleStackView addArrangedSubview:noSubtitleButton];
+    
+    self.subtitleStackView.alignment = UIStackViewAlignmentLeading;
+    int innerStackViewCount = (int)subtitleKeys.count / 4 + 1;
+    for (int i = 0; i < innerStackViewCount; i++) {
+        UIStackView *rowStackView = [[UIStackView alloc] init];
+        rowStackView.axis = UILayoutConstraintAxisHorizontal;
+        rowStackView.distribution = UIStackViewDistributionFillEqually;
+        rowStackView.alignment = UIStackViewAlignmentLeading;
+        rowStackView.spacing = 8;
+        // 添加当前行的 subtitle keys
+        if (i == 0) {
+            [rowStackView addArrangedSubview:noSubtitleButton];
+            NSRange range = NSMakeRange(0, MIN(3, subtitleKeys.count));
+            NSArray *keysInRow = [subtitleKeys subarrayWithRange:range];
+            [keysInRow enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+                UIButton *button = [self.class buttonWithTitle:key];
+                [button addTarget:self action:@selector(subtitleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+                [rowStackView addArrangedSubview:button];
+            }];
+        } else {
+            NSRange range = NSMakeRange(i * 4 - 1, MIN(4, subtitleKeys.count + 1 - i * 4));
+            NSArray *keysInRow = [subtitleKeys subarrayWithRange:range];
+            [keysInRow enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+                UIButton *button = [self.class buttonWithTitle:key];
+                [button addTarget:self action:@selector(subtitleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+                [rowStackView addArrangedSubview:button];
+            }];
+        }
+        [self.subtitleRowStackViews addObject:rowStackView];
+        [self.subtitleStackView addArrangedSubview:rowStackView];
+    }
+    if (defaultSrtIndex >= 0 && defaultSrtIndex < subtitleKeys.count) {
+        defaultSrtIndex = defaultSrtIndex + 1;
+        NSUInteger row = defaultSrtIndex / 4;
+        NSUInteger column = defaultSrtIndex % 4;
+        UIStackView *currentStackView = self.subtitleRowStackViews[row];
+        [self subtitleButtonAction:currentStackView.arrangedSubviews[column]];
+    }
 }
 
 - (void)setScalingMode:(NSInteger)scalingMode {
@@ -122,12 +162,34 @@
 #pragma mark - action
 
 - (IBAction)subtitleButtonAction:(UIButton *)sender {
-	for (UIButton *button in self.subtitleStackView.arrangedSubviews) {
-		button.selected = NO;
-	}
+    if (self.subtitleKeys.count) {
+        NSInteger row = -1;
+        NSInteger column = -1;
+        for (UIStackView *rowStackView in self.subtitleStackView.arrangedSubviews) {
+            if (row < 0) {
+                NSInteger buttonIndex = [rowStackView.arrangedSubviews indexOfObject:sender];
+                if (buttonIndex != NSNotFound) {
+                    row = [self.subtitleStackView.arrangedSubviews indexOfObject:rowStackView];
+                    column = buttonIndex;
+                }
+            }
+            
+            for (UIButton *button in rowStackView.arrangedSubviews) {
+                button.selected = NO;
+            }
+        }
+        sender.selected = YES;
+        NSInteger index = row * 4 + column;
+        self.selectedSubtitleKey = index <= 0 ? nil : self.subtitleKeys[index - 1];
+        if (self.selectedSubtitleKeyDidChangeBlock) self.selectedSubtitleKeyDidChangeBlock(self.selectedSubtitleKey);
+        return;
+    }
+    for (UIButton *button in self.subtitleStackView.arrangedSubviews) {
+        button.selected = NO;
+    }
 	sender.selected = YES;
 	NSInteger index = [self.subtitleStackView.arrangedSubviews indexOfObject:sender];
-	self.selectedSubtitleKey = index >= self.subtitleKeys.count ? nil : self.subtitleKeys[index];
+	self.selectedSubtitleKey = index <= 0 ? nil : self.subtitleKeys[index];
 	if (self.selectedSubtitleKeyDidChangeBlock) self.selectedSubtitleKeyDidChangeBlock(self.selectedSubtitleKey);
 }
 

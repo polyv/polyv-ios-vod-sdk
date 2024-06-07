@@ -108,11 +108,17 @@
 
 #pragma mark - 额外
 
-/// 字幕标签
+/// 字幕标签，单字幕模式-显示，双字幕模式下显示上层字幕
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 
-/// 顶部字幕标签
+/// 字幕标签2，单字幕模式-不显示，仅限双字幕模式显示下层字幕
+@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel2;
+
+/// 顶部字幕标签，单字幕模式-显示，双字幕模式下显示上层字幕
 @property (weak, nonatomic) IBOutlet UILabel *subtitleTopLabel;
+
+/// 顶部字幕标签，单字幕模式-不显示，双字幕模式-显示下层字幕
+@property (weak, nonatomic) IBOutlet UILabel *subtitleTopLabel2;
 
 /// 手势指示器
 @property (strong, nonatomic) IBOutlet PLVVodGestureIndicatorView *gestureIndicatorView;

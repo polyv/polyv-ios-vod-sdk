@@ -12,9 +12,9 @@
 #import "PLVVodDanmu+PLVVod.h"
 #import "PLVVodExamViewController.h"
 #import "PLVVodNetworkUtil.h"
+#import "PLVVodSubtitleManager.h"
 #import "NSString+PLVVod.h"
 #import <PLVVodSDK/PLVVodExam.h>
-#import <PLVSubtitle/PLVSubtitleManager.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <AlicloudUtils/AlicloudReachabilityManager.h>
 #import <PLVVodSDK/PLVVodDownloadManager.h>
@@ -58,7 +58,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 @property (nonatomic, strong) PLVKnowledgeListViewController *knowledgeListViewController;
 
 /// 字幕管理器
-@property (nonatomic, strong) PLVSubtitleManager *subtitleManager;
+@property (nonatomic, strong) PLVVodSubtitleManager *subtitleManager;
 
 /// 视频截图
 @property (nonatomic, strong) UIImage *coverImage;
@@ -354,11 +354,11 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	//self.autoplay = NO;
     
     // 设置新版跑马灯（2.0）
-    self.marqueeView = [[PLVMarqueeView alloc]init];
-    PLVMarqueeModel *marqueeModel = [[PLVMarqueeModel alloc]init];
+    self.marqueeView = [[PLVVodMarqueeView alloc]init];
+    PLVVodMarqueeModel *marqueeModel = [[PLVVodMarqueeModel alloc]init];
     self.marqueeView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.marqueeView.frame = self.maskView.bounds;
-    [self.marqueeView setPLVMarqueeModel:marqueeModel];
+    [self.marqueeView setPLVVodMarqueeModel:marqueeModel];
     [self.maskView addSubview:self.marqueeView];
     
 	// 错误回调
@@ -689,9 +689,11 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
 - (void)setupAd {
 	self.adPlayer.adDidTapBlock = ^(PLVVodAd *ad) {
-		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:ad.address]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ad.address] 
+                                           options:[NSDictionary dictionary]
+                                 completionHandler:^(BOOL success) {
+        }];
 	};
-	self.adPlayer.canSkip = YES;
 	
 	// ad player UI
 	[self.adPlayer.muteButton setImage:[UIImage imageNamed:@"plv_ad_btn_volume_on"] forState:UIControlStateNormal];
@@ -852,10 +854,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 //    //srtUrl = @"https://static.polyv.net/usrt/f/f46ead66de/srt/b3ecc235-a47c-4c22-af29-0aab234b1b69.srt";
     
     // 清空数据
-    self.subtitleManager = [PLVSubtitleManager managerWithSubtitle:nil
-                                                             label:skin.subtitleLabel
-                                                          topLabel:skin.subtitleTopLabel
-                                                             error:nil];
+    self.subtitleManager = [PLVVodSubtitleManager managerWithSubtitle:nil style:nil error:nil subtitle2:nil style2:nil error2:nil label:skin.subtitleLabel topLabel:skin.subtitleTopLabel label2:skin.subtitleLabel2 topLabel2:skin.subtitleTopLabel2];
     
     if (!skin.selectedSubtitleKey) return;
 
@@ -864,36 +863,117 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
 - (void)loadSubtitle{
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    PLVVodSubtitleItemStyle *topStyle;
+    PLVVodSubtitleItemStyle *bottomStyle;
+    PLVVodSubtitleItemStyle *singleStyle;
+    // 获取字幕样式
+    for (PLVVodVideoSubtitlesStyle *style in self.video.player.subtitles) {
+        if ([style.style isEqualToString:@"double"] && [style.position isEqualToString:@"top"]) {
+            topStyle = [PLVVodSubtitleItemStyle styleWithTextColor:[self colorFromHexString:style.fontColor] bold:style.fontBold italic:style.fontItalics backgroundColor:[self colorFromRGBAString:style.backgroundColor]];
+        } else if ([style.style isEqualToString:@"double"] && [style.position isEqualToString:@"bottom"]) {
+            bottomStyle = [PLVVodSubtitleItemStyle styleWithTextColor:[self colorFromHexString:style.fontColor] bold:style.fontBold italic:style.fontItalics backgroundColor:[self colorFromRGBAString:style.backgroundColor]];
+        } else if ([style.style isEqualToString:@"single"]) {
+            singleStyle = [PLVVodSubtitleItemStyle styleWithTextColor:[self colorFromHexString:style.fontColor] bold:style.fontBold italic:style.fontItalics backgroundColor:[self colorFromRGBAString:style.backgroundColor]];
+        }
+    }
+    PLVVodVideoDoubleSubtitleItem *firstItem;
+    PLVVodVideoDoubleSubtitleItem *secondItem;
+    BOOL doubleSubtitleNeedShow = [skin.selectedSubtitleKey isEqualToString:@"双语"] && self.video.match_srt.count == 2;
+    BOOL firstItemAtTop = NO;
+    if (doubleSubtitleNeedShow) {
+        firstItem = self.video.match_srt[0];
+        secondItem = self.video.match_srt[1];
+        firstItemAtTop = [firstItem.position isEqualToString:@"topSubtitles"];
+    }
     
     if (self.localPlayback || [self checkVideoWillPlayLocal:self.video]){
         // 优先获取本地字幕
         NSDictionary *srtDic = [PLVVodLocalVideo localSubtitlesWithVideo:self.video
                                                                      dir:[PLVVodDownloadManager sharedManager].downloadDir];
+
         if (srtDic.count){
-            NSString *fileUrl = [srtDic objectForKey:skin.selectedSubtitleKey];
-            if (fileUrl.length){
-                NSLog(@"[字幕] -- 本地字幕");
-                NSString *strContent = [NSString stringWithContentsOfFile:fileUrl encoding:NSUTF8StringEncoding error:nil];
-                self.subtitleManager = [PLVSubtitleManager managerWithSubtitle:strContent
-                                                                         label:skin.subtitleLabel
-                                                                      topLabel:skin.subtitleTopLabel
-                                                                         error:nil];
-                return;
+            if (doubleSubtitleNeedShow) { // 本地双字幕
+                NSString *firstFileUrl = [srtDic objectForKey:firstItem.title];
+                NSString *secondFileUrl = [srtDic objectForKey:secondItem.title];
+                if (firstFileUrl.length && secondFileUrl.length) {
+                    NSLog(@"[字幕] -- 本地双字幕");
+                    NSString *srtContent = [NSString stringWithContentsOfFile:firstFileUrl encoding:NSUTF8StringEncoding error:nil];
+                    NSString *srtContent2 = [NSString stringWithContentsOfFile:secondFileUrl encoding:NSUTF8StringEncoding error:nil];
+                    self.subtitleManager = [PLVVodSubtitleManager managerWithSubtitle:firstItemAtTop ? srtContent : srtContent2
+                                                                             style:topStyle
+                                                                             error:nil
+                                                                         subtitle2:firstItemAtTop ? srtContent2 : srtContent
+                                                                            style2:bottomStyle
+                                                                            error2:nil
+                                                                             label:skin.subtitleLabel
+                                                                          topLabel:skin.subtitleTopLabel
+                                                                            label2:skin.subtitleLabel2
+                                                                         topLabel2:skin.subtitleTopLabel2];
+                }
+            } else { // 本地单字幕
+                NSString *fileUrl = [srtDic objectForKey:skin.selectedSubtitleKey];
+                if (fileUrl.length){
+                    NSLog(@"[字幕] -- 本地单字幕");
+                    NSString *srtContent = [NSString stringWithContentsOfFile:fileUrl encoding:NSUTF8StringEncoding error:nil];
+                    self.subtitleManager = [PLVVodSubtitleManager managerWithSubtitle:srtContent style:singleStyle error:nil subtitle2:nil style2:nil error2:nil label:skin.subtitleLabel topLabel:skin.subtitleTopLabel label2:skin.subtitleLabel2 topLabel2:skin.subtitleTopLabel2];
+                    return;
+                }
             }
         }
     }
 
     // 获取在线字幕内容并设置字幕
+    // TODO: 支持双字幕
     __weak typeof(self) weakSelf = self;
-    NSString *srtUrl = self.video.srts[skin.selectedSubtitleKey];
-    [self.class requestStringWithUrl:srtUrl completion:^(NSString *string) {
-        NSLog(@"[字幕] -- 在线字幕");
-        NSString *srtContent = string;
-        weakSelf.subtitleManager = [PLVSubtitleManager managerWithSubtitle:srtContent
-                                                                     label:skin.subtitleLabel
-                                                                  topLabel:skin.subtitleTopLabel
-                                                                     error:nil];
-    }];
+    if (doubleSubtitleNeedShow) { // 在线双字幕
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        __block NSString *srtContent;
+        __block NSString *srtContent2;
+        [self.class requestStringWithUrl:firstItem.url completion:^(NSString *string) {
+            NSLog(@"[字幕] -- 在线双字幕第一部分");
+            srtContent = string;
+            dispatch_semaphore_signal(semaphore);
+        }];
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        [self.class requestStringWithUrl:secondItem.url completion:^(NSString *string) {
+            NSLog(@"[字幕] -- 在线双字幕第二部分");
+            srtContent2 = string;
+            dispatch_semaphore_signal(semaphore);
+        }];
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        BOOL firstItemAtTop = [firstItem.position isEqualToString:@"topSubtitles"];
+        self.subtitleManager = [PLVVodSubtitleManager managerWithSubtitle:firstItemAtTop ? srtContent : srtContent2
+                                                                 style:topStyle
+                                                                 error:nil
+                                                             subtitle2:firstItemAtTop ? srtContent2 : srtContent
+                                                                style2:bottomStyle
+                                                                error2:nil
+                                                                 label:skin.subtitleLabel
+                                                              topLabel:skin.subtitleTopLabel
+                                                                label2:skin.subtitleLabel2
+                                                             topLabel2:skin.subtitleTopLabel2];
+        
+    } else { // 在线单字幕
+        NSString *srtUrl = nil;
+        if (!skin.selectedSubtitleKey || ![skin.selectedSubtitleKey isKindOfClass:NSString.class] || !skin.selectedSubtitleKey.length) {
+            NSLog(@"[字幕] -- 在线单字幕，字幕名称为空！");
+            return;
+        }
+        
+        for (PLVVodVideoSubtitleItem *item in self.video.srts) {
+            if ([item.title isEqualToString:skin.selectedSubtitleKey]) {
+                srtUrl = item.url;
+                break;
+            }
+        }
+
+        [self.class requestStringWithUrl:srtUrl completion:^(NSString *string) {
+            NSLog(@"[字幕] -- 在线单字幕");
+            NSString *srtContent = string;
+            weakSelf.subtitleManager = [PLVVodSubtitleManager managerWithSubtitle:srtContent style:singleStyle error:nil subtitle2:nil style2:nil error2:nil label:skin.subtitleLabel topLabel:skin.subtitleTopLabel label2:skin.subtitleLabel2 topLabel2:skin.subtitleTopLabel2];
+        }];
+    }
+    
 }
 
 // 设置视频打点信息
@@ -1285,6 +1365,48 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 			completion(string);
 		}
 	}] resume];
+}
+
+- (UIColor *)colorFromHexString:(NSString *)hexString {
+    return [self colorFromHexString:hexString alpha:1.0];
+}
+
+- (UIColor *)colorFromHexString:(NSString *)hexString alpha:(float)alpha {
+    if (!hexString || hexString.length < 6) {
+        return [UIColor whiteColor];
+    }
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    if ([hexString rangeOfString:@"#"].location == 0) {
+        [scanner setScanLocation:1]; // bypass '#' character
+    }
+    [scanner scanHexInt:&rgbValue];
+    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:alpha];
+}
+
+- (UIColor *)colorFromRGBAString:(NSString *)rgbaString {
+    // 去除字符串两端的空白字符
+    rgbaString = [rgbaString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    // 判断字符串是否符合 rgba() 格式
+    if ([rgbaString hasPrefix:@"rgba("] && [rgbaString hasSuffix:@")"]) {
+        // 去除 "rgba(" 和 ")"
+        NSString *valuesString = [rgbaString substringWithRange:NSMakeRange(5, rgbaString.length - 6)];
+        
+        // 拆分颜色值
+        NSArray *components = [valuesString componentsSeparatedByString:@","];
+        if (components.count == 4) {
+            CGFloat red = [[components objectAtIndex:0] floatValue] / 255.0;
+            CGFloat green = [[components objectAtIndex:1] floatValue] / 255.0;
+            CGFloat blue = [[components objectAtIndex:2] floatValue] / 255.0;
+            CGFloat alpha = [[components objectAtIndex:3] floatValue];
+            
+            return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+        }
+    }
+    
+    // 如果字符串格式不正确,返回 nil
+    return nil;
 }
 
 

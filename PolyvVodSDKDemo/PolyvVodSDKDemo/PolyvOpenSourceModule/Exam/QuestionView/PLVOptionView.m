@@ -34,6 +34,8 @@
     self.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.btnCheckbox];
     [self addSubview:self.lblOption];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    [self.lblOption addGestureRecognizer:tapGesture];
     
     NSMutableArray<NSLayoutConstraint *> *constrainsArray = [NSMutableArray array];
     
@@ -89,6 +91,13 @@
     }
 }
 
+#pragma mark - Gesture
+-(void)tapGesture:(UITapGestureRecognizer *)gesture{
+    if (self.selectActionHandler) {
+        self.selectActionHandler(_isSelect);
+    }
+}
+
 
 #pragma mark - Loadlazy
 
@@ -112,6 +121,7 @@
         _lblOption.textColor = [UIColor colorWithHex:0x333333];
         _lblOption.font = [UIFont systemFontOfSize:14];
         _lblOption.numberOfLines = 0;
+        _lblOption.userInteractionEnabled = YES;
     }
     return _lblOption;
 }

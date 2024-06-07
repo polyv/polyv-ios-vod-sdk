@@ -22,4 +22,6 @@
 
 - (void)switchToPlayMode:(PLVVodPlaybackMode)mode;
 
+- (void)setupSubtitleKeys:(NSArray<NSString *> *)subtitleKeys defaultSrtIndex:(NSInteger)defaultSrtIndex;
+
 @end

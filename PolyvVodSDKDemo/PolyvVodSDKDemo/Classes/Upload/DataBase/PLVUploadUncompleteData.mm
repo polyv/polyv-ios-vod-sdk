@@ -7,24 +7,15 @@
 //
 
 #import "PLVUploadUncompleteData.h"
-#import "PLVUploadCompleteData+WCTTableCoding.h"
 #import <PLVVodUploadSDK/PLVVodUploadSDK.h>
 #import "PLVUploadModel.h"
+#import <PLVFDB/PLVFDatabase.h>
+
+@interface PLVUploadUncompleteData () <PLVFDatabaseProtocol>
+
+@end
 
 @implementation PLVUploadUncompleteData
-
-WCDB_IMPLEMENTATION(PLVUploadUncompleteData)
-WCDB_SYNTHESIZE(vid)
-WCDB_SYNTHESIZE(status)
-WCDB_SYNTHESIZE(title)
-WCDB_SYNTHESIZE(originFileName)
-WCDB_SYNTHESIZE(fileSize)
-WCDB_SYNTHESIZE(progress)
-WCDB_SYNTHESIZE(createDate)
-
-WCDB_PRIMARY(vid)
-
-WCDB_INDEX("_index", createDate)
 
 - (instancetype)initWithVideo:(PLVUploadVideo *)video {
     self = [super init];
@@ -70,6 +61,23 @@ WCDB_INDEX("_index", createDate)
              @"progress":@(self.progress),
              @"createDate":self.createDate
              };
+}
+
+#pragma mark - PLVFDatabaseProtocol
+
++ (nonnull NSString *)primaryKey {
+    return @"vid";
+}
+
++ (nonnull NSArray<NSString *> *)propertyKeys {
+    return @[
+        @"vid",
+        @"status",
+        @"title",
+        @"fileSize",
+        @"progress",
+        @"createDate"
+    ];
 }
 
 @end

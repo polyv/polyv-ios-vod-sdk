@@ -143,21 +143,7 @@
                 cell.videoSizeLabel.text = downloadProgressStr;
             });
         };
-        
-        // 下载速率回调
-//        info.bytesPerSecondsDidChangeBlock = ^(PLVVodDownloadInfo *info) {
-//            PLVDownloadProcessingCell *cell = weakSelf.downloadItemCellDic[info.vid];
-//            NSString *speedString = [NSByteCountFormatter stringFromByteCount:info.bytesPerSeconds countStyle:NSByteCountFormatterCountStyleFile];
-//            speedString = [speedString stringByAppendingFormat:@"/s"];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-////                cell.downloadSpeedLabel.text = speedString;
-//            });
-//        };
-        
-        // 解压进度回调
-//        info.unzipProgressDidChangeBlock = ^(PLVVodDownloadInfo *info) {
-//            NSLog(@"vid: %@ unzipProgress:%f ", info.vid, info.unzipProgress);
-//        };
+      
     }
 }
 
@@ -222,24 +208,25 @@
     if (self.downloadInfos.count == 0)
         return;
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:@"确定删除所有任务?"
-                                                       delegate:self
-                                              cancelButtonTitle:@"取消"
-                                              otherButtonTitles:@"确定", nil];
-    [alertView show];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 1){
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"" message:@"确定删除所有任务?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *actionSure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // 清空下载队列
         [[PLVVodDownloadManager sharedManager] removeAllDownloadWithComplete:^(void *result) {
             //
             [self.downloadInfos removeAllObjects];
             [self.tableView reloadData];
         }];
-    }
+    }];
+                                 
+    [alertView addAction:actionSure];
+    [alertView addAction:actionCancel];
+
+    [self presentViewController:alertView animated:YES completion:nil];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -384,7 +371,7 @@
 - (void)handleStartDownloadVideo:(PLVVodDownloadInfo *)info{
     
 #ifndef PLVSupportDownloadAudio
-    [[PLVVodDownloadManager sharedManager] startDownloadWithVid:info.vid];
+    [[PLVVodDownloadManager sharedManager] startDownloadWithVid:info.vid highPriority:NO];
 #else
     // 使用音频下载功能的客户，调用如下方法
     PLVVodVideoParams *params = [PLVVodVideoParams videoParamsWithVid:info.vid fileType:info.fileType];

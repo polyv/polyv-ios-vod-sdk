@@ -14,7 +14,7 @@
 #import "PLVPictureInPictureRestoreManager.h"
 #import "PLVPictureInPicturePlaceholderView.h"
 #import "PLVVodErrorUtil.h"
-#import "PLVToast.h"
+#import "PLVVodToast.h"
 #ifdef PLVCastFeature
 #import "PLVCastBusinessManager.h" // 投屏功能管理器
 #endif
@@ -167,10 +167,10 @@ PLVVFloatingWindowProtocol
 - (void)dealPictureInPictureErrorHandler:(NSError *)error {
     if ([error.domain isEqualToString:PLVVodErrorDomain]) {
         NSString *message = [NSString stringWithFormat:@"%@，已为您自动切换悬浮窗。", [PLVVodErrorUtil getErrorMsgWithCode:error.code]];
-        [PLVToast showMessage:message];
+        [PLVVodToast showMessage:message];
     }else {
         NSString *message = [NSString stringWithFormat:@"%@，已为您自动切换悬浮窗。", error.localizedFailureReason];
-        [PLVToast showMessage:message];
+        [PLVVodToast showMessage:message];
     }
     
     dispatch_queue_t queue = dispatch_get_main_queue();
@@ -296,6 +296,7 @@ PLVVFloatingWindowProtocol
     NSString *vid = self.vid;
     
     __weak typeof(self) weakSelf = self;
+    [PLVPictureInPictureManager sharedInstance].requiresLinearPlayback = YES;
     [PLVVodVideo requestVideoWithVid:vid completion:^(PLVVodVideo *video, NSError *error) { // 在线视频播放，默认会优先播放本地视频
         if (error) {
             weakSelf.player.vid = vid; // 用于播放重试

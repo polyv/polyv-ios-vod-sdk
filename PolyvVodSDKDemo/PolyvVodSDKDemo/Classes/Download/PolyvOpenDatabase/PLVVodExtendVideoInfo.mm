@@ -6,27 +6,29 @@
 //  Copyright © 2018年 POLYV. All rights reserved.
 //
 
-#import "PLVVodExtendVideoInfo+WCTTableCoding.h"
 #import "PLVVodExtendVideoInfo.h"
+#import <PLVFDB/PLVFDatabase.h>
 
-#if __has_include(<WCDB/WCDBObjc.h>)
-    #import <WCDB/WCDBObjc.h>
-#elif __has_include(<WCDBObjc/WCDBObjc.h>)
-    #import <WCDBObjc/WCDBObjc.h>
-#elif __has_include(<WCDB/WCDB.h>)
-    #import <WCDB/WCDB.h>
-#endif
+@interface PLVVodExtendVideoInfo () <PLVFDatabaseProtocol>
+
+@end
 
 @implementation PLVVodExtendVideoInfo
 
-WCDB_IMPLEMENTATION(PLVVodExtendVideoInfo)
-WCDB_SYNTHESIZE(CusCatagoryID)
-WCDB_SYNTHESIZE(CusCatagoryName)
-WCDB_SYNTHESIZE(CusCourseID)
-WCDB_SYNTHESIZE(CusCourseName)
-WCDB_SYNTHESIZE(vid)
+#pragma mark - PLVFDatabaseProtocol
 
-WCDB_PRIMARY(vid);
++ (nonnull NSString *)primaryKey {
+    return @"vid";
+}
 
++ (nonnull NSArray<NSString *> *)propertyKeys {
+    return @[
+        @"CusCatagoryID",
+        @"CusCatagoryName",
+        @"CusCourseID",
+        @"CusCourseName",
+        @"vid"
+    ];
+}
 
 @end

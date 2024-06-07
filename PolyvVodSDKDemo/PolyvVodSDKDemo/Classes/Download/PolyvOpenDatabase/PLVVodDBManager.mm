@@ -8,7 +8,7 @@
 
 #import "PLVVodDBManager.h"
 #import <PLVVodSDK/PLVVodDownloadManager+Database.h>
-#import "PLVVodExtendVideoInfo+WCTTableCoding.h"
+#import "PLVVodExtendVideoInfo.h"
 
 @implementation PLVVodDBManager
 
@@ -25,7 +25,7 @@
 // 根据条件查询记录
 + (PLVVodExtendVideoInfo *)getExtendInfoWithVid:(NSString *)vid{
     NSArray<PLVVodExtendVideoInfo *> *array = [PLVVodDownloadManager getExtendInfoWithClass:[PLVVodExtendVideoInfo class]
-                                                                                  condition:PLVVodExtendVideoInfo.vid==vid];
+                                                                                  condition:[NSString stringWithFormat:@"where vid = '%@'",vid]];
     
     return [array firstObject];
 }
@@ -39,7 +39,7 @@
 // 根据条件删除记录
 + (BOOL)deleteExtendInfoWithVid:(NSString *)vid{
     return [PLVVodDownloadManager deleteExtendInfoWithClass:[PLVVodExtendVideoInfo class]
-                                           condition:PLVVodExtendVideoInfo.vid==vid];
+                                           condition:[NSString stringWithFormat:@"where vid = '%@'",vid]];
 }
 
 // 删除所有记录
@@ -72,7 +72,7 @@
             // 查询
             NSString *vid = [@"vid_" stringByAppendingFormat:@"%d", i ];
             NSArray<PLVVodExtendVideoInfo *> *array = [PLVVodDownloadManager getExtendInfoWithClass:[PLVVodExtendVideoInfo class]
-                                                                                         condition:PLVVodExtendVideoInfo.vid==vid];
+                                                                                         condition:[NSString stringWithFormat:@"where vid = '%@'",vid]];
 //
             NSLog(@"queryData: %@", array);
         }
@@ -94,7 +94,7 @@
             // 查询
             NSString *vid = [@"vid_" stringByAppendingFormat:@"%d", i ];
             [PLVVodDownloadManager deleteExtendInfoWithClass:[PLVVodExtendVideoInfo class]
-                                                   condition:PLVVodExtendVideoInfo.vid==vid];
+                                                   condition:[NSString stringWithFormat:@"where vid = '%@'",vid]];
             //
         }
     }

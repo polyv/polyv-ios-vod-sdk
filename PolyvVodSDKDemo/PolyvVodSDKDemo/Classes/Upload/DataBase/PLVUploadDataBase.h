@@ -8,14 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <PLVVodUploadSDK/PLVVodUploadSDK.h>
-
-#if __has_include(<WCDB/WCDBObjc.h>)
-    #import <WCDB/WCDBObjc.h>
-#elif __has_include(<WCDBObjc/WCDBObjc.h>)
-    #import <WCDBObjc/WCDBObjc.h>
-#elif __has_include(<WCDB/WCDB.h>)
-    #import <WCDB/WCDB.h>
-#endif
+#import <PLVFDB/PLVFDatabase.h>
 
 @class PLVUploadCompleteData, PLVUploadUncompleteData;
 
@@ -23,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PLVUploadDataBase : NSObject
 
-@property (nonatomic, strong) WCTDatabase *database;
+@property (nonatomic, strong) PLVFDatabase *database;
 
 + (instancetype)sharedDataBase;
 

@@ -221,6 +221,10 @@
 
 #pragma mark 字幕
 
+- (void)setupSubtitleKeys:(NSArray<NSString *> *)subtitleKeys defaultSrtIndex:(NSInteger)defaultSrtIndex {
+    [self.settingsPanelView setupSubtitleKeys:subtitleKeys defaultSrtIndex:defaultSrtIndex];
+}
+
 - (void)setSubtitleKeys:(NSArray<NSString *> *)subtitleKeys {
 	self.settingsPanelView.subtitleKeys = subtitleKeys;
 }
@@ -596,6 +600,8 @@
 	// 配置控件细节
 	self.subtitleLabel.text = @"";
     self.subtitleTopLabel.text = @"";
+    self.subtitleLabel2.text = @"";
+    self.subtitleTopLabel2.text = @"";
 	UIImage *playbackThumb = [UIImage imageNamed:@"plv_vod_btn_slider_player"];
 	[self.fullscreenView.playbackSlider setThumbImage:playbackThumb forState:UIControlStateNormal];
 	[self.shrinkscreenView.playbackSlider setThumbImage:playbackThumb forState:UIControlStateNormal];

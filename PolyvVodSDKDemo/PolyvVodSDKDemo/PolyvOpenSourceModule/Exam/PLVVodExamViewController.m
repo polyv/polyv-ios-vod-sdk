@@ -13,7 +13,7 @@
 #import <PLVVodSDK/PLVVodConstans.h>
 #import "NSString+PLVVod.h"
 #import "PLVFillBlankQuestionView.h"
-#import "PLVToast.h"
+#import "PLVVodToast.h"
 
 @interface PLVVodExamViewController ()
 
@@ -46,7 +46,7 @@
     self.questionView.submitActionHandler = ^(NSArray<NSNumber *> *indexForSelectedItems) {
         
         if (indexForSelectedItems.count == 0) {
-            [PLVToast showMessage:@"您还未选择任何答案"];
+            [PLVVodToast showMessage:@"您还未选择任何答案"];
             return;
         }
         // 保存选项
@@ -78,7 +78,7 @@
         }
         
         if (allEmpty) {
-            [PLVToast showMessage:@"请填写答案后提交"];
+            [PLVVodToast showMessage:@"请填写答案后提交"];
             return;
         }
         

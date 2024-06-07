@@ -9,20 +9,13 @@
 #import "PLVUploadCompleteData.h"
 #import "PLVUploadUncompleteData.h"
 #import "PLVUploadModel.h"
-#import "PLVUploadCompleteData+WCTTableCoding.h"
+#import <PLVFDB/PLVFDatabase.h>
 
+@interface PLVUploadCompleteData () <PLVFDatabaseProtocol>
+
+@end
 
 @implementation PLVUploadCompleteData
-
-WCDB_IMPLEMENTATION(PLVUploadCompleteData)
-WCDB_SYNTHESIZE(vid)
-WCDB_SYNTHESIZE(title)
-WCDB_SYNTHESIZE(fileSize)
-WCDB_SYNTHESIZE(completeDate)
-
-WCDB_PRIMARY(vid)
-
-WCDB_INDEX("_index", completeDate)
 
 - (instancetype)initWithUncompleteData:(PLVUploadUncompleteData *)uncompleteData {
     self = [super init];
@@ -62,6 +55,21 @@ WCDB_INDEX("_index", completeDate)
              @"fileSize":@(self.fileSize),
              @"completeDate":self.completeDate
              };
+}
+
+#pragma mark - PLVFDatabaseProtocol
+
++ (nonnull NSString *)primaryKey {
+    return @"vid";
+}
+
++ (nonnull NSArray<NSString *> *)propertyKeys {
+    return @[
+        @"vid",
+        @"title",
+        @"fileSize",
+        @"completeDate"
+    ];
 }
 
 @end

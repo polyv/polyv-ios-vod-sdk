@@ -9,11 +9,11 @@
 #import "PLVKnowledgeCategoryTableViewCell.h"
 #import "UIColor+PLVVod.h"
 #import <PLVMasonry/PLVMasonry.h>
-#import "PLVMarqueeLabel.h"
+#import "PLVVodMarqueeLabel.h"
 
 @interface PLVKnowledgeCategoryTableViewCell ()
 
-@property (nonatomic, strong) PLVMarqueeLabel *categoryLabel;
+@property (nonatomic, strong) PLVVodMarqueeLabel *categoryLabel;
 @property (nonatomic, strong) UILabel *numberLabel;
 
 @end
@@ -119,9 +119,9 @@
     return _numberLabel;
 }
 
-- (PLVMarqueeLabel *)categoryLabel {
+- (PLVVodMarqueeLabel *)categoryLabel {
     if (_categoryLabel == nil) {
-        _categoryLabel = [[PLVMarqueeLabel alloc] initWithFrame:self.contentView.bounds duration:10.0 andFadeLength:0];
+        _categoryLabel = [[PLVVodMarqueeLabel alloc] initWithFrame:self.contentView.bounds duration:10.0 andFadeLength:0];
         _categoryLabel.scrollDuration = -1;
 //        _categoryLabel.holdScrolling = YES;
         _categoryLabel.textColor = [[UIColor whiteColor]colorWithAlphaComponent:0.6];
