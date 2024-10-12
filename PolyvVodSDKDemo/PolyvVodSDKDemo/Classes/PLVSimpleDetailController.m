@@ -12,6 +12,7 @@
 #ifdef PLVCastFeature
 #import "PLVCastBusinessManager.h"
 #endif
+#import "PLVSecureView.h"
 
 @interface PLVSimpleDetailController ()
 
@@ -20,7 +21,9 @@
 #ifdef PLVCastFeature
 @property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
 #endif
+
 @end
+
 
 @implementation PLVSimpleDetailController
 
@@ -60,6 +63,16 @@
     }
 #endif
 }
+
+- (void)loadView{
+    if (self.systemScreenShotProtect){
+        PLVSecureView *secureView = [[PLVSecureView alloc] init];
+        self.view = secureView.secureView;
+    }else{
+        self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    }
+}
+
 
 #pragma mark - Override
 

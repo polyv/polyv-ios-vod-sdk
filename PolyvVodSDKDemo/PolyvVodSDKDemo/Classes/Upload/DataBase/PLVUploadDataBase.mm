@@ -171,6 +171,7 @@ static NSString *kUncompleteUploadTableName = @"PLVUploadUncompleteData";
 
 #pragma mark Private
 
+
 - (void)logForUncompleteDataMessage:(NSString *)message {
     NSLog(@"【上传数据库】%@: %@", kUncompleteUploadTableName, message);
 }

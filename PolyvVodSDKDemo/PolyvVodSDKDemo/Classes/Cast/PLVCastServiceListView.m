@@ -49,7 +49,7 @@
 
 @interface PLVCastServiceListView ()<UITableViewDelegate, UITableViewDataSource> // 投屏设备选择视图
 
-@property (nonatomic, strong) UIView * maskView;
+@property (nonatomic, strong) UIView * customMaskView;
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * devicesArr;
 @property (nonatomic, strong) NSMutableArray * dataArr;
@@ -101,7 +101,7 @@
 
 - (void)craetUI
 {
-    [self addSubview:self.maskView];
+    [self addSubview:self.customMaskView];
     [self addSubview:self.tableView];
     [self addSubview:self.cancleBtn];
 }
@@ -132,7 +132,7 @@
         self.cancleBtn.hidden = NO;
     }
     
-    self.maskView.frame = [UIScreen mainScreen].bounds;
+    self.customMaskView.frame = [UIScreen mainScreen].bounds;
     self.headView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.frame), titleLbH + wifiBgH);
 }
 
@@ -153,15 +153,15 @@
     return _cancleBtn;
 }
 
-- (UIView *)maskView
+- (UIView *)customMaskView
 {
-    if (!_maskView) {
-        _maskView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-        _maskView.backgroundColor = [UIColor blackColor];
-        _maskView.alpha = .5;
-        _maskView.userInteractionEnabled = YES;
+    if (!_customMaskView) {
+        _customMaskView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+        _customMaskView.backgroundColor = [UIColor blackColor];
+        _customMaskView.alpha = .5;
+        _customMaskView.userInteractionEnabled = YES;
     }
-    return _maskView;
+    return _customMaskView;
 }
 
 - (UIView*)headView {

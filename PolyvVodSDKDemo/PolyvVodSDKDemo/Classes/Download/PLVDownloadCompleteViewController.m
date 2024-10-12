@@ -152,6 +152,7 @@
      detailVC.vid = info.vid;            // vid
      detailVC.isOffline = YES;           // 离线播放
      detailVC.playMode = playMode;       // 根据本地资源类型设置播放模式
+     detailVC.systemScreenShotProtect = YES;
 #else
     
     // 三分屏模式视频播放页面入口

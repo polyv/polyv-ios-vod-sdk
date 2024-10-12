@@ -357,9 +357,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     self.marqueeView = [[PLVVodMarqueeView alloc]init];
     PLVVodMarqueeModel *marqueeModel = [[PLVVodMarqueeModel alloc]init];
     self.marqueeView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    self.marqueeView.frame = self.maskView.bounds;
+    self.marqueeView.frame = self.customMaskView.bounds;
     [self.marqueeView setPLVVodMarqueeModel:marqueeModel];
-    [self.maskView addSubview:self.marqueeView];
+    [self.customMaskView addSubview:self.marqueeView];
     
 	// 错误回调
 	self.playerErrorHandler = ^(PLVVodPlayerViewController *player, NSError *error) {
@@ -716,7 +716,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 	[PLVVodDanmu requestDanmusWithVid:self.video.vid completion:^(NSArray<PLVVodDanmu *> *danmus, NSError *error) {
         
         __block PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
-		__block PLVVodDanmuManager *danmuManager = [[PLVVodDanmuManager alloc] initWithDanmus:danmus inView:skin.skinMaskView/*weakSelf.maskView*/];
+		__block PLVVodDanmuManager *danmuManager = [[PLVVodDanmuManager alloc] initWithDanmus:danmus inView:skin.skinMaskView/*weakSelf.customMaskView*/];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if (skin.enableDanmu) {
                 [danmuManager resume];

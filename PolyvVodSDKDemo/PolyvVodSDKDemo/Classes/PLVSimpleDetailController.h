@@ -14,5 +14,7 @@
 @property (nonatomic, copy) NSString *vid;
 @property (nonatomic, assign) BOOL isOffline;
 @property (nonatomic, assign) PLVVodPlaybackMode playMode;
+/// 系统截屏保护 防止系统截屏
+@property (nonatomic, assign) BOOL systemScreenShotProtect;
 
 @end

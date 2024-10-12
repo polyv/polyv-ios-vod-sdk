@@ -3,7 +3,7 @@ source 'https://gitee.com/polyv_ef/plvspecs.git'
 
 project 'PolyvVodSDKDemo.xcodeproj'
 
-platform :ios, '11.0'
+platform :ios, '12.0'
 inhibit_all_warnings!
 
 target 'PolyvVodSDKDemo' do
@@ -18,7 +18,7 @@ target 'PolyvVodSDKDemo' do
     pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-    pod 'PolyvVodSDK', '~> 2.22.1'
+    pod 'PolyvVodSDK', '~> 2.22.2'
     
     # 使用投屏功能的客户需要集成
     #pod 'LBLelinkKit', '~> 30503'
@@ -26,18 +26,19 @@ target 'PolyvVodSDKDemo' do
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'
+	pod 'PLVSubtitle', '~> 0.1.0'
 
     # 上传SDK，不使用上传功能无需集成
     pod 'PLVVodUploadSDK', '~> 0.1.0'
   
-#	target 'PolyvVodSDKDemoTests' do
-#		inherit! :search_paths
-#		# Pods for testing
-#	end
-#
-#	target 'PolyvVodSDKDemoUITests' do
-#		inherit! :search_paths
-#		# Pods for testing
-#	end
+	target 'PolyvVodSDKDemoTests' do
+		inherit! :search_paths
+		# Pods for testing
+	end
+
+	target 'PolyvVodSDKDemoUITests' do
+		inherit! :search_paths
+		# Pods for testing
+	end
 
 end

@@ -109,6 +109,7 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 	if ([PLVSimplePlaySegueKey isEqualToString:segue.identifier] && [segue.destinationViewController isKindOfClass:[PLVSimpleDetailController class]]) {
 		PLVSimpleDetailController *vc = (PLVSimpleDetailController *)segue.destinationViewController;
 		vc.vid = self.vidShouldPlay;
+        vc.systemScreenShotProtect = YES;
 	}
 }
 
