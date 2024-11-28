@@ -6,6 +6,27 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.22.3] - 2024-11-28
+
+
+### Add
+- 【SDK】新增seek 完成回调
+``` 
+/// seek完成回调
+@property (nonatomic, copy) void (^seekCompleteHandler)(PLVVodPlayerViewController *player);
+```
+
+### Changed
+- 【SDK】Elog 日志统计优化
+
+
+### 迁移说明
+
+**由 2.18.x 及以下版本升级到 2.19.0 及以上版本时，需要注意视频下载的迁移**
+
+**自 2.19.0 版本开始，本地播放视频鉴权方式进行了调整，为了在覆盖升级时兼容已下载的旧版本视频，初始换sdk时会自动迁移，必须严格测试本地缓存视频是否迁移成功。**
+
+
 ## [2.22.2] - 2024-10-12
 
 ### Added
