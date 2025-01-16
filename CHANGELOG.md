@@ -6,6 +6,27 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.22.4] - 2025-01-16
+
+
+### Added
+- 【DEMO】新增播放器热力图，自定义标签打点功能。（参考PLVVodSkinPlayerController类的updateSkin 方法）
+- 【SDK】新增enableTeaserBackgroundPlayback 属性，优化片头播放控制
+``` 
+@property (nonatomic, assign) BOOL enableTeaserBackgroundPlayback;
+```
+
+### Fixed
+- 【SDK】iOS 15以下系统，2倍速以上播放，观看时长统计不正确问题修复
+
+
+### 迁移说明
+
+**由 2.18.x 及以下版本升级到 2.19.0 及以上版本时，需要注意视频下载的迁移**
+
+**自 2.19.0 版本开始，本地播放视频鉴权方式进行了调整，为了在覆盖升级时兼容已下载的旧版本视频，初始换sdk时会自动迁移，必须严格测试本地缓存视频是否迁移成功。**
+
+
 ## [2.22.3] - 2024-11-28
 
 
