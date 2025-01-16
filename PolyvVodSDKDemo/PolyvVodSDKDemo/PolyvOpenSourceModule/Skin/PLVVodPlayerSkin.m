@@ -513,6 +513,18 @@
     [self.playErrorTipsView hide];
 }
 
+#pragma mark -- 热力图更新
+- (void)updateHeatMapViewWithData:(PLVVodHeatMapModel *)model{
+    [self.fullscreenView.heatMapView updateWithData:model];
+    [self.shrinkscreenView.heatMapView updateWithData:model];
+}
+
+#pragma mark -- 自定义打点标签
+- (void)updateMarkerViewWithData:(NSArray<PLVVodMarkerViewData *> *)datas{
+    [self.fullscreenView.progressMarkerView updateWithMarkerViewData:datas];
+    [self.shrinkscreenView.progressMarkerView updateWithMarkerViewData:datas];
+}
+
 #pragma getter --
 
 - (PLVVodNetworkTipsView *)networkTipsV{
@@ -655,6 +667,22 @@
     [self.view sendSubviewToBack:self.skinMaskView];
     
     [self enableFloating:self.enableFloating];
+    
+    // 视频自定义标签回调设置
+    self.fullscreenView.progressMarkerView.handleClickItem = ^(PLVVodMarkerViewData * _Nonnull markerData) {
+        //
+        NSLog(@"%@", markerData);
+        if (weakSelf.progressMarkerViewClick){
+            weakSelf.progressMarkerViewClick(markerData);
+        }
+    };
+    self.shrinkscreenView.progressMarkerView.handleClickItem = ^(PLVVodMarkerViewData * _Nonnull markerData) {
+        //
+        NSLog(@"%@", markerData);
+        if (weakSelf.progressMarkerViewClick){
+            weakSelf.progressMarkerViewClick(markerData);
+        }
+    };
 }
 
 #pragma mark - observe

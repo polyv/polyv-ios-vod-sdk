@@ -47,6 +47,12 @@
     //  默认隐藏线路切换
     self.isShowRouteline = NO;
     self.routeButton.hidden = !self.isShowRouteline;
+    
+    // 添加热力图控件
+    [self insertSubview:self.heatMapView atIndex:0];
+    
+    // 添加自定义打点标签
+    [self insertSubview:self.progressMarkerView aboveSubview:self.heatMapView];
 }
 
 - (void)layoutSubviews{
@@ -58,6 +64,29 @@
     else{
         self.rightToolStackView.spacing = 15;
     }
+    
+    // 热力图布局
+    CGFloat heatMap_H = 50;
+    self.heatMapView.frame = CGRectMake(0,self.bounds.size.height - 54 -heatMap_H, self.bounds.size.width, heatMap_H);
+    // 自定义打点标签布局
+    CGFloat markView_H = 35;
+    self.progressMarkerView.frame = CGRectMake(0,self.bounds.size.height - 54 -markView_H, self.bounds.size.width, markView_H);
+}
+
+- (PLVVodHeatMapView *)heatMapView{
+    if (!_heatMapView){
+        _heatMapView = [[PLVVodHeatMapView alloc] init];
+    }
+    
+    return _heatMapView;
+}
+
+- (PLVVodProgressMarkerView *)progressMarkerView{
+    if (!_progressMarkerView){
+        _progressMarkerView = [[PLVVodProgressMarkerView alloc] init];
+    }
+    
+    return _progressMarkerView;
 }
 
 #pragma mark button action
@@ -94,6 +123,11 @@
     else{
         self.definitionButton.alpha = 0.5;
     }
+}
+
+#pragma mark PLVVodProgressMarkerViewDelegate
+- (void)progressMarkerView:(PLVVodProgressMarkerView *)progressMarkerView clickItem:(PLVVodMarkerViewData *)viewData{
+    
 }
 
 - (NSString *)description {

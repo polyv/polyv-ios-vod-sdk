@@ -67,7 +67,8 @@ PLVVFloatingWindowProtocol
     
     [self.view addSubview:self.scrollView];
     [self.view addSubview:self.playerPlaceholder];
-    
+    __weak typeof (self) weakSelf = self;
+
     if (_player == nil) { // 使用 vid 初始化时
         self.player = [[PLVVodSkinPlayerController alloc] init];
         self.player.rememberLastPosition = NO;
@@ -76,6 +77,9 @@ PLVVFloatingWindowProtocol
         self.player.enableFloating = YES;
         self.player.seekType = PLVVodPlaySeekTypePrecise;
         self.player.enableKeyFrameSeek = YES;
+        self.player.markerViewClick = ^(PLVVodMarkerViewData *markerViewData) {
+            [weakSelf showAlert:markerViewData];
+        };
 
         [self setupPlayer];
     } else { // 使用 player 初始化时
@@ -95,7 +99,6 @@ PLVVFloatingWindowProtocol
     self.skinView = (PLVVodPlayerSkin *)self.player.playerControl;
     self.skinView.view.hidden = NO;
     
-    __weak typeof (self) weakSelf = self;
     self.skinView.floatingButtonTouchHandler = ^{
         UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
         if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
@@ -361,6 +364,23 @@ PLVVFloatingWindowProtocol
         }
     }
 }
+
+/// 显示打点标签信息
+- (void)showAlert:(PLVVodMarkerViewData *)data{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"点击了打点标签"
+                                                                           message:data.title
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction * _Nonnull action) {
+       
+    }];
+    
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 
 #pragma mark - PLVVFloatingWindow Protocol
 

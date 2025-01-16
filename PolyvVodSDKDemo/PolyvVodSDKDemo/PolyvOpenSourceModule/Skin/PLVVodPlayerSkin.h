@@ -14,6 +14,8 @@
 #import "PLVVodFastForwardView.h"
 #import "PLVVodSkinPlayerController.h"
 #import "PLVVodDefinitionTipsView.h"
+#import "PLVVodHeatMapModel.h"
+#import "PLVVodMarkerViewData.h"
 
 @class PLVVodAudioCoverPanelView;
 @class PLVVodCoverView;
@@ -162,6 +164,10 @@
 
 /// 线路选择回调
 @property (nonatomic, copy) void (^routeLineDidChangeBlock)(NSUInteger routeIndex);
+
+/// 视频自定义打点回调
+@property (nonatomic, strong) void (^progressMarkerViewClick)(PLVVodMarkerViewData *markerViewData);
+
 /// 设置线路数
 - (void)setRouteLineCount:(NSUInteger)count;
 /// 线路选择按钮显示或隐藏
@@ -198,6 +204,11 @@
 // 播放错误提示
 - (PLVVodNetworkTipsView *)showPlayErrorWithTips:(NSString *)errorTips isLocal:(BOOL)isLocal;
 - (void)hidePlayErrorTips;
+
+// 更新播放进度条上的热力图
+- (void)updateHeatMapViewWithData:(PLVVodHeatMapModel *)model;
+// 更新播放进度条上的打点标签
+- (void)updateMarkerViewWithData:(NSArray<PLVVodMarkerViewData *> *)datas;
 
 
 

@@ -15,6 +15,7 @@ extern NSString *PLVVodPlaybackRecoveryNotification;
 extern NSString *PLVVodADAndTeasersPlayFinishNotification;
 
 @class PLVVodExamViewController;
+@class PLVVodMarkerViewData;
 
 @interface PLVVodSkinPlayerController : PLVVodPlayerViewController
 
@@ -22,6 +23,8 @@ extern NSString *PLVVodADAndTeasersPlayFinishNotification;
 @property (nonatomic, copy) NSString *vid;
 // 播放进度回调
 @property (nonatomic, copy) void (^playbackTimeHandler)(NSTimeInterval currentPlaybackTime);
+// 自定义标签点击回调
+@property (nonatomic, strong) void (^markerViewClick)(PLVVodMarkerViewData *markerViewData);
 
 // 问答控制器
 @property (nonatomic, strong, readonly) PLVVodExamViewController *examViewController;

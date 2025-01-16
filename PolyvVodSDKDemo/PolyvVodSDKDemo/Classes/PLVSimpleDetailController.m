@@ -16,7 +16,7 @@
 
 @interface PLVSimpleDetailController ()
 
-@property (weak, nonatomic) IBOutlet UIView *playerPlaceholder;
+@property (strong, nonatomic) UIView *playerPlaceholder;
 @property (nonatomic, strong) PLVVodSkinPlayerController *player;
 #ifdef PLVCastFeature
 @property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
@@ -41,6 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
 	
     [self setupPlayer];
     /*
@@ -50,7 +51,10 @@
     
     // 兼容Demo的下载视频观看页，一般集成时无需添加此段代码
     if (self.playerPlaceholder == nil) {
-        UIView * playerPlaceholderV = [[UIView alloc]initWithFrame:CGRectMake(0, NavHight, PLV_ScreenWidth, PLV_ScreenHeight - NavHight)];
+        UIView * playerPlaceholderV = [[UIView alloc]initWithFrame:CGRectMake(0, 
+                                                                              NavHight,
+                                                                              PLV_ScreenWidth,
+                                                                              PLV_ScreenWidth*9/16)];
         [self.view addSubview:playerPlaceholderV];
         [self.player addPlayerOnPlaceholderView:playerPlaceholderV rootViewController:self];
     }
@@ -62,6 +66,8 @@
         [self.castBM setup];
     }
 #endif
+    
+    [self addNotification];
 }
 
 - (void)loadView{
@@ -73,6 +79,16 @@
     }
 }
 
+- (void)addNotification{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)didBecomeActive:(NSNotification *)notification{
+    // 暂停播放器
+    if (self.player){
+        [self.player resumeTeaserPlayer];
+    }
+}
 
 #pragma mark - Override
 
@@ -105,10 +121,17 @@
     // 对进度拖拽的限制属性 restrictedDragging 和 allForbidDragging，也请在 addPlayerOnPlaceholderView 前设置
 //    player.restrictedDragging = YES;
 //    player.allForbidDragging = YES;
+    
+    if (!self.playerPlaceholder){
+        self.playerPlaceholder = [[UIView alloc] init];
+        self.playerPlaceholder.frame = CGRectMake(0, NavHight, [UIScreen mainScreen].bounds.size.width,  [UIScreen mainScreen].bounds.size.width *9/16);
+        [self.view addSubview:self.playerPlaceholder];
+    }
     [player addPlayerOnPlaceholderView:self.playerPlaceholder rootViewController:self];
 	self.player = player;
-    self.player.rememberLastPosition = YES;
+    self.player.rememberLastPosition = NO;
     self.player.enableBackgroundPlayback = YES;
+    self.player.enableTeaserBackgroundPlayback = NO;
     self.player.autoplay = YES;
     self.player.enableLocalViewLog = YES;
     
@@ -122,6 +145,10 @@
         }else if (player.playbackState == PLVVodPlaybackStateStopped) {
             [weakSelf.player.marqueeView stop];
         }
+    };
+    // 自定义标签点击回调
+    self.player.markerViewClick = ^(PLVVodMarkerViewData *markerViewData) {
+        NSLog(@"%@", markerViewData);
     };
     
 	NSString *vid = self.vid;

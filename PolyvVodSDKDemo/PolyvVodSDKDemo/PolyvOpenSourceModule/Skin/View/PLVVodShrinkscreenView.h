@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <PLVVodSDK/PLVVodConstans.h>
 #import <PLVVodSDK/PLVVodVideo.h>
+#import "PLVVodHeatMapView.h"
+#import "PLVVodProgressMarkerView.h"
 
 @interface PLVVodShrinkscreenView : UIView
 
@@ -29,6 +31,11 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *subScreenButton; // 关闭三分屏按钮
 @property (weak, nonatomic) IBOutlet UIButton *floatingButton; // 悬浮窗播放按钮
+
+/// 热力图控件
+@property (nonatomic, strong) PLVVodHeatMapView *heatMapView;
+/// 进度条上自定义标签
+@property (nonatomic, strong) PLVVodProgressMarkerView *progressMarkerView;
 
 @property (nonatomic, assign) BOOL isShowRouteline; // 显示线路
 @property (nonatomic, assign) BOOL isShowRate;      // 显示速率

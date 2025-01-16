@@ -46,6 +46,22 @@
     if (PLV_iPhoneXSeries) {
         self.lockButtonLeading.constant = PLV_Landscape_Left_And_Right_Safe_Side_Margin;
     }
+    
+    // 添加热力图
+    [self insertSubview:self.heatMapView atIndex:0];
+    // 添加自定义打点标签
+    [self insertSubview:self.progressMarkerView aboveSubview:self.heatMapView];
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    
+    // 热力图布局
+    CGFloat heatMap_H = 50;
+    self.heatMapView.frame = CGRectMake(0,self.bounds.size.height - 54 - heatMap_H, self.bounds.size.width, heatMap_H);
+    // 自定义打点标签布局
+    CGFloat markView_H = 35;
+    self.progressMarkerView.frame = CGRectMake(0,self.bounds.size.height - 54 - markView_H, self.bounds.size.width, markView_H);
 }
 
 #pragma mark -- getter
@@ -58,6 +74,20 @@
     }
     
     return _playTipsView;
+}
+
+- (PLVVodHeatMapView *)heatMapView{
+    if (!_heatMapView){
+        _heatMapView = [[PLVVodHeatMapView alloc] init];
+    }
+    return _heatMapView;
+}
+
+- (PLVVodProgressMarkerView *)progressMarkerView{
+    if (!_progressMarkerView){
+        _progressMarkerView = [[PLVVodProgressMarkerView alloc] init];
+    }
+    return _progressMarkerView;
 }
 
 #pragma mark -- action target

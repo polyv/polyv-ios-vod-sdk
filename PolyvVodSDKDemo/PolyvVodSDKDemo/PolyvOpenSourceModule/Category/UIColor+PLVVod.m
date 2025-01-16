@@ -54,4 +54,25 @@
     return 0x007aff;
 }
 
++ (UIColor *)colorWithHexString:(NSString *)hex alpha:(float)alpha {
+    // 删除字符串中的空格
+    NSString *cString = [[hex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
+    
+    // 如果字符串以#开头，去掉#
+    if ([cString hasPrefix:@"#"]) {
+        cString = [cString substringFromIndex:1];
+    }
+    
+    // 字符串长度必须为6或8
+    if ([cString length] < 6) {
+        return [UIColor clearColor];
+    }
+    
+    // 将字符串转换为十六进制数
+    unsigned int hexValue;
+    [[NSScanner scannerWithString:cString] scanHexInt:&hexValue];
+    
+    return [UIColor colorWithHex:hexValue alpha:alpha];
+}
+
 @end

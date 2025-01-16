@@ -155,8 +155,11 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
         } else {
 #ifndef PLVSupportPPTScreen
             // 普通视频播放页面入口
-            weakSelf.vidShouldPlay = vid;
-            [weakSelf performSegueWithIdentifier:PLVSimplePlaySegueKey sender:sender];
+//            weakSelf.vidShouldPlay = vid;
+//            [weakSelf performSegueWithIdentifier:PLVSimplePlaySegueKey sender:sender];
+            PLVSimpleDetailController *simpleDetailVC = [[PLVSimpleDetailController alloc] init];
+            simpleDetailVC.vid = vid;
+            [self.navigationController pushViewController:simpleDetailVC animated:YES];
 #else
             // 三分屏模式视频播放页面入口
             PLVPPTSimpleDetailController *vctrl = [[PLVPPTSimpleDetailController alloc] init];

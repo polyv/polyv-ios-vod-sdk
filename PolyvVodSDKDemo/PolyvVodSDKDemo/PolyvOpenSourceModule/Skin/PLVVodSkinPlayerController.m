@@ -638,6 +638,14 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         weakSelf.isVideoToolBox = isVideoToolBox;
         [weakSelf switchVideoToolBox:isVideoToolBox];
     };
+    
+    // 自定义标签回调
+    skin.progressMarkerViewClick = ^(PLVVodMarkerViewData *markerViewData) {
+        NSLog(@"%@", markerViewData);
+        if (weakSelf.markerViewClick){
+            weakSelf.markerViewClick(markerViewData);
+        }
+    };
 }
 
 - (void)updateSkin{
@@ -646,6 +654,14 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     
     // 更新清晰度控制
     [self setQualityView];
+    
+    // 更新热力图 ,有该业务需求的客户放开注释
+//    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin*)self.playerControl;
+//    [skin updateHeatMapViewWithData:[PLVVodHeatMapModel defaultTestData]];
+    
+    // 更新自定义打点数据
+//    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin*)self.playerControl;
+//    [skin updateMarkerViewWithData:[PLVVodMarkerViewData defautMarkerViewData]];
 }
 
 // 线路设置

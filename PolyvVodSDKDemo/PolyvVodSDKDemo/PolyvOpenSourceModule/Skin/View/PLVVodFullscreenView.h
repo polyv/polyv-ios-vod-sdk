@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <PLVVodSDK/PLVVodConstans.h>
 #import <PLVVodSDK/PLVVodVideo.h>
+#import "PLVVodHeatMapView.h"
+#import "PLVVodProgressMarkerView.h"
 
 @interface PLVVodFullscreenView : UIView
 
@@ -43,6 +45,11 @@
 
 //滑杆背景视频，添加视频打点
 @property (weak, nonatomic) IBOutlet UIView *sliderBackView;
+
+// 热力图控件
+@property (nonatomic, strong) PLVVodHeatMapView *heatMapView;
+// 客户自定义打点标签
+@property (nonatomic, strong) PLVVodProgressMarkerView *progressMarkerView;
 
 // 选中的播放打点信息回调，seek 到指定位置播放视频
 @property (nonatomic, strong) void(^plvVideoTipsSelectedBlock)(NSUInteger selIndex);
