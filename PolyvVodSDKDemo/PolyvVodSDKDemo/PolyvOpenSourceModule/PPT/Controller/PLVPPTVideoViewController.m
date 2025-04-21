@@ -73,6 +73,7 @@ PLVVodPlayerSkinPPTVideoProtocol
         _player.autoplay = YES;
         _player.enablePPT = YES;
         _player.enableKeyFrameSeek = YES;
+        _player.rootViewController = self.rootViewController;
         //_player.enableLocalViewLog = YES;
     }
     return _player;

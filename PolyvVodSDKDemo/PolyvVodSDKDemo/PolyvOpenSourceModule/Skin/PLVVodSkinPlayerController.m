@@ -16,11 +16,13 @@
 #import "NSString+PLVVod.h"
 #import <PLVVodSDK/PLVVodExam.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import <AlicloudUtils/AlicloudReachabilityManager.h>
+#import <PLVVodSDK/PLVVodReachability.h>
 #import <PLVVodSDK/PLVVodDownloadManager.h>
 #import <PLVVodSDK/PLVVodLocalVideo.h>
+#import <PLVVodSDK/PLVVodSettings.h>
 #import <AVFoundation/AVFoundation.h>
 #import <PLVMasonry/PLVMasonry.h>
+#import "PLVVodOptimizeOptionsPanelView.h"
 
 #if __has_include(<PLVVodDanmu/PLVVodDanmuManager.h>)
 #import <PLVVodDanmu/PLVVodDanmuManager.h>
@@ -41,7 +43,7 @@ NSString *PLVVodADAndTeasersPlayFinishNotification = @"PLVVodADAndTeasersPlayFin
 
 static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
-@interface PLVVodSkinPlayerController ()
+@interface PLVVodSkinPlayerController ()<PLVVodOptimizeOptionsPanelViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *skinView;
 
@@ -56,6 +58,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
 /// 知识清单控制器
 @property (nonatomic, strong) PLVKnowledgeListViewController *knowledgeListViewController;
+
+/// 线路优化按钮面板
+@property (nonatomic, strong) PLVVodOptimizeOptionsPanelView *optimizeOptionPanelView;
 
 /// 字幕管理器
 @property (nonatomic, strong) PLVVodSubtitleManager *subtitleManager;
@@ -72,9 +77,6 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 /// 是否允许4g网络播放，用于记录用户允许的网络类型
 @property (nonatomic, assign) BOOL allow4gNetwork;
 
-/// 是否需要隐藏播放错误提示
-@property (nonatomic, assign) BOOL hidePlayError;
-
 // 上次执行播放进度回调 playbackTimeHandler 的播放进度
 @property (nonatomic, assign) NSTimeInterval lastPlaybackTime;
 
@@ -88,9 +90,6 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
 /// 禁止拖动提示
 @property (nonatomic, strong) UILabel *toastLable;
-
-/// 记录播放重试之前的播放进度
-@property (nonatomic, assign) NSTimeInterval retryPlaybackTime;
 
 @end
 
@@ -119,8 +118,8 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     /// 因setVideo即会开始请求视频数据，因此需在此判断网络类型
     // 若无需’视频播放判断网络类型‘功能，可将此段判断注释
     if (self.allow4gNetwork == NO && ![self checkVideoWillPlayLocal:video]) {
-        AlicloudReachabilityManager * reachability = [AlicloudReachabilityManager shareInstance];
-        if (reachability.currentNetworkStatus >= AlicloudReachableVia2G){ // 移动网络
+        PLVVodReachability * reachability = [PLVVodReachability sharedReachability];
+        if (reachability.currentReachabilityStatus >= PLVVodReachableViaWWAN){ // 移动网络
             __weak typeof(self) weakSelf = self;
             self.networkTipsConfirmBlock = ^{
                 [weakSelf setVideo:video quality:quality];
@@ -128,7 +127,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
             dispatch_async(dispatch_get_main_queue(), ^{
                 PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.playerControl;
                 [skin.loadingIndicator stopAnimating];
-                [self networkStatusDidChange:nil];
+                [self playVideoOnNetworkType];
             });
             return;
         }
@@ -317,13 +316,9 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 			[weakSelf.subtitleManager showSubtitleWithTime:weakSelf.currentPlaybackTime];
             
             /// 隐藏播放错误提示
-            if (weakSelf.hidePlayError && PLVVodPlaybackStatePlaying == weakSelf.playbackState){
-                AlicloudReachabilityManager *netMgr = [AlicloudReachabilityManager shareInstance];
-                if (AlicloudNotReachable != netMgr.currentNetworkStatus){
-                    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
-                    [skin hidePlayErrorTips];
-                    weakSelf.hidePlayError = NO;
-                }
+            if (PLVVodPlaybackStatePlaying == weakSelf.playbackState){
+                PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)weakSelf.playerControl;
+                [skin hidePlayErrorTips];
             }
             
             // 回调现在播放到第几秒
@@ -355,7 +350,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     
     // 设置新版跑马灯（2.0）
     self.marqueeView = [[PLVVodMarqueeView alloc]init];
-    PLVVodMarqueeModel *marqueeModel = [[PLVVodMarqueeModel alloc]init];
+    PLVVodMarqueeModel *marqueeModel = [[PLVVodMarqueeModel alloc] init];
     self.marqueeView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.marqueeView.frame = self.customMaskView.bounds;
     [self.marqueeView setPLVVodMarqueeModel:marqueeModel];
@@ -369,9 +364,10 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     
     // 恢复播放
     self.playbackRecoveryHandle = ^(PLVVodPlayerViewController *player) {
-        
-        // 应用层重试，减小sdk出错概率，降低风险
-        [weakSelf setCurrentPlaybackTime:weakSelf.lastPosition];
+        // 应用层重试
+        NSTimeInterval seekTime = weakSelf.lastPosition;
+
+        [weakSelf setCurrentPlaybackTime:seekTime];
         // 对于某些场景需要再次调用play函数才能播放
         [weakSelf play];
     };
@@ -423,31 +419,16 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
             }
         }
     }
-    
-    AlicloudReachabilityManager * reachability = [AlicloudReachabilityManager shareInstance];
-    
-    if (reachability.currentNetworkStatus == AlicloudReachableViaWiFi){ // WiFi
         
+    if (PLVVodReachableViaWiFi == [PLVVodReachability sharedReachability].currentReachabilityStatus){ // WiFi
         dispatch_async(dispatch_get_main_queue(), ^{
             PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.playerControl;
             [skin hideNetworkTips];
             
-            [self play];
-            
-            // 恢复播放重试之前的进度
-            if (self.retryPlaybackTime) {
-                [self setCurrentPlaybackTime:self.retryPlaybackTime];
-                self.retryPlaybackTime = 0;
-            }
-
-            if (self.networkTipsConfirmBlock) {
-                self.networkTipsConfirmBlock();
-                self.networkTipsConfirmBlock = nil;
-            }
+            [self replayWhenNetworkAvailable];
         });
         
-    }else if (reachability.currentNetworkStatus >= AlicloudReachableVia2G){ // 移动网络
-
+    }else if (PLVVodReachableViaWWAN <= [PLVVodReachability sharedReachability].currentReachabilityStatus){ // 移动网络
         if (self.allow4gNetwork) { return; }
         
         // 若播放器播放中
@@ -456,12 +437,56 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         __weak typeof(self) weakSelf = self;
         PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.playerControl;
         dispatch_async(dispatch_get_main_queue(), ^{
+            // 播放视频 网络类型（wifi 移动流量）提示
             PLVVodNetworkTipsView * tipsV = [skin showNetworkTips];
             __weak typeof(tipsV) weakTipsV = tipsV;
             
             if (tipsV.playBtnClickBlock == nil) {
                 tipsV.playBtnClickBlock = ^{
-                    [weakSelf play];
+                    [weakSelf replayWhenNetworkAvailable];
+                    
+                    // 隐藏提示
+                    weakSelf.allow4gNetwork = YES;
+                    [weakTipsV hide];
+                };
+            }
+        });
+    }
+}
+
+- (void)replayWhenNetworkAvailable{
+    [self retryPlayVideo];
+}
+
+- (void)playVideoOnNetworkType{
+    if (PLVVodReachableViaWiFi == [PLVVodReachability sharedReachability].currentReachabilityStatus){
+        // WiFi
+        dispatch_async(dispatch_get_main_queue(), ^{
+            PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.playerControl;
+            [skin hideNetworkTips];
+
+            if (self.networkTipsConfirmBlock) {
+                self.networkTipsConfirmBlock();
+                self.networkTipsConfirmBlock = nil;
+            }
+        });
+        
+    }else if (PLVVodReachableViaWWAN <= [PLVVodReachability sharedReachability].currentReachabilityStatus){
+        // 移动网络
+        if (self.allow4gNetwork) { return; }
+        
+        // 若播放器播放中
+        if (self.playbackState == PLVVodPlaybackStatePlaying) { [self pause]; }
+        
+        __weak typeof(self) weakSelf = self;
+        PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.playerControl;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // 播放视频 网络类型（wifi 移动流量）提示
+            PLVVodNetworkTipsView * tipsV = [skin showNetworkTips];
+            __weak typeof(tipsV) weakTipsV = tipsV;
+            
+            if (tipsV.playBtnClickBlock == nil) {
+                tipsV.playBtnClickBlock = ^{
                     
                     weakSelf.allow4gNetwork = YES;
                     if (weakSelf.networkTipsConfirmBlock) {
@@ -484,80 +509,90 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
         [skin.loadingIndicator stopAnimating];
         NSString *errorMsg = [error.userInfo objectForKey:NSHelpAnchorErrorKey];
+        // 直接显示错误信息
         [skin showPlayErrorWithTips:errorMsg isLocal:YES];
     }
     else{
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
             [skin.loadingIndicator stopAnimating];
             NSString *errorMsg = [error.userInfo objectForKey:NSHelpAnchorErrorKey];
 
-            PLVVodNetworkTipsView *tipsView = [skin showPlayErrorWithTips:errorMsg isLocal:NO];
-            self.hidePlayError = YES;
-            __weak typeof(PLVVodPlayerSkin *) weakSkin = skin;
-            __weak typeof(PLVVodNetworkTipsView*) weakTips = tipsView;
             __weak typeof(self) weakSelf = self;
-            
-            // 记录播放重试之前的进度
-            if (weakSelf.retryPlaybackTime == 0) {
-                weakSelf.retryPlaybackTime = self.currentPlaybackTime;
-            }
-            
-            // 播放重试事件
-            tipsView.playBtnClickBlock = ^{
-                
-                AlicloudReachabilityManager *netMgr = [AlicloudReachabilityManager shareInstance];
-                if (AlicloudNotReachable == netMgr.currentNetworkStatus){
-                    //
-                    NSString *errorMsg = @"网络不可用，请检查网络设置";
-                    [weakSkin showPlayErrorWithTips:errorMsg isLocal:NO];
-                    weakSelf.hidePlayError = YES;
-                }
-                else{
-                    if (!weakSelf.video){
-                        //
-                        if (![weakSelf.vid isKindOfClass:[NSNull class]] && [weakSelf.vid length]){
-                            [weakTips hide];
-                            weakSelf.hidePlayError = NO;
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [weakSkin.loadingIndicator startAnimating];
-                                [PLVVodVideo requestVideoWithVid:weakSelf.vid completion:^(PLVVodVideo *video, NSError *error) {
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        [weakSkin.loadingIndicator stopAnimating];
-                                        if (error){
-                                            if (weakSelf.playerErrorHandler) { weakSelf.playerErrorHandler(weakSelf, error);};
-                                        }
-                                        else{
-                                            weakSelf.video = video;
-                                            
-                                            [[NSNotificationCenter defaultCenter] postNotificationName:PLVVodPlaybackRecoveryNotification object:nil];
-                                        }
-                                    });
-                                }];
-                            });
-                        }
-                        else{
-                            NSLog(@"[Player Error] - 播放重试，请传递正确的vid");
-                        }
-                    }
-                    else{
-                        // 重试播放 会自动切换码率/线路
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [weakTips hide];
-                            weakSelf.hidePlayError = NO;
-                            [weakSkin.loadingIndicator startAnimating];
-                            [weakSelf switchQuality:weakSelf.quality];
-                        });
-                    }
-                }
+            PLVVodNetworkPlayErrorTipsView *errorTipsViw = [skin showPlayErrorWithTips:errorMsg isLocal:NO];
+            errorTipsViw.handleSwitchEvent = ^{
+                // 弹出线路选择面板
+                [weakSelf showOptimizeOptionPanelView];
             };
         });
     }
 }
 
+- (BOOL)isNilString:(NSString *)origStr{
+    if (!origStr || [origStr isKindOfClass:[NSNull class]] || !origStr.length){
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (void)retryPlayVideo{
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    if (PLVVodNotReachable == [PLVVodReachability sharedReachability].currentReachabilityStatus){
+        //
+        NSString *errorMsg = @"网络不可用，请检查网络设置";
+        [skin showPlayErrorWithTips:errorMsg isLocal:NO];
+    }
+    else{
+        if (!self.video){
+            if (![self isNilString:self.vid]){
+                [skin hidePlayErrorTips];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [skin.loadingIndicator startAnimating];
+                    // 从videojson 开始播放
+                    [PLVVodVideo requestVideoWithVid:self.vid completion:^(PLVVodVideo *video, NSError *error) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [skin.loadingIndicator stopAnimating];
+                            if (error){
+                                if (self.playerErrorHandler) {
+                                    self.playerErrorHandler(self, error);
+                                };
+                            }
+                            else{
+                                // 首次播放
+                                self.video = video;
+                            
+                                // 恢复播放通知
+                                [[NSNotificationCenter defaultCenter] postNotificationName:PLVVodPlaybackRecoveryNotification object:nil];
+                            }
+                        });
+                    }];
+                });
+            }
+            else{
+                NSLog(@"[Player Error] - 播放重试，请传递正确的vid");
+            }
+        }
+        else{
+            // 重试播放 会自动切换码率/线路
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [skin hidePlayErrorTips];
+                [skin.loadingIndicator startAnimating];
+                
+                [self switchQuality:self.quality];
+            });
+        }
+    }
+}
+
 - (void)viewDidLayoutSubviews {
-	//NSLog(@"layout guide: %f - %f", self.topLayoutGuide.length, self.bottomLayoutGuide.length);
-	self.danmuManager.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+    //NSLog(@"layout guide: %f - %f", self.topLayoutGuide.length, self.bottomLayoutGuide.length);
+    if (@available(iOS 11.0, *)) {
+        self.danmuManager.insets = UIEdgeInsetsMake(self.view.safeAreaInsets.top, 0, self.view.safeAreaInsets.bottom, 0);
+    } else {
+        self.danmuManager.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -646,6 +681,60 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
             weakSelf.markerViewClick(markerViewData);
         }
     };
+    
+    // 线路优选按钮回调
+    skin.optimizeOptionButtonClickHandler = ^{
+        // 弹出线路优选面板
+        if (weakSelf.rootViewController){
+            //
+            [weakSelf showOptimizeOptionPanelView];
+        }
+    };
+}
+
+- (void)showOptimizeOptionPanelView{
+    CGRect panelFrame = self.rootViewController.view.frame;
+    if (self.optimizeOptionPanelView){
+        self.optimizeOptionPanelView.frame = panelFrame;
+        [self.optimizeOptionPanelView show];
+        [self.optimizeOptionPanelView setupWithHardDecode:self.isVideoToolBox
+                                                    lineIndex:self.routeLineIndex
+                                                    totalLine:self.video.availableRouteLines.count
+                                                    isHttpDns:self.isHttpDNS];
+    }
+    else{
+        self.optimizeOptionPanelView = [[PLVVodOptimizeOptionsPanelView alloc] initWithFrame:panelFrame];
+        self.optimizeOptionPanelView.delegate = self;
+        [self.rootViewController.view addSubview:self.optimizeOptionPanelView];
+        [self.optimizeOptionPanelView setupWithHardDecode:self.isVideoToolBox
+                                                    lineIndex:self.routeLineIndex
+                                                    totalLine:self.video.availableRouteLines.count
+                                                    isHttpDns:self.isHttpDNS];
+    }
+}
+
+- (NSInteger)routeLineIndex{
+    NSInteger routeLineIndex = 0;
+    BOOL found = NO;
+    NSMutableArray *lineArray = [[NSMutableArray alloc] init];
+    if (self.playbackMode == PLVVodPlaybackModeAudio) {
+        [lineArray addObjectsFromArray:self.video.availableAudioRouteLines];
+    } else {
+        [lineArray addObjectsFromArray:self.video.availableRouteLines];
+    }
+    for (NSString *line in lineArray){
+        if ([line isEqualToString:self.routeLine]){
+            found = YES;
+            break;
+        }
+        routeLineIndex++;
+    }
+    return found ? routeLineIndex: 0;
+}
+
+- (BOOL)isHttpDNS{
+    // 以远端httpdns 为准
+    return [PLVVodSettings sharedSettings].enableHttpDNS;
 }
 
 - (void)updateSkin{
@@ -1142,7 +1231,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     }
     
     // 断网的情况下不能进行seek操作
-    if (AlicloudNotReachable == [AlicloudReachabilityManager shareInstance].currentNetworkStatus &&
+    if (PLVVodNotReachable == [PLVVodReachability sharedReachability].currentReachabilityStatus &&
         !self.localPlayback) {
         allow = NO;
     }
@@ -1450,7 +1539,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     // 若无需’视频播放判断网络类型‘功能，可将此监听注释
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(networkStatusDidChange:)
-                                                 name:ALICLOUD_NETWOEK_STATUS_NOTIFY
+                                                 name:kPLVVodReachabilityChangedNotification
                                                object:nil];
     
     [[AVAudioSession sharedInstance] addObserver:self forKeyPath:@"outputVolume" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:(void *)[AVAudioSession sharedInstance]];
@@ -1660,6 +1749,74 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     BOOL must = (self.fullScreenOrientation == PLVVodFullScreenOrientationLandscape ||
             (self.fullScreenOrientation == PLVVodFullScreenOrientationAuto && videoSize.width >= videoSize.height));
     return !self.placeholderView || must;
+}
+
+#pragma mark - PLVVodOptimizeOptionsPanelViewDelegate
+
+- (void)optimizeOptionsPanel:(PLVVodOptimizeOptionsPanelView *)panel didSelectDecodeOption:(BOOL)hardDecode {
+    [self handleDecodeOption:hardDecode];
+}
+
+- (void)handleDecodeOption:(BOOL)hardDecode{
+    if ([self checkVideoWillPlayLocal:self.video]){
+        // 本地视频播放
+        self.isVideoToolBox = hardDecode;
+        [self switchVideoToolBox:hardDecode];
+    }
+    else{
+        // 在线视频播放
+        //
+        if (self.video){
+            self.isVideoToolBox = hardDecode;
+            [self switchVideoToolBox:hardDecode];
+        }
+        else{
+            [self retryPlayVideo];
+        }
+    }
+}
+
+- (void)optimizeOptionsPanel:(PLVVodOptimizeOptionsPanelView *)panel didSelectLineOption:(NSInteger)lineIndex {
+    // 切换线路
+    [self handleLineOption:lineIndex];
+}
+
+- (void)handleLineOption:(NSInteger )lineIndex{
+    if ([self checkVideoWillPlayLocal:self.video]){
+        // 本地视频播放
+        return;
+    }
+    else{
+        // 切换线路
+        if (self.video){
+            NSString *routeLine = nil;
+            if (self.playbackMode == PLVVodPlaybackModeAudio) {
+                if (lineIndex >= self.video.availableAudioRouteLines.count) return;
+                routeLine = [self.video.availableAudioRouteLines objectAtIndex:lineIndex];
+            } else {
+                if (lineIndex >= self.video.availableRouteLines.count) return;
+                routeLine = [self.video.availableRouteLines objectAtIndex:lineIndex];
+            }
+            [self setRouteLine:routeLine];
+        }
+        else{
+            [self retryPlayVideo];
+        }
+    }
+}
+
+- (void)optimizeOptionsPanel:(PLVVodOptimizeOptionsPanelView *)panel didSelectDnsOption:(BOOL)isHttpDns {
+    if ([self checkVideoWillPlayLocal:self.video]){
+        // 本地视频播放
+        return;
+    }
+    else{
+        // 在线视频播放
+        // 切换DNS解析方式
+        [PLVVodSettings sharedSettings].enableHttpDNS = isHttpDns;
+        // 重试播放
+        [self retryPlayVideo];
+    }
 }
 
 @end

@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<PLVPPTVideoViewControllerProtocol> delegate;
 @property (nonatomic, strong, readonly) PLVVodSkinPlayerController *player;
+@property (nonatomic, weak) UIViewController *rootViewController;
 
 @property (nonatomic, strong, readonly) UIView *videoView; // 播放器渲染视图
 

@@ -16,6 +16,8 @@
 #import "PLVVodDefinitionTipsView.h"
 #import "PLVVodHeatMapModel.h"
 #import "PLVVodMarkerViewData.h"
+#import  "PLVVodNetworkPlayErrorTipsView.h"
+
 
 @class PLVVodAudioCoverPanelView;
 @class PLVVodCoverView;
@@ -107,6 +109,9 @@
 
 /// "知识点"按钮点击事件
 @property (nonatomic, strong) void (^knowledgeButtonTouchHandler)(void);
+
+/// 线路优选选项按钮 点击事件
+@property (nonatomic, strong) void (^optimizeOptionButtonClickHandler)(void);
 
 #pragma mark - 额外
 
@@ -202,7 +207,7 @@
 - (void)hideNetworkTips;
 
 // 播放错误提示
-- (PLVVodNetworkTipsView *)showPlayErrorWithTips:(NSString *)errorTips isLocal:(BOOL)isLocal;
+- (PLVVodNetworkPlayErrorTipsView *)showPlayErrorWithTips:(NSString *)errorTips isLocal:(BOOL)isLocal;
 - (void)hidePlayErrorTips;
 
 // 更新播放进度条上的热力图

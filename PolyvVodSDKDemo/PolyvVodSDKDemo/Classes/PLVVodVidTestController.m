@@ -37,6 +37,8 @@
 	self.player = player;
     
     // 当需要使用自定义keytoken的时候解开以下注释，每当sdk需要使用keytoken的时候，将会通过此block来向开发者获取
+    // 自定义加密因子 需要传入此参数
+    // sel.player.customSeed = @"";
 //    [self.player setRequestCustomKeyTokenBlock:^NSString *(NSString *vid) {
 //        NSString *keytoken = @"根据vid向自己服务器请求keytoken给到sdk";
 //        return keytoken;

@@ -51,6 +51,12 @@
     [self insertSubview:self.heatMapView atIndex:0];
     // 添加自定义打点标签
     [self insertSubview:self.progressMarkerView aboveSubview:self.heatMapView];
+    
+    // 隐藏软硬解按钮，有新的入口
+    self.videoToolBoxButton.hidden = YES;
+    // 重置线路按钮
+    [self.routeButton setTitle:@"" forState:UIControlStateNormal];
+    [self.routeButton setBackgroundImage:[UIImage imageNamed:@"plv_vod_btn_line"] forState:UIControlStateNormal];
 }
 
 - (void)layoutSubviews{

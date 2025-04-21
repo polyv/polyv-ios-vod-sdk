@@ -11,7 +11,7 @@
 #import "PLVVodPlayerSkin.h"
 #import "PLVCastControllView.h"
 #import "PLVCastServiceListView.h"
-#import <AlicloudUtils/AlicloudReachabilityManager.h>
+#import "PLVVodSDK/PLVVodReachability.h"
 
 @interface PLVCastBusinessManager () <PLVCastManagerDelegate,PLVCastControllViewDelegate>
 
@@ -128,7 +128,7 @@
         self.player = player;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(networkStatusDidChange:)
-                                                     name:ALICLOUD_NETWOEK_STATUS_NOTIFY
+                                                     name:kPLVVodReachabilityChangedNotification
                                                    object:nil];
     }
     return self;
@@ -182,8 +182,8 @@
 }
 
 - (void)networkStatusDidChange:(NSNotification *)notification {
-    AlicloudReachabilityManager * reachability = [AlicloudReachabilityManager shareInstance];
-    if (reachability.currentNetworkStatus == AlicloudReachableViaWiFi){ // WiFi
+    PLVVodReachability * reachability = [PLVVodReachability sharedReachability];
+    if (reachability.currentReachabilityStatus == PLVVodReachableViaWiFi){ // WiFi
         if (self.passiveDisconnect) {
             __weak typeof(self) weakSelf = self;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

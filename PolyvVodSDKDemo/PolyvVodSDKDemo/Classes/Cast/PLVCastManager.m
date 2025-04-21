@@ -8,7 +8,7 @@
 
 #import "PLVCastManager.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
-#import <AlicloudUtils/AlicloudReachabilityManager.h>
+#import "PLVVodSDK/PLVVodReachability.h"
 #import "PLVVodUtils.h"
 
 // 定时器时间
@@ -131,8 +131,8 @@ static PLVCastManager * manager = nil;
 }
 
 + (BOOL)wifiCanUse{
-    AlicloudReachabilityManager *reachability = [AlicloudReachabilityManager shareInstance];
-    return [reachability isReachableViaWifi];
+    PLVVodReachability *reachability = [PLVVodReachability sharedReachability];
+    return (reachability.currentReachabilityStatus == PLVVodReachableViaWiFi);
 }
 
 - (void)quitAllFuntionc{

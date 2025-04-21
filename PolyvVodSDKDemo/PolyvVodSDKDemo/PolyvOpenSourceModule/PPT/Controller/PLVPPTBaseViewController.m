@@ -145,6 +145,7 @@ PLVFloatingViewProtocol
     if (!_videoController){
         _videoController = [[PLVPPTVideoViewController alloc] init];
         _videoController.delegate = self;
+        _videoController.rootViewController = self;
         
         __weak typeof(self) weakSelf = self;
         _videoController.closeSubscreenButtonActionHandler = ^{

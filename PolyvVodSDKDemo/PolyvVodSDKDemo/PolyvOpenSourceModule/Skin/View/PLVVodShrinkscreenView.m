@@ -44,9 +44,12 @@
     self.isShowRate = NO;
     self.playbackRateButton.hidden = !self.isShowRate;
 
-    //  默认隐藏线路切换
-    self.isShowRouteline = NO;
+    //  默认打开线路切换
+    self.isShowRouteline = YES;
     self.routeButton.hidden = !self.isShowRouteline;
+    // 重置线路按钮
+    [self.routeButton setTitle:@"" forState:UIControlStateNormal];
+    [self.routeButton setBackgroundImage:[UIImage imageNamed:@"plv_vod_btn_line"] forState:UIControlStateNormal];
     
     // 添加热力图控件
     [self insertSubview:self.heatMapView atIndex:0];

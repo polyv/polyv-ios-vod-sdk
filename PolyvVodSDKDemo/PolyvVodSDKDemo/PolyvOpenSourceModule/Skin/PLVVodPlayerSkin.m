@@ -86,7 +86,7 @@
 @property (nonatomic, strong) PLVVodNetworkTipsView *networkTipsV;
 
 /// 播放错误提示视图
-@property (nonatomic, strong) PLVVodNetworkTipsView *playErrorTipsView;
+@property (nonatomic, strong) PLVVodNetworkPlayErrorTipsView *playErrorTipsView;
 
 /// 手势快进提示视图
 @property (nonatomic, strong) PLVVodFastForwardView *fastForwardView;
@@ -497,20 +497,21 @@
 }
 
 #pragma mark -- 播放错误提示
-- (PLVVodNetworkTipsView *)showPlayErrorWithTips:(NSString *)errorTips isLocal:(BOOL)isLocal{
-    [self.playErrorTipsView show];
-    self.playErrorTipsView.tipsLb.text = errorTips;
-    self.playErrorTipsView.playBtn.hidden = isLocal;
+- (PLVVodNetworkPlayErrorTipsView *)showPlayErrorWithTips:(NSString *)errorTips isLocal:(BOOL)isLocal{
     BOOL isShowing = self.controlContainerView.alpha > 0.0;
     if (isShowing) {
         [self hideOrShowPlaybackControl];
     }
     
+    [self.playErrorTipsView showInView:self.view startY:20 tipsMessage:errorTips];
+    
     return self.playErrorTipsView;
 }
 
 - (void)hidePlayErrorTips{
-    [self.playErrorTipsView hide];
+    if (_playErrorTipsView){
+        [self.playErrorTipsView hide];
+    }
 }
 
 #pragma mark -- 热力图更新
@@ -538,14 +539,9 @@
     return _networkTipsV;
 }
 
-- (PLVVodNetworkTipsView *)playErrorTipsView{
+- (PLVVodNetworkPlayErrorTipsView *)playErrorTipsView{
     if (!_playErrorTipsView){
-        _playErrorTipsView = [[PLVVodNetworkTipsView alloc] init];
-        [_playErrorTipsView.playBtn setTitle:@"播放重试" forState:UIControlStateNormal];
-        [_playErrorTipsView hide];
-        [self.view addSubview:_playErrorTipsView];
-        [self constrainSubview:_playErrorTipsView toMatchWithSuperview:self.view];
-        [self.view bringSubviewToFront:_playErrorTipsView];
+        _playErrorTipsView = [[PLVVodNetworkPlayErrorTipsView alloc] init];
     }
     
     return _playErrorTipsView;
@@ -756,6 +752,7 @@
 	[self transitToView:self.definitionPanelView];
 }
 
+// 软硬解设置
 - (IBAction)videotoolboxAction:(UIButton *)sender {
     [self transitToView:self.videoToolBoxPanelView];
 }
@@ -834,8 +831,14 @@
     }
 }
 
+// 线路切换按钮
 - (IBAction)routeLineAction:(UIButton *)sender{
-    [self transitToView:self.routeLineView];
+    // 不再弹出线路选择面板
+//    [self transitToView:self.routeLineView];
+    // 弹出线路切换面板（软硬解，线路，httpdns 配置项）
+    if (self.optimizeOptionButtonClickHandler){
+        self.optimizeOptionButtonClickHandler();
+    }
 }
 
 -  (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {

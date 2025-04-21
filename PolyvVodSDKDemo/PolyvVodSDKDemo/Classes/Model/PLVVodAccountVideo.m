@@ -30,6 +30,9 @@
 
 /// 字符串转时间
 + (NSTimeInterval)secondsWithtimeString:(NSString *)timeString {
+    if (timeString == nil || [timeString isKindOfClass:[NSNull class]]){
+        return 0;;
+    }
 	NSArray *timeComponents = [timeString componentsSeparatedByString:@":"];
 	NSTimeInterval seconds = 0;
 	int componentCount = 3;
