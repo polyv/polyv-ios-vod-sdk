@@ -10,18 +10,18 @@
 
 
 ### Added
--【DEMO】增加播放线路配置面板
--【DEMO、SDK】增加网络状态监控恢复播放机制
--【SDK】支持动态加密因子
+- 【DEMO】增加播放线路配置面板  
+- 【DEMO、SDK】增加网络状态监控恢复播放机制
+- 【SDK】支持动态加密因子 
 
 ### Changed
--【DEMO、SDK】Xcode 16适配
--【DEMO】优化播放错误弹窗面板
--【SDK】优化接口请求超时配置
--【SDK】 优化并启用httpdns优选
--【SDK】完善播放异常的日志追溯能力
--【DEMO、SDK】优化异常重试时可按当前进度播放
--【SDK】PLVIJKPlayer 升级到0.15.0 版本
+- 【DEMO、SDK】Xcode 16适配
+-  【DEMO】优化播放错误弹窗面板
+- 【SDK】优化接口请求超时配置
+- 【SDK】 优化并启用httpdns优选
+- 【SDK】完善播放异常的日志追溯能力
+- 【DEMO、SDK】优化异常重试时可按当前进度播放
+- 【SDK】PLVIJKPlayer 升级到0.15.0 版本
 
 ### 迁移说明
 
