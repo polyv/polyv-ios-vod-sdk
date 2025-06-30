@@ -216,7 +216,13 @@ static NSString * const PLVSimplePlaySegueKey = @"PLVSimplePlaySegue";
 		NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
 		UIApplication *app = [UIApplication sharedApplication];
 		if ([app canOpenURL:settingsURL]) {
-			[app openURL:settingsURL];
+            [app openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
+                if (success) {
+                    NSLog(@"打开设置成功");
+                } else {
+                    NSLog(@"打开设置失败");
+                }
+            }];
 		}
 	}]];
 	[self presentViewController:alertController animated:YES completion:^{
