@@ -30,10 +30,17 @@
 		[self.playbackRateStackView removeArrangedSubview:subview];
 		[subview removeFromSuperview];
 	}
-	self.playbackRates = @[@0.5, @1.0, @1.2, @1.5, @2];
+	if (@available(iOS 15.0, *)) {
+        self.playbackRates = @[@0.5, @0.75, @1.0, @1.25, @1.5, @2.0, @3.0];
+    } else {
+        self.playbackRates = @[@0.5, @0.75, @1.0, @1.25, @1.5, @2.0];
+    }
 	for (NSNumber *playbackRateNumber in self.playbackRates) {
 		double playbackRate = playbackRateNumber.doubleValue;
-		NSString *title = [NSString stringWithFormat:@"%.1fx", playbackRate];
+		NSString *title = [NSString stringWithFormat:@"%.2fx", playbackRate];
+        if (playbackRate == 1.0 || playbackRate == 2.0 || playbackRate == 3.0) {
+            title = [NSString stringWithFormat:@"%.1fx", playbackRate];
+        }
 		UIButton *rateButton = [self.class buttonWithTitle:title target:self];
 		[self.playbackRateStackView addArrangedSubview:rateButton];
 	}
@@ -55,13 +62,13 @@
 - (void)layoutSubviews{
     
     if (self.frame.size.width <= PLV_Min_ScreenWidth){
-        self.playbackRateStackView.spacing = 10;
+        self.playbackRateStackView.spacing = 5;
     }
     else if (self.frame.size.width <= PLV_Max_ScreenWidth){
-        self.playbackRateStackView.spacing = 25;
+        self.playbackRateStackView.spacing = 15;
     }
     else{
-        self.playbackRateStackView.spacing = 60;
+        self.playbackRateStackView.spacing = 50;
     }
 }
 

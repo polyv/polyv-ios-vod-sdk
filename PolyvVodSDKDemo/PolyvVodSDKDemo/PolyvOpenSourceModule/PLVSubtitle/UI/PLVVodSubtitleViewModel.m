@@ -7,6 +7,7 @@
 //
 
 #import "PLVVodSubtitleViewModel.h"
+#import "PLVVodSubtitleLaTeXHelper.h"
 
 static const double PLVVodSubtitleAnimationDuration = 0.15;
 
@@ -221,30 +222,42 @@ static const double PLVVodSubtitleAnimationDuration = 0.15;
         return nil;
     }
     
-    if (!style || ![style isKindOfClass:[PLVVodSubtitleItemStyle class]]) {
-        return subtitleItem.attributedText;
-    }
+    // 获取原始文本内容
+    NSString *originalText = subtitleItem.attributedText.string;
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:subtitleItem.attributedText];
+    // 确定字体和颜色
+    UIFont *font;
+    UIColor *textColor;
     
-    // 调整颜色
-    if (style.textColor) {
-        [attributedString addAttribute:NSForegroundColorAttributeName value:style.textColor range:NSMakeRange(0, attributedString.length)];
-    }
-    
-    // 调整字体粗细
-    if (style.bold) {
-        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFangSC-SemiBold" size: 20] range:NSMakeRange(0, attributedString.length)];
+    if (style && [style isKindOfClass:[PLVVodSubtitleItemStyle class]]) {
+        textColor = style.textColor ?: [UIColor whiteColor];
+        if (style.bold) {
+            font = [UIFont fontWithName:@"PingFangSC-SemiBold" size:20];
+        } else {
+            font = [UIFont fontWithName:@"PingFangSC-Regular" size:20];
+        }
     } else {
-        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFangSC-Regular" size: 20] range:NSMakeRange(0, attributedString.length)];
+        // 从原始attributedText中提取字体和颜色
+        NSRange range = NSMakeRange(0, subtitleItem.attributedText.length);
+        font = [subtitleItem.attributedText attribute:NSFontAttributeName atIndex:0 effectiveRange:&range] ?: [UIFont fontWithName:@"PingFangSC-Regular" size:20];
+        textColor = [subtitleItem.attributedText attribute:NSForegroundColorAttributeName atIndex:0 effectiveRange:&range] ?: [UIColor whiteColor];
     }
     
-    // 调整字体倾斜
-    if (style.italic) {
-        [attributedString addAttribute:NSObliquenessAttributeName value:@(15 * M_PI / 180) range:NSMakeRange(0, attributedString.length)];
+    // 使用LaTeX助手处理文本
+    NSAttributedString *processedText = [PLVVodSubtitleLaTeXHelper attributedStringWithText:originalText
+                                                                                       font:font
+                                                                                  textColor:textColor
+                                                                               mathFontSize:font.pointSize
+                                                                                  mathColor:textColor];
+    
+    // 如果支持LaTeX且样式需要倾斜，应用倾斜效果
+    if ([PLVVodSubtitleLaTeXHelper isLaTeXSupported] && style && style.italic) {
+        NSMutableAttributedString *mutableText = [[NSMutableAttributedString alloc] initWithAttributedString:processedText];
+        [mutableText addAttribute:NSObliquenessAttributeName value:@(15 * M_PI / 180) range:NSMakeRange(0, mutableText.length)];
+        return [mutableText copy];
     }
     
-    return [attributedString copy];
+    return processedText;
 }
 
 @end

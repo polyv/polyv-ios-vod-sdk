@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -43,13 +43,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="字幕" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37T-Vn-sBr">
-                    <rect key="frame" x="316" y="346.5" width="35" height="20.5"/>
+                    <rect key="frame" x="316.5" y="346.5" width="34" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="字幕2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EpL-f0-tTa" userLabel="字幕2">
-                    <rect key="frame" x="310" y="317.5" width="47" height="21"/>
+                    <rect key="frame" x="310.5" y="317.5" width="46" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -86,13 +86,13 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="顶部字幕" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gkg-Yo-h8S">
-                    <rect key="frame" x="299" y="28" width="69.5" height="20.5"/>
+                    <rect key="frame" x="300" y="28" width="67.5" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="顶部字幕2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cB7-dO-pgJ" userLabel="顶部字幕2">
-                    <rect key="frame" x="293" y="56.5" width="81.5" height="21"/>
+                    <rect key="frame" x="294" y="56.5" width="79.5" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -823,10 +823,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="top" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="UCW-u5-Hg9" userLabel="字幕设置">
-                    <rect key="frame" x="309" y="267" width="49" height="96"/>
+                    <rect key="frame" x="309.5" y="267" width="48" height="96"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ql-Pe-EdN">
-                            <rect key="frame" x="0.0" y="0.0" width="49" height="32"/>
+                            <rect key="frame" x="0.0" y="0.0" width="48" height="32"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="字幕一"/>
@@ -838,7 +838,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHX-GC-5cy">
-                            <rect key="frame" x="0.0" y="32" width="49" height="32"/>
+                            <rect key="frame" x="0.0" y="32" width="48" height="32"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="字幕二"/>
@@ -850,7 +850,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VBB-Ir-xLr">
-                            <rect key="frame" x="0.0" y="64" width="49" height="32"/>
+                            <rect key="frame" x="0.0" y="64" width="48" height="32"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="不显示"/>
@@ -881,7 +881,7 @@
                             <rect key="frame" x="4" y="103" width="282" height="32"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uuT-gD-j1r">
-                                    <rect key="frame" x="0.0" y="0.0" width="33" height="32"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="居中"/>
@@ -893,7 +893,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="85l-BV-nNQ">
-                                    <rect key="frame" x="83" y="0.0" width="33" height="32"/>
+                                    <rect key="frame" x="83.5" y="0.0" width="32" height="32"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="适应"/>
@@ -905,7 +905,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7r-bD-Nj4">
-                                    <rect key="frame" x="166" y="0.0" width="33" height="32"/>
+                                    <rect key="frame" x="166.5" y="0.0" width="32" height="32"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="填充"/>
@@ -917,7 +917,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="753" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kEB-lT-H0C">
-                                    <rect key="frame" x="249" y="0.0" width="33" height="32"/>
+                                    <rect key="frame" x="250" y="0.0" width="32" height="32"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="拉伸"/>
@@ -1017,10 +1017,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="kjX-nj-aOb">
-                    <rect key="frame" x="297" y="167" width="73" height="41"/>
+                    <rect key="frame" x="299" y="167" width="69" height="41"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p1i-MR-j8y">
-                            <rect key="frame" x="0.0" y="0.0" width="73" height="41"/>
+                            <rect key="frame" x="0.0" y="0.0" width="69" height="41"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="不可用"/>
@@ -1047,10 +1047,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="wMI-qO-j0V">
-                    <rect key="frame" x="297" y="167" width="73" height="41"/>
+                    <rect key="frame" x="299" y="167" width="69" height="41"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DuN-vF-6Ob">
-                            <rect key="frame" x="0.0" y="0.0" width="73" height="41"/>
+                            <rect key="frame" x="0.0" y="0.0" width="69" height="41"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="不可用"/>
@@ -1077,10 +1077,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="CrX-Ob-dsy">
-                    <rect key="frame" x="20" y="167" width="627" height="41"/>
+                    <rect key="frame" x="44" y="167" width="579" height="41"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m7X-YV-H58">
-                            <rect key="frame" x="0.0" y="0.0" width="627" height="41"/>
+                            <rect key="frame" x="0.0" y="0.0" width="579" height="41"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="不可用"/>
@@ -1095,9 +1095,9 @@
             <color key="backgroundColor" red="0.0" green="0.062745098040000002" blue="0.1058823529" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="CrX-Ob-dsy" firstAttribute="centerX" secondItem="MZT-mj-7ks" secondAttribute="centerX" id="Cda-Cm-S4L"/>
-                <constraint firstItem="CrX-Ob-dsy" firstAttribute="leading" secondItem="MZT-mj-7ks" secondAttribute="leading" constant="20" id="NYp-ro-RZc"/>
+                <constraint firstItem="CrX-Ob-dsy" firstAttribute="leading" secondItem="MZT-mj-7ks" secondAttribute="leading" constant="44" id="NYp-ro-RZc"/>
                 <constraint firstItem="CrX-Ob-dsy" firstAttribute="centerY" secondItem="MZT-mj-7ks" secondAttribute="centerY" id="X9c-yv-J8o"/>
-                <constraint firstAttribute="trailing" secondItem="CrX-Ob-dsy" secondAttribute="trailing" constant="20" id="eVZ-2O-5iM"/>
+                <constraint firstAttribute="trailing" secondItem="CrX-Ob-dsy" secondAttribute="trailing" constant="44" id="eVZ-2O-5iM"/>
             </constraints>
             <connections>
                 <outlet property="playbackRateStackView" destination="CrX-Ob-dsy" id="gRR-aa-msc"/>
@@ -1114,7 +1114,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="57" translatesAutoresizingMaskIntoConstraints="NO" id="SMa-Vu-mCr">
-                    <rect key="frame" x="184" y="144" width="299.5" height="87.5"/>
+                    <rect key="frame" x="184.5" y="144" width="298" height="87.5"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="isO-vR-aZJ">
                             <rect key="frame" x="0.0" y="0.0" width="60" height="87.5"/>
@@ -1124,7 +1124,7 @@
                                     <state key="normal" image="plv_vod_btn_qq"/>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QQ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AyD-EV-znf">
-                                    <rect key="frame" x="17.5" y="68" width="24.5" height="19.5"/>
+                                    <rect key="frame" x="18" y="68" width="24.5" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -1139,7 +1139,7 @@
                                     <state key="normal" image="plv_vod_btn_wechat"/>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O90-fd-aTm">
-                                    <rect key="frame" x="13.5" y="68" width="33" height="19.5"/>
+                                    <rect key="frame" x="14" y="68" width="32" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -1147,14 +1147,14 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="s33-QQ-i8S">
-                            <rect key="frame" x="234" y="0.0" width="65.5" height="87.5"/>
+                            <rect key="frame" x="234" y="0.0" width="64" height="87.5"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3rk-y9-CFg" userLabel="新浪微博">
-                                    <rect key="frame" x="2.5" y="0.0" width="60" height="60"/>
+                                    <rect key="frame" x="2" y="0.0" width="60" height="60"/>
                                     <state key="normal" image="plv_vod_btn_weibo"/>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新浪微博" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qm-WC-7eD">
-                                    <rect key="frame" x="0.0" y="68" width="65.5" height="19.5"/>
+                                    <rect key="frame" x="0.0" y="68" width="64" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -1255,19 +1255,19 @@
                             </constraints>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="pdp-XN-RPy" userLabel="弹幕设置组">
-                            <rect key="frame" x="120" y="64" width="427.5" height="121"/>
+                            <rect key="frame" x="120.5" y="64" width="426" height="121"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="fFK-KL-STC" userLabel="弹幕颜色组">
-                                    <rect key="frame" x="0.0" y="0.0" width="427.5" height="25"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="426" height="25"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="弹幕颜色" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFA-e5-49a">
-                                            <rect key="frame" x="0.0" y="0.0" width="57.5" height="25"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="56" height="25"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="hxu-mA-h92">
-                                            <rect key="frame" x="77.5" y="0.0" width="350" height="25"/>
+                                            <rect key="frame" x="76" y="0.0" width="350" height="25"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleAspectFit" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GwE-yk-3Z7" userLabel="颜色">
                                                     <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
@@ -1328,16 +1328,16 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Vp0-kN-utJ" userLabel="弹幕类型组">
-                                    <rect key="frame" x="0.0" y="48" width="235.5" height="25"/>
+                                    <rect key="frame" x="0.0" y="48" width="234" height="25"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="弹幕类型" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FeT-w4-r7G">
-                                            <rect key="frame" x="0.0" y="0.0" width="57.5" height="25"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="56" height="25"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="fM7-iR-VaA">
-                                            <rect key="frame" x="77.5" y="0.0" width="158" height="25"/>
+                                            <rect key="frame" x="76" y="0.0" width="158" height="25"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05r-fd-MaV">
                                                     <rect key="frame" x="0.0" y="0.0" width="30" height="25"/>
@@ -1374,16 +1374,16 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="yXB-ea-kt4" userLabel="弹幕字体大小组">
-                                    <rect key="frame" x="0.0" y="96" width="235.5" height="25"/>
+                                    <rect key="frame" x="0.0" y="96" width="234" height="25"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="字体大小" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="edB-rr-pCA">
-                                            <rect key="frame" x="0.0" y="0.0" width="57.5" height="25"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="56" height="25"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="zlT-Hh-st7">
-                                            <rect key="frame" x="77.5" y="0.0" width="158" height="25"/>
+                                            <rect key="frame" x="76" y="0.0" width="158" height="25"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfT-yf-vvp">
                                                     <rect key="frame" x="0.0" y="0.0" width="30" height="25"/>
@@ -1583,10 +1583,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="SMI-bl-C7x">
-                    <rect key="frame" x="298.5" y="167.5" width="70" height="40"/>
+                    <rect key="frame" x="300.5" y="167.5" width="66" height="40"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEp-1s-nPx">
-                            <rect key="frame" x="0.0" y="0.0" width="70" height="40"/>
+                            <rect key="frame" x="0.0" y="0.0" width="66" height="40"/>
                             <fontDescription key="fontDescription" type="system" pointSize="23"/>
                             <state key="normal" title="不可用">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

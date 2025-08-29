@@ -117,6 +117,7 @@
 		047497692D23F8D6002781EE /* PLVVodHeatMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 047497682D23F8D6002781EE /* PLVVodHeatMapView.m */; };
 		0474976C2D23F909002781EE /* PLVVodBubbleMarkerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0474976B2D23F909002781EE /* PLVVodBubbleMarkerView.m */; };
 		0474976F2D23F927002781EE /* PLVVodProgressMarkerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0474976E2D23F927002781EE /* PLVVodProgressMarkerView.m */; };
+		047871CE2E617CB400AB7074 /* PLVVodSubtitleLaTeXHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 047871CD2E617CB400AB7074 /* PLVVodSubtitleLaTeXHelper.m */; };
 		04851978219995A1008058A6 /* PLVVideoPlayTimesResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 04851977219995A1008058A6 /* PLVVideoPlayTimesResult.m */; };
 		0489AFDD21077559004A26A4 /* PLVDownloadProcessingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0489AFDC21077559004A26A4 /* PLVDownloadProcessingCell.m */; };
 		0489AFE02107757E004A26A4 /* PLVDownloadComleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0489AFDF2107757E004A26A4 /* PLVDownloadComleteCell.m */; };
@@ -413,6 +414,8 @@
 		0474976B2D23F909002781EE /* PLVVodBubbleMarkerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodBubbleMarkerView.m; sourceTree = "<group>"; };
 		0474976D2D23F927002781EE /* PLVVodProgressMarkerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodProgressMarkerView.h; sourceTree = "<group>"; };
 		0474976E2D23F927002781EE /* PLVVodProgressMarkerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodProgressMarkerView.m; sourceTree = "<group>"; };
+		047871CC2E617CB400AB7074 /* PLVVodSubtitleLaTeXHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodSubtitleLaTeXHelper.h; sourceTree = "<group>"; };
+		047871CD2E617CB400AB7074 /* PLVVodSubtitleLaTeXHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodSubtitleLaTeXHelper.m; sourceTree = "<group>"; };
 		04851976219995A1008058A6 /* PLVVideoPlayTimesResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVideoPlayTimesResult.h; sourceTree = "<group>"; };
 		04851977219995A1008058A6 /* PLVVideoPlayTimesResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVideoPlayTimesResult.m; sourceTree = "<group>"; };
 		0489AFDB21077559004A26A4 /* PLVDownloadProcessingCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadProcessingCell.h; sourceTree = "<group>"; };
@@ -1256,6 +1259,8 @@
 		65A57F3D2BFC30E30038F788 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				047871CC2E617CB400AB7074 /* PLVVodSubtitleLaTeXHelper.h */,
+				047871CD2E617CB400AB7074 /* PLVVodSubtitleLaTeXHelper.m */,
 				65A57F3E2BFC30E30038F788 /* PLVVodSubtitleManager.m */,
 				65A57F3F2BFC30E30038F788 /* PLVVodSubtitleViewModel.h */,
 				65A57F402BFC30E30038F788 /* PLVVodSubtitleViewModel.m */,
@@ -1620,6 +1625,7 @@
 				639D17E421E3579B005E00F3 /* PLVCastBusinessManager.m in Sources */,
 				0334A0052068831E00A49905 /* PLVSimpleDetailController.m in Sources */,
 				03856CA61FE22D090038DEB2 /* NSString+PLVVod.m in Sources */,
+				047871CE2E617CB400AB7074 /* PLVVodSubtitleLaTeXHelper.m in Sources */,
 				0463BAE921A52FBB0010A5EC /* PLVVodExtendVideoInfo.mm in Sources */,
 				FAD2A8BB2800149400354955 /* PLVPictureInPictureRestoreManager.m in Sources */,
 				00B218812481144700ABDCCD /* main.m in Sources */,
@@ -1876,7 +1882,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/PolyvVodSDKDemo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.23.0;
+				MARKETING_VERSION = 2.24.1;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.plv.vod.sdk.demo.intest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1906,7 +1912,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/PolyvVodSDKDemo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.23.0;
+				MARKETING_VERSION = 2.24.1;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.plv.vod.sdk.demo.intest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

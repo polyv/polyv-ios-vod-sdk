@@ -325,7 +325,11 @@
 #pragma mark 播放速率
 
 - (void)setPlaybackRate:(double)playbackRate {
-	NSString *title = [NSString stringWithFormat:@"%.1fx", playbackRate];
+    NSString *title = [NSString stringWithFormat:@"%.2fx", playbackRate];
+    if (playbackRate == 1.0 || playbackRate == 2.0 || playbackRate == 3.0) {
+        title = [NSString stringWithFormat:@"%.1fx", playbackRate];
+    }
+
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.fullscreenView.playbackRateButton setTitle:title forState:UIControlStateNormal];
         [self.playbackRatePanelView setCurRate:playbackRate];

@@ -14,22 +14,25 @@ target 'PolyvVodSDKDemo' do
 	pod 'XRCarouselView', '~> 2.6.1'
 	pod 'YYWebImage', '~> 1.0.5'
 	pod 'FDStackView', '~> 1.0.1'
-    pod 'PLVMasonry', '~> 1.1.2'
-    pod 'TZImagePickerController', '~> 3.2.0'
+  pod 'PLVMasonry', '~> 1.1.2'
+  pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-    pod 'PolyvVodSDK', '~> 2.24.0'
-    
-    # 使用投屏功能的客户需要集成
-    #pod 'LBLelinkKit', '~> 30503'
-    pod 'PLVDLNASender', '1.4.1'
+  pod 'PolyvVodSDK', '~> 2.24.1'
+  
+  # 使用投屏功能的客户需要集成
+  #pod 'LBLelinkKit', '~> 30503'
+  pod 'PLVDLNASender', '1.4.1'
+  
+  # 字幕LaTeX公式支持
+  # pod 'iosMath', '~> 0.9.4'
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'
 	pod 'PLVSubtitle', '~> 0.1.0'
 
-    # 上传SDK，不使用上传功能无需集成
-    pod 'PLVVodUploadSDK', '~> 0.1.0'
+  # 上传SDK，不使用上传功能无需集成
+  pod 'PLVVodUploadSDK', '~> 0.1.0'
   
 	target 'PolyvVodSDKDemoTests' do
 		inherit! :search_paths
