@@ -7,16 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#import <WXDLNASender/WXDLNASender.h>
+#import <PLVDLNA/PLVDLNA.h>
 #import <PLVVodSDK/PLVVodVideo.h>
 #import <PLVVodSDK/PLVVodSettings.h>
 #import <PLVVodSDK/PLVVodPlayerUtil.h>
-
-// APPID 和 APPSECRET 需与包名和 app名绑定，获取方式请咨询Polyv技术支持
-// 若不需投屏功能，可将以下任意一值置为空字符串
-static NSString * const DLAPPID = @"u6x0FHnsaB649e726516fd3767652837";
-static NSString * const DLSECRETKEY = @"9369D-16FD4-7D6D9-5904";
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -103,6 +97,9 @@ typedef NS_ENUM(NSUInteger, PLVCastPlayStatus) {
 // 连接设备
 - (void)connectServiceWithModel:(PLVCastServiceModel *)plv_s;
 
+// 判断指定索引的设备是否是当前已连接的设备
+- (BOOL)isDeviceConnectedAtIndex:(NSInteger)idx;
+
 // 断开当前连接
 - (void)disconnect;
 
@@ -137,15 +134,18 @@ typedef NS_ENUM(NSUInteger, PLVCastPlayStatus) {
 
 @interface PLVCastServiceModel : NSObject // 投屏设备信息模型
 
-// 设备名
+/// 设备名
 @property (nonatomic, copy) NSString * serviceName;
 
-// 是否当前连接中的设备
+/// 设备UUID
+@property (nonatomic, copy) NSString * uuid;
+
+/// 是否正连接
 @property (nonatomic, assign) BOOL isConnecting;
 
 // 当前视频的播放进度
 @property (nonatomic, assign) NSTimeInterval currentTime;
 
 @end
-
 NS_ASSUME_NONNULL_END
+

@@ -48,6 +48,13 @@
     castListV.selectEvent = ^(PLVCastServiceListView * listView, NSInteger index, PLVCastCellType type) {
         
         if (type == PLVCastCellType_Device) {
+            // 检查是否是当前已连接的设备
+            if ([weakSelf.castManager isDeviceConnectedAtIndex:index]) {
+                // 如果是同一设备，不执行任何操作，直接关闭列表
+                [listView dismiss];
+                return;
+            }
+            
             weakSelf.passiveDisconnect = NO;
             
             [weakSelf.player pause];
@@ -56,27 +63,23 @@
             
             [listView dismiss];
             
-            PLVCastServiceModel * plv_s = [weakSelf.castManager connectServiceWithIndex:index];
-            
-            if (plv_s.isConnecting) {
-                return;
-            }
-            
+            // 先显示控制界面，设置连接中状态
             [weakSelf.castControllView show];
+            
+            PLVCastServiceModel * plv_s = [weakSelf.castManager connectServiceWithIndex:index];
             
             weakSelf.castControllView.deviceName = plv_s.serviceName;
             weakSelf.castControllView.status = PLVCastCVStatus_Connecting;
             [weakSelf.castControllView reloadControllBtnWithStringArray:@[@"2:退出",@"3:换设备"]];
             
             // 设置投屏控制视图代理
-            // TODO 如果一直没有建立连接，则回调是一直不通的，因为没有设置delegate
             if (weakSelf.castControllView.delegate != weakSelf) {
                 weakSelf.castControllView.delegate = weakSelf;
             }
         }        
     };
     
-    // 点击‘刷新’按钮
+    // 点击'刷新'按钮
     castListV.refreshButtonClickEvent = ^(PLVCastServiceListView * _Nonnull listView, UIButton * _Nonnull button) {
         BOOL WiFiCanUse = [PLVCastManager wifiCanUse];
         
@@ -155,6 +158,28 @@
     __weak typeof (self) weakSelf = self;
     PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.player.playerControl;
     skin.castButtonTouchHandler = ^(UIButton *button) {
+        // 检测视频是否加密，加密视频不支持投屏
+        PLVVodVideo *video = weakSelf.player.video;
+        if (video && !video.isPlain && !video.keepSource) {
+            // 显示提示：加密视频不支持投屏
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                           message:@"加密视频不支持投屏"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:nil];
+            [alert addAction:okAction];
+            
+            // 获取当前显示的视图控制器
+            UIViewController *currentVC = weakSelf.player;
+            if (currentVC) {
+                [currentVC presentViewController:alert animated:YES completion:nil];
+            }
+            
+            NSLog(@"PLVCastBusinessManager - 加密视频不支持投屏，视频vid: %@", video.vid);
+            return;
+        }
+        
         [weakSelf.castListV show];
         
         if ([PLVCastManager wifiCanUse]) {

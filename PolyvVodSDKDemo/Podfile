@@ -18,14 +18,12 @@ target 'PolyvVodSDKDemo' do
   pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-  pod 'PolyvVodSDK', '~> 2.24.1'
-  
-  # 使用投屏功能的客户需要集成
-  #pod 'LBLelinkKit', '~> 30503'
-  pod 'PLVDLNASender', '1.4.1'
-  
+  pod 'PolyvVodSDK', '~> 2.24.2'
+
   # 字幕LaTeX公式支持
-  # pod 'iosMath', '~> 0.9.4'
+  pod 'iosMath', '~> 0.9.4'
+  # 投屏sdk 需要投屏功能客户集成
+  pod 'PLVDLNA'
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'
