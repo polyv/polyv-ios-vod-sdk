@@ -215,7 +215,12 @@
 // 更新播放进度条上的打点标签
 - (void)updateMarkerViewWithData:(NSArray<PLVVodMarkerViewData *> *)datas;
 
+// 更新雪碧图数据（用于拖动进度条时显示预览图）
+- (void)updateSpriteChartWithVideo:(PLVVodVideo *)video;
 
-
+// 雪碧图视图控制方法（由 PLVVodSkinPlayerController 调用）
+- (void)showSpriteChartView;
+- (void)hideSpriteChartView;
+- (void)updateSpriteChartViewWithSlider:(UISlider *)slider;
 
 @end

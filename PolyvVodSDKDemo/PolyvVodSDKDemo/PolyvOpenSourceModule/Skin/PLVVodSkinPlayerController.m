@@ -1133,6 +1133,8 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 - (void)setupCoverWithVideo:(PLVVodVideo *)video{
     PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
     [skin updateCoverView:video];
+    // 设置雪碧图（进度条预览图）
+    [skin updateSpriteChartWithVideo:video];
 }
 
 - (void)removeCover{
@@ -1817,6 +1819,39 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         // 重试播放
         [self retryPlayVideo];
     }
+}
+
+#pragma mark - 进度条拖动事件（重写父类方法以添加雪碧图预览功能）
+
+/// 播放进度滑杆 TouchDown Action
+- (IBAction)playbackSliderTouchDownAction:(UISlider *)sender {
+    // 调用父类方法，保持原有功能
+    [super playbackSliderTouchDownAction:sender];
+    
+    // 显示雪碧图预览
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    [skin showSpriteChartView];
+    [skin updateSpriteChartViewWithSlider:sender];
+}
+
+/// 播放进度滑杆 ValueChange Action
+- (IBAction)playbackSliderValueChangeAction:(UISlider *)sender {
+    // 调用父类方法，保持原有功能（更新时间显示等）
+    [super playbackSliderValueChangeAction:sender];
+    
+    // 更新雪碧图预览位置和内容
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    [skin updateSpriteChartViewWithSlider:sender];
+}
+
+/// 播放进度滑杆 TouchUpCancel Action
+- (IBAction)playbackSliderTouchUpCancelAction:(UISlider *)sender {
+    // 调用父类方法，保持原有功能（执行 seek 操作等）
+    [super playbackSliderTouchUpCancelAction:sender];
+    
+    // 隐藏雪碧图预览
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    [skin hideSpriteChartView];
 }
 
 @end

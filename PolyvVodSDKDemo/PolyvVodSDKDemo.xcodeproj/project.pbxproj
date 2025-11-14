@@ -121,6 +121,13 @@
 		04851978219995A1008058A6 /* PLVVideoPlayTimesResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 04851977219995A1008058A6 /* PLVVideoPlayTimesResult.m */; };
 		0489AFDD21077559004A26A4 /* PLVDownloadProcessingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0489AFDC21077559004A26A4 /* PLVDownloadProcessingCell.m */; };
 		0489AFE02107757E004A26A4 /* PLVDownloadComleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0489AFDF2107757E004A26A4 /* PLVDownloadComleteCell.m */; };
+		049A90A92EC722FD00DDC291 /* PLVVodSpriteChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A90A72EC722FD00DDC291 /* PLVVodSpriteChartView.m */; };
+		049A90AA2EC722FD00DDC291 /* PLVVodHeatMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A90A22EC722FD00DDC291 /* PLVVodHeatMapView.m */; };
+		049A90AB2EC722FD00DDC291 /* PLVVodProgressMarkerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A90A42EC722FD00DDC291 /* PLVVodProgressMarkerView.m */; };
+		049A90AC2EC722FD00DDC291 /* PLVVodMarkerViewData.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A909B2EC722FD00DDC291 /* PLVVodMarkerViewData.m */; };
+		049A90AD2EC722FD00DDC291 /* PLVVodHeatMapContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A90A02EC722FD00DDC291 /* PLVVodHeatMapContentView.m */; };
+		049A90AE2EC722FD00DDC291 /* PLVVodHeatMapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A90992EC722FD00DDC291 /* PLVVodHeatMapModel.m */; };
+		049A90AF2EC722FD00DDC291 /* PLVVodBubbleMarkerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A909E2EC722FD00DDC291 /* PLVVodBubbleMarkerView.m */; };
 		04B051CD2106BDD500F6C791 /* PLVDownloadManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B051CC2106BDD500F6C791 /* PLVDownloadManagerViewController.m */; };
 		04B051D02106CE9600F6C791 /* PLVDownloadProcessingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B051CF2106CE9600F6C791 /* PLVDownloadProcessingViewController.m */; };
 		04B051D32106CEC000F6C791 /* PLVDownloadCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B051D22106CEC000F6C791 /* PLVDownloadCompleteViewController.m */; };
@@ -422,6 +429,20 @@
 		0489AFDC21077559004A26A4 /* PLVDownloadProcessingCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVDownloadProcessingCell.m; sourceTree = "<group>"; };
 		0489AFDE2107757E004A26A4 /* PLVDownloadComleteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadComleteCell.h; sourceTree = "<group>"; };
 		0489AFDF2107757E004A26A4 /* PLVDownloadComleteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVDownloadComleteCell.m; sourceTree = "<group>"; };
+		049A90982EC722FD00DDC291 /* PLVVodHeatMapModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodHeatMapModel.h; sourceTree = "<group>"; };
+		049A90992EC722FD00DDC291 /* PLVVodHeatMapModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodHeatMapModel.m; sourceTree = "<group>"; };
+		049A909A2EC722FD00DDC291 /* PLVVodMarkerViewData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodMarkerViewData.h; sourceTree = "<group>"; };
+		049A909B2EC722FD00DDC291 /* PLVVodMarkerViewData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodMarkerViewData.m; sourceTree = "<group>"; };
+		049A909D2EC722FD00DDC291 /* PLVVodBubbleMarkerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodBubbleMarkerView.h; sourceTree = "<group>"; };
+		049A909E2EC722FD00DDC291 /* PLVVodBubbleMarkerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodBubbleMarkerView.m; sourceTree = "<group>"; };
+		049A909F2EC722FD00DDC291 /* PLVVodHeatMapContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodHeatMapContentView.h; sourceTree = "<group>"; };
+		049A90A02EC722FD00DDC291 /* PLVVodHeatMapContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodHeatMapContentView.m; sourceTree = "<group>"; };
+		049A90A12EC722FD00DDC291 /* PLVVodHeatMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodHeatMapView.h; sourceTree = "<group>"; };
+		049A90A22EC722FD00DDC291 /* PLVVodHeatMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodHeatMapView.m; sourceTree = "<group>"; };
+		049A90A32EC722FD00DDC291 /* PLVVodProgressMarkerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodProgressMarkerView.h; sourceTree = "<group>"; };
+		049A90A42EC722FD00DDC291 /* PLVVodProgressMarkerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodProgressMarkerView.m; sourceTree = "<group>"; };
+		049A90A62EC722FD00DDC291 /* PLVVodSpriteChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVVodSpriteChartView.h; sourceTree = "<group>"; };
+		049A90A72EC722FD00DDC291 /* PLVVodSpriteChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVVodSpriteChartView.m; sourceTree = "<group>"; };
 		04B051CB2106BDD500F6C791 /* PLVDownloadManagerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadManagerViewController.h; sourceTree = "<group>"; };
 		04B051CC2106BDD500F6C791 /* PLVDownloadManagerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PLVDownloadManagerViewController.m; sourceTree = "<group>"; };
 		04B051CE2106CE9600F6C791 /* PLVDownloadProcessingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLVDownloadProcessingViewController.h; sourceTree = "<group>"; };
@@ -807,6 +828,8 @@
 		03856C521FE21C990038DEB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				049A90A52EC722FD00DDC291 /* ProgressViewExtend */,
+				049A90A82EC722FD00DDC291 /* SpriteChart */,
 				043C80472DA653C700DF5938 /* PlayerOptimizeOptions */,
 				047497632D23F809002781EE /* ProgressViewExtend */,
 				04E5BE74221577C500A8BCC9 /* PLVVodRouteLineView.h */,
@@ -1136,6 +1159,42 @@
 				0030335322B101E00087E76A /* PLVDownloadCell.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		049A909C2EC722FD00DDC291 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				049A90982EC722FD00DDC291 /* PLVVodHeatMapModel.h */,
+				049A90992EC722FD00DDC291 /* PLVVodHeatMapModel.m */,
+				049A909A2EC722FD00DDC291 /* PLVVodMarkerViewData.h */,
+				049A909B2EC722FD00DDC291 /* PLVVodMarkerViewData.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		049A90A52EC722FD00DDC291 /* ProgressViewExtend */ = {
+			isa = PBXGroup;
+			children = (
+				049A909C2EC722FD00DDC291 /* Model */,
+				049A909D2EC722FD00DDC291 /* PLVVodBubbleMarkerView.h */,
+				049A909E2EC722FD00DDC291 /* PLVVodBubbleMarkerView.m */,
+				049A909F2EC722FD00DDC291 /* PLVVodHeatMapContentView.h */,
+				049A90A02EC722FD00DDC291 /* PLVVodHeatMapContentView.m */,
+				049A90A12EC722FD00DDC291 /* PLVVodHeatMapView.h */,
+				049A90A22EC722FD00DDC291 /* PLVVodHeatMapView.m */,
+				049A90A32EC722FD00DDC291 /* PLVVodProgressMarkerView.h */,
+				049A90A42EC722FD00DDC291 /* PLVVodProgressMarkerView.m */,
+			);
+			path = ProgressViewExtend;
+			sourceTree = "<group>";
+		};
+		049A90A82EC722FD00DDC291 /* SpriteChart */ = {
+			isa = PBXGroup;
+			children = (
+				049A90A62EC722FD00DDC291 /* PLVVodSpriteChartView.h */,
+				049A90A72EC722FD00DDC291 /* PLVVodSpriteChartView.m */,
+			);
+			path = SpriteChart;
 			sourceTree = "<group>";
 		};
 		04C85F792473790B00F3493B /* Util */ = {
@@ -1494,12 +1553,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AliyunOSSiOS/AliyunOSSiOS_Privacy.bundle",
 				"${PODS_ROOT}/TZImagePickerController/TZImagePickerController/TZImagePickerController/TZImagePickerController.bundle",
 				"${PODS_ROOT}/XRCarouselView/XRCarouselView/XRPlaceholder.png",
 				"${PODS_CONFIGURATION_BUILD_DIR}/iosMath/mathFonts.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AliyunOSSiOS_Privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TZImagePickerController.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/XRPlaceholder.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mathFonts.bundle",
@@ -1677,6 +1738,13 @@
 				030DF02C1FB590560035D0B0 /* PLVCourseListController.m in Sources */,
 				043B5D4C2D365F0C00C300EF /* PLVVodHeatMapContentView.m in Sources */,
 				65A57F482BFC30E30038F788 /* PLVVodSubtitleViewModel.m in Sources */,
+				049A90A92EC722FD00DDC291 /* PLVVodSpriteChartView.m in Sources */,
+				049A90AA2EC722FD00DDC291 /* PLVVodHeatMapView.m in Sources */,
+				049A90AB2EC722FD00DDC291 /* PLVVodProgressMarkerView.m in Sources */,
+				049A90AC2EC722FD00DDC291 /* PLVVodMarkerViewData.m in Sources */,
+				049A90AD2EC722FD00DDC291 /* PLVVodHeatMapContentView.m in Sources */,
+				049A90AE2EC722FD00DDC291 /* PLVVodHeatMapModel.m in Sources */,
+				049A90AF2EC722FD00DDC291 /* PLVVodBubbleMarkerView.m in Sources */,
 				043C804D2DA655CC00DF5938 /* PLVVodOptimizeOptionView.m in Sources */,
 				03DDF4CB1FE763BB00F63630 /* DLFixedTabbarView.m in Sources */,
 				1263829A26C1017D0009C006 /* PLVKnowledgeCategoryTableViewCell.m in Sources */,
@@ -1878,7 +1946,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/PolyvVodSDKDemo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.24.1;
+				MARKETING_VERSION = 2.24.3;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.plv.vod.sdk.demo.intest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1908,7 +1976,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/PolyvVodSDKDemo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.24.1;
+				MARKETING_VERSION = 2.24.3;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.plv.vod.sdk.demo.intest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -22,6 +22,7 @@
 #import "PLVVodCoverView.h"
 #import "PLVVodRouteLineView.h"
 #import "UIButton+EnlargeTouchArea.h"
+#import "PLVVodSpriteChartView.h"
 #import <Photos/Photos.h>
 
 
@@ -93,6 +94,9 @@
 
 /// 切换清晰度的提示视图
 @property (nonatomic, strong) PLVVodDefinitionTipsView *definitionTipsView;
+
+/// 雪碧图预览视图
+@property (nonatomic, strong) PLVVodSpriteChartView *spriteChartView;
 
 @end
 
@@ -578,6 +582,16 @@
     return _definitionTipsView;
 }
 
+- (PLVVodSpriteChartView *)spriteChartView {
+    if (!_spriteChartView) {
+        _spriteChartView = [[PLVVodSpriteChartView alloc] init];
+        _spriteChartView.hidden = YES;
+        [self.view addSubview:_spriteChartView];
+        [self.view bringSubviewToFront:_spriteChartView];
+    }
+    return _spriteChartView;
+}
+
 
 #pragma mark - view controller
 
@@ -970,6 +984,79 @@
 - (void)fadeoutPlaybackControl {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideOrShowPlaybackControl) object:nil];
     [self performSelector:@selector(hideOrShowPlaybackControl) withObject:nil afterDelay:PLVVodAnimationDuration*10];
+}
+
+#pragma mark - Sprite Chart
+
+/// 显示雪碧图视图
+- (void)showSpriteChartView {
+    if (self.spriteChartView) {
+        self.spriteChartView.hidden = NO;
+        self.spriteChartView.alpha = 1.0;
+    }
+}
+
+/// 隐藏雪碧图视图
+- (void)hideSpriteChartView {
+    if (self.spriteChartView) {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.spriteChartView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            self.spriteChartView.hidden = YES;
+        }];
+    }
+}
+
+/// 更新雪碧图视图位置和预览内容
+- (void)updateSpriteChartViewWithSlider:(UISlider *)slider {
+    if (!self.spriteChartView || !self.delegatePlayer) return;
+    
+    // 计算当前进度时间
+    NSTimeInterval progressTime = slider.value * self.delegatePlayer.duration;
+    
+    // 更新雪碧图的预览时间
+    [self.spriteChartView updateProgressTime:progressTime];
+    
+    // 计算雪碧图视图应该显示的位置
+    CGRect sliderFrame = [slider convertRect:slider.bounds toView:self.view];
+    CGFloat thumbCenterX = sliderFrame.origin.x + sliderFrame.size.width * slider.value;
+    
+    // 雪碧图视图的宽度和高度
+    CGFloat spriteWidth = self.spriteChartView.bounds.size.width;
+    CGFloat spriteHeight = self.spriteChartView.bounds.size.height;
+    
+    // 计算 X 位置（确保不超出屏幕边界）
+    CGFloat spriteX = thumbCenterX - spriteWidth / 2.0;
+    CGFloat minX = 10; // 左边距
+    CGFloat maxX = self.view.bounds.size.width - spriteWidth - 10; // 右边距
+    spriteX = MAX(minX, MIN(spriteX, maxX));
+    
+    // 计算 Y 位置（显示在进度条上方）
+    CGFloat spriteY = sliderFrame.origin.y - spriteHeight - 10;
+    
+    // 设置雪碧图视图的位置
+    self.spriteChartView.frame = CGRectMake(spriteX, spriteY, spriteWidth, spriteHeight);
+}
+
+/// 更新雪碧图数据（供外部调用）
+- (void)updateSpriteChartWithVideo:(PLVVodVideo *)video {
+    if (!video) return;
+    
+    // 获取视频时长
+    NSTimeInterval duration = video.duration;
+    
+    // 获取雪碧图链接
+    NSString *progressImageString = video.progressImage ?: @"";
+    
+    // 计算视频宽高比
+    CGFloat ratio = 1.0;
+    // 这里可以根据实际情况计算，暂时使用固定值 16:9
+    ratio = 16.0 / 9.0;
+    
+    // 更新雪碧图视图
+    [self.spriteChartView updateWithDurationTime:duration 
+                             progressImageString:progressImageString 
+                                           ratio:ratio];
 }
 
 #pragma mark - tool
