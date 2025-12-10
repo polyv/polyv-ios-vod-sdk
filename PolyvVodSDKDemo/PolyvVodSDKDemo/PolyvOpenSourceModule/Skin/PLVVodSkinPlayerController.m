@@ -729,7 +729,8 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         }
         routeLineIndex++;
     }
-    return found ? routeLineIndex: 0;
+    // 没有匹配到线路 索引为 -1
+    return found ? routeLineIndex: -1;
 }
 
 - (BOOL)isHttpDNS{
