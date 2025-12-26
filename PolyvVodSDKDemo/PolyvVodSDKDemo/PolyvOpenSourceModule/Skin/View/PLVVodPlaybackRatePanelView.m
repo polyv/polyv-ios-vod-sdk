@@ -30,7 +30,7 @@
 		[self.playbackRateStackView removeArrangedSubview:subview];
 		[subview removeFromSuperview];
 	}
-	if (@available(iOS 15.0, *)) {
+	if (@available(iOS 16.0, *)) {
         self.playbackRates = @[@0.5, @0.75, @1.0, @1.25, @1.5, @2.0, @3.0];
     } else {
         self.playbackRates = @[@0.5, @0.75, @1.0, @1.25, @1.5, @2.0];
