@@ -637,6 +637,11 @@
 	[self.settingsPanelView.brightnessSlider setThumbImage:settingThumb forState:UIControlStateNormal];
 	
 	__weak typeof(self) weakSelf = self;
+    self.fullscreenView.scaleResetButtonClickHandler = ^{
+        if (weakSelf.scaleResetButtonTouchHandler) {
+            weakSelf.scaleResetButtonTouchHandler();
+        }
+    };
 	self.definitionPanelView.qualityButtonDidClick = ^(UIButton *sender) {
 		[weakSelf backMainControl:sender];
 	};
@@ -979,6 +984,15 @@
 			[self fadeoutPlaybackControl];
 		}
 	}];
+}
+
+- (void)updateScaleResetButton:(BOOL)show {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideOrShowPlaybackControl) object:nil];
+    if (show) {
+        // 缩放状态下保持控制层可见，确保“还原”按钮可操作
+        self.controlContainerView.alpha = 1.0;
+    }
+    [self.fullscreenView updateScaleResetButton:show];
 }
 
 - (void)fadeoutPlaybackControl {

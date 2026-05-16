@@ -29,6 +29,7 @@
 @property (strong, nonatomic) PLVVodPlayTipsView *playTipsView;
 @property (strong, nonatomic) NSArray<PLVVodVideoKeyFrameItem *> *videoTips;
 @property (assign, nonatomic) NSInteger videoDuration;  // 视频时长
+@property (strong, nonatomic, readwrite) UIButton *scaleResetButton;
 
 // 是否显示 ppt 相关按钮，默认 NO，需要设为 YES 调用方法 "-enablePPTMode:"
 @property (nonatomic, assign) BOOL supportPPT;
@@ -57,6 +58,7 @@
     // 重置线路按钮
     [self.routeButton setTitle:@"" forState:UIControlStateNormal];
     [self.routeButton setBackgroundImage:[UIImage imageNamed:@"plv_vod_btn_line"] forState:UIControlStateNormal];
+    [self addSubview:self.scaleResetButton];
 }
 
 - (void)layoutSubviews{
@@ -68,6 +70,16 @@
     // 自定义打点标签布局
     CGFloat markView_H = 35;
     self.progressMarkerView.frame = CGRectMake(0,self.bounds.size.height - 54 - markView_H, self.bounds.size.width, markView_H);
+
+    CGFloat scaleResetButtonWidth = 80;
+    CGFloat scaleResetButtonHeight = 32;
+    CGFloat scaleResetButtonX = (CGRectGetWidth(self.bounds) - scaleResetButtonWidth) / 2.0;
+    CGRect sliderRectInSelf = [self.playbackSlider convertRect:self.playbackSlider.bounds toView:self];
+    CGFloat scaleResetButtonY = CGRectGetMinY(sliderRectInSelf) - 60 - scaleResetButtonHeight;
+    if (scaleResetButtonY < 20) {
+        scaleResetButtonY = 20;
+    }
+    self.scaleResetButton.frame = CGRectMake(scaleResetButtonX, scaleResetButtonY, scaleResetButtonWidth, scaleResetButtonHeight);
 }
 
 #pragma mark -- getter
@@ -96,11 +108,34 @@
     return _progressMarkerView;
 }
 
+- (UIButton *)scaleResetButton {
+    if (!_scaleResetButton) {
+        _scaleResetButton = [[UIButton alloc] init];
+        [_scaleResetButton setTitle:@"还原" forState:UIControlStateNormal];
+        _scaleResetButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        [_scaleResetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _scaleResetButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+        _scaleResetButton.layer.cornerRadius = 16;
+        _scaleResetButton.layer.masksToBounds = YES;
+        _scaleResetButton.layer.borderWidth = 1;
+        _scaleResetButton.layer.borderColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5].CGColor;
+        _scaleResetButton.hidden = YES;
+        [_scaleResetButton addTarget:self action:@selector(scaleResetButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _scaleResetButton;
+}
+
 #pragma mark -- action target
 - (void)tipsViewPlayBtnClick:(UIButton *)btn{
     //
     if (self.plvVideoTipsSelectedBlock){
         self.plvVideoTipsSelectedBlock(btn.tag);
+    }
+}
+
+- (void)scaleResetButtonClick:(UIButton *)button {
+    if (self.scaleResetButtonClickHandler) {
+        self.scaleResetButtonClickHandler();
     }
 }
 
@@ -140,6 +175,16 @@
 // 是否支持知识点功能，不调用时默认不支持
 - (void)enableKnowledge:(BOOL)enable {
     self.knowledgeButton.hidden = !enable;
+}
+
+- (void)updateScaleResetButton:(BOOL)show {
+    if (self.scaleResetButton.hidden == !show) {
+        return;
+    }
+    if (show) {
+        [self bringSubviewToFront:self.scaleResetButton];
+    }
+    self.scaleResetButton.hidden = !show;
 }
 
 - (void)addPlayTipsWithVideo:(PLVVodVideo *)video{

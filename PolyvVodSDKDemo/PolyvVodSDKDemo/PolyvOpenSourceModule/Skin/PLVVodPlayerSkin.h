@@ -110,6 +110,9 @@
 /// "知识点"按钮点击事件
 @property (nonatomic, strong) void (^knowledgeButtonTouchHandler)(void);
 
+/// "缩放还原"按钮点击事件
+@property (nonatomic, strong) void (^scaleResetButtonTouchHandler)(void);
+
 /// 线路优选选项按钮 点击事件
 @property (nonatomic, strong) void (^optimizeOptionButtonClickHandler)(void);
 
@@ -188,6 +191,9 @@
 - (void)showGestureIndicator:(BOOL)show;
 
 - (void)hideOrShowPlaybackControl;
+
+/// 更新缩放还原按钮显示状态
+- (void)updateScaleResetButton:(BOOL)show;
 
 - (void)setUpPlaybackMode:(PLVVodVideo *)video;
 - (void)updatePlayModeContainView:(PLVVodVideo *)video;

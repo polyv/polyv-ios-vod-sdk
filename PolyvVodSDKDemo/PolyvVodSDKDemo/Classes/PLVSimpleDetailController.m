@@ -18,6 +18,10 @@
 
 @property (strong, nonatomic) UIView *playerPlaceholder;
 @property (nonatomic, strong) PLVVodSkinPlayerController *player;
+#ifdef DEBUG
+/// 播放诊断日志弹窗
+@property (nonatomic, strong) UIView *playbackDiagnosticsAlertView;
+#endif
 #ifdef PLVCastFeature
 @property (nonatomic, strong) PLVCastBusinessManager * castBM; // 投屏功能管理器
 #endif
@@ -134,6 +138,9 @@
     self.player.enableTeaserBackgroundPlayback = NO;
     self.player.autoplay = YES;
     self.player.enableLocalViewLog = YES;
+#ifdef DEBUG
+    [self setupPlaybackDiagnosticsDebugLog];
+#endif
     
     __weak typeof(self) weakSelf = self;
     self.player.playbackStateHandler = ^(PLVVodPlayerViewController *player) {
@@ -182,8 +189,90 @@
                 });
             }
         }];
-    }
+	}
 }
+
+#ifdef DEBUG
+- (void)setupPlaybackDiagnosticsDebugLog {
+    __weak typeof(self) weakSelf = self;
+    self.player.playbackDiagnosticsLogHandler = ^(PLVVodPlayerViewController *player, NSDictionary *diagnostics) {
+        NSString *logString = [weakSelf playbackDiagnosticsDisplayStringWithDictionary:diagnostics];
+        NSLog(@"[PlaybackDiagnostics][error/timeout] %@", logString);
+        [weakSelf showPlaybackDiagnosticsAlertWithLog:logString];
+    };
+}
+
+- (NSString *)playbackDiagnosticsDisplayStringWithDictionary:(NSDictionary *)dictionary {
+    if (!dictionary) {
+        return @"{}";
+    }
+    if ([NSJSONSerialization isValidJSONObject:dictionary]) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *JSONString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if (JSONString.length) {
+            return JSONString;
+        }
+    }
+    return dictionary.description ?: @"{}";
+}
+
+- (void)showPlaybackDiagnosticsAlertWithLog:(NSString *)log {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.playbackDiagnosticsAlertView removeFromSuperview];
+
+        UIView *containerView = self.view.window ?: [UIApplication sharedApplication].keyWindow;
+        if (!containerView) {
+            return;
+        }
+
+        UIView *backgroundView = [[UIView alloc] initWithFrame:containerView.bounds];
+        backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        backgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.45];
+
+        CGFloat margin = 20.0;
+        CGFloat panelWidth = CGRectGetWidth(containerView.bounds) - margin * 2.0;
+        CGFloat panelHeight = MIN(CGRectGetHeight(containerView.bounds) - 120.0, 560.0);
+        UIView *panelView = [[UIView alloc] initWithFrame:CGRectMake(margin, 60.0, panelWidth, panelHeight)];
+        panelView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        panelView.backgroundColor = [UIColor whiteColor];
+        panelView.layer.cornerRadius = 8.0;
+        panelView.layer.masksToBounds = YES;
+        [backgroundView addSubview:panelView];
+
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 12.0, panelWidth - 32.0, 24.0)];
+        titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+        titleLabel.textColor = [UIColor blackColor];
+        titleLabel.text = @"播放诊断日志";
+        [panelView addSubview:titleLabel];
+
+        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        closeButton.frame = CGRectMake(panelWidth - 60.0, 8.0, 48.0, 32.0);
+        closeButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        [closeButton setTitle:@"关闭" forState:UIControlStateNormal];
+        [closeButton addTarget:self action:@selector(closePlaybackDiagnosticsAlert) forControlEvents:UIControlEventTouchUpInside];
+        [panelView addSubview:closeButton];
+
+        UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(12.0, 48.0, panelWidth - 24.0, panelHeight - 60.0)];
+        textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        textView.editable = NO;
+        textView.alwaysBounceVertical = YES;
+        textView.font = [UIFont fontWithName:@"Menlo" size:11.0] ?: [UIFont systemFontOfSize:11.0];
+        textView.textColor = [UIColor colorWithWhite:0.12 alpha:1.0];
+        textView.backgroundColor = [UIColor colorWithWhite:0.96 alpha:1.0];
+        textView.text = log ?: @"";
+        [panelView addSubview:textView];
+
+        self.playbackDiagnosticsAlertView = backgroundView;
+        [containerView addSubview:backgroundView];
+    });
+}
+
+- (void)closePlaybackDiagnosticsAlert {
+    [self.playbackDiagnosticsAlertView removeFromSuperview];
+    self.playbackDiagnosticsAlertView = nil;
+}
+#endif
 
 /*
 // 需要添加播放器 logo 解开这段注释，在这里自定义需要的logo

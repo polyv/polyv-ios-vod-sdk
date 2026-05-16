@@ -34,6 +34,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *pptCatalogButton; // 显示课件目录按钮
 @property (weak, nonatomic) IBOutlet UIButton *floatingButton; // 悬浮窗播放按钮
 @property (weak, nonatomic) IBOutlet UIButton *knowledgeButton; // 知识点按钮
+@property (strong, nonatomic, readonly) UIButton *scaleResetButton; // 缩放还原按钮
+@property (nonatomic, copy) void (^scaleResetButtonClickHandler)(void);
 
 //音视频切换
 @property (weak, nonatomic) IBOutlet UIView *playModeContainerView;
@@ -73,5 +75,8 @@
 
 // 是否支持知识点功能，不调用时默认不支持
 - (void)enableKnowledge:(BOOL)enable;
+
+// 更新缩放还原按钮状态
+- (void)updateScaleResetButton:(BOOL)show;
 
 @end

@@ -43,7 +43,7 @@ NSString *PLVVodADAndTeasersPlayFinishNotification = @"PLVVodADAndTeasersPlayFin
 
 static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
-@interface PLVVodSkinPlayerController ()<PLVVodOptimizeOptionsPanelViewDelegate>
+@interface PLVVodSkinPlayerController ()<PLVVodOptimizeOptionsPanelViewDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *skinView;
 
@@ -90,6 +90,21 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
 
 /// 禁止拖动提示
 @property (nonatomic, strong) UILabel *toastLable;
+
+/// 双指捏合手势
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
+/// 当前缩放比例
+@property (nonatomic, assign) CGFloat currentScale;
+/// 手势开始时的缩放比例
+@property (nonatomic, assign) CGFloat initialScale;
+/// 缩放最小值
+@property (nonatomic, assign) CGFloat minZoomScale;
+/// 缩放最大值
+@property (nonatomic, assign) CGFloat maxZoomScale;
+/// 是否启用缩放
+@property (nonatomic, assign) BOOL zoomEnabled;
+/// 是否正在缩放中
+@property (nonatomic, assign) BOOL zoomTransforming;
 
 @end
 
@@ -289,8 +304,13 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     self.longPressPlaybackRate = 2.0;
     self.originPlaybackRate = self.playbackRate;
     self.allowShowToast = NO;
+    self.currentScale = 1.0;
+    self.initialScale = 1.0;
+    self.minZoomScale = 0.5;
+    self.maxZoomScale = 3.0;
     
 	[self setupSkin];
+    [self setupZoomGesture];
     [self setupKnowledgeList];
 	[self addObserver];
     [self addTimer];
@@ -381,6 +401,8 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         skin.castButtonInFullScreen.hidden = NO;
     }
 #endif
+    
+    [self updateZoomStateForFullscreen:self.fullscreen];
 }
 
 #pragma mark - Timer Related
@@ -593,6 +615,10 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     } else {
         self.danmuManager.insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
     }
+    
+    if (!self.zoomTransforming && self.currentScale > self.minZoomScale) {
+        [self applyZoomScale:self.currentScale];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -689,6 +715,10 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
             //
             [weakSelf showOptimizeOptionPanelView];
         }
+    };
+    
+    skin.scaleResetButtonTouchHandler = ^{
+        [weakSelf resetZoomWithAnimation:YES];
     };
 }
 
@@ -1706,6 +1736,7 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
         self.didFullScreenSwitch(self.fullscreen);
     }
 
+    [self updateZoomStateForFullscreen:full];
     [self updatePlayerConstraints];
 }
 
@@ -1745,6 +1776,86 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     if (isPortrait && self.knowledgeListViewController.showing) {
         [self.knowledgeListViewController hideKnowledgeListView];
     }
+}
+
+- (void)setupZoomGesture {
+    self.pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
+    self.pinchGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:self.pinchGestureRecognizer];
+}
+
+- (void)handlePinchGesture:(UIPinchGestureRecognizer *)gesture {
+    if (!self.zoomEnabled) {
+        return;
+    }
+    
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        self.zoomTransforming = YES;
+        self.initialScale = self.currentScale;
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        CGFloat newScale = self.initialScale * gesture.scale;
+        newScale = MAX(self.minZoomScale, MIN(self.maxZoomScale, newScale));
+        [self applyZoomScale:newScale];
+    } else if (gesture.state == UIGestureRecognizerStateEnded ||
+               gesture.state == UIGestureRecognizerStateCancelled ||
+               gesture.state == UIGestureRecognizerStateFailed) {
+        CGFloat finalScale = self.initialScale * gesture.scale;
+        self.currentScale = MAX(self.minZoomScale, MIN(self.maxZoomScale, finalScale));
+        [self applyZoomScale:self.currentScale];
+        self.zoomTransforming = NO;
+        [self updateScaleResetButtonVisibility];
+    }
+}
+
+- (void)applyZoomScale:(CGFloat)scale {
+    self.videoView.transform = CGAffineTransformMakeScale(scale, scale);
+}
+
+- (void)resetZoomWithAnimation:(BOOL)animated {
+    self.zoomTransforming = NO;
+    self.currentScale = 1.0;
+    self.initialScale = 1.0;
+    
+    if (animated) {
+        [UIView animateWithDuration:0.25 animations:^{
+            [self applyZoomScale:1.0];
+        } completion:^(BOOL finished) {
+            [self updateScaleResetButtonVisibility];
+        }];
+    } else {
+        [self applyZoomScale:1.0];
+        [self updateScaleResetButtonVisibility];
+    }
+}
+
+- (void)updateZoomStateForFullscreen:(BOOL)fullscreen {
+    self.zoomEnabled = fullscreen;
+    if (!fullscreen && self.currentScale != 1.0) {
+        [self resetZoomWithAnimation:NO];
+    } else {
+        [self updateScaleResetButtonVisibility];
+    }
+}
+
+- (void)updateScaleResetButtonVisibility {
+    PLVVodPlayerSkin *skin = (PLVVodPlayerSkin *)self.playerControl;
+    BOOL isZooming = fabs(self.currentScale - 1.0) > 0.001;
+    [skin updateScaleResetButton:(self.zoomEnabled && isZooming)];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer == self.pinchGestureRecognizer) {
+        return self.zoomEnabled;
+    }
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+       shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (gestureRecognizer == self.pinchGestureRecognizer || otherGestureRecognizer == self.pinchGestureRecognizer) {
+        return YES;
+    }
+    return NO;
 }
 
 - (BOOL)fullscreenMustBeLandscape {
