@@ -10,6 +10,7 @@
 #import "PLVVodSubtitleLaTeXHelper.h"
 
 static const double PLVVodSubtitleAnimationDuration = 0.15;
+static const CGFloat PLVVodSubtitleDefaultFontSize = 20;
 
 @interface PLVVodSubtitleItemStyle ()
 
@@ -18,11 +19,16 @@ static const double PLVVodSubtitleAnimationDuration = 0.15;
 @implementation PLVVodSubtitleItemStyle
 
 + (instancetype)styleWithTextColor:(UIColor *)textColor bold:(BOOL)bold italic:(BOOL)italic backgroundColor:(UIColor *)backgroundColor {
+    return [self styleWithTextColor:textColor bold:bold italic:italic backgroundColor:backgroundColor fontSize:0];
+}
+
++ (instancetype)styleWithTextColor:(UIColor *)textColor bold:(BOOL)bold italic:(BOOL)italic backgroundColor:(UIColor *)backgroundColor fontSize:(NSInteger)fontSize {
     PLVVodSubtitleItemStyle *style = [[PLVVodSubtitleItemStyle alloc] init];
     style.textColor = textColor;
     style.bold = bold;
     style.italic = italic;
     style.backgroundColor = backgroundColor;
+    style.fontSize = fontSize;
     return style;
 }
 
@@ -231,15 +237,16 @@ static const double PLVVodSubtitleAnimationDuration = 0.15;
     
     if (style && [style isKindOfClass:[PLVVodSubtitleItemStyle class]]) {
         textColor = style.textColor ?: [UIColor whiteColor];
+        CGFloat size = style.fontSize > 0 ? (CGFloat)style.fontSize : PLVVodSubtitleDefaultFontSize;
         if (style.bold) {
-            font = [UIFont fontWithName:@"PingFangSC-SemiBold" size:20];
+            font = [UIFont fontWithName:@"PingFangSC-SemiBold" size:size];
         } else {
-            font = [UIFont fontWithName:@"PingFangSC-Regular" size:20];
+            font = [UIFont fontWithName:@"PingFangSC-Regular" size:size];
         }
     } else {
         // 从原始attributedText中提取字体和颜色
         NSRange range = NSMakeRange(0, subtitleItem.attributedText.length);
-        font = [subtitleItem.attributedText attribute:NSFontAttributeName atIndex:0 effectiveRange:&range] ?: [UIFont fontWithName:@"PingFangSC-Regular" size:20];
+        font = [subtitleItem.attributedText attribute:NSFontAttributeName atIndex:0 effectiveRange:&range] ?: [UIFont fontWithName:@"PingFangSC-Regular" size:PLVVodSubtitleDefaultFontSize];
         textColor = [subtitleItem.attributedText attribute:NSForegroundColorAttributeName atIndex:0 effectiveRange:&range] ?: [UIColor whiteColor];
     }
     

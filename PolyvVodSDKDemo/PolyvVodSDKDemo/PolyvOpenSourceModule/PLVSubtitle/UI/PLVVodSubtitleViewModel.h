@@ -14,9 +14,11 @@
 @property (nonatomic, strong) UIColor *textColor; // 字体颜色
 @property (nonatomic, assign) BOOL bold; // 字体是否加粗
 @property (nonatomic, assign) BOOL italic; // 字体是否
+@property (nonatomic, assign) NSInteger fontSize; // 字号，未设置或为 0 时使用默认 20
 @property (nonatomic, strong) UIColor *backgroundColor; // 背景颜色
 
 + (instancetype)styleWithTextColor:(UIColor *)textColor bold:(BOOL)bold italic:(BOOL)italic backgroundColor:(UIColor *)backgroundColor;
++ (instancetype)styleWithTextColor:(UIColor *)textColor bold:(BOOL)bold italic:(BOOL)italic backgroundColor:(UIColor *)backgroundColor fontSize:(NSInteger)fontSize;
 
 @end
 

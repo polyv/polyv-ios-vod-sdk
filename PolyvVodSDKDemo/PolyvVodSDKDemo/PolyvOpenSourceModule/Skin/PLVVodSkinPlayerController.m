@@ -1005,11 +1005,11 @@ static NSString * const PLVVodMaxPositionKey = @"net.polyv.sdk.vod.maxPosition";
     // 获取字幕样式
     for (PLVVodVideoSubtitlesStyle *style in self.video.player.subtitles) {
         if ([style.style isEqualToString:@"double"] && [style.position isEqualToString:@"top"]) {
-            topStyle = [PLVVodSubtitleItemStyle styleWithTextColor:[self colorFromHexString:style.fontColor] bold:style.fontBold italic:style.fontItalics backgroundColor:[self colorFromRGBAString:style.backgroundColor]];
+            topStyle = [PLVVodSubtitleItemStyle styleWithTextColor:[self colorFromHexString:style.fontColor] bold:style.fontBold italic:style.fontItalics backgroundColor:[self colorFromRGBAString:style.backgroundColor] fontSize:style.fontSize];
         } else if ([style.style isEqualToString:@"double"] && [style.position isEqualToString:@"bottom"]) {
-            bottomStyle = [PLVVodSubtitleItemStyle styleWithTextColor:[self colorFromHexString:style.fontColor] bold:style.fontBold italic:style.fontItalics backgroundColor:[self colorFromRGBAString:style.backgroundColor]];
+            bottomStyle = [PLVVodSubtitleItemStyle styleWithTextColor:[self colorFromHexString:style.fontColor] bold:style.fontBold italic:style.fontItalics backgroundColor:[self colorFromRGBAString:style.backgroundColor] fontSize:style.fontSize];
         } else if ([style.style isEqualToString:@"single"]) {
-            singleStyle = [PLVVodSubtitleItemStyle styleWithTextColor:[self colorFromHexString:style.fontColor] bold:style.fontBold italic:style.fontItalics backgroundColor:[self colorFromRGBAString:style.backgroundColor]];
+            singleStyle = [PLVVodSubtitleItemStyle styleWithTextColor:[self colorFromHexString:style.fontColor] bold:style.fontBold italic:style.fontItalics backgroundColor:[self colorFromRGBAString:style.backgroundColor] fontSize:style.fontSize];
         }
     }
     PLVVodVideoDoubleSubtitleItem *firstItem;
