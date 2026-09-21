@@ -129,6 +129,9 @@ typedef NS_ENUM(NSUInteger, PLVCastPlayStatus) {
 // 设置音量值 范围：0~100
 - (void)setVolume:(NSInteger)value;
 
+/// 无 secretkey 时使用的外部 token 回调，对应播放器 requestCustomKeyTokenBlock
+@property (nonatomic, copy, nullable) NSString * _Nullable (^customTokenBlock)(NSString *vid);
+
 @end
 
 

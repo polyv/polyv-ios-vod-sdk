@@ -144,9 +144,17 @@
         return;
     }
     
+    __weak typeof (self) weakSelf = self;
+    
     // 投屏管理器
     self.castManager = [PLVCastManager shareManager];
     self.castManager.delegate = self;
+    self.castManager.customTokenBlock = ^NSString * _Nullable(NSString *vid) {
+        if (weakSelf.player.requestCustomKeyTokenBlock) {
+            return weakSelf.player.requestCustomKeyTokenBlock(vid);
+        }
+        return nil;
+    };
     
     // 投屏设备列表选择
     [self setupCastServiceListView];
@@ -155,12 +163,13 @@
     [self setupCastControllView];
     
     // 皮肤点击投屏按钮事件
-    __weak typeof (self) weakSelf = self;
     PLVVodPlayerSkin * skin = (PLVVodPlayerSkin *)self.player.playerControl;
     skin.castButtonTouchHandler = ^(UIButton *button) {
-        // 检测视频是否加密，加密视频不支持投屏
+        // 仅拦截不可投屏的加密视频（APP/VRM12/私有加密）；web/open 授权加密可投
+        // 本地视频在连接后再拉 videojson 判断 hlsLevel，此处不拦截
         PLVVodVideo *video = weakSelf.player.video;
-        if (video && !video.isPlain && !video.keepSource) {
+        BOOL isLocalVideo = [video isKindOfClass:[PLVVodLocalVideo class]];
+        if (video && !isLocalVideo && ![video canCastViaDLNA]) {
             // 显示提示：加密视频不支持投屏
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
                                                                            message:@"加密视频不支持投屏"
@@ -176,7 +185,7 @@
                 [currentVC presentViewController:alert animated:YES completion:nil];
             }
             
-            NSLog(@"PLVCastBusinessManager - 加密视频不支持投屏，视频vid: %@", video.vid);
+            NSLog(@"PLVCastBusinessManager - 加密视频不支持投屏，视频vid: %@, hlsLevel: %@", video.vid, video.hlsLevel);
             return;
         }
         
@@ -259,7 +268,14 @@
 
 // 设备连接错误回调
 - (void)plvCastManager_castError:(NSError *)error{
-    self.castControllView.status = PLVCastCVStatus_Error;
+    void (^updateUI)(void) = ^{
+        self.castControllView.status = PLVCastCVStatus_Error;
+    };
+    if ([NSThread isMainThread]) {
+        updateUI();
+    } else {
+        dispatch_async(dispatch_get_main_queue(), updateUI);
+    }
 }
 
 // 设备连接状态回调

@@ -18,7 +18,7 @@ target 'PolyvVodSDKDemo' do
   pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-  pod 'PolyvVodSDK', '~> 2.27.3'
+  pod 'PolyvVodSDK', '~> 2.28.0'
 
   # 字幕LaTeX公式支持
   pod 'iosMath', '~> 0.9.4'

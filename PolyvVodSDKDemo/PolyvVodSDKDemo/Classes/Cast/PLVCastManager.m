@@ -138,9 +138,7 @@ static PLVCastManager * manager = nil;
 - (void)startSearchService{
     if (self.isSearching) return;
     if (![[self class] wifiCanUse]) {
-        if ([self.delegate respondsToSelector:@selector(plvCastManager_castError:)]) {
-            [self.delegate plvCastManager_castError:[NSError errorWithDomain:@"PLVCastManagerError" code:-1001 userInfo:@{NSLocalizedDescriptionKey: @"WiFi not available"}]];
-        }
+        [self notifyCastError:[NSError errorWithDomain:@"PLVCastManagerError" code:-1001 userInfo:@{NSLocalizedDescriptionKey: @"WiFi not available"}]];
         return;
     }
 
@@ -186,9 +184,7 @@ static PLVCastManager * manager = nil;
 - (void)connectServiceWithModel:(PLVCastServiceModel *)plv_service{
     PLVUPnPDevice *dl_device = [self getOriginalDeviceInfoWithPlvServiceModel:plv_service];
     if (!dl_device) {
-        if ([self.delegate respondsToSelector:@selector(plvCastManager_castError:)]) {
-            [self.delegate plvCastManager_castError:nil];
-        }
+        [self notifyCastError:nil];
         return;
     }
 
@@ -236,45 +232,33 @@ static PLVCastManager * manager = nil;
 }
 
 - (void)startPlayWithVideo:(PLVVodVideo *)video quality:(NSInteger)quality startPosition:(NSTimeInterval)startPosition {
-    // 检测视频是否加密，加密视频不支持投屏
-    if (video && !video.isPlain && !video.keepSource) {
-        NSLog(@"PLVCastManager - 加密视频不支持投屏，视频vid: %@", video.vid);
+    if (video && ![video canCastViaDLNA]) {
+        NSLog(@"PLVCastManager - 加密视频不支持投屏，视频vid: %@, hlsLevel: %@", video.vid, video.hlsLevel);
         NSError *error = [NSError errorWithDomain:@"PLVCastManagerError"
                                              code:-1002
                                          userInfo:@{NSLocalizedDescriptionKey: @"加密视频不支持投屏"}];
-        if ([self.delegate respondsToSelector:@selector(plvCastManager_castError:)]) {
-            [self.delegate plvCastManager_castError:error];
-        }
-        return;
-    }
-    
-    NSString *urlString = [video transformCastMediaURLStringWithQuality:quality];
-    if (!urlString.length) {
-        NSLog(@"PLVCastManager - 播放链接非法 链接：%@", urlString);
+        [self notifyCastError:error];
         return;
     }
     
     self.startPosition = startPosition;
     self.hasReportedCompletion = NO; // 重置播放完成标志
     
-    if (video.keepSource || video.isPlain) {
-        [self.dlnaRender setAVTransportURL:urlString];
-    } else {
-        __weak typeof(self) weakSelf = self;
-        [PLVVodPlayerUtil requestCastKeyIvWitVideo:video quality:quality completion:^(NSString * _Nullable key, NSString * _Nullable iv, NSError * _Nullable error) {
-            if (error == nil) {
-                if (key && key.length && iv && iv.length) {
-                    // PLVDLNA 不直接支持加密播放，URL 本身必须是可播放的
-                    // 如果需要加密支持，需要修改 PLVDLNA 库
-                    [weakSelf.dlnaRender setAVTransportURL:urlString];
-                } else {
-                    NSLog(@"PLVCastManager - 投加密视频失败, 没有获取到解密key");
-                }
-            } else {
+    __weak typeof(self) weakSelf = self;
+    [PLVVodPlayerUtil transformCastPlayURLWithVideo:video quality:quality customTokenBlock:self.customTokenBlock completion:^(NSString * _Nullable playURL, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error || !playURL.length) {
                 NSLog(@"PLVCastManager - 投加密视频失败 ：%@", error);
+                NSError *castError = error ?: [NSError errorWithDomain:@"PLVCastManagerError"
+                                                                  code:-1002
+                                                              userInfo:@{NSLocalizedDescriptionKey: @"加密视频不支持投屏"}];
+                [weakSelf notifyCastError:castError];
+                return;
             }
-        }];
-    }
+            NSLog(@"PLVCastManager - 开始投屏 链接：%@", playURL);
+            [weakSelf.dlnaRender setAVTransportURL:playURL];
+        });
+    }];
 }
 
 - (void)pause{
@@ -486,6 +470,25 @@ static void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFS
     return nil;
 }
 
+- (void)notifyOnMainThread:(void (^)(void))block {
+    if (!block) {
+        return;
+    }
+    if ([NSThread isMainThread]) {
+        block();
+    } else {
+        dispatch_async(dispatch_get_main_queue(), block);
+    }
+}
+
+- (void)notifyCastError:(NSError *)error {
+    [self notifyOnMainThread:^{
+        if ([self.delegate respondsToSelector:@selector(plvCastManager_castError:)]) {
+            [self.delegate plvCastManager_castError:error];
+        }
+    }];
+}
+
 - (void)refreshAndCallBackServicesInfoWithOriginalServicesInfoArray:(NSArray<PLVUPnPDevice *> *)devices{
     self.dl_serviceArr = devices;
     [self.plv_serviceArr removeAllObjects];
@@ -496,9 +499,11 @@ static void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFS
         plv_service.isConnecting = [self.dlnaRender.device.uuid isEqualToString:dl_device.uuid];
         [self.plv_serviceArr addObject:plv_service];
     }
-    if ([self.delegate respondsToSelector:@selector(plvCastManager_findServices:)]) {
-        [self.delegate plvCastManager_findServices:self.plv_serviceArr];
-    }
+    [self notifyOnMainThread:^{
+        if ([self.delegate respondsToSelector:@selector(plvCastManager_findServices:)]) {
+            [self.delegate plvCastManager_findServices:self.plv_serviceArr];
+        }
+    }];
 }
 
 #pragma mark - PLVFindDeviceDelegate
@@ -513,9 +518,16 @@ static void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFS
         return;
     }
     
-    if ([self.delegate respondsToSelector:@selector(plvCastManager_castError:)]) {
-        [self.delegate plvCastManager_castError:error];
+    // description.xml 超时只表示某台设备描述拉取失败，搜索应跳过该设备，不是投屏失败
+    NSString *failingURL = error.userInfo[NSURLErrorFailingURLStringErrorKey] ?: error.userInfo[NSURLErrorFailingURLErrorKey];
+    BOOL isDescriptionTimeout = (error.code == NSURLErrorTimedOut) ||
+        [failingURL.lowercaseString containsString:@"description.xml"];
+    if (isDescriptionTimeout) {
+        NSLog(@"PLVCastManager - 设备描述拉取失败，跳过该设备：%@", error);
+        return;
     }
+    
+    [self notifyCastError:error];
 }
 
 #pragma mark - PLVControlDeviceDelegate
