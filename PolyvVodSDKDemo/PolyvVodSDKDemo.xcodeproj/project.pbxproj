@@ -1571,7 +1571,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PolyvVodSDKDemo/Pods-PolyvVodSDKDemo-frameworks.sh",
-				"${PODS_ROOT}/PLVIJKPlayer/PLVIJKPlayer.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/PLVIJKPlayer/PLVIJKPlayer.framework/PLVIJKPlayer",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (

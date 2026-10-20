@@ -18,19 +18,19 @@ target 'PolyvVodSDKDemo' do
   pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-  pod 'PolyvVodSDK', '~> 2.28.0'
+  pod 'PolyvVodSDK', '~> 2.28.1'
 
   # 字幕LaTeX公式支持
   pod 'iosMath', '~> 0.9.4'
-  # 投屏sdk 需要投屏功能客户集成
-  pod 'PLVDLNA'
+  # 投屏sdk（XCFramework，含模拟器 arm64/x86_64）
+  pod 'PLVDLNA', '0.3.0'
 
 	# POLYV Open Source
 	pod 'PLVVodDanmu', '~> 0.0.1'
 	pod 'PLVSubtitle', '~> 0.1.0'
 
-  # 上传SDK，不使用上传功能无需集成
-  pod 'PLVVodUploadSDK', '~> 0.1.0'
+  # 上传SDK（0.2.0 起为 XCFramework，含模拟器 arm64；不使用上传功能可去掉）
+  pod 'PLVVodUploadSDK', '0.2.0'
   
 	target 'PolyvVodSDKDemoTests' do
 		inherit! :search_paths

@@ -6,6 +6,23 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.28.1] - 2026-10-20
+
+### Added
+- 【SDK】新增主动获取播放诊断数据接口 `-[PLVVodPlayerViewController reportPlaybackDiagnosticsWithCompletion:]`，不依赖诊断开关。
+
+### Fixed
+- 【SDK】修复频繁调用 `requestDownloadInfosWithCompletion:` 获取下载列表时偶现崩溃的问题。
+
+### Changed
+- 【SDK】支持 Apple Silicon 模拟器。产物改为 XCFramework（真机 arm64，模拟器 arm64 与 x86_64），播放器依赖改为 PLVIJKPlayer 0.15.6。最低系统仍为 iOS 11。
+
+### 迁移说明
+
+**由 2.18.x 及以下版本升级到 2.19.0 及以上版本时，需要注意视频下载的迁移**
+
+**自 2.19.0 版本开始，本地播放视频鉴权方式进行了调整，为了在覆盖升级时兼容已下载的旧版本视频，初始换sdk时会自动迁移，必须严格测试本地缓存视频是否迁移成功。**
+
 ## [2.28.0] - 2026-09-20
 
 ### Added
