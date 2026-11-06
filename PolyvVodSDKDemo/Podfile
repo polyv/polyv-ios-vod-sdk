@@ -3,7 +3,7 @@ source 'https://gitee.com/polyv_ef/plvspecs.git'
 
 project 'PolyvVodSDKDemo.xcodeproj'
 
-platform :ios, '11.0'
+platform :ios, '15.0'
 inhibit_all_warnings!
 
 target 'PolyvVodSDKDemo' do
@@ -18,7 +18,7 @@ target 'PolyvVodSDKDemo' do
   pod 'TZImagePickerController', '~> 3.2.0'
 
 	# PLVVodSDK
-  pod 'PolyvVodSDK', '~> 2.28.1'
+  pod 'PolyvVodSDK', '~> 2.28.2'
 
   # 字幕LaTeX公式支持
   pod 'iosMath', '~> 0.9.4'

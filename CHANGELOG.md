@@ -6,6 +6,17 @@
 
 <!--  Added Changed Removed Fixed -->
 
+## [2.28.2] - 2026-11-06
+
+### Added
+- 【SDK】新增 `-[PLVVodSettings setSdkNameSuffix:]` 与 `+[PLVVodSettings sdkName]`。跨端可设置额外标识，SDK 名称变为 `polyv-ios-sdk-<标识>`，并用于 User-Agent、日志和统计。
+
+### 迁移说明
+
+**由 2.18.x 及以下版本升级到 2.19.0 及以上版本时，需要注意视频下载的迁移**
+
+**自 2.19.0 版本开始，本地播放视频鉴权方式进行了调整，为了在覆盖升级时兼容已下载的旧版本视频，初始换sdk时会自动迁移，必须严格测试本地缓存视频是否迁移成功。**
+
 ## [2.28.1] - 2026-10-20
 
 ### Added
